@@ -3,6 +3,7 @@ export default armor = [
     'set': 'Hylian Set',
     'head': {
       'name': 'Hylian Hood',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -11,6 +12,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Hylian Tunic',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -19,10 +21,11 @@ export default armor = [
     },
     'legs': {
       'name': 'Hylian Trousers',
+      'base': 3,
       'upgrades': [
         [],
         [],
-        [],
+        []
       ]
     }
   },
@@ -30,6 +33,7 @@ export default armor = [
     'set': 'Hero of the Wild Set',
     'head': {
       'name': 'Cap of the Wild',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -38,6 +42,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Tunic of the Wild',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -46,6 +51,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Trousers of the Wild',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -57,6 +63,7 @@ export default armor = [
     'set': 'Zora Set',
     'head': {
       'name': 'Zora Helm',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -65,6 +72,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Zora Armor',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -73,6 +81,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Zora Greaves',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -84,6 +93,7 @@ export default armor = [
     'set': 'Desert Voe Set',
     'head': {
       'name': 'Desert Voe Headband',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -92,6 +102,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Desert Voe Spaulder',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -100,6 +111,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Desert Voe Trousers',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -111,6 +123,7 @@ export default armor = [
     'set': 'Snowquill Set',
     'head': {
       'name': 'Snowquill Headdress',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -119,6 +132,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Snowquill Tunic',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -127,6 +141,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Snowquill Trousers',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -138,6 +153,7 @@ export default armor = [
     'set': 'Flamebreaker Set',
     'head': {
       'name': 'Flamebreaker Helm',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -146,6 +162,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Flamebreaker Armor',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -154,6 +171,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Flamebreaker Boots',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -165,6 +183,7 @@ export default armor = [
     'set': 'Stealth Set',
     'head': {
       'name': 'Stealth Mash',
+      'base': 2,
       'upgrades': [
         [],
         [],
@@ -173,6 +192,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Stealth Chest Guard',
+      'base': 2,
       'upgrades': [
         [],
         [],
@@ -181,6 +201,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Stealth Tights',
+      'base': 2,
       'upgrades': [
         [],
         [],
@@ -192,6 +213,7 @@ export default armor = [
     'set': 'Climbing Set',
     'head': {
       'name': 'Climber\'s Bandanna',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -200,6 +222,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Climbing Gear',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -208,6 +231,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Climbing Boots',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -219,6 +243,7 @@ export default armor = [
     'set': 'Radiant Set',
     'head': {
       'name': 'Radiant Mask',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -227,6 +252,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Radiant Shirt',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -235,6 +261,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Radiant Tights',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -246,6 +273,7 @@ export default armor = [
     'set': 'Soldier\'s Set',
     'head': {
       'name': 'Soldier\'s Helm',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -254,6 +282,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Soldier\'s Armor',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -262,6 +291,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Soldier\'s Greaves',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -273,6 +303,7 @@ export default armor = [
     'set': 'Ancient Set',
     'head': {
       'name': 'Ancient Helm',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -281,6 +312,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Ancient Cuirass',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -289,6 +321,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Ancient Greaves',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -300,6 +333,7 @@ export default armor = [
     'set': 'Rubber Set',
     'head': {
       'name': 'Rubber Helm',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -308,6 +342,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Rubber Armor',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -316,6 +351,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Rubber Tights',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -327,6 +363,7 @@ export default armor = [
     'set': 'Barbarian Set',
     'head': {
       'name': 'Barbarian Helm',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -335,6 +372,7 @@ export default armor = [
     },
     'torso': {
       'name': 'Barbarian Armor',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -343,6 +381,7 @@ export default armor = [
     },
     'legs': {
       'name': 'Barbarian Leg Wraps',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -352,7 +391,8 @@ export default armor = [
   },
   { // ---------------------------------------- Champion's Tunic
     'torso': {
-      'name': '',
+      'name': 'Champion\'s Tunic',
+      'base': 5,
       'upgrades': [
         [],
         [],
@@ -362,7 +402,8 @@ export default armor = [
   },
   { // ---------------------------------------- Diamond Circlet
     'head': {
-      'name': 'Champion\'s Tunic',
+      'name': 'Diamond Circlet',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -373,6 +414,7 @@ export default armor = [
   { // ---------------------------------------- Ruby Circlet
     'head': {
       'name': 'Ruby Circlet',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -383,6 +425,7 @@ export default armor = [
   { // ---------------------------------------- Sapphire Circlet
     'head': {
       'name': 'Sapphire Circlet',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -393,6 +436,7 @@ export default armor = [
   { // ---------------------------------------- Topaz Earrings
     'head': {
       'name': 'Topaz Earrings',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -403,6 +447,7 @@ export default armor = [
   { // ---------------------------------------- Opal Earrings
     'head': {
       'name': 'Opal Earrings',
+      'base': 3,
       'upgrades': [
         [],
         [],
@@ -413,6 +458,7 @@ export default armor = [
   { // ---------------------------------------- Amber Earrings
     'head': {
       'name': 'Amber Earrings',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -423,6 +469,7 @@ export default armor = [
   { // ---------------------------------------- Vah Ruta Divine Helm
     'head': {
       'name': 'Vah Ruta Divine Helm',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -433,6 +480,7 @@ export default armor = [
   { // ---------------------------------------- Vah Medoh Divine Helm
     'head': {
       'name': 'Vah Medoh Divine Helm',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -443,6 +491,7 @@ export default armor = [
   { // ---------------------------------------- Vah Rudania Divine Helm
     'head': {
       'name': 'Vah Rudania Divine Helm',
+      'base': 4,
       'upgrades': [
         [],
         [],
@@ -453,6 +502,7 @@ export default armor = [
   { // ---------------------------------------- Vah Naboris Divine Helm
     'head': {
       'name': 'Vah Naboris Divine Helm',
+      'base': 4,
       'upgrades': [
         [],
         [],
