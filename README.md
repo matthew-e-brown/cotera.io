@@ -1,4 +1,4 @@
-# armour-tracker
+# Armor Tracker
 
 ## Project setup
 ```

@@ -1,4 +1,4 @@
-export default armour = [
+export default armor = [
   { // ---------------------------------------- Hylian set
     'set': 'Hylian Set',
     'head': {
@@ -53,7 +53,7 @@ export default armour = [
       ]
     }
   },
-  { // ---------------------------------------- Zora armour
+  { // ---------------------------------------- Zora armor
     'set': 'Zora Set',
     'head': {
       'name': 'Zora Helm',
@@ -64,7 +64,7 @@ export default armour = [
       ]
     },
     'torso': {
-      'name': 'Zora Armour',
+      'name': 'Zora Armor',
       'upgrades': [
         [],
         [],
@@ -80,7 +80,7 @@ export default armour = [
       ]
     }
   },
-  { // ---------------------------------------- Desert voe armour
+  { // ---------------------------------------- Desert voe armor
     'set': 'Desert Voe Set',
     'head': {
       'name': 'Desert Voe Headband',
@@ -126,7 +126,7 @@ export default armour = [
       ]
     },
     'legs': {
-      'name': 'Snowquill Trowsers',
+      'name': 'Snowquill Trousers',
       'upgrades': [
         [],
         [],
@@ -134,7 +134,7 @@ export default armour = [
       ]
     }
   },
-  { // ---------------------------------------- Flamebreaker armour
+  { // ---------------------------------------- Flamebreaker armor
     'set': 'Flamebreaker Set',
     'head': {
       'name': 'Flamebreaker Helm',
@@ -145,7 +145,7 @@ export default armour = [
       ]
     },
     'torso': {
-      'name': 'Flamebreaker Armour',
+      'name': 'Flamebreaker Armor',
       'upgrades': [
         [],
         [],
@@ -242,7 +242,7 @@ export default armour = [
       ]
     }
   },
-  { // ---------------------------------------- Knight's armour
+  { // ---------------------------------------- Knight's armor
     'set': 'Soldier\'s Set',
     'head': {
       'name': 'Soldier\'s Helm',
@@ -253,7 +253,7 @@ export default armour = [
       ]
     },
     'torso': {
-      'name': 'Soldier\'s Armour',
+      'name': 'Soldier\'s Armor',
       'upgrades': [
         [],
         [],
@@ -269,7 +269,7 @@ export default armour = [
       ]
     }
   },
-  { // ---------------------------------------- Ancient armour
+  { // ---------------------------------------- Ancient armor
     'set': 'Ancient Set',
     'head': {
       'name': 'Ancient Helm',
@@ -296,7 +296,7 @@ export default armour = [
       ]
     }
   },
-  { // ---------------------------------------- Rubber armour
+  { // ---------------------------------------- Rubber armor
     'set': 'Rubber Set',
     'head': {
       'name': 'Rubber Helm',
@@ -307,7 +307,7 @@ export default armour = [
       ]
     },
     'torso': {
-      'name': 'Rubber Armour',
+      'name': 'Rubber Armor',
       'upgrades': [
         [],
         [],
@@ -323,7 +323,7 @@ export default armour = [
       ]
     }
   },
-  { // ---------------------------------------- Barbarian armour
+  { // ---------------------------------------- Barbarian armor
     'set': 'Barbarian Set',
     'head': {
       'name': 'Barbarian Helm',
@@ -334,7 +334,7 @@ export default armour = [
       ]
     },
     'torso': {
-      'name': 'Barbarian Armour',
+      'name': 'Barbarian Armor',
       'upgrades': [
         [],
         [],
