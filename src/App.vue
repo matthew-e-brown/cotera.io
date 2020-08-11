@@ -1,29 +1,30 @@
 <template>
   <div id="app">
-    <nav>Pretend there's a nav-bar here.</nav>
+    <h1>Breath of the Wild Armor Tracker</h1>
     <router-view />
   </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* CSS Reset */
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  background: none;
+}
+
+:root {
+  font-family: Avenir, Helvetica, sans-serif;
+  font-size: 16px;
+  color: white;
+  background-color: gray;
+}
+
+h1 {
+  font-size: 2.4em;
   text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>

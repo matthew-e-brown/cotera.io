@@ -1,4 +1,4 @@
-export default armor = [
+export default [
   // ---------------------------------------- Hylian set
   {
     'id': 'head_0',
@@ -242,7 +242,7 @@ export default armor = [
     'upgrades': undefined
   },
   {
-    'id': 'body_12',
+    'id': 'legs_12',
     'name': 'Barbarian Leg Wraps',
     'base': 3,
     'upgrades': undefined
@@ -402,4 +402,4 @@ export const sets = [
     'name': 'Others',
     'items': [ 'body_13', 'head_19', 'head_20', 'head_21', 'head_22' ]
   },
-]
+];

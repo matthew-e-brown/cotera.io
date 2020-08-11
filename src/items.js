@@ -1,4 +1,4 @@
-export default items = [
+export default [
   'Bokoblin Horn',
   'Bokoblin Fang',
   'Moblin Fang',
@@ -83,4 +83,4 @@ export default items = [
   'Silent Princess',
   'Electric Safflina',
   'Swift Violet'
-]
+];
