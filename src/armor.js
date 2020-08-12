@@ -621,6 +621,6 @@ export const sets = [
   {
     'id': 'set_14',
     'name': 'Others',
-    'items': [ 'body_13', 'head_19', 'head_20', 'head_21', 'head_22' ]
+    'items': [ 'body_13', 'legs_13', 'legs_14', 'head_19', 'head_20', 'head_21', 'head_22' ]
   },
 ];
