@@ -56,12 +56,4 @@ main {
   column-gap: calc(4rem + 0.25vw);
   padding: 0 5rem;
 }
-
-.armor-table {
-  display: grid;
-  grid-template: repeat(4, minmax(90px, 1fr)) / repeat(5, minmax(90px, 1fr));
-  place-items: center;
-  gap: 0.65rem;
-  padding: 0.25rem 1.25rem;
-}
 </style>

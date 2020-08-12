@@ -1,19 +1,10 @@
 <template>
-  <div @click="handleClick" class="armor-item">
-    <!-- If Armor: -->
-    <template v-if="armor">
-      <button class="item-container">
-        <img :src="armorSprite" aria-hidden="true" alt="">
-      </button>
-      <span>{{ armor.base || armor.defense }}</span>
-    </template>
-    <!-- If Blank: -->
-    <template v-else>
-      <div class="item-container blank">
-        <img src="@/assets/blank.png" aria-hidden="true" alt="">
-      </div>
-    </template>
-  </div>
+  <button @click="handleClick" class="armor-item" :disabled="!armor">
+    <div class="item-container">
+      <img :src="armorSprite" aria-hidden="true" alt="">
+    </div>
+    <span v-if="armor">{{ armor.base || armor.defense }}</span>
+  </button>
 </template>
 
 <script>
@@ -27,6 +18,7 @@ export default {
   },
   computed: {
     armorSprite: function() {
+      if (!this.armor) return require('@/assets/blank.png');
       return require(`@/assets/${this.armorFolder}/${this.armor.id}.png`);
     },
     armorFolder: function() {
@@ -35,7 +27,7 @@ export default {
   },
   methods: {
     handleClick: function() {
-      if (this.armor === undefined) return false;
+      if (!this.armor) return false;
       console.log(`"${this.armor.name}" was clicked.`);
     }
   }
@@ -52,14 +44,15 @@ img {
 .armor-item {
   box-sizing: content-box;
   position: relative;
+  color: inherit;
+}
+
+.armor-item:not(:disabled) {
+  cursor: pointer;
 }
 
 .item-container {
   padding: 0.65rem;
-}
-
-.item-container:not(.blank) {
-  cursor: pointer;
 }
 
 span {
@@ -79,7 +72,7 @@ span {
   backdrop-filter: blur(5px) brightness(60%);
 }
 
-.blank {
+:disabled .item-container {
   background-color: rgba(45, 45, 45, 0.8);
 }
 
