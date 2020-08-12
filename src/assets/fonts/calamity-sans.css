@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "Calamity Sans";
+  font-weight: 400;
+  src:
+    url("CalamitySans/Calamity-Regular.otf") format("opentype"),
+    url("CalamitySans/Calamity-Regular.woff") format("woff"),
+    url("CalamitySans/Calamity-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Calamity Sans";
+  font-weight: 700;
+  src:
+    url("CalamitySans/Calamity-Bold.otf") format("opentype"),
+    url("CalamitySans/Calamity-Bold.woff") format("woff"),
+    url("CalamitySans/Calamity-Bold.woff2") format("woff2");
+}

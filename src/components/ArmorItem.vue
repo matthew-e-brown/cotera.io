@@ -43,10 +43,11 @@ span {
   text-align: center;
   display: block;
   position: absolute;
-  font-size: 1.05em;
+  font-size: 1.10em;
+  font-weight: 400;
   bottom: -0.15em;
   right: -0.15em;
-  padding: 0.35em 0.25em;
+  padding: 0.30em;
   width: 2.25em;
 }
 

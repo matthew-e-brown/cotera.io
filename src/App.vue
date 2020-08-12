@@ -17,9 +17,14 @@ button {
 }
 
 :root {
-  font-family: Avenir, Helvetica, sans-serif;
+  --red: #ff7170;
+  --body: #fdfbe2;
+}
+
+:root {
+  font-family: "Calamity Sans", Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
-  color: white;
+  color: var(--body);
   background-color: gray;
 }
 
