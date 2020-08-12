@@ -1,11 +1,9 @@
 <template>
   <main>
-    <div id="armor-list">
-      <ArmorList
-        v-for="(page, i) in armor"
-        :key="i"
-        :armor="page"
-      />
+    <div class="keen-slider" ref="keen">
+      <div class="keen-slider__slide" v-for="(page, i) in armor" :key="i">
+        <ArmorList :armor="page" />
+      </div>
     </div>
     <div id="selected">
       
@@ -17,6 +15,8 @@
 import items from '@/items';
 import armor, { sets } from '@/armor';
 
+import KeenSlider from "keen-slider";
+import 'keen-slider/keen-slider.min.css';
 import ArmorList from "@/components/ArmorList";
 
 export default {
@@ -33,6 +33,18 @@ export default {
         return result;
       }, [])
     }
+  },
+  mounted: function() {
+    this.slider = new KeenSlider(this.$refs.keen, {
+      slidesPerView: 1,
+      mode: 'snap',
+      spacing: 15,
+      centered: true,
+      loop: false
+    });
+  },
+  beforeDestroy: function() {
+    if (this.slider) this.slider.destroy();
   }
 }
 </script>
@@ -42,11 +54,14 @@ main {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: calc(4rem + 0.25vw);
+  padding: 0 5rem;
 }
 
 .armor-table {
   display: grid;
-  grid-template: repeat(4, 1fr) / repeat(5, 1fr);
+  grid-template: repeat(4, minmax(90px, 1fr)) / repeat(5, minmax(90px, 1fr));
   place-items: center;
+  gap: 0.65rem;
+  padding: 0.25rem 1.25rem;
 }
 </style>

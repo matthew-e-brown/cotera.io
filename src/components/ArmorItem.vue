@@ -1,15 +1,16 @@
 <template>
   <div @click="handleClick" class="armor-item">
+    <!-- If Armor: -->
     <template v-if="armor">
       <button class="item-container">
-        <img :src="armorSprite" class="item-sprite" aria-hidden="true" alt="">
+        <img :src="armorSprite" aria-hidden="true" alt="">
       </button>
       <span>{{ armor.base || armor.defense }}</span>
     </template>
+    <!-- If Blank: -->
     <template v-else>
       <div class="item-container blank">
-        <!-- There's probably a better way to do this than with a blank png, lol -->
-        <img src="@/assets/blank.png" class="item-sprite" aria-hidden="true" alt="">
+        <img src="@/assets/blank.png" aria-hidden="true" alt="">
       </div>
     </template>
   </div>
@@ -34,6 +35,7 @@ export default {
   },
   methods: {
     handleClick: function() {
+      if (this.armor === undefined) return false;
       console.log(`"${this.armor.name}" was clicked.`);
     }
   }
@@ -41,14 +43,22 @@ export default {
 </script>
 
 <style scoped>
+img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .armor-item {
-  box-sizing: border-box;
+  box-sizing: content-box;
   position: relative;
-  margin: 0.5rem;
 }
 
 .item-container {
-  padding: 0.35em;
+  padding: 0.65rem;
+}
+
+.item-container:not(.blank) {
   cursor: pointer;
 }
 
@@ -56,12 +66,12 @@ span {
   text-align: center;
   display: block;
   position: absolute;
-  font-size: 1.10em;
+  font-size: 1.10rem;
   font-weight: 400;
-  bottom: -0.15em;
-  right: -0.15em;
-  padding: 0.30em;
-  width: 2.25em;
+  bottom: -0.15rem;
+  right: -0.15rem;
+  padding: 0.30rem;
+  width: 2.25rem;
 }
 
 .item-container, span {
@@ -77,18 +87,22 @@ span {
   content: "";
   position: absolute;
   z-index: -1;
-  top: 0.2em;
-  left: 0.2em;
-  right: 0.2em;
-  bottom: 0.2em;
-  border: 0.05em solid rgba(204, 200, 196, 0.5);
+  top: 0.2rem;
+  left: 0.2rem;
+  right: 0.2rem;
+  bottom: 0.2rem;
+  border: 0.05rem solid rgba(204, 200, 196, 0.5);
 }
 
-.item-container, .item-container::after {
-  border-radius: 0.35em;
+.item-container {
+  border-radius: 0.35rem;
 }
 
-span, span::after {
-  border-radius: 0.25em;
+span {
+  border-radius: 0.45rem;
+}
+
+.item-container::after, span::after {
+  border-radius: 0.25rem;
 }
 </style>
