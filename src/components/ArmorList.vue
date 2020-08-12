@@ -19,6 +19,7 @@ export default {
   },
   computed: {
     list: function() {
+      // Pad with undefined to length 20
       return [ ...this.armor, ...Array(20 - this.armor.length) ];
     }
   }

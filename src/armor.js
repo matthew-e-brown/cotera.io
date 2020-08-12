@@ -414,6 +414,27 @@ export default [
       { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
+  // ---------------------------------------- Snow and Sand Boots
+  {
+    'id': 'legs_13',
+    'name': 'Sand Boots',
+    'base': 3,
+    'upgrades': [
+      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+    ]
+  },
+  {
+    'id': 'legs_14',
+    'name': 'Snow Boots',
+    'base': 3,
+    'upgrades': [
+      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+    ]
+  },
   // ---------------------------------------- Diamond Circlet
   {
     'id': 'head_13',
