@@ -6,10 +6,10 @@ export default [
     'name': "Hylian Hood",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_0', 'quantity': 5 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_0', 'quantity': 8 }, { 'id': 'item_1', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_1', 'quantity': 10 }, { 'id': 'item_12', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_12', 'quantity': 15 }, { 'id': 'item_73', 'quantity': 15 } ] }
+      { 'defense': 5, 'items': { 'item_0': 5 } },
+      { 'defense': 8, 'items': { 'item_0': 8, 'item_1': 5 } },
+      { 'defense': 12, 'items': { 'item_1': 10, 'item_12': 5 } },
+      { 'defense': 20, 'items': { 'item_12': 15, 'item_73': 15 } }
     ]
   },
   {
@@ -17,10 +17,10 @@ export default [
     'name': "Hylian Tunic",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_0', 'quantity': 5 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_0', 'quantity': 8 }, { 'id': 'item_1', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_1', 'quantity': 10 }, { 'id': 'item_12', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_12', 'quantity': 15 }, { 'id': 'item_73', 'quantity': 15 } ] }
+      { 'defense': 5, 'items': { 'item_0': 5 } },
+      { 'defense': 8, 'items': { 'item_0': 8, 'item_1': 5 } },
+      { 'defense': 12, 'items': { 'item_1': 10, 'item_12': 5 } },
+      { 'defense': 20, 'items': { 'item_12': 15, 'item_73': 15 } }
     ]
   },
   {
@@ -28,10 +28,10 @@ export default [
     'name': "Hylian Trousers",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_0', 'quantity': 5 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_0', 'quantity': 8 }, { 'id': 'item_1', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_1', 'quantity': 10 }, { 'id': 'item_12', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_12', 'quantity': 15 }, { 'id': 'item_73', 'quantity': 15 } ] }
+      { 'defense': 5, 'items': { 'item_0': 5 } },
+      { 'defense': 8, 'items': { 'item_0': 8, 'item_1': 5 } },
+      { 'defense': 12, 'items': { 'item_1': 10, 'item_12': 5 } },
+      { 'defense': 20, 'items': { 'item_12': 15, 'item_73': 15 } }
     ]
   },
   // ---------------------------------------- Set of the Wild
@@ -40,10 +40,10 @@ export default [
     'name': "Cap of the Wild",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_130', 'quantity': 10 }, { 'id': 'item_40', 'quantity': 2 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_132', 'quantity': 5 }, { 'id': 'item_34', 'quantity': 2 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_67', 'quantity': 5 }, { 'id': 'item_43', 'quantity': 2 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_77', 'quantity': 1 }, { 'id': 'item_37', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_130': 10, 'item_40': 2 } },
+      { 'defense': 12, 'items': { 'item_132': 5, 'item_34': 2 } },
+      { 'defense': 18, 'items': { 'item_67': 5, 'item_43': 2 } },
+      { 'defense': 28, 'items': { 'item_77': 1, 'item_37': 2 } }
     ]
   },
   {
@@ -51,10 +51,10 @@ export default [
     'name': "Tunic of the Wild",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_130', 'quantity': 10 }, { 'id': 'item_39', 'quantity': 2 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_132', 'quantity': 5 }, { 'id': 'item_33', 'quantity': 2 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_67', 'quantity': 5 }, { 'id': 'item_42', 'quantity': 2 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_77', 'quantity': 1 }, { 'id': 'item_36', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_130': 10, 'item_39': 2 } },
+      { 'defense': 12, 'items': { 'item_132': 5, 'item_33': 2 } },
+      { 'defense': 18, 'items': { 'item_67': 5, 'item_42': 2 } },
+      { 'defense': 28, 'items': { 'item_77': 1, 'item_36': 2 } }
     ]
   },
   {
@@ -62,10 +62,10 @@ export default [
     'name': "Trousers of the Wild",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_130', 'quantity': 10 }, { 'id': 'item_38', 'quantity': 2 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_132', 'quantity': 5 }, { 'id': 'item_32', 'quantity': 2 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_67', 'quantity': 5 }, { 'id': 'item_41', 'quantity': 2 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_77', 'quantity': 1 }, { 'id': 'item_35', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_130': 10, 'item_38': 2 } },
+      { 'defense': 12, 'items': { 'item_132': 5, 'item_32': 2 } },
+      { 'defense': 18, 'items': { 'item_67': 5, 'item_41': 2 } },
+      { 'defense': 28, 'items': { 'item_77': 1, 'item_35': 2 } }
     ]
   },
   // ---------------------------------------- Zora armor
@@ -74,10 +74,10 @@ export default [
     'name': "Zora Helm",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_23', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_31', 'quantity': 5 }, { 'id': 'item_84', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_45', 'quantity': 5 }, { 'id': 'item_86', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_45', 'quantity': 10 }, { 'id': 'item_72', 'quantity': 15 } ] }
+      { 'defense': 5, 'items': { 'item_23': 3 } },
+      { 'defense': 8, 'items': { 'item_31': 5, 'item_84': 5 } },
+      { 'defense': 12, 'items': { 'item_45': 5, 'item_86': 5 } },
+      { 'defense': 20, 'items': { 'item_45': 10, 'item_72': 15 } }
     ]
   },
   {
@@ -85,10 +85,10 @@ export default [
     'name': "Zora Armor",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_23', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_31', 'quantity': 5 }, { 'id': 'item_84', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_45', 'quantity': 5 }, { 'id': 'item_86', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_45', 'quantity': 10 }, { 'id': 'item_72', 'quantity': 15 } ] }
+      { 'defense': 5, 'items': { 'item_23': 3 } },
+      { 'defense': 8, 'items': { 'item_31': 5, 'item_84': 5 } },
+      { 'defense': 12, 'items': { 'item_45': 5, 'item_86': 5 } },
+      { 'defense': 20, 'items': { 'item_45': 10, 'item_72': 15 } }
     ]
   },
   {
@@ -96,10 +96,10 @@ export default [
     'name': "Zora Greaves",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_23', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_31', 'quantity': 5 }, { 'id': 'item_84', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_45', 'quantity': 5 }, { 'id': 'item_86', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_45', 'quantity': 10 }, { 'id': 'item_72', 'quantity': 15 } ] }
+      { 'defense': 5, 'items': { 'item_23': 3 } },
+      { 'defense': 8, 'items': { 'item_31': 5, 'item_84': 5 } },
+      { 'defense': 12, 'items': { 'item_45': 5, 'item_86': 5 } },
+      { 'defense': 20, 'items': { 'item_45': 10, 'item_72': 15 } }
     ]
   },
   // ---------------------------------------- Desert voe armor
@@ -108,10 +108,10 @@ export default [
     'name': "Desert Voe Headband",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_9', 'quantity': 3 } ] },
-      { 'defense': 6, 'items': [ { 'id': 'item_9', 'quantity': 5 }, { 'id': 'item_27', 'quantity': 3 } ] },
-      { 'defense': 7, 'items': [ { 'id': 'item_27', 'quantity': 8 }, { 'id': 'item_47', 'quantity': 3 } ] },
-      { 'defense': 11, 'items': [ { 'id': 'item_47', 'quantity': 10 }, { 'id': 'item_70', 'quantity': 5 } ] }
+      { 'defense': 5, 'items': { 'item_9': 3 } },
+      { 'defense': 6, 'items': { 'item_9': 5, 'item_27': 3 } },
+      { 'defense': 7, 'items': { 'item_27': 8, 'item_47': 3 } },
+      { 'defense': 11, 'items': { 'item_47': 10, 'item_70': 5 } }
     ]
   },
   {
@@ -119,10 +119,10 @@ export default [
     'name': "Desert Voe Spaulder",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_9', 'quantity': 3 } ] },
-      { 'defense': 6, 'items': [ { 'id': 'item_9', 'quantity': 5 }, { 'id': 'item_27', 'quantity': 3 } ] },
-      { 'defense': 7, 'items': [ { 'id': 'item_27', 'quantity': 8 }, { 'id': 'item_47', 'quantity': 3 } ] },
-      { 'defense': 11, 'items': [ { 'id': 'item_47', 'quantity': 10 }, { 'id': 'item_70', 'quantity': 5 } ] }
+      { 'defense': 5, 'items': { 'item_9': 3 } },
+      { 'defense': 6, 'items': { 'item_9': 5, 'item_27': 3 } },
+      { 'defense': 7, 'items': { 'item_27': 8, 'item_47': 3 } },
+      { 'defense': 11, 'items': { 'item_47': 10, 'item_70': 5 } }
     ]
   },
   {
@@ -130,10 +130,10 @@ export default [
     'name': "Desert Voe Trousers",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_9', 'quantity': 3 } ] },
-      { 'defense': 6, 'items': [ { 'id': 'item_9', 'quantity': 5 }, { 'id': 'item_27', 'quantity': 3 } ] },
-      { 'defense': 7, 'items': [ { 'id': 'item_27', 'quantity': 8 }, { 'id': 'item_47', 'quantity': 3 } ] },
-      { 'defense': 11, 'items': [ { 'id': 'item_47', 'quantity': 10 }, { 'id': 'item_70', 'quantity': 5 } ] }
+      { 'defense': 5, 'items': { 'item_9': 3 } },
+      { 'defense': 6, 'items': { 'item_9': 5, 'item_27': 3 } },
+      { 'defense': 7, 'items': { 'item_27': 8, 'item_47': 3 } },
+      { 'defense': 11, 'items': { 'item_47': 10, 'item_70': 5 } }
     ]
   },
   // ---------------------------------------- Snowquill set
@@ -142,10 +142,10 @@ export default [
     'name': "Snowquill Headdress",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_7', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_7', 'quantity': 5 }, { 'id': 'item_79', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_25', 'quantity': 8 }, { 'id': 'item_112', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_46', 'quantity': 10 }, { 'id': 'item_69', 'quantity': 5 } ] }
+      { 'defense': 5, 'items': { 'item_7': 3 } },
+      { 'defense': 8, 'items': { 'item_7': 5, 'item_79': 3 } },
+      { 'defense': 12, 'items': { 'item_25': 8, 'item_112': 5 } },
+      { 'defense': 20, 'items': { 'item_46': 10, 'item_69': 5 } }
     ]
   },
   {
@@ -153,10 +153,10 @@ export default [
     'name': "Snowquill Tunic",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_7', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_7', 'quantity': 5 }, { 'id': 'item_79', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_25', 'quantity': 8 }, { 'id': 'item_112', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_46', 'quantity': 10 }, { 'id': 'item_69', 'quantity': 5 } ] }
+      { 'defense': 5, 'items': { 'item_7': 3 } },
+      { 'defense': 8, 'items': { 'item_7': 5, 'item_79': 3 } },
+      { 'defense': 12, 'items': { 'item_25': 8, 'item_112': 5 } },
+      { 'defense': 20, 'items': { 'item_46': 10, 'item_69': 5 } }
     ]
   },
   {
@@ -164,10 +164,10 @@ export default [
     'name': "Snowquill Trousers",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_7', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_7', 'quantity': 5 }, { 'id': 'item_79', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_25', 'quantity': 8 }, { 'id': 'item_112', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_46', 'quantity': 10 }, { 'id': 'item_69', 'quantity': 5 } ] }
+      { 'defense': 5, 'items': { 'item_7': 3 } },
+      { 'defense': 8, 'items': { 'item_7': 5, 'item_79': 3 } },
+      { 'defense': 12, 'items': { 'item_25': 8, 'item_112': 5 } },
+      { 'defense': 20, 'items': { 'item_46': 10, 'item_69': 5 } }
     ]
   },
   // ---------------------------------------- Flamebreaker armor
@@ -176,10 +176,10 @@ export default [
     'name': "Flamebreaker Helm",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_59', 'quantity': 1 }, { 'id': 'item_49', 'quantity': 2 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_59', 'quantity': 3 }, { 'id': 'item_2', 'quantity': 4 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_61', 'quantity': 3 }, { 'id': 'item_3', 'quantity': 3 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_61', 'quantity': 5 }, { 'id': 'item_30', 'quantity': 2 } ] }
+      { 'defense': 5, 'items': { 'item_59': 1, 'item_49': 2 } },
+      { 'defense': 8, 'items': { 'item_59': 3, 'item_2': 4 } },
+      { 'defense': 12, 'items': { 'item_61': 3, 'item_3': 3 } },
+      { 'defense': 20, 'items': { 'item_61': 5, 'item_30': 2 } }
     ]
   },
   {
@@ -187,10 +187,10 @@ export default [
     'name': "Flamebreaker Armor",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_59', 'quantity': 1 }, { 'id': 'item_49', 'quantity': 2 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_59', 'quantity': 3 }, { 'id': 'item_2', 'quantity': 4 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_61', 'quantity': 3 }, { 'id': 'item_3', 'quantity': 3 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_61', 'quantity': 5 }, { 'id': 'item_30', 'quantity': 2 } ] }
+      { 'defense': 5, 'items': { 'item_59': 1, 'item_49': 2 } },
+      { 'defense': 8, 'items': { 'item_59': 3, 'item_2': 4 } },
+      { 'defense': 12, 'items': { 'item_61': 3, 'item_3': 3 } },
+      { 'defense': 20, 'items': { 'item_61': 5, 'item_30': 2 } }
     ]
   },
   {
@@ -198,10 +198,10 @@ export default [
     'name': "Flamebreaker Boots",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_59', 'quantity': 1 }, { 'id': 'item_49', 'quantity': 2 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_59', 'quantity': 3 }, { 'id': 'item_2', 'quantity': 4 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_61', 'quantity': 3 }, { 'id': 'item_3', 'quantity': 3 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_61', 'quantity': 5 }, { 'id': 'item_30', 'quantity': 2 } ] }
+      { 'defense': 5, 'items': { 'item_59': 1, 'item_49': 2 } },
+      { 'defense': 8, 'items': { 'item_59': 3, 'item_2': 4 } },
+      { 'defense': 12, 'items': { 'item_61': 3, 'item_3': 3 } },
+      { 'defense': 20, 'items': { 'item_61': 5, 'item_30': 2 } }
     ]
   },
   // ---------------------------------------- Stealth set
@@ -210,10 +210,10 @@ export default [
     'name': "Stealth Mash",
     'base': 2,
     'upgrades': [
-      { 'defense': 4, 'items': [ { 'id': 'item_80', 'quantity': 3 } ] },
-      { 'defense': 6, 'items': [ { 'id': 'item_80', 'quantity': 5 }, { 'id': 'item_52', 'quantity': 5 } ] },
-      { 'defense': 9, 'items': [ { 'id': 'item_117', 'quantity': 8 }, { 'id': 'item_98', 'quantity': 5 } ] },
-      { 'defense': 16, 'items': [ { 'id': 'item_90', 'quantity': 10 }, { 'id': 'item_81', 'quantity': 5 } ] }
+      { 'defense': 4, 'items': { 'item_80': 3 } },
+      { 'defense': 6, 'items': { 'item_80': 5, 'item_52': 5 } },
+      { 'defense': 9, 'items': { 'item_117': 8, 'item_98': 5 } },
+      { 'defense': 16, 'items': { 'item_90': 10, 'item_81': 5 } }
     ]
   },
   {
@@ -221,10 +221,10 @@ export default [
     'name': "Stealth Chest Guard",
     'base': 2,
     'upgrades': [
-      { 'defense': 4, 'items': [ { 'id': 'item_80', 'quantity': 3 } ] },
-      { 'defense': 6, 'items': [ { 'id': 'item_80', 'quantity': 5 }, { 'id': 'item_52', 'quantity': 5 } ] },
-      { 'defense': 9, 'items': [ { 'id': 'item_117', 'quantity': 8 }, { 'id': 'item_98', 'quantity': 5 } ] },
-      { 'defense': 16, 'items': [ { 'id': 'item_90', 'quantity': 10 }, { 'id': 'item_81', 'quantity': 5 } ] }
+      { 'defense': 4, 'items': { 'item_80': 3 } },
+      { 'defense': 6, 'items': { 'item_80': 5, 'item_52': 5 } },
+      { 'defense': 9, 'items': { 'item_117': 8, 'item_98': 5 } },
+      { 'defense': 16, 'items': { 'item_90': 10, 'item_81': 5 } }
     ]
   },
   {
@@ -232,10 +232,10 @@ export default [
     'name': "Stealth Tights",
     'base': 2,
     'upgrades': [
-      { 'defense': 4, 'items': [ { 'id': 'item_80', 'quantity': 3 } ] },
-      { 'defense': 6, 'items': [ { 'id': 'item_80', 'quantity': 5 }, { 'id': 'item_52', 'quantity': 5 } ] },
-      { 'defense': 9, 'items': [ { 'id': 'item_117', 'quantity': 8 }, { 'id': 'item_98', 'quantity': 5 } ] },
-      { 'defense': 16, 'items': [ { 'id': 'item_90', 'quantity': 10 }, { 'id': 'item_81', 'quantity': 5 } ] }
+      { 'defense': 4, 'items': { 'item_80': 3 } },
+      { 'defense': 6, 'items': { 'item_80': 5, 'item_52': 5 } },
+      { 'defense': 9, 'items': { 'item_117': 8, 'item_98': 5 } },
+      { 'defense': 16, 'items': { 'item_90': 10, 'item_81': 5 } }
     ]
   },
   // ---------------------------------------- Climbing gear
@@ -244,10 +244,10 @@ export default [
     'name': "Climber's Bandanna",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_24', 'quantity': 3 }, { 'id': 'item_114', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_26', 'quantity': 5 }, { 'id': 'item_58', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_27', 'quantity': 5 }, { 'id': 'item_55', 'quantity': 10 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_25', 'quantity': 5 }, { 'id': 'item_83', 'quantity': 15 } ] }
+      { 'defense': 5, 'items': { 'item_24': 3, 'item_114': 3 } },
+      { 'defense': 8, 'items': { 'item_26': 5, 'item_58': 5 } },
+      { 'defense': 12, 'items': { 'item_27': 5, 'item_55': 10 } },
+      { 'defense': 20, 'items': { 'item_25': 5, 'item_83': 15 } }
     ]
   },
   {
@@ -255,10 +255,10 @@ export default [
     'name': "Climbing Gear",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_24', 'quantity': 3 }, { 'id': 'item_114', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_26', 'quantity': 5 }, { 'id': 'item_58', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_27', 'quantity': 5 }, { 'id': 'item_55', 'quantity': 10 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_25', 'quantity': 5 }, { 'id': 'item_83', 'quantity': 15 } ] }
+      { 'defense': 5, 'items': { 'item_24': 3, 'item_114': 3 } },
+      { 'defense': 8, 'items': { 'item_26': 5, 'item_58': 5 } },
+      { 'defense': 12, 'items': { 'item_27': 5, 'item_55': 10 } },
+      { 'defense': 20, 'items': { 'item_25': 5, 'item_83': 15 } }
     ]
   },
   {
@@ -266,10 +266,10 @@ export default [
     'name': "Climbing Boots",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_24', 'quantity': 3 }, { 'id': 'item_114', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_26', 'quantity': 5 }, { 'id': 'item_58', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_27', 'quantity': 5 }, { 'id': 'item_55', 'quantity': 10 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_25', 'quantity': 5 }, { 'id': 'item_83', 'quantity': 15 } ] }
+      { 'defense': 5, 'items': { 'item_24': 3, 'item_114': 3 } },
+      { 'defense': 8, 'items': { 'item_26': 5, 'item_58': 5 } },
+      { 'defense': 12, 'items': { 'item_27': 5, 'item_55': 10 } },
+      { 'defense': 20, 'items': { 'item_25': 5, 'item_83': 15 } }
     ]
   },
   // ---------------------------------------- Radiant outfit
@@ -278,10 +278,10 @@ export default [
     'name': "Radiant Mask",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_74', 'quantity': 5 }, { 'id': 'item_12', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_74', 'quantity': 8 }, { 'id': 'item_3', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_74', 'quantity': 10 }, { 'id': 'item_16', 'quantity': 2 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_74', 'quantity': 20 }, { 'id': 'item_6', 'quantity': 1 } ] }
+      { 'defense': 5, 'items': { 'item_74': 5, 'item_12': 3 } },
+      { 'defense': 8, 'items': { 'item_74': 8, 'item_3': 3 } },
+      { 'defense': 12, 'items': { 'item_74': 10, 'item_16': 2 } },
+      { 'defense': 20, 'items': { 'item_74': 20, 'item_6': 1 } }
     ]
   },
   {
@@ -289,10 +289,10 @@ export default [
     'name': "Radiant Shirt",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_74', 'quantity': 5 }, { 'id': 'item_12', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_74', 'quantity': 8 }, { 'id': 'item_3', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_74', 'quantity': 10 }, { 'id': 'item_16', 'quantity': 2 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_74', 'quantity': 20 }, { 'id': 'item_6', 'quantity': 1 } ] }
+      { 'defense': 5, 'items': { 'item_74': 5, 'item_12': 3 } },
+      { 'defense': 8, 'items': { 'item_74': 8, 'item_3': 3 } },
+      { 'defense': 12, 'items': { 'item_74': 10, 'item_16': 2 } },
+      { 'defense': 20, 'items': { 'item_74': 20, 'item_6': 1 } }
     ]
   },
   {
@@ -300,10 +300,10 @@ export default [
     'name': "Radiant Tights",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_74', 'quantity': 5 }, { 'id': 'item_12', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_74', 'quantity': 8 }, { 'id': 'item_3', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_74', 'quantity': 10 }, { 'id': 'item_16', 'quantity': 2 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_74', 'quantity': 20 }, { 'id': 'item_6', 'quantity': 1 } ] }
+      { 'defense': 5, 'items': { 'item_74': 5, 'item_12': 3 } },
+      { 'defense': 8, 'items': { 'item_74': 8, 'item_3': 3 } },
+      { 'defense': 12, 'items': { 'item_74': 10, 'item_16': 2 } },
+      { 'defense': 20, 'items': { 'item_74': 20, 'item_6': 1 } }
     ]
   },
   // ---------------------------------------- Knight's armor
@@ -312,10 +312,10 @@ export default [
     'name': "Soldier's Helm",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_10', 'quantity': 5 }, { 'id': 'item_12', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_24', 'quantity': 5 }, { 'id': 'item_3', 'quantity': 3 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_45', 'quantity': 5 }, { 'id': 'item_30', 'quantity': 3 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_5', 'quantity': 4 }, { 'id': 'item_6', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_10': 5, 'item_12': 3 } },
+      { 'defense': 12, 'items': { 'item_24': 5, 'item_3': 3 } },
+      { 'defense': 18, 'items': { 'item_45': 5, 'item_30': 3 } },
+      { 'defense': 28, 'items': { 'item_5': 4, 'item_6': 2 } }
     ]
   },
   {
@@ -323,10 +323,10 @@ export default [
     'name': "Soldier's Armor",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_10', 'quantity': 5 }, { 'id': 'item_12', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_24', 'quantity': 5 }, { 'id': 'item_3', 'quantity': 3 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_45', 'quantity': 5 }, { 'id': 'item_30', 'quantity': 3 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_5', 'quantity': 4 }, { 'id': 'item_6', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_10': 5, 'item_12': 3 } },
+      { 'defense': 12, 'items': { 'item_24': 5, 'item_3': 3 } },
+      { 'defense': 18, 'items': { 'item_45': 5, 'item_30': 3 } },
+      { 'defense': 28, 'items': { 'item_5': 4, 'item_6': 2 } }
     ]
   },
   {
@@ -334,10 +334,10 @@ export default [
     'name': "Soldier's Greaves",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_10', 'quantity': 5 }, { 'id': 'item_12', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_24', 'quantity': 5 }, { 'id': 'item_3', 'quantity': 3 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_45', 'quantity': 5 }, { 'id': 'item_30', 'quantity': 3 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_5', 'quantity': 4 }, { 'id': 'item_6', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_10': 5, 'item_12': 3 } },
+      { 'defense': 12, 'items': { 'item_24': 5, 'item_3': 3 } },
+      { 'defense': 18, 'items': { 'item_45': 5, 'item_30': 3 } },
+      { 'defense': 28, 'items': { 'item_5': 4, 'item_6': 2 } }
     ]
   },
   // ---------------------------------------- Ancient armor
@@ -346,10 +346,10 @@ export default [
     'name': "Ancient Helm",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_18', 'quantity': 5 }, { 'id': 'item_19', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_19', 'quantity': 15 }, { 'id': 'item_17', 'quantity': 10 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_20', 'quantity': 15 }, { 'id': 'item_21', 'quantity': 5 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_77', 'quantity': 1 }, { 'id': 'item_22', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_18': 5, 'item_19': 5 } },
+      { 'defense': 12, 'items': { 'item_19': 15, 'item_17': 10 } },
+      { 'defense': 18, 'items': { 'item_20': 15, 'item_21': 5 } },
+      { 'defense': 28, 'items': { 'item_77': 1, 'item_22': 2 } }
     ]
   },
   {
@@ -357,10 +357,10 @@ export default [
     'name': "Ancient Cuirass",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_18', 'quantity': 5 }, { 'id': 'item_19', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_19', 'quantity': 15 }, { 'id': 'item_17', 'quantity': 10 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_20', 'quantity': 15 }, { 'id': 'item_21', 'quantity': 5 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_77', 'quantity': 1 }, { 'id': 'item_22', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_18': 5, 'item_19': 5 } },
+      { 'defense': 12, 'items': { 'item_19': 15, 'item_17': 10 } },
+      { 'defense': 18, 'items': { 'item_20': 15, 'item_21': 5 } },
+      { 'defense': 28, 'items': { 'item_77': 1, 'item_22': 2 } }
     ]
   },
   {
@@ -368,10 +368,10 @@ export default [
     'name': "Ancient Greaves",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_18', 'quantity': 5 }, { 'id': 'item_19', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_19', 'quantity': 15 }, { 'id': 'item_17', 'quantity': 10 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_20', 'quantity': 15 }, { 'id': 'item_21', 'quantity': 5 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_77', 'quantity': 1 }, { 'id': 'item_22', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_18': 5, 'item_19': 5 } },
+      { 'defense': 12, 'items': { 'item_19': 15, 'item_17': 10 } },
+      { 'defense': 18, 'items': { 'item_20': 15, 'item_21': 5 } },
+      { 'defense': 28, 'items': { 'item_77': 1, 'item_22': 2 } }
     ]
   },
   // ---------------------------------------- Rubber armor
@@ -380,10 +380,10 @@ export default [
     'name': "Rubber Helm",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_8', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_8', 'quantity': 5 }, { 'id': 'item_104', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_113', 'quantity': 5 }, { 'id': 'item_48', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_48', 'quantity': 10 }, { 'id': 'item_71', 'quantity': 10 } ] }
+      { 'defense': 5, 'items': { 'item_8': 3 } },
+      { 'defense': 8, 'items': { 'item_8': 5, 'item_104': 5 } },
+      { 'defense': 12, 'items': { 'item_113': 5, 'item_48': 5 } },
+      { 'defense': 20, 'items': { 'item_48': 10, 'item_71': 10 } }
     ]
   },
   {
@@ -391,10 +391,10 @@ export default [
     'name': "Rubber Armor",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_8', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_8', 'quantity': 5 }, { 'id': 'item_104', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_113', 'quantity': 5 }, { 'id': 'item_48', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_48', 'quantity': 10 }, { 'id': 'item_71', 'quantity': 10 } ] }
+      { 'defense': 5, 'items': { 'item_8': 3 } },
+      { 'defense': 8, 'items': { 'item_8': 5, 'item_104': 5 } },
+      { 'defense': 12, 'items': { 'item_113': 5, 'item_48': 5 } },
+      { 'defense': 20, 'items': { 'item_48': 10, 'item_71': 10 } }
     ]
   },
   {
@@ -402,10 +402,10 @@ export default [
     'name': "Rubber Tights",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_8', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_8', 'quantity': 5 }, { 'id': 'item_104', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_113', 'quantity': 5 }, { 'id': 'item_48', 'quantity': 5 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_48', 'quantity': 10 }, { 'id': 'item_71', 'quantity': 10 } ] }
+      { 'defense': 5, 'items': { 'item_8': 3 } },
+      { 'defense': 8, 'items': { 'item_8': 5, 'item_104': 5 } },
+      { 'defense': 12, 'items': { 'item_113': 5, 'item_48': 5 } },
+      { 'defense': 20, 'items': { 'item_48': 10, 'item_71': 10 } }
     ]
   },
   // ---------------------------------------- Barbarian armor
@@ -414,10 +414,10 @@ export default [
     'name': "Barbarian Helm",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_4', 'quantity': 1 } ] },
-      { 'defense': 6, 'items': [ { 'id': 'item_4', 'quantity': 3 }, { 'id': 'item_5', 'quantity': 2 } ] },
-      { 'defense': 7, 'items': [ { 'id': 'item_5', 'quantity': 4 }, { 'id': 'item_6', 'quantity': 1 } ] },
-      { 'defense': 11, 'items': [ { 'id': 'item_6', 'quantity': 2 }, { 'id': 'item_35', 'quantity': 1 } ] }
+      { 'defense': 5, 'items': { 'item_4': 1 } },
+      { 'defense': 6, 'items': { 'item_4': 3, 'item_5': 2 } },
+      { 'defense': 7, 'items': { 'item_5': 4, 'item_6': 1 } },
+      { 'defense': 11, 'items': { 'item_6': 2, 'item_35': 1 } }
     ]
   },
   {
@@ -425,10 +425,10 @@ export default [
     'name': "Barbarian Armor",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_4', 'quantity': 1 } ] },
-      { 'defense': 6, 'items': [ { 'id': 'item_4', 'quantity': 3 }, { 'id': 'item_5', 'quantity': 2 } ] },
-      { 'defense': 7, 'items': [ { 'id': 'item_5', 'quantity': 4 }, { 'id': 'item_6', 'quantity': 1 } ] },
-      { 'defense': 11, 'items': [ { 'id': 'item_6', 'quantity': 2 }, { 'id': 'item_37', 'quantity': 1 } ] }
+      { 'defense': 5, 'items': { 'item_4': 1 } },
+      { 'defense': 6, 'items': { 'item_4': 3, 'item_5': 2 } },
+      { 'defense': 7, 'items': { 'item_5': 4, 'item_6': 1 } },
+      { 'defense': 11, 'items': { 'item_6': 2, 'item_37': 1 } }
     ]
   },
   {
@@ -436,10 +436,10 @@ export default [
     'name': "Barbarian Leg Wraps",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_4', 'quantity': 1 } ] },
-      { 'defense': 6, 'items': [ { 'id': 'item_4', 'quantity': 3 }, { 'id': 'item_5', 'quantity': 2 } ] },
-      { 'defense': 7, 'items': [ { 'id': 'item_5', 'quantity': 4 }, { 'id': 'item_6', 'quantity': 1 } ] },
-      { 'defense': 11, 'items': [ { 'id': 'item_6', 'quantity': 2 }, { 'id': 'item_36', 'quantity': 1 } ] }
+      { 'defense': 5, 'items': { 'item_4': 1 } },
+      { 'defense': 6, 'items': { 'item_4': 3, 'item_5': 2 } },
+      { 'defense': 7, 'items': { 'item_5': 4, 'item_6': 1 } },
+      { 'defense': 11, 'items': { 'item_6': 2, 'item_36': 1 } }
     ]
   },
   // ---------------------------------------- Champion's Tunic
@@ -448,10 +448,10 @@ export default [
     'name': "Champion's Tunic",
     'base': 5,
     'upgrades': [
-      { 'defense': 8, 'items': [ { 'id': 'item_81', 'quantity': 3 } ] },
-      { 'defense': 14, 'items': [ { 'id': 'item_81', 'quantity': 3 }, { 'id': 'item_37', 'quantity': 2 } ] },
-      { 'defense': 22, 'items': [ { 'id': 'item_81', 'quantity': 3 }, { 'id': 'item_36', 'quantity': 2 } ] },
-      { 'defense': 32, 'items': [ { 'id': 'item_81', 'quantity': 10 }, { 'id': 'item_35', 'quantity': 2 } ] }
+      { 'defense': 8, 'items': { 'item_81': 3 } },
+      { 'defense': 14, 'items': { 'item_81': 3, 'item_37': 2 } },
+      { 'defense': 22, 'items': { 'item_81': 3, 'item_36': 2 } },
+      { 'defense': 32, 'items': { 'item_81': 10, 'item_35': 2 } }
     ]
   },
   // ---------------------------------------- Snow and Sand Boots
@@ -460,10 +460,10 @@ export default [
     'name': "Sand Boots",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': { 'item_15': 5, 'item_58': 10 } },
+      { 'defense': 8, 'items': { 'item_15': 10, 'item_126': 10 } },
+      { 'defense': 12, 'items': { 'item_16': 2, 'item_114': 15 } },
+      { 'defense': 18, 'items': { 'item_16': 4, 'item_83': 15 } }
     ]
   },
   {
@@ -471,10 +471,10 @@ export default [
     'name': "Snow Boots",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': { 'item_13': 5, 'item_58': 10 } },
+      { 'defense': 8, 'items': { 'item_44': 5, 'item_126': 10 } },
+      { 'defense': 12, 'items': { 'item_14': 5, 'item_114': 15 } },
+      { 'defense': 18, 'items': { 'item_39': 2, 'item_83': 15 } }
     ]
   },
   // ---------------------------------------- Diamond Circlet
@@ -483,10 +483,10 @@ export default [
     'name': "Diamond Circlet",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_68', 'quantity': 2 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_68', 'quantity': 4 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_68', 'quantity': 6 }, { 'id': 'item_77', 'quantity': 1 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_68', 'quantity': 10 }, { 'id': 'item_77', 'quantity': 1 } ] }
+      { 'defense': 7, 'items': { 'item_68': 2, 'item_76': 3 } },
+      { 'defense': 12, 'items': { 'item_68': 4, 'item_76': 3 } },
+      { 'defense': 18, 'items': { 'item_68': 6, 'item_77': 1 } },
+      { 'defense': 28, 'items': { 'item_68': 10, 'item_77': 1 } }
     ]
   },
   // ---------------------------------------- Ruby Circlet
@@ -495,10 +495,10 @@ export default [
     'name': "Ruby Circlet",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_69', 'quantity': 2 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_69', 'quantity': 4 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_69', 'quantity': 6 }, { 'id': 'item_77', 'quantity': 1 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_69', 'quantity': 10 }, { 'id': 'item_77', 'quantity': 1 } ] }
+      { 'defense': 5, 'items': { 'item_69': 2, 'item_76': 3 } },
+      { 'defense': 8, 'items': { 'item_69': 4, 'item_76': 3 } },
+      { 'defense': 12, 'items': { 'item_69': 6, 'item_77': 1 } },
+      { 'defense': 20, 'items': { 'item_69': 10, 'item_77': 1 } }
     ]
   },
   // ---------------------------------------- Sapphire Circlet
@@ -507,10 +507,10 @@ export default [
     'name': "Sapphire Circlet",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_70', 'quantity': 2 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_70', 'quantity': 4 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_70', 'quantity': 6 }, { 'id': 'item_77', 'quantity': 1 } ] },
-      { 'defense': 20, 'items': [ { 'id': 'item_70', 'quantity': 10 }, { 'id': 'item_77', 'quantity': 1 } ] }
+      { 'defense': 5, 'items': { 'item_70': 2, 'item_76': 3 } },
+      { 'defense': 8, 'items': { 'item_70': 4, 'item_76': 3 } },
+      { 'defense': 12, 'items': { 'item_70': 6, 'item_77': 1 } },
+      { 'defense': 20, 'items': { 'item_70': 10, 'item_77': 1 } }
     ]
   },
   // ---------------------------------------- Topaz Earrings
@@ -519,10 +519,10 @@ export default [
     'name': "Topaz Earrings",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_71', 'quantity': 2 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_71', 'quantity': 4 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_71', 'quantity': 6 }, { 'id': 'item_77', 'quantity': 1 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_71', 'quantity': 10 }, { 'id': 'item_77', 'quantity': 1 } ] }
+      { 'defense': 5, 'items': { 'item_71': 2, 'item_76': 3 } },
+      { 'defense': 8, 'items': { 'item_71': 4, 'item_76': 3 } },
+      { 'defense': 12, 'items': { 'item_71': 6, 'item_77': 1 } },
+      { 'defense': 18, 'items': { 'item_71': 10, 'item_77': 1 } }
     ]
   },
   // ---------------------------------------- Opal Earrings
@@ -531,10 +531,10 @@ export default [
     'name': "Opal Earrings",
     'base': 3,
     'upgrades': [
-      { 'defense': 5, 'items': [ { 'id': 'item_72', 'quantity': 5 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 8, 'items': [ { 'id': 'item_72', 'quantity': 8 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_72', 'quantity': 16 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 22, 'items': [ { 'id': 'item_72', 'quantity': 20 }, { 'id': 'item_76', 'quantity': 3 } ] }
+      { 'defense': 5, 'items': { 'item_72': 5, 'item_76': 3 } },
+      { 'defense': 8, 'items': { 'item_72': 8, 'item_76': 3 } },
+      { 'defense': 12, 'items': { 'item_72': 16, 'item_76': 3 } },
+      { 'defense': 22, 'items': { 'item_72': 20, 'item_76': 3 } }
     ]
   },
   // ---------------------------------------- Amber Earrings
@@ -543,10 +543,10 @@ export default [
     'name': "Amber Earrings",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_73', 'quantity': 5 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_73', 'quantity': 10 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_73', 'quantity': 20 }, { 'id': 'item_76', 'quantity': 3 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_73', 'quantity': 30 }, { 'id': 'item_76', 'quantity': 3 } ] }
+      { 'defense': 7, 'items': { 'item_73': 5, 'item_76': 3 } },
+      { 'defense': 12, 'items': { 'item_73': 10, 'item_76': 3 } },
+      { 'defense': 18, 'items': { 'item_73': 20, 'item_76': 3 } },
+      { 'defense': 28, 'items': { 'item_73': 30, 'item_76': 3 } }
     ]
   },
   // ---------------------------------------- Vah Ruta Divine Helm
@@ -555,10 +555,10 @@ export default [
     'name': "Vah Ruta Divine Helm",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_18', 'quantity': 5 }, { 'id': 'item_19', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_19', 'quantity': 15 }, { 'id': 'item_17', 'quantity': 10 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_20', 'quantity': 15 }, { 'id': 'item_21', 'quantity': 5 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_77', 'quantity': 1 }, { 'id': 'item_22', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_18': 5, 'item_19': 5 } },
+      { 'defense': 12, 'items': { 'item_19': 15, 'item_17': 10 } },
+      { 'defense': 18, 'items': { 'item_20': 15, 'item_21': 5 } },
+      { 'defense': 28, 'items': { 'item_77': 1, 'item_22': 2 } }
     ]
   },
   // ---------------------------------------- Vah Medoh Divine Helm
@@ -567,10 +567,10 @@ export default [
     'name': "Vah Medoh Divine Helm",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_18', 'quantity': 5 }, { 'id': 'item_19', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_19', 'quantity': 15 }, { 'id': 'item_17', 'quantity': 10 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_20', 'quantity': 15 }, { 'id': 'item_21', 'quantity': 5 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_77', 'quantity': 1 }, { 'id': 'item_22', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_18': 5, 'item_19': 5 } },
+      { 'defense': 12, 'items': { 'item_19': 15, 'item_17': 10 } },
+      { 'defense': 18, 'items': { 'item_20': 15, 'item_21': 5 } },
+      { 'defense': 28, 'items': { 'item_77': 1, 'item_22': 2 } }
     ]
   },
   // ---------------------------------------- Vah Rudania Divine Helm
@@ -579,10 +579,10 @@ export default [
     'name': "Vah Rudania Divine Helm",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_18', 'quantity': 5 }, { 'id': 'item_19', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_19', 'quantity': 15 }, { 'id': 'item_17', 'quantity': 10 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_20', 'quantity': 15 }, { 'id': 'item_21', 'quantity': 5 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_77', 'quantity': 1 }, { 'id': 'item_22', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_18': 5, 'item_19': 5 } },
+      { 'defense': 12, 'items': { 'item_19': 15, 'item_17': 10 } },
+      { 'defense': 18, 'items': { 'item_20': 15, 'item_21': 5 } },
+      { 'defense': 28, 'items': { 'item_77': 1, 'item_22': 2 } }
     ]
   },
   // ---------------------------------------- Vah Naboris Divine Helm
@@ -591,10 +591,10 @@ export default [
     'name': "Vah Naboris Divine Helm",
     'base': 4,
     'upgrades': [
-      { 'defense': 7, 'items': [ { 'id': 'item_18', 'quantity': 5 }, { 'id': 'item_19', 'quantity': 5 } ] },
-      { 'defense': 12, 'items': [ { 'id': 'item_19', 'quantity': 15 }, { 'id': 'item_17', 'quantity': 10 } ] },
-      { 'defense': 18, 'items': [ { 'id': 'item_20', 'quantity': 15 }, { 'id': 'item_21', 'quantity': 5 } ] },
-      { 'defense': 28, 'items': [ { 'id': 'item_77', 'quantity': 1 }, { 'id': 'item_22', 'quantity': 2 } ] }
+      { 'defense': 7, 'items': { 'item_18': 5, 'item_19': 5 } },
+      { 'defense': 12, 'items': { 'item_19': 15, 'item_17': 10 } },
+      { 'defense': 18, 'items': { 'item_20': 15, 'item_21': 5 } },
+      { 'defense': 28, 'items': { 'item_77': 1, 'item_22': 2 } }
     ]
   }
 ];
