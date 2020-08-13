@@ -1,6 +1,12 @@
 <template>
   <div class="armor-list">
-    <ArmorItem v-for="(item, i) in list" :key="i" :armor="item" />
+    <ArmorItem
+      v-for="(item, i) in list"
+      :key="i"
+      :armor="item"
+      :selected="selected"
+      @clicked="armor => $emit('armor-clicked', armor)"
+    />
   </div>
 </template>
 
@@ -15,6 +21,10 @@ export default {
       type: Array,
       required: true,
       validator: arr => arr.length <= 20
+    },
+    selected: {
+      type: String,
+      required: false
     }
   },
   computed: {

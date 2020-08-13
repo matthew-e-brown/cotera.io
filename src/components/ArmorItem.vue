@@ -1,5 +1,5 @@
 <template>
-  <button @click="handleClick" class="armor-item" :disabled="!armor">
+  <button @click="handleClick" class="armor-item" :class="{ selected: isActive }" :disabled="!armor">
     <div class="item-container">
       <img :src="armorSprite" aria-hidden="true" alt="">
     </div>
@@ -12,7 +12,11 @@ export default {
   name: 'ArmorItem',
   props: {
     armor: {
-      type: [ Object ],
+      type: Object,
+      required: false
+    },
+    selected: {
+      type: String,
       required: false
     }
   },
@@ -23,12 +27,16 @@ export default {
     },
     armorFolder: function() {
       return this.armor.id.substring(0, this.armor.id.indexOf('_'));
+    },
+    isActive: function() {
+      if (!this.armor) return false;
+      return this.selected == this.armor.id;
     }
   },
   methods: {
     handleClick: function() {
       if (!this.armor) return false;
-      console.log(`"${this.armor.name}" was clicked.`);
+      this.$emit('clicked', this.armor);
     }
   }
 }
