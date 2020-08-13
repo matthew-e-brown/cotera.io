@@ -6,9 +6,10 @@ export default [
     'name': 'Hylian Hood',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -16,9 +17,10 @@ export default [
     'name': 'Hylian Tunic',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -26,9 +28,10 @@ export default [
     'name': 'Hylian Trousers',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Set of the Wild
@@ -37,9 +40,10 @@ export default [
     'name': 'Cap of the Wild',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -47,9 +51,10 @@ export default [
     'name': 'Tunic of the Wild',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -57,9 +62,10 @@ export default [
     'name': 'Trousers of the Wild',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Zora armor
@@ -68,9 +74,10 @@ export default [
     'name': 'Zora Helm',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -78,9 +85,10 @@ export default [
     'name': 'Zora Armor',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -88,9 +96,10 @@ export default [
     'name': 'Zora Greaves',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Desert voe armor
@@ -99,9 +108,10 @@ export default [
     'name': 'Desert Voe Headband',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 6, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 11, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -109,9 +119,10 @@ export default [
     'name': 'Desert Voe Spaulder',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 6, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 11, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -119,9 +130,10 @@ export default [
     'name': 'Desert Voe Trousers',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 6, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 11, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Snowquill set
@@ -130,9 +142,10 @@ export default [
     'name': 'Snowquill Headdress',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -140,9 +153,10 @@ export default [
     'name': 'Snowquill Tunic',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -150,9 +164,10 @@ export default [
     'name': 'Snowquill Trousers',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Flamebreaker armor
@@ -161,9 +176,10 @@ export default [
     'name': 'Flamebreaker Helm',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -171,9 +187,10 @@ export default [
     'name': 'Flamebreaker Armor',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -181,9 +198,10 @@ export default [
     'name': 'Flamebreaker Boots',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Stealth set
@@ -192,9 +210,10 @@ export default [
     'name': 'Stealth Mash',
     'base': 2,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 4, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 6, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 9, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 16, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -202,9 +221,10 @@ export default [
     'name': 'Stealth Chest Guard',
     'base': 2,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 4, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 6, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 9, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 16, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -212,9 +232,10 @@ export default [
     'name': 'Stealth Tights',
     'base': 2,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 4, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 6, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 9, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 16, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Climbing gear
@@ -223,9 +244,10 @@ export default [
     'name': 'Climber\'s Bandanna',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -233,9 +255,10 @@ export default [
     'name': 'Climbing Gear',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -243,9 +266,10 @@ export default [
     'name': 'Climbing Boots',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Radiant outfit
@@ -254,9 +278,10 @@ export default [
     'name': 'Radiant Mask',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -264,9 +289,10 @@ export default [
     'name': 'Radiant Shirt',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -274,9 +300,10 @@ export default [
     'name': 'Radiant Tights',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Knight's armor
@@ -285,9 +312,10 @@ export default [
     'name': 'Soldier\'s Helm',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -295,9 +323,10 @@ export default [
     'name': 'Soldier\'s Armor',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -305,9 +334,10 @@ export default [
     'name': 'Soldier\'s Greaves',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Ancient armor
@@ -316,9 +346,10 @@ export default [
     'name': 'Ancient Helm',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -326,9 +357,10 @@ export default [
     'name': 'Ancient Cuirass',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -336,9 +368,10 @@ export default [
     'name': 'Ancient Greaves',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Rubber armor
@@ -347,9 +380,10 @@ export default [
     'name': 'Rubber Helm',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -357,9 +391,10 @@ export default [
     'name': 'Rubber Armor',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -367,9 +402,10 @@ export default [
     'name': 'Rubber Tights',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Barbarian armor
@@ -378,9 +414,10 @@ export default [
     'name': 'Barbarian Helm',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 6, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 11, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -388,9 +425,10 @@ export default [
     'name': 'Barbarian Armor',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 6, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 11, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -398,9 +436,10 @@ export default [
     'name': 'Barbarian Leg Wraps',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 6, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 11, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Champion's Tunic
@@ -409,9 +448,10 @@ export default [
     'name': 'Champion\'s Tunic',
     'base': 5,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 14, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 22, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 32, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Snow and Sand Boots
@@ -420,9 +460,10 @@ export default [
     'name': 'Sand Boots',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   {
@@ -430,9 +471,10 @@ export default [
     'name': 'Snow Boots',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Diamond Circlet
@@ -441,9 +483,10 @@ export default [
     'name': 'Diamond Circlet',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Ruby Circlet
@@ -452,9 +495,10 @@ export default [
     'name': 'Ruby Circlet',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Sapphire Circlet
@@ -463,9 +507,10 @@ export default [
     'name': 'Sapphire Circlet',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 20, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Topaz Earrings
@@ -474,9 +519,10 @@ export default [
     'name': 'Topaz Earrings',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Opal Earrings
@@ -485,9 +531,10 @@ export default [
     'name': 'Opal Earrings',
     'base': 3,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 5, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 8, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 22, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Amber Earrings
@@ -496,9 +543,10 @@ export default [
     'name': 'Amber Earrings',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Vah Ruta Divine Helm
@@ -507,9 +555,10 @@ export default [
     'name': 'Vah Ruta Divine Helm',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Vah Medoh Divine Helm
@@ -518,9 +567,10 @@ export default [
     'name': 'Vah Medoh Divine Helm',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Vah Rudania Divine Helm
@@ -529,9 +579,10 @@ export default [
     'name': 'Vah Rudania Divine Helm',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   },
   // ---------------------------------------- Vah Naboris Divine Helm
@@ -540,9 +591,10 @@ export default [
     'name': 'Vah Naboris Divine Helm',
     'base': 4,
     'upgrades': [
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
-      { 'defense': -1, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
+      { 'defense': 7, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 12, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 18, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] },
+      { 'defense': 28, 'items': [ { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 }, { 'id': '', 'quantity': -1 } ] }
     ]
   }
 ];
@@ -615,7 +667,7 @@ export const sets = [
   },
   {
     'id': 'set_13',
-    'name': 'Gemstone Headgear',
+    'name': 'Jewelry',
     'items': [ 'head_13', 'head_14', 'head_15', 'head_16', 'head_17', 'head_18' ]
   },
   {
