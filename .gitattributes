@@ -1,0 +1,4 @@
+# Remove these from the language calculation, since they're just raw data.
+# Nothing more than a database.
+src/armor.js linguist-vendored
+src/items.js linguist-vendored
