@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <h1>Breath of the Wild Armor Tracker</h1>
+    <h1>Cotera<span>.io</span></h1>
     <router-view />
   </div>
 </template>
 
 <style>
-/* CSS Reset */
+/* Small CSS Reset */
 button {
   margin: 0;
   padding: 0;
@@ -17,8 +17,8 @@ button {
 }
 
 :root {
-  --red: #ff7170;
-  --body: #fdfbe2;
+  --red-text: #ff7170;
+  --body-text: #fdfbe2;
 }
 
 :root {
@@ -26,10 +26,5 @@ button {
   font-size: 16px;
   color: var(--body);
   background-color: gray;
-}
-
-h1 {
-  font-size: 2.4em;
-  text-align: center;
 }
 </style>

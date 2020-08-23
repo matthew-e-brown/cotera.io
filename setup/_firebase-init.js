@@ -10,7 +10,7 @@
  * made. It'll probably only get run once, ever.
  */
 
-const credentials = require('../firebase.json');
+const credentials = require('../firebase-info.json');
 const { firebase } = require('@firebase/app');
 require('@firebase/firestore');
 

@@ -7,11 +7,10 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@firebase/app": "^0.6.10",
-    "@firebase/firestore": "^1.16.5",
-    "keen-slider": "^5.2.2",
+    "firebase": "^7.19.0",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vuefire": "^2.2.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.4.0",
