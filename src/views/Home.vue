@@ -1,26 +1,28 @@
 <template>
-  <main>
+  <main id="home">
     
   </main>
 </template>
 
 <script>
 import db from '@/firestore';
+import { armor, sets } from '@/assets/armor';
+import { items } from '@/assets/items';
 
 export default {
   name: 'Home',
   data: function() {
     return {
-      armor: [],
-      items: [],
-      sets: []
+      armor: [ ...armor ],
+      items: [ ...items ],
+      user: {
+        progress: null
+      }
     }
   },
   firestore: function() {
     return {
-      armor: db.collection('armor'),
-      items: db.collection('items'),
-      sets: db.collection('armor-sets')
+      'user.progress': db.collection('user-progress')
     }
   }
 }

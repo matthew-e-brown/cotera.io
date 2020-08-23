@@ -8,9 +8,15 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    beforeEnter: (t, f, n) => { document.title = "Cotera.io"; n(); },
+    beforeEnter: (t, f, n) => { document.title = "Cotera"; n(); },
     component: Home
   },
+  {
+    path: '/login',
+    name: 'Log In',
+    beforeEnter: (t, f, n) => { document.title = "Log in to Cotera"; n(); },
+    component: () => import('../views/Login.vue')
+  }
 ];
 
 const router = new VueRouter({

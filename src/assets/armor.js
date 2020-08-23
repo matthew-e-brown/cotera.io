@@ -1,4 +1,4 @@
-const armor = [
+export const armor = [
   // ---------------------------------------- Hylian set
   {
     "tag": "head_0",
@@ -598,7 +598,7 @@ const armor = [
   }
 ];
 
-const sets = [
+export const sets = [
   {
     "tag": "set_0",
     "name": "Hylian Set",
@@ -675,5 +675,3 @@ const sets = [
     "pieces": [ "body_13", "legs_13", "legs_14", "head_19", "head_20", "head_21", "head_22" ]
   }
 ];
-
-module.exports = { armor, sets };
