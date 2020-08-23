@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    beforeEnter: (t, f, n) => { document.title = "Home | BotW Armor Tracker"; n(); },
+    beforeEnter: (t, f, n) => { document.title = "Cotera.io"; n(); },
     component: Home
   },
 ];
