@@ -1,0 +1,77 @@
+[
+  {
+    "tag": "set_0",
+    "name": "Hylian Set",
+    "pieces": [ "head_0", "body_0", "legs_0" ]
+  },
+  {
+    "tag": "set_1",
+    "name": "Hero of the Wild Set",
+    "pieces": [ "head_1", "body_1", "legs_1" ]
+  },
+  {
+    "tag": "set_2",
+    "name": "Zora Set",
+    "pieces": [ "head_2", "body_2", "legs_2" ]
+  },
+  {
+    "tag": "set_3",
+    "name": "Desert Voe Set",
+    "pieces": [ "head_3", "body_3", "legs_3" ]
+  },
+  {
+    "tag": "set_4",
+    "name": "Snowquill Set",
+    "pieces": [ "head_4", "body_4", "legs_4" ]
+  },
+  {
+    "tag": "set_5",
+    "name": "Flamebreaker Set",
+    "pieces": [ "head_5", "body_5", "legs_5" ]
+  },
+  {
+    "tag": "set_6",
+    "name": "Stealth Set",
+    "pieces": [ "head_6", "body_6", "legs_6" ]
+  },
+  {
+    "tag": "set_7",
+    "name": "Climber's Set",
+    "pieces": [ "head_7", "body_7", "legs_7" ]
+  },
+  {
+    "tag": "set_8",
+    "name": "Radiant Set",
+    "pieces": [ "head_8", "body_8", "legs_8" ]
+  },
+  {
+    "tag": "set_9",
+    "name": "Solider's Set",
+    "pieces": [ "head_9", "body_9", "legs_9" ]
+  },
+  {
+    "tag": "set_10",
+    "name": "Ancient Set",
+    "pieces": [ "head_10", "body_10", "legs_10" ]
+  },
+  {
+    "tag": "set_11",
+    "name": "Rubber Set",
+    "pieces": [ "head_11", "body_11", "legs_11" ]
+  },
+  {
+    "tag": "set_12",
+    "name": "Barbarian Set",
+    "pieces": [ "head_12", "body_12", "legs_12" ]
+  },
+  {
+    "tag": "set_13",
+    "name": "Jewelry",
+    "pieces": [ "head_13", "head_14", "head_15", "head_16", "head_17", "head_18" ]
+  },
+  {
+    "tag": "set_14",
+    "name": "Others",
+    "pieces": [ "body_13", "legs_13", "legs_14", "head_19", "head_20", "head_21", "head_22" ]
+  }
+]
