@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "Calamity Sans";
+  font-family: "Calamity";
   font-weight: 400;
   src:
     url("CalamitySans/Calamity-Regular.otf") format("opentype"),
@@ -8,7 +8,7 @@
 }
 
 @font-face {
-  font-family: "Calamity Sans";
+  font-family: "Calamity";
   font-weight: 700;
   src:
     url("CalamitySans/Calamity-Bold.otf") format("opentype"),

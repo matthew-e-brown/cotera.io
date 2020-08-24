@@ -14,9 +14,11 @@ button {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
-  font: inherit;
   background: none;
+}
+
+label, input, button {
+  font: inherit;
 }
 
 body {
@@ -30,10 +32,30 @@ body {
 }
 
 :root {
-  font-family: Lato, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Epilogue', Helvetica, Arial, sans-serif;
+  font-weight: 500;
   font-size: 16px;
+  letter-spacing: 0.065ch;
   color: var(--body-text);
   background-color: #312626;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Calamity', 'Avenir', Helvetica, Arial, sans-serif;
+  letter-spacing: initial;
+}
+
+.button {
+  display: block;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  color: black;
+  font-weight: 700;
+  background-color: white;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  min-width: 10rem;
+  margin: 0.5rem;
 }
 </style>
 
@@ -41,6 +63,10 @@ body {
 h1 {
   margin: 0;
   font-size: 2.4em;
+}
+
+h1 span {
+  font-size: 40%;
 }
 
 nav {
@@ -59,10 +85,5 @@ nav a {
 
 nav a:first-child {
   margin-right: auto;
-}
-
-h1 span {
-  font-size: 40%;
-  /* font-style: italic; */
 }
 </style>
