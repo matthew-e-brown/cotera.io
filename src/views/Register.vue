@@ -90,6 +90,7 @@ export default {
           .createUserWithEmailAndPassword(this.form.email1, this.form.password1);
 
         user.updateProfile({ displayName: this.form.name });
+        this.$router.push('/');
       } catch (error) {
         // Add a period :P
         if (!error.message.endsWith('.')) error.message += '.';
@@ -114,7 +115,7 @@ export default {
       else if (this.form.password1 != this.form.password2)
         this.errors.push("Those passwords don't match.");
 
-      return Object.values(this.errors).every(errtype => errtype.length == 0);
+      return this.errors.length == 0;
     },
     google: function() {
       return undefined;

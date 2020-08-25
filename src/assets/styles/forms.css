@@ -61,6 +61,10 @@ form .button {
   font-size: 92.5%;
 }
 
+.errors li+li {
+  margin-top: 0.5em;
+}
+
 div.separator {
   cursor: default;
   box-sizing: border-box;
