@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import db from '@/firestore';
 import armor from '@/assets/gamedata/armor.json';
 import items from '@/assets/gamedata/items.json';
 import sets from '@/assets/gamedata/sets.json';

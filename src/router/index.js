@@ -8,14 +8,20 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    beforeEnter: (t, f, n) => { document.title = "Cotera"; n(); },
+    beforeEnter: (t, f, n) => { document.title = "Cotera.io"; n(); },
     component: Home
   },
   {
     path: '/login',
-    name: 'Log In',
-    beforeEnter: (t, f, n) => { document.title = "Log in to Cotera"; n(); },
+    name: 'Log in',
+    beforeEnter: (t, f, n) => { document.title = "Log in | Cotera.io"; n(); },
     component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    beforeEnter: (t, f, n) => { document.title = "Register | Cotera.io"; n(); },
+    component: () => import('../views/Register.vue')
   }
 ];
 

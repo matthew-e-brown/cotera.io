@@ -40,14 +40,27 @@ body {
   background-color: #312626;
 }
 
+@media screen and (max-width: 400px) {
+  :root {
+    font-size: 12px;
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Calamity', 'Avenir', Helvetica, Arial, sans-serif;
   letter-spacing: initial;
 }
 
+a, a:visited {
+  font: inherit;
+  color: inherit;
+}
+
 .button {
+  box-sizing: border-box;
   display: block;
   text-decoration: none;
+  text-align: center;
   padding: 0.75rem 1rem;
   color: black;
   font-weight: 700;
@@ -77,7 +90,7 @@ nav {
   background-color: #00000077;
 }
 
-nav a {
+nav a, nav button {
   cursor: pointer;
   text-decoration: none;
   color: inherit;
