@@ -31,18 +31,20 @@
     </form>
     <div class="separator"><span>or</span></div>
     <div id="bottom-buttons">
-      <button class="button" @click="google">Sign in with Google</button>
+      <GoogleSignIn @finish="$router.push('/')" />
       <router-link to="/register">Create a new account</router-link>
     </div>
   </main>
 </template>
 
 <script>
+import GoogleSignIn from '@/components/GoogleSignIn.vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 export default {
   name: 'Login',
+  components: { GoogleSignIn },
   data: function() {
     return {
       passtype: 'password',
@@ -80,9 +82,6 @@ export default {
         this.errors.push("Please enter a password.");
 
       return this.errors.length == 0;
-    },
-    google: function() {
-      return undefined;
     }
   }
 }
