@@ -2,7 +2,7 @@
   {
     "tag": "head_0",
     "name": "Hylian Hood",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_0": 5 } },
       { "defense": 8, "items": { "item_0": 8, "item_1": 5 } },
@@ -13,7 +13,7 @@
   {
     "tag": "body_0",
     "name": "Hylian Tunic",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_0": 5 } },
       { "defense": 8, "items": { "item_0": 8, "item_1": 5 } },
@@ -24,7 +24,7 @@
   {
     "tag": "legs_0",
     "name": "Hylian Trousers",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_0": 5 } },
       { "defense": 8, "items": { "item_0": 8, "item_1": 5 } },
@@ -35,7 +35,7 @@
   {
     "tag": "head_1",
     "name": "Cap of the Wild",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_130": 10, "item_40": 2 } },
       { "defense": 12, "items": { "item_132": 5, "item_34": 2 } },
@@ -46,7 +46,7 @@
   {
     "tag": "body_1",
     "name": "Tunic of the Wild",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_130": 10, "item_39": 2 } },
       { "defense": 12, "items": { "item_132": 5, "item_33": 2 } },
@@ -57,7 +57,7 @@
   {
     "tag": "legs_1",
     "name": "Trousers of the Wild",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_130": 10, "item_38": 2 } },
       { "defense": 12, "items": { "item_132": 5, "item_32": 2 } },
@@ -68,7 +68,7 @@
   {
     "tag": "head_2",
     "name": "Zora Helm",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_23": 3 } },
       { "defense": 8, "items": { "item_31": 5, "item_84": 5 } },
@@ -79,7 +79,7 @@
   {
     "tag": "body_2",
     "name": "Zora Armor",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_23": 3 } },
       { "defense": 8, "items": { "item_31": 5, "item_84": 5 } },
@@ -90,7 +90,7 @@
   {
     "tag": "legs_2",
     "name": "Zora Greaves",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_23": 3 } },
       { "defense": 8, "items": { "item_31": 5, "item_84": 5 } },
@@ -101,7 +101,7 @@
   {
     "tag": "head_3",
     "name": "Desert Voe Headband",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_9": 3 } },
       { "defense": 6, "items": { "item_9": 5, "item_27": 3 } },
@@ -112,7 +112,7 @@
   {
     "tag": "body_3",
     "name": "Desert Voe Spaulder",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_9": 3 } },
       { "defense": 6, "items": { "item_9": 5, "item_27": 3 } },
@@ -123,7 +123,7 @@
   {
     "tag": "legs_3",
     "name": "Desert Voe Trousers",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_9": 3 } },
       { "defense": 6, "items": { "item_9": 5, "item_27": 3 } },
@@ -134,7 +134,7 @@
   {
     "tag": "head_4",
     "name": "Snowquill Headdress",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_7": 3 } },
       { "defense": 8, "items": { "item_7": 5, "item_79": 3 } },
@@ -145,7 +145,7 @@
   {
     "tag": "body_4",
     "name": "Snowquill Tunic",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_7": 3 } },
       { "defense": 8, "items": { "item_7": 5, "item_79": 3 } },
@@ -156,7 +156,7 @@
   {
     "tag": "legs_4",
     "name": "Snowquill Trousers",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_7": 3 } },
       { "defense": 8, "items": { "item_7": 5, "item_79": 3 } },
@@ -167,7 +167,7 @@
   {
     "tag": "head_5",
     "name": "Flamebreaker Helm",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_59": 1, "item_49": 2 } },
       { "defense": 8, "items": { "item_59": 3, "item_2": 4 } },
@@ -178,7 +178,7 @@
   {
     "tag": "body_5",
     "name": "Flamebreaker Armor",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_59": 1, "item_49": 2 } },
       { "defense": 8, "items": { "item_59": 3, "item_2": 4 } },
@@ -189,7 +189,7 @@
   {
     "tag": "legs_5",
     "name": "Flamebreaker Boots",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_59": 1, "item_49": 2 } },
       { "defense": 8, "items": { "item_59": 3, "item_2": 4 } },
@@ -200,7 +200,7 @@
   {
     "tag": "head_6",
     "name": "Stealth Mash",
-    "base": 2,
+    "defense": 2,
     "upgrades": [
       { "defense": 4, "items": { "item_80": 3 } },
       { "defense": 6, "items": { "item_80": 5, "item_52": 5 } },
@@ -211,7 +211,7 @@
   {
     "tag": "body_6",
     "name": "Stealth Chest Guard",
-    "base": 2,
+    "defense": 2,
     "upgrades": [
       { "defense": 4, "items": { "item_80": 3 } },
       { "defense": 6, "items": { "item_80": 5, "item_52": 5 } },
@@ -222,7 +222,7 @@
   {
     "tag": "legs_6",
     "name": "Stealth Tights",
-    "base": 2,
+    "defense": 2,
     "upgrades": [
       { "defense": 4, "items": { "item_80": 3 } },
       { "defense": 6, "items": { "item_80": 5, "item_52": 5 } },
@@ -233,7 +233,7 @@
   {
     "tag": "head_7",
     "name": "Climber's Bandanna",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_24": 3, "item_114": 3 } },
       { "defense": 8, "items": { "item_26": 5, "item_58": 5 } },
@@ -244,7 +244,7 @@
   {
     "tag": "body_7",
     "name": "Climbing Gear",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_24": 3, "item_114": 3 } },
       { "defense": 8, "items": { "item_26": 5, "item_58": 5 } },
@@ -255,7 +255,7 @@
   {
     "tag": "legs_7",
     "name": "Climbing Boots",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_24": 3, "item_114": 3 } },
       { "defense": 8, "items": { "item_26": 5, "item_58": 5 } },
@@ -266,7 +266,7 @@
   {
     "tag": "head_8",
     "name": "Radiant Mask",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_74": 5, "item_12": 3 } },
       { "defense": 8, "items": { "item_74": 8, "item_3": 3 } },
@@ -277,7 +277,7 @@
   {
     "tag": "body_8",
     "name": "Radiant Shirt",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_74": 5, "item_12": 3 } },
       { "defense": 8, "items": { "item_74": 8, "item_3": 3 } },
@@ -288,7 +288,7 @@
   {
     "tag": "legs_8",
     "name": "Radiant Tights",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_74": 5, "item_12": 3 } },
       { "defense": 8, "items": { "item_74": 8, "item_3": 3 } },
@@ -299,7 +299,7 @@
   {
     "tag": "head_9",
     "name": "Soldier's Helm",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_10": 5, "item_12": 3 } },
       { "defense": 12, "items": { "item_24": 5, "item_3": 3 } },
@@ -310,7 +310,7 @@
   {
     "tag": "body_9",
     "name": "Soldier's Armor",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_10": 5, "item_12": 3 } },
       { "defense": 12, "items": { "item_24": 5, "item_3": 3 } },
@@ -321,7 +321,7 @@
   {
     "tag": "legs_9",
     "name": "Soldier's Greaves",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_10": 5, "item_12": 3 } },
       { "defense": 12, "items": { "item_24": 5, "item_3": 3 } },
@@ -332,7 +332,7 @@
   {
     "tag": "head_10",
     "name": "Ancient Helm",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
       { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
@@ -343,7 +343,7 @@
   {
     "tag": "body_10",
     "name": "Ancient Cuirass",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
       { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
@@ -354,7 +354,7 @@
   {
     "tag": "legs_10",
     "name": "Ancient Greaves",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
       { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
@@ -365,7 +365,7 @@
   {
     "tag": "head_11",
     "name": "Rubber Helm",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_8": 3 } },
       { "defense": 8, "items": { "item_8": 5, "item_104": 5 } },
@@ -376,7 +376,7 @@
   {
     "tag": "body_11",
     "name": "Rubber Armor",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_8": 3 } },
       { "defense": 8, "items": { "item_8": 5, "item_104": 5 } },
@@ -387,7 +387,7 @@
   {
     "tag": "legs_11",
     "name": "Rubber Tights",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_8": 3 } },
       { "defense": 8, "items": { "item_8": 5, "item_104": 5 } },
@@ -398,7 +398,7 @@
   {
     "tag": "head_12",
     "name": "Barbarian Helm",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_4": 1 } },
       { "defense": 6, "items": { "item_4": 3, "item_5": 2 } },
@@ -409,7 +409,7 @@
   {
     "tag": "body_12",
     "name": "Barbarian Armor",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_4": 1 } },
       { "defense": 6, "items": { "item_4": 3, "item_5": 2 } },
@@ -420,7 +420,7 @@
   {
     "tag": "legs_12",
     "name": "Barbarian Leg Wraps",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_4": 1 } },
       { "defense": 6, "items": { "item_4": 3, "item_5": 2 } },
@@ -431,7 +431,7 @@
   {
     "tag": "body_13",
     "name": "Champion's Tunic",
-    "base": 5,
+    "defense": 5,
     "upgrades": [
       { "defense": 8, "items": { "item_81": 3 } },
       { "defense": 14, "items": { "item_81": 3, "item_37": 2 } },
@@ -442,7 +442,7 @@
   {
     "tag": "legs_13",
     "name": "Sand Boots",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_15": 5, "item_58": 10 } },
       { "defense": 8, "items": { "item_15": 10, "item_126": 10 } },
@@ -453,7 +453,7 @@
   {
     "tag": "legs_14",
     "name": "Snow Boots",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_13": 5, "item_58": 10 } },
       { "defense": 8, "items": { "item_44": 5, "item_126": 10 } },
@@ -464,7 +464,7 @@
   {
     "tag": "head_13",
     "name": "Diamond Circlet",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_68": 2, "item_76": 3 } },
       { "defense": 12, "items": { "item_68": 4, "item_76": 3 } },
@@ -475,7 +475,7 @@
   {
     "tag": "head_14",
     "name": "Ruby Circlet",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_69": 2, "item_76": 3 } },
       { "defense": 8, "items": { "item_69": 4, "item_76": 3 } },
@@ -486,7 +486,7 @@
   {
     "tag": "head_15",
     "name": "Sapphire Circlet",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_70": 2, "item_76": 3 } },
       { "defense": 8, "items": { "item_70": 4, "item_76": 3 } },
@@ -497,7 +497,7 @@
   {
     "tag": "head_16",
     "name": "Topaz Earrings",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_71": 2, "item_76": 3 } },
       { "defense": 8, "items": { "item_71": 4, "item_76": 3 } },
@@ -508,7 +508,7 @@
   {
     "tag": "head_17",
     "name": "Opal Earrings",
-    "base": 3,
+    "defense": 3,
     "upgrades": [
       { "defense": 5, "items": { "item_72": 5, "item_76": 3 } },
       { "defense": 8, "items": { "item_72": 8, "item_76": 3 } },
@@ -519,7 +519,7 @@
   {
     "tag": "head_18",
     "name": "Amber Earrings",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_73": 5, "item_76": 3 } },
       { "defense": 12, "items": { "item_73": 10, "item_76": 3 } },
@@ -530,7 +530,7 @@
   {
     "tag": "head_19",
     "name": "Vah Ruta Divine Helm",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
       { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
@@ -541,7 +541,7 @@
   {
     "tag": "head_20",
     "name": "Vah Medoh Divine Helm",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
       { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
@@ -552,7 +552,7 @@
   {
     "tag": "head_21",
     "name": "Vah Rudania Divine Helm",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
       { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
@@ -563,7 +563,7 @@
   {
     "tag": "head_22",
     "name": "Vah Naboris Divine Helm",
-    "base": 4,
+    "defense": 4,
     "upgrades": [
       { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
       { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
