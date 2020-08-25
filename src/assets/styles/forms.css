@@ -24,7 +24,7 @@ label {
 }
 
 input {
-  padding: 0.75em 1em;
+  padding: 1em 1em 0.75em;
   border-radius: 0.4rem;
   border: 0;
 }
@@ -34,24 +34,31 @@ form .button {
   margin-right: 0;
 }
 
-form .row {
+.row {
   margin: 1.25rem 0;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
 }
 
-form .row>* {
+.row>* {
   flex: 1 0 0;
   margin: 0 0.85rem;
 }
 
-form .row>*:first-child {
+.row>*:first-child {
   margin-left: 0;
 }
 
-form .row>*:last-child {
+.row>*:last-child {
   margin-right: 0;
+}
+
+.errors ul {
+  color: var(--red-text);
+  list-style-type: none;
+  font-style: italic;
+  font-size: 92.5%;
 }
 
 div.separator {

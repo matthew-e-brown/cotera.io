@@ -1,66 +1,56 @@
 <template>
   <main id="register">
     <h2>Register</h2>
-    <form @submit.prevent="signup">
+    <form @submit.prevent="register">
       <div class="row">
-        <div>
-          <!-- <label for="display-name">Display name</label> -->
-          <input
-            id="display-name"
-            type="text"
-            name="display-name"
-            placeholder="Display name"
-            v-model="signupForm.displayName"
-          >
-        </div>
+        <input
+          id="display-name"
+          type="text"
+          name="display-name"
+          placeholder="Display name"
+          v-model="form.name"
+        />
       </div>
       <div class="row">
-        <div>
-          <!-- <label for="email-1">Email address</label> -->
-          <input
-            id="email-1"
-            type="text"
-            name="email-1"
-            placeholder="Email address"
-            autocomplete="email"
-            v-model="signupForm.email"
-          >
-        </div>
-        <div>
-          <!-- <label for="email-2">Re-type email address</label> -->
-          <input
-            id="email-2"
-            type="text"
-            name="email-2"
-            placeholder="Re-type email address"
-            autocomplete="email"
-            v-model="signupForm.verifyEmail"
-          >
-        </div>
+        <input
+          id="email-1"
+          type="text"
+          name="email-1"
+          placeholder="Email address"
+          autocomplete="email"
+          v-model="form.email1"
+        />
+        <input
+          id="email-2"
+          type="text"
+          name="email-2"
+          placeholder="Re-type email address"
+          autocomplete="email"
+          v-model="form.email2"
+        />
       </div>
       <div class="row">
-        <div>
-          <!-- <label for="password-1">Password</label> -->
-          <input
-            id="password-1"
-            name="password-1"
-            :type="passtype"
-            placeholder="Password"
-            autocomplete="new-password"
-            v-model="signupForm.password"
-          >
-        </div>
-        <div>
-          <!-- <label for="password-2">Re-type password</label> -->
-          <input
-            id="password-2"
-            name="password-2"
-            :type="passtype"
-            placeholder="Re-type password"
-            autocomplete="new-password"
-            v-model="signupForm.verifyPassword"
-          >
-        </div>
+        <input
+          id="password-1"
+          name="password-1"
+          :type="passtype"
+          placeholder="Password"
+          autocomplete="new-password"
+          v-model="form.password1"
+        />
+        <input
+          id="password-2"
+          name="password-2"
+          :type="passtype"
+          placeholder="Re-type password"
+          autocomplete="new-password"
+          v-model="form.password2"
+        />
+      </div>
+      <div class="row errors" v-if="errors.length">
+        <ul>
+          <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
+        </ul>
       </div>
       <button class="button" type="submit">Create account</button>
     </form>
@@ -73,23 +63,59 @@
 </template>
 
 <script>
-import '@/assets/styles/forms.css';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export default {
   name: 'Register',
   data: function() {
     return {
       passtype: 'password',
-      signupForm: {
-        displayName: '',
-        email: '',
-        verifyEmail: '',
-        password: '',
-        verifyPassword: ''
+      errors: [],
+      form: {
+        name: '',
+        email1: '',
+        email2: '',
+        password1: '',
+        password2: ''
       }
     }
   },
   methods: {
+    register: async function() {
+      if (!this.validateForm()) return false;
+
+      try {
+        const { user } = await firebase.auth()
+          .createUserWithEmailAndPassword(this.form.email1, this.form.password1);
+
+        user.updateProfile({ displayName: this.form.name });
+      } catch (error) {
+        // Add a period :P
+        if (!error.message.endsWith('.')) error.message += '.';
+        this.errors.push(error.message);
+        return false;
+      }
+    },
+    validateForm: function() {
+      this.errors = [];
+
+      if (this.form.email1.length == 0)
+        this.errors.push("Please enter an email address.");
+      else if (this.form.email2.length == 0)
+        this.errors.push("Please verify your email address.");
+      else if (this.form.email1 != this.form.email2)
+        this.errors.push("Those email addresses don't match.");
+
+      if (this.form.password1.length == 0)
+        this.errors.push("Please enter a password.");
+      else if (this.form.password2.length == 0)
+        this.errors.push("Please verify your password.");
+      else if (this.form.password1 != this.form.password2)
+        this.errors.push("Those passwords don't match.");
+
+      return Object.values(this.errors).every(errtype => errtype.length == 0);
+    },
     google: function() {
       return undefined;
     }
@@ -97,6 +123,7 @@ export default {
 }
 </script>
 
+<style scoped src="@/assets/styles/forms.css"></style>
 <style scoped>
 main {
   max-width: calc(30rem + 5vw);
