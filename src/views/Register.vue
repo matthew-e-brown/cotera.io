@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import store from '@/store';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -89,7 +90,10 @@ export default {
         const { user } = await firebase.auth()
           .createUserWithEmailAndPassword(this.form.email1, this.form.password1);
 
-        user.updateProfile({ displayName: this.form.name });
+        await user.updateProfile({ displayName: this.form.name });
+        // get around lack of callback for profile, just set it here:
+        store.user.name = this.form.name;
+
         this.$router.push('/');
       } catch (error) {
         // Add a period :P
