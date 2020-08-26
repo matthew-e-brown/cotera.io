@@ -3,8 +3,5 @@
 
 export default {
   signedin: false,
-  user: {
-    name: '',
-    uid: null,
-  }
+  userid: null
 }

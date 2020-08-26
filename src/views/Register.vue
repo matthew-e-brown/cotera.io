@@ -4,15 +4,6 @@
     <form @submit.prevent="register">
       <div class="row">
         <input
-          id="display-name"
-          type="text"
-          name="display-name"
-          placeholder="Display name"
-          v-model="form.name"
-        />
-      </div>
-      <div class="row">
-        <input
           id="email-1"
           type="text"
           name="email-1"
@@ -76,7 +67,6 @@ export default {
       passtype: 'password',
       errors: [],
       form: {
-        name: '',
         email1: '',
         email2: '',
         password1: '',
@@ -122,9 +112,6 @@ export default {
         this.errors.push("Those passwords don't match.");
 
       return this.errors.length == 0;
-    },
-    google: function() {
-      return undefined;
     }
   }
 }

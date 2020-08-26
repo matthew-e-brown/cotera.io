@@ -1,6 +1,7 @@
 <template>
   <main id="home">
-    <h2 v-if="state.signedin">Hello, {{ state.user.name }}</h2>
+    <h2 v-if="state.signedin">Hello! You're signed in.</h2>
+    <h2 v-else>Hello! Sign in to store progress.</h2>
   </main>
 </template>
 

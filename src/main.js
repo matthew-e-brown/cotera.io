@@ -6,7 +6,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
-import store from '@/store';
+import state from '@/store';
 import { firestorePlugin } from 'vuefire';
 
 import '@/assets/fonts/hylia-serif.css';
@@ -26,13 +26,11 @@ firebase.initializeApp({
 
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
-    store.signedin = true;
-    store.user.name = user.displayName;
-    store.user.uid = user.uid;
+    state.signedin = true;
+    state.userid = user.uid;
   } else {
-    store.signedin = false;
-    store.user.name = '';
-    store.user.uid = null;
+    state.signedin = false;
+    state.useruid = null;
   }
 });
 
