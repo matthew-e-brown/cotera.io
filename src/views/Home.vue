@@ -1,11 +1,15 @@
 <template>
   <main id="home">
-    <div>
-      <div class="page" v-for="(page, i) in paginatedArmor" :key="i">
+    <div ref="slider" id="left" class="keen-slider">
+      <div
+        class="page keen-slider__slide"
+        v-for="(page, i) in paginatedArmor"
+        :key="i"
+      >
         <ArmorItem v-for="item in page" :key="item.tag" :armor="item" />
       </div>
     </div>
-    <div>
+    <div id="right">
       <template v-if="state.selected">
         <h2>{{ state.selected.name }}</h2>
         <p>This item has {{ state.selected.defense }} base defense!</p>
@@ -20,6 +24,9 @@ import ArmorItem from '@/components/ArmorItem.vue';
 import state from '@/store';
 import armor from '@/assets/gamedata/armor.json';
 import items from '@/assets/gamedata/items.json';
+
+import 'keen-slider/keen-slider.min.css';
+import KeenSlider from 'keen-slider';
 
 export default {
   name: 'Home',
@@ -38,6 +45,18 @@ export default {
         return acc;
       }, []);
     }
+  },
+  mounted: function() {
+    this.slider = new KeenSlider(this.$refs.slider, {
+      slidesPerView: 1,
+      spacing: 50,
+      centered: true
+    });
+
+    setTimeout(this.slider.refresh, 100);
+  },
+  beforeDestroy: function() {
+    if (this.slider) this.slider.destroy();
   }
 }
 </script>
@@ -49,10 +68,24 @@ export default {
   column-gap: 2rem;
 }
 
+#left, #right {
+  margin: 2rem 5rem 0;
+}
+
+#left {
+  margin-right: 0;
+}
+
+#right {
+  margin-left: 0;
+}
+
 .page {
   display: grid;
-  grid-template-columns: repeat(5, 8rem);
-  grid-template-rows: repeat(5, 8rem);
-  gap: 0.85rem;
+  box-sizing: border-box;
+  grid-template: repeat(4, 1fr) / repeat(5, 1fr);
+  justify-content: center;
+  align-items: stretch;
+  gap: 0.85em;
 }
 </style>

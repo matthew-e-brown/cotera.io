@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "firebase": "^7.19.0",
+    "keen-slider": "^5.2.2",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuefire": "^2.2.4"

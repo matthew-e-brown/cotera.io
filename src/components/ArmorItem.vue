@@ -1,7 +1,9 @@
 <template>
   <button type="button" class="armor-item" @click="select">
-    <div class="defense">{{ defense }}</div>
-    <img :src="imgsrc" aria-hidden="true" alt="">
+    <span v-if="armor">{{ defense }}</span>
+    <div>
+      <img :src="imgsrc" aria-hidden="true" alt="">
+    </div>
   </button>
 </template>
 
@@ -11,7 +13,7 @@ import state from '@/store';
 export default {
   name: 'ArmorItem',
   props: {
-    armor: { type: Object, required: true },
+    armor: { type: Object, required: false },
     level: { type: Number, default: 0 }
   },
   data: function() {
@@ -27,6 +29,7 @@ export default {
   },
   computed: {
     imgsrc: function() {
+      if (!this.armor) return '/images/blank.png';
       const type = this.armor.tag.substring(0, this.armor.tag.indexOf('_'));
       return `/images/${type}/${this.armor.tag}.png`;
     },
@@ -38,21 +41,34 @@ export default {
 </script>
 
 <style scoped>
+div, span {
+  box-sizing: border-box;
+}
+
 button {
   cursor: pointer;
   position: relative;
   display: block;
 }
 
-.defense {
-  position: absolute;
-  bottom: 0.5em; right: 0.5em;
+div {
+  background-color: #00000055;
+  padding: 0.5rem;
+}
+
+span {
+  background-color: #000000bb;
   color: var(--body-text);
+  position: absolute;
+  font-size: 1.35rem;
+  font-weight: bold;
+  bottom: 0.2rem; right: 0.2rem;
+  padding: 0.4em 0.7em 0.15em;
 }
 
 img {
   display: block;
   height: 100%;
-  width: auto;
+  width: 100%;
 }
 </style>
