@@ -108,6 +108,16 @@ a, a:visited {
   margin: 0.5rem;
 }
 
+.game-style {
+  position: relative;
+}
+
+.game-style::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+}
+
 .separator {
   box-sizing: border-box;
   width: 80%;
