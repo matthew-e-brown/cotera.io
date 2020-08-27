@@ -6,6 +6,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
+import state from '@/store';
 import { firestorePlugin } from 'vuefire';
 
 import '@/assets/fonts/hylia-serif.css';
@@ -21,6 +22,16 @@ firebase.initializeApp({
   "storageBucket": "armor-tracker.appspot.com",
   "messagingSenderId": "101214793739",
   "appId": "1:101214793739:web:18b4577ec75947d8f8970e"
+});
+
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    state.signedin = true;
+    state.userid = user.uid;
+  } else {
+    state.signedin = false;
+    state.useruid = null;
+  }
 });
 
 Vue.use(firestorePlugin);
