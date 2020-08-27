@@ -12,7 +12,7 @@ export default {
     google: async function() {
       const provider = new firebase.auth.GoogleAuthProvider();
       try {
-        await firebase.auth().signInWithPopup(provider);
+        await firebase.auth().signInWithRedirect(provider);
         this.$emit('finish');
       } catch (error) {
         this.$emit('error', error);
