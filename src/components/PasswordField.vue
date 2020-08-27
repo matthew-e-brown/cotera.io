@@ -64,11 +64,16 @@ button {
   position: absolute;
   top: 0; bottom: 0; right: 0;
   padding: 0.4em;
-  transition: padding 75ms linear;
 }
 
-button:hover, button:focus {
-  padding: 0.25em;
+@media (hover: hover) {
+  button {
+    transition: padding 75ms linear;
+  }
+  
+  button:hover, button:focus {
+    padding: 0.25em;
+  }
 }
 
 svg {

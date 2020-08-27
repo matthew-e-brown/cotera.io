@@ -13,12 +13,11 @@ export default {
       const provider = new firebase.auth.GoogleAuthProvider();
       try {
         await firebase.auth().signInWithPopup(provider);
+        this.$emit('finish');
       } catch (error) {
-        console.error(error);
-        alert("Could not sign in.");
+        this.$emit('error', error);
+        alert("Could not sign in with Google. Please try again later.");
       }
-
-      this.$emit('finish');
     }
   }
 }

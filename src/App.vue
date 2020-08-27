@@ -29,8 +29,6 @@ export default {
         console.error(error);
         alert("An error occured. Could not sign out.");
       }
-
-      if (this.$router.currentRoute.path != '/') this.$router.push('/');
     }
   }
 }
@@ -68,15 +66,22 @@ body {
   background-color: #312626;
 }
 
-@media screen and (max-width: 430px) {
-  :root {
-    font-size: 12px;
-  }
-}
-
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Calamity', 'Avenir', Helvetica, Arial, sans-serif;
   letter-spacing: initial;
+}
+
+main.middle-box {
+  background-color: #00000077;
+  margin: 2rem auto;
+  padding: 2.4rem 2.75rem;
+  border-radius: 1rem;
+  max-width: calc(20rem + 5vw);
+}
+
+.middle-box h2 {
+  margin-top: 0;
+  font-size: 1.8rem;
 }
 
 h2 {
@@ -101,6 +106,49 @@ a, a:visited {
   cursor: pointer;
   min-width: 10rem;
   margin: 0.5rem;
+}
+
+.separator {
+  box-sizing: border-box;
+  width: 80%;
+  margin: 2rem auto;
+  font-family: 'Epilogue', Helvetica, Arial, sans-serif;
+  font-style: italic;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.separator>* {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.separator::before, .separator::after {
+  content: "";
+  flex: 1 1 0;
+  height: 0.1em;
+  background-color: var(--body-text);
+  border-radius: 9999px;
+}
+
+div.separator {
+  cursor: default;
+}
+
+@media screen and (max-width: 430px) {
+  :root {
+    font-size: 12px;
+  }
+
+  main {
+    box-sizing: border-box;
+    max-width: initial;
+    width: 100vw;
+    border-radius: 0;
+  }
 }
 </style>
 

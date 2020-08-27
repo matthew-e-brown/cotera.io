@@ -1,5 +1,5 @@
 <template>
-  <main id="register">
+  <main id="register" class="middle-box">
     <h2>Register</h2>
     <form @submit.prevent="register">
       <div class="row">
@@ -49,7 +49,7 @@
     </form>
     <div class="separator"><span>or</span></div>
     <div id="bottom-buttons">
-      <GoogleSignIn @finish="$router.push('/')" />
+      <GoogleSignIn />
       <router-link to="/login">Log into an existing account</router-link>
     </div>
   </main>
@@ -67,7 +67,6 @@ export default {
   components: { GoogleSignIn, PasswordField },
   data: function() {
     return {
-      passtype: 'password',
       errors: [],
       form: {
         email1: '',
@@ -79,22 +78,15 @@ export default {
   },
   methods: {
     register: async function() {
-      if (!this.validateForm()) return false;
+      if (!this.validateForm()) return;
 
       try {
-        const { user } = await firebase.auth()
-          .createUserWithEmailAndPassword(this.form.email1, this.form.password1);
-
-        await user.updateProfile({ displayName: this.form.name });
-        // get around lack of callback for profile, just set it here:
-        store.user.name = this.form.name;
-
-        this.$router.push('/');
+        await firebase.auth()
+          .createUserWithEmailAndPassword(this.form.email1, this.form.password1)
       } catch (error) {
         // Add a period :P
         if (!error.message.endsWith('.')) error.message += '.';
         this.errors.push(error.message);
-        return false;
       }
     },
     validateForm: function() {

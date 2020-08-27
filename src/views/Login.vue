@@ -1,5 +1,5 @@
 <template>
-  <main id="login">
+  <main id="login" class="middle-box">
     <h2>Log in</h2>
     <form @submit.prevent="login">
       <div class="row">
@@ -30,7 +30,7 @@
     </form>
     <div class="separator"><span>or</span></div>
     <div id="bottom-buttons">
-      <GoogleSignIn @finish="$router.push('/')" />
+      <GoogleSignIn />
       <router-link to="/register">Create a new account</router-link>
     </div>
   </main>
@@ -47,7 +47,6 @@ export default {
   components: { GoogleSignIn, PasswordField },
   data: function() {
     return {
-      passtype: 'password',
       errors: [],
       form: {
         email: '',
@@ -57,20 +56,15 @@ export default {
   },
   methods: {
     login: async function() {
-      if (!this.validateForm()) return false;
+      if (!this.validateForm()) return;
 
       try {
-        const data = await firebase.auth()
+        await firebase.auth()
           .signInWithEmailAndPassword(this.form.email, this.form.password);
-
-        this.$router.push('/');
       } catch (error) {
-        console.log(error);
-
         if (!error.message.endsWith('.')) error.message += '.';
         this.errors.push(error.message);
-        return false;
-      }
+      };
     },
     validateForm: function() {
       this.errors = [];
