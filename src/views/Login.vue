@@ -13,10 +13,9 @@
         />
       </div>
       <div class="row">
-        <input
+        <PasswordField
           id="password"
           name="password"
-          :type="passtype"
           placeholder="Password"
           autocomplete="current-password"
           v-model="form.password"
@@ -39,12 +38,13 @@
 
 <script>
 import GoogleSignIn from '@/components/GoogleSignIn.vue';
+import PasswordField from '@/components/PasswordField.vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 export default {
   name: 'Login',
-  components: { GoogleSignIn },
+  components: { GoogleSignIn, PasswordField },
   data: function() {
     return {
       passtype: 'password',

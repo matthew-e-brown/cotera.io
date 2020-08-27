@@ -21,21 +21,23 @@
         />
       </div>
       <div class="row">
-        <input
+        <PasswordField
+          ref="password1"
           id="password-1"
           name="password-1"
-          :type="passtype"
           placeholder="Password"
           autocomplete="new-password"
           v-model="form.password1"
+          @change="passwordToggle"
         />
-        <input
+        <PasswordField
+          ref="password2"
           id="password-2"
           name="password-2"
-          :type="passtype"
           placeholder="Re-type password"
           autocomplete="new-password"
           v-model="form.password2"
+          @change="passwordToggle"
         />
       </div>
       <div class="row errors" v-if="errors.length">
@@ -55,13 +57,14 @@
 
 <script>
 import GoogleSignIn from '@/components/GoogleSignIn.vue';
+import PasswordField from '@/components/PasswordField.vue';
 import store from '@/store';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 export default {
   name: 'Register',
-  components: { GoogleSignIn },
+  components: { GoogleSignIn, PasswordField },
   data: function() {
     return {
       passtype: 'password',
@@ -112,6 +115,11 @@ export default {
         this.errors.push("Those passwords don't match.");
 
       return this.errors.length == 0;
+    },
+    passwordToggle: function(value) {
+      // Used to sync visibility of both password fields
+      this.$refs.password1.set(value);
+      this.$refs.password2.set(value);
     }
   }
 }

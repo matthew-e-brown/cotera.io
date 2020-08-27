@@ -11,7 +11,7 @@ h2 {
   font-size: 1.8rem;
 }
 
-label, input {
+label, input, * >>> input {
   box-sizing: border-box;
   display: block;
   width: 100%;
@@ -22,7 +22,7 @@ label {
   margin-bottom: 0.5em;
 }
 
-input {
+input, * >>> input {
   padding: 1em 1em 0.75em;
   border-radius: 0.4rem;
   border: 0;
