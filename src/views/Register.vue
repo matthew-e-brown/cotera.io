@@ -1,5 +1,5 @@
 <template>
-  <main id="register" class="middle-box">
+  <main id="register" class="sticky-box">
     <h2>Register</h2>
     <form @submit.prevent="register">
       <div class="row">
@@ -119,7 +119,10 @@ export default {
 
 <style scoped src="@/assets/styles/forms.css"></style>
 <style scoped>
-main {
-  max-width: calc(30rem + 5vw);
+@media (min-width: 770px) {
+  main {
+    min-width: initial;
+    width: calc(35rem + 5vw);
+  }
 }
 </style>

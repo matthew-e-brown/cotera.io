@@ -15,8 +15,13 @@ input, * >>> input {
   border: 0;
 }
 
+main {
+  padding: 2rem;
+}
+
 h2 {
   text-align: center;
+  font-size: 1.8rem;
 }
 
 form .button {
@@ -70,7 +75,7 @@ form .button {
   width: 60%;
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 550px) {
   .row {
     flex-flow: column nowrap;
     margin: 0;

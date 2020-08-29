@@ -79,17 +79,27 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: initial;
 }
 
-main.middle-box {
-  background-color: #00000077;
-  margin: 2rem auto;
-  padding: 2.4rem 2.75rem;
-  border-radius: 1rem;
-  max-width: calc(20rem + 5vw);
+main {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(1440px + 3vw);
 }
 
-.middle-box h2 {
-  margin-top: 0;
-  font-size: 1.8rem;
+.sticky-box {
+  position: sticky;
+  top: 8rem;
+  margin: 2rem;
+  padding: 1rem;
+  z-index: 1;
+  min-width: calc(18rem + 12vw);
+  background-color: var(--block-color);
+  border-radius: 0.3rem;
+  border: 0.25rem double var(--block-border);
+}
+
+main, main.sticky-box {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 a, a:visited {
@@ -154,6 +164,25 @@ div.separator {
 @media screen and (max-width: 430px) {
   :root {
     font-size: 12px;
+  }
+}
+
+@media (max-width: 770px) {
+  .sticky-box {
+    width: 100%;
+    margin: 0;
+    top: 5.3rem;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+}
+
+@supports (backdrop-filter: blur(10px)) {
+  .sticky-box {
+    background-color: var(--block-color-t);
+    backdrop-filter: blur(10px);
   }
 }
 </style>

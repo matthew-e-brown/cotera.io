@@ -14,23 +14,16 @@
       <span>&#x25b6;</span>
       <span class="num">{{ nextDefense }}</span>
     </div>
-    <div v-if="this.level < 4" class="upgrade-item">
+    <div class="upgrade-item">
       <img :src="sprite" alt="" aria-hidden="true">
       <span>{{ name }}</span>
       <span>1</span>
     </div>
-    <div v-else class="upgrade-item">
-      <img src="/images/blank.png" alt="" aria-hidden="true">
-      <span>Fully upgraded!</span>
-      <span></span>
+    <div v-for="item in nextItems" class="upgrade-item" :key="item.tag">
+      <img :src="item.sprite" alt="" aria-hidden="true">
+      <span>{{ item.name }}</span>
+      <span>{{ item.count }}</span>
     </div>
-    <template v-for="item in nextItems">
-      <div class="upgrade-item" :key="item.tag">
-        <img :src="item.sprite" alt="" aria-hidden="true">
-        <span>{{ item.name }}</span>
-        <span>{{ item.count }}</span>
-      </div>
-    </template>
   </div>
 </template>
 
@@ -84,15 +77,6 @@ export default {
 </script>
 
 <style scoped>
-#armor-info {
-  z-index: 1;
-  min-width: calc(18rem + 12vw);
-  padding: 1rem;
-  background-color: var(--block-color);
-  border-radius: 0.3rem;
-  border: 0.25rem double var(--block-border);
-}
-
 img {
   display: block;
 }
@@ -174,21 +158,5 @@ svg {
 
 .upgrade-item :last-child {
   margin-left: auto;
-}
-
-@media (max-width: 770px) {
-  #armor-info {
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
-  }
-}
-
-@supports (backdrop-filter: blur(10px)) {
-  #armor-info {
-    background-color: var(--block-color-t);
-    backdrop-filter: blur(10px);
-  }
 }
 </style>
