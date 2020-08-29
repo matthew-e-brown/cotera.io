@@ -11,8 +11,7 @@ import state from '@/store';
 export default {
   name: 'ArmorItem',
   props: {
-    armor: { type: Object, required: false },
-    level: { type: Number, default: 0 }
+    armor: { type: Object, required: false }
   },
   data: function() {
     return { state }

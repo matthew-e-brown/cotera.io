@@ -1,4 +1,4 @@
-import state, { userProgress } from '@/store';
+import { userProgress } from '@/store';
 
 class Armor {
   constructor(src) {
@@ -17,19 +17,13 @@ class Armor {
     return userProgress[this.type][this.indx];
   }
 
-  set level(value) {
-    const progress = state.userProgress[this.type];
-    progress[this.indx] = value;
-    userProgress[this.type] = progress;
-  }
-
   get defense() {
     if (this.level == 0) return this._defense;
     else return this.upgrades[this.level - 1].defense;
   }
 
   get nextDefense() {
-    if (this.level == 4) return -1;
+    if (this.level == 4) return '??';
     else return this.upgrades[this.level].defense;
   }
 }

@@ -7,16 +7,13 @@ const state = {
 export default state;
 
 export const userProgress = {
-  _head: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-  _body: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-  _legs: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-  _update: function(field, value) {
-    this[field] = value;
+  head: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  body: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  legs: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  levelUp: function(armor) {
+    if (this[armor.type][armor.indx] < 4) this[armor.type][armor.indx] += 1;
   },
-  set head(value) { this._update('head', value); },
-  set body(value) { this._update('body', value); },
-  set legs(value) { this._update('legs', value); },
-  get head() { return this._head },
-  get body() { return this._body },
-  get legs() { return this._legs },
+  levelDown: function(armor) {
+    if (this[armor.type][armor.indx] > 0) this[armor.type][armor.indx] -= 1;
+  }
 }

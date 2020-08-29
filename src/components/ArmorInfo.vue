@@ -2,17 +2,35 @@
   <div id="armor-info" :class="{ empty: !armor }">
     <template v-if="armor">
       <img :src="armor.sprite" alt="" aria-hidden="true" draggable="true">
-      <h3 :aria-label="`${armor.level} ${armor.level == 1 ? 'star' : 'stars'}`">
-        <span v-for="i in armor.level" :key="i" aria-hidden="true">
-          &#9733;&#xFE0E;
-        </span>
-      </h3>
       <h2>{{ armor.name }}</h2>
       <div id="stats">
-        <Shirt />
-        <span class="num">{{ armor.defense }}</span>
-        <span>&#x25b6;&#xFE0E;</span>
-        <span class="num">{{ armor.nextDefense }}</span>
+        <div id="defense">
+          <Shirt />
+          <span class="num">{{ armor.defense }}</span>
+          <span>&#x25b6;&#xFE0E;</span>
+          <span class="num">{{ armor.nextDefense }}</span>
+        </div>
+        <div
+          id="stars"
+          :aria-label="`${armor.level} ${armor.level == 1 ? 'star' : 'stars'}`"
+        >
+          <button
+            type="button"
+            aria-label="decrease level"
+            @click="decrease"
+          >&#x2796;&#xFE0E;</button>
+          <span
+            v-for="i in 4"
+            :key="i"
+            :class="{ filled: i <= armor.level }"
+            aria-hidden="true"
+          >&#9733;&#xFE0E;</span>
+          <button
+            type="button"
+            aria-label="increase level"
+            @click="increase"
+          >&#x2795;&#xFE0E;</button>
+        </div>
       </div>
       <div class="upgrade-item">
         <img :src="armor.sprite" alt="" aria-hidden="true">
@@ -33,14 +51,26 @@
 
 <script>
 import Shirt from '@/assets/shirt.svg';
-import items from '@/assets/items.json';
+import { userProgress } from '@/store';
 
 export default {
   name: 'ArmorInfo',
-  props: [ 'armor' ],
+  props: {
+    armor: { type: Object, required: false }
+  },
   components: { Shirt },
-  data: function() {
-    return { items }
+  methods: {
+    increase: function() {
+      userProgress.levelUp(this.armor);
+    },
+    decrease: function() {
+      userProgress.levelDown(this.armor);
+    }
+  },
+  watch: {
+    armor: function() {
+      this.$forceUpdate();
+    }
   }
 }
 </script>
@@ -70,17 +100,42 @@ h2 {
 }
 
 #stats {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#stars span {
+  margin: 0.1rem;
+  font-size: 1.25rem;
+  color: var(--body-text-t2);
+}
+
+#stars span:first-of-type {
+  margin-left: 1rem;
+}
+
+#stars span:last-of-type {
+  margin-right: 1rem;
+}
+
+#stars span.filled, #stars button {
+  color: var(--body-text);
+}
+
+#defense {
   font-size: 0.85rem;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
 }
 
-#stats span {
+#defense span {
   font-size: 1.25rem;
 }
 
-#stats>* {
+#defense>* {
   margin: 0 0.3rem;
 }
 
@@ -90,7 +145,7 @@ svg {
   height: 1.2rem;
 }
 
-#stats~.upgrade-item {
+#armor-info>.upgrade-item:nth-of-type(2) {
   margin-top: 1.5rem;
 }
 
@@ -132,13 +187,8 @@ svg {
 #armor-info.empty h2 {
   border: none;
   color: var(--body-text-t);
+  text-align: center;
   margin-top: 5rem;
   margin-bottom: 4.5rem;
-}
-
-.empty {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>
