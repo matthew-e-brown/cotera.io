@@ -2,7 +2,7 @@
   <main id="home">
     <ArmorInfo class="sticky-box" :armor="state.selected" />
     <div id="armor-list">
-      <ArmorItem v-for="item in armor" :key="item.tag" :armor="item" />
+      <ArmorItem v-for="piece in armor" :key="piece.tag" :armor="piece" />
     </div>
   </main>
 </template>
@@ -12,18 +12,13 @@ import ArmorItem from '@/components/ArmorItem.vue';
 import ArmorInfo from '@/components/ArmorInfo.vue';
 
 import state from '@/store';
-import armor from '@/assets/gamedata/armor.json';
-import items from '@/assets/gamedata/items.json';
+import armor from '@/armor';
 
 export default {
   name: 'Home',
   components: { ArmorItem, ArmorInfo },
   data: function() {
-    return { state, armor, items, }
-  },
-  mounted: function() {
-    // Pick a random selected (just for testing)
-    this.state.selected = this.armor[ Math.floor(Math.random() * this.armor.length) ];
+    return { state, armor }
   }
 }
 </script>

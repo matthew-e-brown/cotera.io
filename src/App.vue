@@ -55,6 +55,7 @@ body {
 :root {
   --red-text: #ff7170;
   --body-text: #fdfbe2;
+  --body-text-t: #fdfbe280;
   --block-color: rgb(14, 10, 6);
   --block-color-t: rgba(14, 10, 6, 0.85);
   --block-color-a: rgba(249, 237, 180, 0.10);

@@ -1,4 +1,41 @@
-export default [
+import state, { userProgress } from '@/store';
+
+class Armor {
+  constructor(src) {
+    this.tag = src.tag;
+    this.name = src.name;
+    this._defense = src.defense;
+    this.upgrades = src.upgrades;
+    [ this.type, this.indx ] = src.tag.split('_');
+  }
+
+  get sprite() {
+    return `/images/${this.type}/${this.tag}.png`;
+  }
+
+  get level() {
+    return userProgress[this.type][this.indx];
+  }
+
+  set level(value) {
+    const progress = state.userProgress[this.type];
+    progress[this.indx] = value;
+    userProgress[this.type] = progress;
+  }
+
+  get defense() {
+    if (this.level == 0) return this._defense;
+    else return this.upgrades[this.level - 1].defense;
+  }
+
+  get nextDefense() {
+    if (this.level == 4) return -1;
+    else return this.upgrades[this.level].defense;
+  }
+}
+
+// Default export, is mapped to the class above when exported
+const armorlist = [
   {
     "tag": "head_0",
     "name": "Hylian Hood",
@@ -572,6 +609,8 @@ export default [
     ]
   }
 ];
+
+export default armorlist.map(a => new Armor(a));
 
 export const sets = [
   {
