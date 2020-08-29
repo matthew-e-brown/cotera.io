@@ -17,6 +17,7 @@
           <button
             type="button"
             aria-label="decrease level"
+            :disabled="!(armor.level > 0)"
             @click="decrease"
           >&#x2796;&#xFE0E;</button>
           <span
@@ -28,6 +29,7 @@
           <button
             type="button"
             aria-label="increase level"
+            :disabled="!(armor.level < 4)"
             @click="increase"
           >&#x2795;&#xFE0E;</button>
         </div>
@@ -61,15 +63,22 @@ export default {
   components: { Shirt },
   methods: {
     increase: function() {
-      userProgress.levelUp(this.armor);
+      if (this.armor.level < 4) {
+        this.$set(
+          userProgress[this.armor.type],
+          this.armor.indx,
+          this.armor.level + 1
+        );
+      }
     },
     decrease: function() {
-      userProgress.levelDown(this.armor);
-    }
-  },
-  watch: {
-    armor: function() {
-      this.$forceUpdate();
+      if (this.armor.level > 0) {
+        this.$set(
+          userProgress[this.armor.type],
+          this.armor.indx,
+          this.armor.level - 1
+        );
+      }
     }
   }
 }
@@ -122,6 +131,11 @@ h2 {
 
 #stars span.filled, #stars button {
   color: var(--body-text);
+}
+
+#stars button:disabled {
+  color: var(--body-text-t2);
+  cursor: default;
 }
 
 #defense {

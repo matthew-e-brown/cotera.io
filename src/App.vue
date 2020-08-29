@@ -10,17 +10,14 @@
 </template>
 
 <script>
-import state, { userProgress } from '@/store';
+import state from '@/store';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 export default {
   name: 'App',
   data: function() {
-    return {
-      state,
-      userProgress // to be able to poke around w/ Vue devtools
-    }
+    return { state }
   },
   methods: {
     signout: async function() {

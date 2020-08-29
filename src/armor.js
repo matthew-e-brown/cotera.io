@@ -4,7 +4,7 @@ class Armor {
   constructor(src) {
     this.tag = src.tag;
     this.name = src.name;
-    this._defense = src.defense;
+    this.baseDefense = src.defense;
     this.upgrades = src.upgrades;
     [ this.type, this.indx ] = src.tag.split('_');
   }
@@ -18,7 +18,7 @@ class Armor {
   }
 
   get defense() {
-    if (this.level == 0) return this._defense;
+    if (this.level == 0) return this.baseDefense;
     else return this.upgrades[this.level - 1].defense;
   }
 
