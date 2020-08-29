@@ -55,6 +55,9 @@ body {
 :root {
   --red-text: #ff7170;
   --body-text: #fdfbe2;
+  --block-color: rgb(14, 10, 6);
+  --block-color-t: rgba(14, 10, 6, 0.85);
+  --block-border: rgba(249, 237, 180, 0.4);
 }
 
 :root {
@@ -64,6 +67,10 @@ body {
   letter-spacing: 0.065ch;
   color: var(--body-text);
   background-color: #312626;
+}
+
+#app {
+  position: relative;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -84,13 +91,18 @@ main.middle-box {
   font-size: 1.8rem;
 }
 
-h2 {
-  text-align: center;
-}
-
 a, a:visited {
   font: inherit;
   color: inherit;
+}
+
+span.num {
+  background-color: var(--block-color);
+  color: var(--body-text);
+  font-weight: bold;
+  padding: 0.25em 0.75em 0.075em 0.75em;
+  border: 0.1rem solid var(--block-border);
+  border-radius: 0.2em;
 }
 
 .button {
@@ -106,16 +118,6 @@ a, a:visited {
   cursor: pointer;
   min-width: 10rem;
   margin: 0.5rem;
-}
-
-.game-style {
-  position: relative;
-}
-
-.game-style::after {
-  content: "";
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
 }
 
 .separator {
@@ -152,13 +154,6 @@ div.separator {
   :root {
     font-size: 12px;
   }
-
-  main {
-    box-sizing: border-box;
-    max-width: initial;
-    width: 100vw;
-    border-radius: 0;
-  }
 }
 </style>
 
@@ -173,20 +168,23 @@ h1 span {
 }
 
 nav {
+  box-sizing: border-box;
+  padding: 1rem 4rem;
+  height: 5rem;
+  position: sticky;
+  z-index: 2;
+  top: 0;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  padding: 1rem 4rem;
-  background-color: #00000077;
+  justify-content: space-between;
+  background-color: var(--block-color-t);
+  backdrop-filter: blur(10px);
 }
 
 nav a, nav button {
   cursor: pointer;
   text-decoration: none;
   color: inherit;
-}
-
-nav a:first-child {
-  margin-right: auto;
 }
 </style>

@@ -1,91 +1,57 @@
 <template>
   <main id="home">
-    <div ref="slider" id="left" class="keen-slider">
-      <div
-        class="page keen-slider__slide"
-        v-for="(page, i) in paginatedArmor"
-        :key="i"
-      >
-        <ArmorItem v-for="item in page" :key="item.tag" :armor="item" />
-      </div>
-    </div>
-    <div id="right">
-      <template v-if="state.selected">
-        <h2>{{ state.selected.name }}</h2>
-        <p>This item has {{ state.selected.defense }} base defense!</p>
-      </template>
+    <ArmorInfo id="armor-info" :armor="state.selected" />
+    <div id="armor-list">
+      <ArmorItem v-for="item in armor" :key="item.tag" :armor="item" />
     </div>
   </main>
 </template>
 
 <script>
 import ArmorItem from '@/components/ArmorItem.vue';
+import ArmorInfo from '@/components/ArmorInfo.vue';
 
 import state from '@/store';
 import armor from '@/assets/gamedata/armor.json';
 import items from '@/assets/gamedata/items.json';
 
-import 'keen-slider/keen-slider.min.css';
-import KeenSlider from 'keen-slider';
-
 export default {
   name: 'Home',
-  components: { ArmorItem },
+  components: { ArmorItem, ArmorInfo },
   data: function() {
-    return { state, armor, items }
-  },
-  computed: {
-    paginatedArmor: function() {
-      return this.armor.reduce((acc, cur, i) => {
-        const chunk = Math.floor(i / 20);
-
-        if (!acc[chunk]) acc[chunk] = [] // start new page;
-        acc[chunk].push(cur);
-
-        return acc;
-      }, []);
-    }
+    return { state, armor, items, }
   },
   mounted: function() {
-    this.slider = new KeenSlider(this.$refs.slider, {
-      slidesPerView: 1,
-      spacing: 50,
-      centered: true
-    });
-
-    setTimeout(this.slider.refresh, 100);
-  },
-  beforeDestroy: function() {
-    if (this.slider) this.slider.destroy();
+    // Pick a random selected (just for testing)
+    this.state.selected = this.armor[ Math.floor(Math.random() * this.armor.length) ];
   }
 }
 </script>
 
 <style scoped>
 #home {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 2rem;
+  width: 100%;
+  max-width: calc(1440px + 3vw + 1vh);
+  margin: 0 auto;
+  display: flex;
+  flex-flow: row-reverse nowrap;
+  align-items: flex-start;
 }
 
-#left, #right {
-  margin: 2rem 5rem 0;
+#home>* {
+  flex: 1 1 auto;
 }
 
-#left {
-  margin-right: 0;
-}
-
-#right {
-  margin-left: 0;
-}
-
-.page {
-  display: grid;
-  box-sizing: border-box;
-  grid-template: repeat(4, 1fr) / repeat(5, 1fr);
+#armor-list {
+  display: flex;
+  flex-flow: row wrap;
   justify-content: center;
-  align-items: stretch;
-  gap: 0.85em;
+  margin: 2rem 1rem;
+}
+
+#armor-info {
+  position: sticky;
+  top: 8rem;
+  margin: 2rem;
 }
 </style>

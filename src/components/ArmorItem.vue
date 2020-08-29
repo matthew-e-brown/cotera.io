@@ -1,9 +1,9 @@
 <template>
   <button type="button" class="armor-item" @click="select">
-    <span v-if="armor">{{ defense }}</span>
-    <div>
-      <img :src="imgsrc" aria-hidden="true" alt="">
-    </div>
+    <span v-if="armor" class="num">{{ defense }}</span>
+    <!-- <div> -->
+      <img :src="imgsrc" draggable="false" aria-hidden="true" alt="">
+    <!-- </div> -->
   </button>
 </template>
 
@@ -41,34 +41,27 @@ export default {
 </script>
 
 <style scoped>
-div, span {
-  box-sizing: border-box;
-}
-
 button {
+  display: block;
   cursor: pointer;
   position: relative;
-  display: block;
-}
-
-div {
-  background-color: #00000055;
-  padding: 0.5rem;
+  background-color: var(--block-color-t);
+  padding: 0.25rem;
+  margin: 1rem;
+  border: 0.25rem double var(--block-border);
+  border-radius: 0.3rem;
 }
 
 span {
-  background-color: #000000bb;
-  color: var(--body-text);
+  font-size: 1.25rem;
   position: absolute;
-  font-size: 1.35rem;
-  font-weight: bold;
-  bottom: 0.2rem; right: 0.2rem;
-  padding: 0.4em 0.7em 0.15em;
+  right: -0.4em; bottom: -0.4em;
 }
 
 img {
   display: block;
-  height: 100%;
-  width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  height: calc(2rem + 5vw);
 }
 </style>
