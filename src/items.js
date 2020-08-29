@@ -1,4 +1,4 @@
-[
+export default [
   { "tag": "item_0", "name": "Bokoblin Horn" },
   { "tag": "item_1", "name": "Bokoblin Fang" },
   { "tag": "item_2", "name": "Moblin Fang" },
@@ -140,4 +140,4 @@
   { "tag": "item_138", "name": "Fresh Milk" },
   { "tag": "item_139", "name": "Goron Spice" },
   { "tag": "item_140", "name": "Monster Extract" }
-]
+];
