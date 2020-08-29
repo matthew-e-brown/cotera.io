@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import state from '@/store';
+import state, { userProgress } from '@/store';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -18,7 +18,8 @@ export default {
   name: 'App',
   data: function() {
     return {
-      state
+      state,
+      userProgress // to be able to poke around w/ Vue devtools
     }
   },
   methods: {
@@ -41,6 +42,7 @@ button {
   padding: 0;
   border: 0;
   background: none;
+  cursor: pointer;
 }
 
 label, input, button {
@@ -55,6 +57,8 @@ body {
 :root {
   --red-text: #ff7170;
   --body-text: #fdfbe2;
+  --body-text-t: #fdfbe280;
+  --body-text-t2: #fdfbe250;
   --block-color: rgb(14, 10, 6);
   --block-color-t: rgba(14, 10, 6, 0.85);
   --block-color-a: rgba(249, 237, 180, 0.10);
@@ -126,7 +130,6 @@ span.num {
   font-weight: 700;
   background-color: white;
   border-radius: 0.4rem;
-  cursor: pointer;
   min-width: 10rem;
   margin: 0.5rem;
 }
