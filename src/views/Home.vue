@@ -1,21 +1,15 @@
 <template>
   <main id="home">
-    <div>
-      <div class="page" v-for="(page, i) in paginatedArmor" :key="i">
-        <ArmorItem v-for="item in page" :key="item.tag" :armor="item" />
-      </div>
-    </div>
-    <div>
-      <template v-if="state.selected">
-        <h2>{{ state.selected.name }}</h2>
-        <p>This item has {{ state.selected.defense }} base defense!</p>
-      </template>
+    <ArmorInfo class="sticky-box" :armor="state.selected" />
+    <div id="armor-list">
+      <ArmorItem v-for="item in armor" :key="item.tag" :armor="item" />
     </div>
   </main>
 </template>
 
 <script>
 import ArmorItem from '@/components/ArmorItem.vue';
+import ArmorInfo from '@/components/ArmorInfo.vue';
 
 import state from '@/store';
 import armor from '@/assets/gamedata/armor.json';
@@ -23,36 +17,38 @@ import items from '@/assets/gamedata/items.json';
 
 export default {
   name: 'Home',
-  components: { ArmorItem },
+  components: { ArmorItem, ArmorInfo },
   data: function() {
-    return { state, armor, items }
+    return { state, armor, items, }
   },
-  computed: {
-    paginatedArmor: function() {
-      return this.armor.reduce((acc, cur, i) => {
-        const chunk = Math.floor(i / 20);
-
-        if (!acc[chunk]) acc[chunk] = [] // start new page;
-        acc[chunk].push(cur);
-
-        return acc;
-      }, []);
-    }
+  mounted: function() {
+    // Pick a random selected (just for testing)
+    this.state.selected = this.armor[ Math.floor(Math.random() * this.armor.length) ];
   }
 }
 </script>
 
 <style scoped>
 #home {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 2rem;
+  display: flex;
+  flex-flow: row-reverse nowrap;
+  align-items: flex-start;
 }
 
-.page {
-  display: grid;
-  grid-template-columns: repeat(5, 8rem);
-  grid-template-rows: repeat(5, 8rem);
-  gap: 0.85rem;
+#home>* {
+  flex: 1 1 auto;
+}
+
+#armor-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin: 2rem 1rem;
+}
+
+@media (max-width: 770px) {
+  #home {
+    flex-flow: row wrap;
+  }
 }
 </style>

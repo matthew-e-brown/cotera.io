@@ -55,6 +55,10 @@ body {
 :root {
   --red-text: #ff7170;
   --body-text: #fdfbe2;
+  --block-color: rgb(14, 10, 6);
+  --block-color-t: rgba(14, 10, 6, 0.85);
+  --block-color-a: rgba(249, 237, 180, 0.10);
+  --block-border: rgba(249, 237, 180, 0.40);
 }
 
 :root {
@@ -66,31 +70,50 @@ body {
   background-color: #312626;
 }
 
+#app {
+  position: relative;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Calamity', 'Avenir', Helvetica, Arial, sans-serif;
   letter-spacing: initial;
 }
 
-main.middle-box {
-  background-color: #00000077;
-  margin: 2rem auto;
-  padding: 2.4rem 2.75rem;
-  border-radius: 1rem;
-  max-width: calc(20rem + 5vw);
+main {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(1440px + 3vw);
 }
 
-.middle-box h2 {
-  margin-top: 0;
-  font-size: 1.8rem;
+.sticky-box {
+  position: sticky;
+  top: 8rem;
+  margin: 2rem;
+  padding: 1rem;
+  z-index: 1;
+  min-width: calc(18rem + 12vw);
+  background-color: var(--block-color);
+  border-radius: 0.3rem;
+  border: 0.25rem double var(--block-border);
 }
 
-h2 {
-  text-align: center;
+main, main.sticky-box {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 a, a:visited {
   font: inherit;
   color: inherit;
+}
+
+span.num {
+  background-color: var(--block-color);
+  color: var(--body-text);
+  font-weight: bold;
+  padding: 0.25em 0.75em 0.075em 0.75em;
+  border: 0.1rem solid var(--block-border);
+  border-radius: 0.2em;
 }
 
 .button {
@@ -106,16 +129,6 @@ a, a:visited {
   cursor: pointer;
   min-width: 10rem;
   margin: 0.5rem;
-}
-
-.game-style {
-  position: relative;
-}
-
-.game-style::after {
-  content: "";
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
 }
 
 .separator {
@@ -152,12 +165,24 @@ div.separator {
   :root {
     font-size: 12px;
   }
+}
 
-  main {
-    box-sizing: border-box;
-    max-width: initial;
-    width: 100vw;
+@media (max-width: 770px) {
+  .sticky-box {
+    width: 100%;
+    margin: 0;
+    top: 5.3rem;
+    border-top: none;
+    border-left: none;
+    border-right: none;
     border-radius: 0;
+  }
+}
+
+@supports (backdrop-filter: blur(10px)) {
+  .sticky-box {
+    background-color: var(--block-color-t);
+    backdrop-filter: blur(10px);
   }
 }
 </style>
@@ -173,11 +198,17 @@ h1 span {
 }
 
 nav {
+  box-sizing: content-box;
+  padding: 1rem 4rem;
+  height: 3rem;
+  position: sticky;
+  z-index: 2;
+  top: 0;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  padding: 1rem 4rem;
-  background-color: #00000077;
+  justify-content: space-between;
+  background-color: var(--block-color);
 }
 
 nav a, nav button {
@@ -186,7 +217,16 @@ nav a, nav button {
   color: inherit;
 }
 
-nav a:first-child {
-  margin-right: auto;
+@media (max-width: 770px) {
+  nav {
+    border-bottom: 0.3rem double var(--block-border);
+  }
+}
+
+@supports (backdrop-filter: blur(10px)) {
+  nav {
+    background-color: var(--block-color-t);
+    backdrop-filter: blur(10px);
+  }
 }
 </style>

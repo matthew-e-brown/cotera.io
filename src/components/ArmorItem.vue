@@ -1,7 +1,9 @@
 <template>
   <button type="button" class="armor-item" @click="select">
-    <div class="defense">{{ defense }}</div>
-    <img :src="imgsrc" aria-hidden="true" alt="">
+    <span v-if="armor" class="num">{{ defense }}</span>
+    <!-- <div> -->
+      <img :src="imgsrc" draggable="false" aria-hidden="true" alt="">
+    <!-- </div> -->
   </button>
 </template>
 
@@ -11,7 +13,7 @@ import state from '@/store';
 export default {
   name: 'ArmorItem',
   props: {
-    armor: { type: Object, required: true },
+    armor: { type: Object, required: false },
     level: { type: Number, default: 0 }
   },
   data: function() {
@@ -27,6 +29,7 @@ export default {
   },
   computed: {
     imgsrc: function() {
+      if (!this.armor) return '/images/blank.png';
       const type = this.armor.tag.substring(0, this.armor.tag.indexOf('_'));
       return `/images/${type}/${this.armor.tag}.png`;
     },
@@ -39,20 +42,38 @@ export default {
 
 <style scoped>
 button {
+  display: block;
   cursor: pointer;
   position: relative;
-  display: block;
+  background-color: var(--block-color-t);
+  padding: 0.25rem;
+  margin: 1rem;
+  border: 0.25rem double var(--block-border);
+  border-radius: 0.3rem;
 }
 
-.defense {
+span {
+  font-size: 1.25rem;
   position: absolute;
-  bottom: 0.5em; right: 0.5em;
-  color: var(--body-text);
+  right: -0.4em; bottom: -0.4em;
 }
 
 img {
   display: block;
-  height: 100%;
-  width: auto;
+  max-height: 100%;
+  max-width: 100%;
+  min-height: 82px;
+  min-width: 82px;
+  height: calc(2rem + 5vw);
+}
+
+@media (max-width: 770px) {
+  button {
+    margin: 0.5rem;
+  }
+
+  img {
+    height: calc(2rem + 3vh + 4vw);
+  }
 }
 </style>

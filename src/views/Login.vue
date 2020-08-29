@@ -1,5 +1,5 @@
 <template>
-  <main id="login" class="middle-box">
+  <main id="login" class="sticky-box">
     <h2>Log in</h2>
     <form @submit.prevent="login">
       <div class="row">
@@ -82,3 +82,11 @@ export default {
 </script>
 
 <style scoped src="@/assets/styles/forms.css"></style>
+<style scoped>
+@media (min-width: 770px) {
+  main {
+    min-width: initial;
+    width: calc(25rem + 5vw);
+  }
+}
+</style>
