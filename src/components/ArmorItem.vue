@@ -62,6 +62,18 @@ img {
   display: block;
   max-height: 100%;
   max-width: 100%;
+  min-height: 82px;
+  min-width: 82px;
   height: calc(2rem + 5vw);
+}
+
+@media (max-width: 770px) {
+  button {
+    margin: 0.5rem;
+  }
+
+  img {
+    height: calc(2rem + 3vh + 4vw);
+  }
 }
 </style>

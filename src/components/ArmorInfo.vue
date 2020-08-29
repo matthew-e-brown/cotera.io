@@ -85,10 +85,10 @@ export default {
 
 <style scoped>
 #armor-info {
+  z-index: 1;
   min-width: calc(18rem + 12vw);
   padding: 1rem;
-  background-color: var(--block-color-t);
-  backdrop-filter: blur(10px);
+  background-color: var(--block-color);
   border-radius: 0.3rem;
   border: 0.25rem double var(--block-border);
 }
@@ -149,8 +149,8 @@ svg {
   font-size: 1.35em;
   font-weight: bold;
   height: 2.2rem;
-  background-color: var(--block-color);
-  padding: 0 0.5em 0.15em;
+  background-color: var(--block-color-a);
+  padding: 0 1em 0.15em 0.5em;
 }
 
 .upgrade-item>* {
@@ -174,5 +174,21 @@ svg {
 
 .upgrade-item :last-child {
   margin-left: auto;
+}
+
+@media (max-width: 770px) {
+  #armor-info {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+}
+
+@supports (backdrop-filter: blur(10px)) {
+  #armor-info {
+    background-color: var(--block-color-t);
+    backdrop-filter: blur(10px);
+  }
 }
 </style>

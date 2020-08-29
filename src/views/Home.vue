@@ -54,4 +54,17 @@ export default {
   top: 8rem;
   margin: 2rem;
 }
+
+@media (max-width: 770px) {
+  #home {
+    flex-flow: row wrap;
+  }
+
+  #armor-info {
+    z-index: 2;
+    width: 100%;
+    margin: 0;
+    top: 5.3rem;
+  }
+}
 </style>

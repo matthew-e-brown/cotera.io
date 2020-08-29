@@ -57,7 +57,8 @@ body {
   --body-text: #fdfbe2;
   --block-color: rgb(14, 10, 6);
   --block-color-t: rgba(14, 10, 6, 0.85);
-  --block-border: rgba(249, 237, 180, 0.4);
+  --block-color-a: rgba(249, 237, 180, 0.10);
+  --block-border: rgba(249, 237, 180, 0.40);
 }
 
 :root {
@@ -168,9 +169,9 @@ h1 span {
 }
 
 nav {
-  box-sizing: border-box;
+  box-sizing: content-box;
   padding: 1rem 4rem;
-  height: 5rem;
+  height: 3rem;
   position: sticky;
   z-index: 2;
   top: 0;
@@ -178,13 +179,25 @@ nav {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--block-color-t);
-  backdrop-filter: blur(10px);
+  background-color: var(--block-color);
 }
 
 nav a, nav button {
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+}
+
+@media (max-width: 770px) {
+  nav {
+    border-bottom: 0.3rem double var(--block-border);
+  }
+}
+
+@supports (backdrop-filter: blur(10px)) {
+  nav {
+    background-color: var(--block-color-t);
+    backdrop-filter: blur(10px);
+  }
 }
 </style>
