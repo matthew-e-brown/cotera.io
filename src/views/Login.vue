@@ -39,8 +39,7 @@
 <script>
 import GoogleSignIn from '@/components/GoogleSignIn.vue';
 import PasswordField from '@/components/PasswordField.vue';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from '@/firebase';
 
 export default {
   name: 'Login',
