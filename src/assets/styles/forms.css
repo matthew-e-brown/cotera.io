@@ -10,9 +10,15 @@ label {
 }
 
 input, * >>> input {
+  box-sizing: border-box;
   padding: 1em 1em 0.75em;
   border-radius: 0.4rem;
   border: 0;
+
+  /* Need to give this a fixed height becuase Firefox doesn't know how to handle
+   * flexbox properly with SVGs or Buttons. Both seem to cause it to FREAK out.
+   */
+  height: 2.77rem;
 }
 
 main {

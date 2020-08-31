@@ -9,13 +9,13 @@
           <span class="num" aria-label="current defense">
             {{ armor.defense }}
           </span>
-          <span aria-hidden="true">&#x25b6;&#xFE0E;</span>
+          <span aria-hidden="true"><CaretRight /></span>
           <span class="num" aria-label="next defense">
             {{ armor.nextDefense }}
           </span>
         </div>
         <div
-          id="stars"
+          class="stars"
           :aria-label="`${armor.level} ${armor.level == 1 ? 'star' : 'stars'}`"
         >
           <button
@@ -23,19 +23,19 @@
             aria-label="decrease level"
             :disabled="!(armor.level > 0)"
             @click="decrease"
-          >&#x2796;&#xFE0E;</button>
+          ><Minus /></button>
           <span
             v-for="i in 4"
             :key="i"
             :class="{ filled: i <= armor.level }"
             aria-hidden="true"
-          >&#9733;&#xFE0E;</span>
+          ><Star /></span>
           <button
             type="button"
             aria-label="increase level"
             :disabled="!(armor.level < 4)"
             @click="increase"
-          >&#x2795;&#xFE0E;</button>
+          ><Plus /></button>
         </div>
       </div>
       <div class="upgrade-item">
@@ -66,7 +66,12 @@
 </template>
 
 <script>
-import Shirt from '@/assets/shirt.svg';
+import Shirt from '@/assets/icons/shirt.svg';
+import Star from '@/assets/icons/star-solid.svg';
+import Plus from '@/assets/icons/plus-solid.svg';
+import Minus from '@/assets/icons/minus-solid.svg';
+import CaretRight from '@/assets/icons/caret-right-solid.svg';
+
 import { userProgress, levelUp, levelDown } from '@/store';
 import items from '@/assets/data/items.json';
 
@@ -75,7 +80,7 @@ export default {
   props: {
     armor: { type: Object, required: false }
   },
-  components: { Shirt },
+  components: { Shirt, Plus, Minus, CaretRight, Star },
   methods: {
     increase: function() {
       if (this.armor.level < 4) levelUp(this.armor);
@@ -124,25 +129,29 @@ h2 {
   align-items: center;
 }
 
-#stars span {
+.stars {
+  display: flex;
+  align-items: center;
+}
+
+.stars span {
   margin: 0.1rem;
-  font-size: 1.25rem;
   color: var(--body-text-t2);
 }
 
-#stars span:first-of-type {
+.stars span:first-of-type {
   margin-left: 1rem;
 }
 
-#stars span:last-of-type {
+.stars span:last-of-type {
   margin-right: 1rem;
 }
 
-#stars span.filled, #stars button {
+.stars span.filled, .stars button {
   color: var(--body-text);
 }
 
-#stars button:disabled {
+.stars button:disabled {
   color: var(--body-text-t2);
   cursor: default;
 }

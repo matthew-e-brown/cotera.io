@@ -40,6 +40,7 @@ button {
   background: none;
   cursor: pointer;
   appearance: none;
+  touch-action: manipulation;
 }
 
 label, input, button {
