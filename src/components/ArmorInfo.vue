@@ -6,9 +6,13 @@
       <div id="stats">
         <div id="defense">
           <Shirt />
-          <span class="num">{{ armor.defense }}</span>
-          <span>&#x25b6;&#xFE0E;</span>
-          <span class="num">{{ armor.nextDefense }}</span>
+          <span class="num" aria-label="current defense">
+            {{ armor.defense }}
+          </span>
+          <span aria-hidden="true">&#x25b6;&#xFE0E;</span>
+          <span class="num" aria-label="next defense">
+            {{ armor.nextDefense }}
+          </span>
         </div>
         <div
           id="stars"

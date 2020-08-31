@@ -1,7 +1,7 @@
 <template>
-  <button type="button" class="armor-item" @click="select">
-    <span v-if="armor" class="num">{{ armor.defense }}</span>
+  <button type="button" :aria-label="armor.name" @click="select">
     <img :src="armor.sprite" draggable="false" aria-hidden="true" alt="">
+    <span v-if="armor" class="num" aria-label="defense">{{ armor.defense }}</span>
   </button>
 </template>
 
