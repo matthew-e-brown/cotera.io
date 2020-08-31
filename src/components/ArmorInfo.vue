@@ -53,7 +53,7 @@
 
 <script>
 import Shirt from '@/assets/shirt.svg';
-import { userProgress } from '@/store';
+import { userProgress, levelUp, levelDown } from '@/store';
 
 export default {
   name: 'ArmorInfo',
@@ -63,22 +63,10 @@ export default {
   components: { Shirt },
   methods: {
     increase: function() {
-      if (this.armor.level < 4) {
-        this.$set(
-          userProgress[this.armor.type],
-          this.armor.indx,
-          this.armor.level + 1
-        );
-      }
+      if (this.armor.level < 4) levelUp(this.armor);
     },
     decrease: function() {
-      if (this.armor.level > 0) {
-        this.$set(
-          userProgress[this.armor.type],
-          this.armor.indx,
-          this.armor.level - 1
-        );
-      }
+      if (this.armor.level > 0) levelDown(this.armor);
     }
   }
 }
