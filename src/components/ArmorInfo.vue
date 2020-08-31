@@ -129,31 +129,12 @@ h2 {
   align-items: center;
 }
 
-.stars {
-  display: flex;
-  align-items: center;
-}
-
-.stars span {
-  margin: 0.1rem;
-  color: var(--body-text-t2);
-}
-
 .stars span:first-of-type {
-  margin-left: 1rem;
+  margin-left: 1em;
 }
 
 .stars span:last-of-type {
-  margin-right: 1rem;
-}
-
-.stars span.filled, .stars button {
-  color: var(--body-text);
-}
-
-.stars button:disabled {
-  color: var(--body-text-t2);
-  cursor: default;
+  margin-right: 1em;
 }
 
 #defense {
@@ -171,10 +152,8 @@ h2 {
   margin: 0 0.3rem;
 }
 
-svg {
-  display: block;
-  fill: currentColor;
-  height: 1.2rem;
+#defense svg {
+  height: 1.45rem;
 }
 
 #armor-info>.upgrade-item:nth-of-type(2) {
@@ -219,7 +198,7 @@ svg {
 
 #armor-info.empty h2 {
   border: none;
-  color: var(--body-text-t);
+  color: var(--body-text-1);
   text-align: center;
   margin-top: 5rem;
   margin-bottom: 4.5rem;

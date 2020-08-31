@@ -1,5 +1,10 @@
 <template>
   <button type="button" :aria-label="armor.name" @click="select">
+    <div class="stars">
+      <span v-for="i in 4" :class="{ filled: i <= armor.level }" :key="i">
+        <Star />
+      </span>
+    </div>
     <img :src="armor.sprite" draggable="false" aria-hidden="true" alt="">
     <span v-if="armor" class="num" aria-label="defense">{{ armor.defense }}</span>
   </button>
@@ -7,19 +12,20 @@
 
 <script>
 import state from '@/store';
+import Star from '@/assets/icons/star-solid.svg';
 
 export default {
   name: 'ArmorItem',
   props: {
     armor: { type: Object, required: false }
   },
+  components: { Star },
   data: function() {
     return { state }
   },
   methods: {
     select: function() {
-      if (this.state.selected == this.armor) this.state.selected = null;
-      else this.state.selected = this.armor;
+      this.state.selected = this.armor;
     }
   }
 }
@@ -37,7 +43,16 @@ button {
   border-radius: 0.3rem;
 }
 
-span {
+.stars {
+  position: absolute;
+  bottom: 0.2em; left: 0.2em;
+}
+
+.stars span {
+  font-size: 0.6em;
+}
+
+span.num {
   font-size: 1.25rem;
   position: absolute;
   right: -0.4em; bottom: -0.4em;

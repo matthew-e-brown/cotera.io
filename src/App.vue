@@ -55,8 +55,8 @@ body {
 :root {
   --red-text: #ff7170;
   --body-text: #fdfbe2;
-  --body-text-t: #fdfbe280;
-  --body-text-t2: #fdfbe250;
+  --body-text-1: #898576;
+  --body-text-2: #5c594e;
   --block-color: rgb(14, 10, 6);
   --block-color-t: rgba(14, 10, 6, 0.85);
   --block-color-a: rgba(249, 237, 180, 0.10);
@@ -116,6 +116,8 @@ span.num {
   padding: 0.25em 0.75em 0.075em 0.75em;
   border: 0.1rem solid var(--block-border);
   border-radius: 0.2em;
+  text-align: center;
+  width: 1.25em;
 }
 
 .button {
@@ -160,6 +162,39 @@ span.num {
 
 div.separator {
   cursor: default;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+}
+
+.stars span {
+  margin: 0.1em;
+  color: var(--body-text-2);
+  filter: drop-shadow(0 0.025em 0.25em #000000ff);
+}
+
+.stars span.filled {
+  filter: drop-shadow(0 0.025em 0.15em #ffffff80);
+}
+
+.stars svg {
+  height: 1.2em;
+}
+
+.stars span.filled, .stars button {
+  color: var(--body-text);
+}
+
+.stars button:disabled {
+  color: var(--body-text-2);
+  cursor: default;
+}
+
+svg {
+  display: block;
+  fill: currentColor;
 }
 
 @media screen and (max-width: 430px) {
