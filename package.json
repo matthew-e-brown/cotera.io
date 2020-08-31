@@ -20,9 +20,9 @@
   "dependencies": {
     "firebase": "^7.19.0",
     "keen-slider": "^5.2.2",
+    "lodash.debounce": "^4.0.8",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuefire": "^2.2.4"
+    "vue-router": "^3.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.4.0",

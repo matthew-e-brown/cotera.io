@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import firebase from '@/firebase';
+import debounce from 'lodash.debounce';
 
 // General state for the app itself
 const state = Vue.observable({
@@ -17,7 +18,7 @@ const DEFAULT_PROGRESS = {
 
 const userProgress = Vue.observable({ ...DEFAULT_PROGRESS });
 
-const uploadToFirebase = () => {
+const uploadToFirebase = debounce(() => {
   firebase.firestore()
     .collection('user-progress')
     .doc(state.userid)
@@ -28,7 +29,7 @@ const uploadToFirebase = () => {
         // Join [ {head: ""}, {body: ""} ] -> { head: "", body: "" }
         .reduce((acc, cur) => ({ ...acc, ...cur }))
     );
-}
+}, 900);
 
 const levelUp = armor => {
   Vue.set(userProgress[armor.type], armor.indx, armor.level + 1);
