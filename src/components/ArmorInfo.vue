@@ -43,11 +43,21 @@
         <span>{{ armor.name }}</span>
         <span>1</span>
       </div>
-      <!-- <div v-for="item in nextItems" class="upgrade-item" :key="item.tag">
-        <img :src="item.sprite" alt="" aria-hidden="true">
-        <span>{{ item.name }}</span>
-        <span>{{ item.count }}</span>
-      </div> -->
+      <div
+        v-for="([ item, count ]) in armor.nextItems"
+        class="upgrade-item"
+        :key="item"
+      >
+        <img
+          :src="itemSprite(item)"
+          aria-hidden="true"
+          width="144"
+          height="144"
+          alt=""
+        >
+        <span>{{ itemName(item) }}</span>
+        <span>{{ count }}</span>
+      </div>
     </template>
     <template v-else>
       <h2>No armor selected.</h2>
@@ -58,6 +68,7 @@
 <script>
 import Shirt from '@/assets/shirt.svg';
 import { userProgress, levelUp, levelDown } from '@/store';
+import items from '@/assets/items.json';
 
 export default {
   name: 'ArmorInfo',
@@ -71,6 +82,12 @@ export default {
     },
     decrease: function() {
       if (this.armor.level > 0) levelDown(this.armor);
+    },
+    itemName: function(item) {
+      return items.find(i => i.tag == item).name;
+    },
+    itemSprite: function(item) {
+      return `/images/items/${item}.png`;
     }
   }
 }
@@ -184,6 +201,7 @@ svg {
   display: inline-block;
   align-self: flex-end;
   height: 135%;
+  width: auto;
 }
 
 .upgrade-item :last-child {

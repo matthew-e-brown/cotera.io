@@ -39,6 +39,7 @@ button {
   border: 0;
   background: none;
   cursor: pointer;
+  appearance: none;
 }
 
 label, input, button {

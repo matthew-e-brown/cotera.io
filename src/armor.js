@@ -26,6 +26,11 @@ class Armor {
     if (this.level == 4) return '??';
     else return this.upgrades[this.level].defense;
   }
+
+  get nextItems() {
+    if (this.level == 4) return [];
+    else return Object.entries(this.upgrades[this.level].items);
+  }
 }
 
 // Default export, is mapped to the class above when exported
