@@ -17,9 +17,8 @@ const DEFAULT_PROGRESS = {
 
 const userProgress = Vue.observable({ ...DEFAULT_PROGRESS });
 
-const uploadToFirebase = async () => {
-  console.log("Uploading to Firestore...");
-  return await firebase.firestore()
+const uploadToFirebase = () => {
+  firebase.firestore()
     .collection('user-progress')
     .doc(state.userid)
     .set(
@@ -41,20 +40,20 @@ const levelDown = armor => {
   if (state.signedin) uploadToFirebase();
 }
 
+let unsubscribe = undefined;
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     state.userid = user.uid;
 
     // If they've just signed in, overwrite the blank progress object with their
     // firestore data
-    firebase.firestore()
+    unsubscribe = firebase.firestore()
       .collection('user-progress')
       .doc(state.userid)
-      .get()
-      .then(doc => {
+      .onSnapshot(doc => {
         // Don't worry about it, one will be created once they edit something
         if (!doc.exists) return;
-
+  
         // Get the numbers out of the string
         Object.entries(doc.data())
           .forEach(([k, v]) =>
@@ -63,6 +62,8 @@ firebase.auth().onAuthStateChanged(user => {
       });
   } else {
     state.userid = undefined;
+
+    if (unsubscribe) unsubscribe();
 
     // Reset to default values
     Object.entries(DEFAULT_PROGRESS)
