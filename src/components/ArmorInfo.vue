@@ -68,7 +68,7 @@
 <script>
 import Shirt from '@/assets/shirt.svg';
 import { userProgress, levelUp, levelDown } from '@/store';
-import items from '@/assets/items.json';
+import items from '@/assets/data/items.json';
 
 export default {
   name: 'ArmorInfo',
