@@ -165,7 +165,8 @@ h2 {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-start;
-  font-size: 1.35em;
+  font-family: 'Calamity', 'Avenir', Helvetica, Arial, sans-serif;
+  font-size: 1.275em;
   font-weight: bold;
   height: 2.2rem;
   background-color: var(--block-color-a);
