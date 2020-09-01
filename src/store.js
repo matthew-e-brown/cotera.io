@@ -18,7 +18,7 @@ const DEFAULT_PROGRESS = {
 
 const userProgress = Vue.observable({ ...DEFAULT_PROGRESS });
 
-const uploadToFirebase = debounce(() => {
+const uploadToFirebase = () => {
   firebase.firestore()
     .collection('user-progress')
     .doc(state.userid)
@@ -26,19 +26,21 @@ const uploadToFirebase = debounce(() => {
       Object.entries(userProgress)
         // Turn arrays to strings
         .map(([k, v]) => ({ [k]: v.join('') }))
-        // Join [ {head: ""}, {body: ""} ] -> { head: "", body: "" }
+        // Re-join [ {head: ""}, {body: ""} ] -> { head: "", body: "" }
         .reduce((acc, cur) => ({ ...acc, ...cur }))
     );
-}, 900);
+}
+
+const debouncedUpload = debounce(uploadToFirebase, 900);
 
 const levelUp = armor => {
   Vue.set(userProgress[armor.type], armor.indx, armor.level + 1);
-  if (state.signedin) uploadToFirebase();
+  if (state.signedin) debouncedUpload();
 }
 
 const levelDown = armor => {
   Vue.set(userProgress[armor.type], armor.indx, armor.level - 1);
-  if (state.signedin) uploadToFirebase();
+  if (state.signedin) debouncedUpload();
 }
 
 let unsubscribe = undefined;
@@ -52,14 +54,16 @@ firebase.auth().onAuthStateChanged(user => {
       .collection('user-progress')
       .doc(state.userid)
       .onSnapshot(doc => {
-        // Don't worry about it, one will be created once they edit something
-        if (!doc.exists) return;
-  
-        // Get the numbers out of the string
-        Object.entries(doc.data())
+        if (doc.exists) {
+          // Get the numbers out of the string
+          Object.entries(doc.data())
           .forEach(([k, v]) =>
             Vue.set(userProgress, k, v.split('').map(n => Number(n)))
           );
+        } else {
+          // If they don't have any progress, upload what they had
+          uploadToFirebase();
+        }
       });
   } else {
     state.userid = undefined;
