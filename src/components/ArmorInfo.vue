@@ -1,5 +1,5 @@
 <template>
-  <div id="armor-info" :class="{ empty: !armor }">
+  <div id="armor-info" :class="{ empty: !armor, complete: armor && completed }">
     <template v-if="armor">
       <img :src="armor.sprite" alt="" aria-hidden="true" draggable="true">
       <h2>{{ armor.name }}</h2>
@@ -9,8 +9,8 @@
           <span class="num" aria-label="current defense">
             {{ armor.defense }}
           </span>
-          <span aria-hidden="true"><CaretRight /></span>
-          <span class="num" aria-label="next defense">
+          <span v-if="!completed" aria-hidden="true"><CaretRight /></span>
+          <span v-if="!completed" class="num" aria-label="next defense">
             {{ armor.nextDefense }}
           </span>
         </div>
@@ -38,30 +38,31 @@
           ><Plus /></button>
         </div>
       </div>
-      <div class="upgrade-item">
-        <img :src="armor.sprite" alt="" aria-hidden="true">
-        <span>{{ armor.name }}</span>
-        <span>1</span>
-      </div>
-      <div
-        v-for="([ item, count ]) in armor.nextItems"
-        class="upgrade-item"
-        :key="item"
-      >
-        <img
-          :src="itemSprite(item)"
-          aria-hidden="true"
-          width="144"
-          height="144"
-          alt=""
+      <template v-if="!completed">
+        <div class="upgrade-item">
+          <img :src="armor.sprite" alt="" aria-hidden="true">
+          <span>{{ armor.name }}</span>
+          <span>1</span>
+        </div>
+        <div
+          v-for="[ item, count ] in armor.nextItems"
+          class="upgrade-item"
+          :key="item"
         >
-        <span>{{ itemName(item) }}</span>
-        <span>{{ count }}</span>
-      </div>
+          <img
+            :src="itemSprite(item)"
+            aria-hidden="true"
+            width="144"
+            height="144"
+            alt=""
+          >
+          <span>{{ itemName(item) }}</span>
+          <span>{{ count }}</span>
+        </div>
+      </template>
+      <p v-else>This armor is fully upgraded!</p>
     </template>
-    <template v-else>
-      <h2>No armor selected.</h2>
-    </template>
+    <h2 v-else>No armor selected.</h2>
   </div>
 </template>
 
@@ -94,6 +95,11 @@ export default {
     itemSprite: function(item) {
       return `/images/items/${item}.png`;
     }
+  },
+  computed: {
+    completed: function() {
+      return this.armor.level == 4;
+    }
   }
 }
 </script>
@@ -107,12 +113,8 @@ img {
   margin-bottom: 0;
 }
 
-#armor-info>*+:not(h2) {
+#armor-info>div {
   margin-top: 0.85rem;
-}
-
-#armor-info>img {
-  margin-top: 0;
 }
 
 h2 {
@@ -156,6 +158,7 @@ h2 {
   height: 1.45rem;
 }
 
+/* The second div, AKA the first .upgrade-item */
 #armor-info>.upgrade-item:nth-of-type(2) {
   margin-top: 1.5rem;
 }
@@ -203,5 +206,15 @@ h2 {
   text-align: center;
   margin-top: 5rem;
   margin-bottom: 4.5rem;
+}
+
+/* Class just for specificity */
+#armor-info.complete p {
+  text-align: center;
+  font-family: 'Calamity', 'Avenir', Helvetica, Arial, sans-serif;
+  font-size: 1.2em;
+  font-weight: 700;
+  margin-top: 1.8em;
+  margin-bottom: 1.75em;
 }
 </style>

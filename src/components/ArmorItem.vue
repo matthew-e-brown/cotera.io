@@ -44,6 +44,7 @@ button {
 }
 
 .stars {
+  flex-flow: column-reverse;
   position: absolute;
   bottom: 0.2em; left: 0.2em;
 }

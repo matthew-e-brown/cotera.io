@@ -1,5 +1,16 @@
 [
   {
+    "tag": "body_13",
+    "name": "Champion's Tunic",
+    "defense": 5,
+    "upgrades": [
+      { "defense": 8, "items": { "item_81": 3 } },
+      { "defense": 14, "items": { "item_81": 3, "item_37": 2 } },
+      { "defense": 22, "items": { "item_81": 3, "item_36": 2 } },
+      { "defense": 32, "items": { "item_81": 10, "item_35": 2 } }
+    ]
+  },
+  {
     "tag": "head_0",
     "name": "Hylian Hood",
     "defense": 3,
@@ -426,17 +437,6 @@
       { "defense": 6, "items": { "item_4": 3, "item_5": 2 } },
       { "defense": 7, "items": { "item_5": 4, "item_6": 1 } },
       { "defense": 11, "items": { "item_6": 2, "item_36": 1 } }
-    ]
-  },
-  {
-    "tag": "body_13",
-    "name": "Champion's Tunic",
-    "defense": 5,
-    "upgrades": [
-      { "defense": 8, "items": { "item_81": 3 } },
-      { "defense": 14, "items": { "item_81": 3, "item_37": 2 } },
-      { "defense": 22, "items": { "item_81": 3, "item_36": 2 } },
-      { "defense": 32, "items": { "item_81": 10, "item_35": 2 } }
     ]
   },
   {

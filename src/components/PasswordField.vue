@@ -64,7 +64,7 @@ button {
   cursor: pointer;
   position: absolute;
   top: 0; bottom: 0; right: 0;
-  padding: 0.5em;
+  padding: 0.40em;
   max-width: 2.77rem;
   border-top-right-radius: 0.4rem;
   border-bottom-right-radius: 0.4rem;
@@ -74,21 +74,15 @@ svg {
   display: block;
   height: 100%;
   fill: #000000aa;
-  transform: scale(1);
 }
 
 @media (hover: hover) {
-  svg, button {
-    transition-property: transform, background-color;
-    transition: 75ms linear;
+  button {
+    transition: background-color 75ms linear;
   }
 
   button:hover, button:focus {
     background-color: #e0e0e0;
-  }
-
-  button:hover svg, button:focus svg {
-    transform: scale(1.25);
   }
 }
 </style>

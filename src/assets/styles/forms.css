@@ -26,6 +26,8 @@ main {
 }
 
 h2 {
+  margin-top: 0;
+  margin-bottom: 1em;
   text-align: center;
   font-size: 1.8rem;
 }
