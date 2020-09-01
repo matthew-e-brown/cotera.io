@@ -16,7 +16,10 @@ const DEFAULT_PROGRESS = {
   legs: Array(15).fill(0)
 }
 
-const userProgress = Vue.observable({ ...DEFAULT_PROGRESS });
+const userProgress = Vue.observable(
+  // Check if exists in localStorage
+  JSON.parse(localStorage.getItem('user-progress')) || { ...DEFAULT_PROGRESS }
+);
 
 const uploadToFirebase = () => {
   firebase.firestore()
@@ -36,11 +39,13 @@ const debouncedUpload = debounce(uploadToFirebase, 900);
 const levelUp = armor => {
   Vue.set(userProgress[armor.type], armor.indx, armor.level + 1);
   if (state.signedin) debouncedUpload();
+  else localStorage.setItem('user-progress', JSON.stringify(userProgress));
 }
 
 const levelDown = armor => {
   Vue.set(userProgress[armor.type], armor.indx, armor.level - 1);
   if (state.signedin) debouncedUpload();
+  else localStorage.setItem('user-progress', JSON.stringify(userProgress));
 }
 
 let unsubscribe = undefined;
@@ -54,15 +59,17 @@ firebase.auth().onAuthStateChanged(user => {
       .collection('user-progress')
       .doc(state.userid)
       .onSnapshot(doc => {
+        // Doc won't exist if they're a new user
         if (doc.exists) {
-          // Get the numbers out of the string
           Object.entries(doc.data())
-          .forEach(([k, v]) =>
-            Vue.set(userProgress, k, v.split('').map(n => Number(n)))
-          );
+            .forEach(([k, v]) =>
+              // Get the numbers out of the string
+              Vue.set(userProgress, k, v.split('').map(n => Number(n)))
+            );
         } else {
-          // If they don't have any progress, upload what they had
+          // If new user, upload what they had, then remove the local copy
           uploadToFirebase();
+          localStorage.removeItem('user-progress');
         }
       });
   } else {
@@ -72,9 +79,7 @@ firebase.auth().onAuthStateChanged(user => {
 
     // Reset to default values
     Object.entries(DEFAULT_PROGRESS)
-      .forEach(([k, v]) => 
-        Vue.set(userProgress, k, v)
-      );
+      .forEach(([k, v]) => Vue.set(userProgress, k, v));
   }
 });
 
