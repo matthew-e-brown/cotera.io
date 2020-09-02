@@ -1,7 +1,8 @@
 <template>
   <main id="register" class="sticky-box">
-    <h2>Register</h2>
-    <form @submit.prevent="register">
+    <h2 v-if="!linkMode">Register</h2>
+    <h2 v-else>Link Email &amp; Password</h2>
+    <form @submit.prevent="submit">
       <div class="row">
         <input
           id="email-1"
@@ -45,20 +46,36 @@
           <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
         </ul>
       </div>
-      <button class="button" type="submit">Create account</button>
+      <button
+        v-if="!linkMode"
+        class="button"
+        type="submit"
+      >Create account</button>
+      <button v-else class="button" type="submit">Link account</button>
     </form>
-    <div class="separator"><span>or</span></div>
-    <div id="bottom-buttons">
+    <template v-if="requiresAuth">
+      <p>
+        Sorry&hellip; it's been a while since you signed in. Please
+        re-authenticate and try again.
+      </p>
       <GoogleSignIn />
-      <router-link to="/login">Log into an existing account</router-link>
-    </div>
+    </template>
+    <template v-if="!linkMode">
+      <div class="separator"><span>or</span></div>
+      <div id="bottom-buttons">
+        <GoogleSignIn />
+        <router-link to="/login">Log into an existing account</router-link>
+      </div>
+    </template>
   </main>
 </template>
 
 <script>
 import GoogleSignIn from '@/components/GoogleSignIn.vue';
 import PasswordField from '@/components/PasswordField.vue';
-import firebase from '@/firebase';
+
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export default {
   name: 'Register',
@@ -66,6 +83,7 @@ export default {
   data: function() {
     return {
       errors: [],
+      requiresAuth: false,
       form: {
         email1: '',
         email2: '',
@@ -74,11 +92,40 @@ export default {
       }
     }
   },
+  computed: {
+    linkMode: function() {
+      return this.$router.currentRoute.name == "AccountLink";
+    }
+  },
   methods: {
+    submit: function() {
+      this.linkMode ? this.link() : this.register();
+    },
+    link: function() {
+      if (!this.validateForm()) return;
+      const credential = firebase.auth
+        .EmailAuthProvider
+        .credential(this.form.email1, this.form.password1);
+
+      firebase.auth()
+        .currentUser
+        .linkWithCredential(credential)
+        .then(usercred => usercred.user.sendEmailVerification())
+        .then(() => this.$router.push('/account'))
+        .catch(error => {
+          if (error.code == 'auth/requires-recent-login') {
+            this.requiresAuth = true;
+          } else {
+            if (!error.message.endsWith('.')) error.message += '.';
+            this.errors.push(error.message);
+          }
+        });
+    },
     register: function() {
       if (!this.validateForm()) return;
       else firebase.auth()
         .createUserWithEmailAndPassword(this.form.email1, this.form.password1)
+        .then(user => user.sendEmailVerification())
         .catch(error => {
           // Add a period :P
           if (!error.message.endsWith('.')) error.message += '.';
@@ -120,5 +167,16 @@ export default {
     min-width: initial;
     width: calc(35rem + 5vw);
   }
+}
+
+p {
+  color: var(--red-text);
+  margin-top: 1.5rem;
+}
+
+/* Re-auth button */
+p+button {
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

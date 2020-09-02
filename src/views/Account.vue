@@ -2,27 +2,30 @@
   <main class="sticky-box">
     <h2>Your Account</h2>
     <p>Currently signed in as {{ email }}</p>
+    <button id="signout" class="button" @click="signout">Sign out</button>
+    <h3 class="separator"><span>Account Operations</span></h3>
     <section>
-      <h3>Sign-in Methods</h3>
+      <h4>Sign-in Methods</h4>
       <p>Currently registered sign-in methods:</p>
       <ul>
-        <li v-if="hasGoogle">Google Account ({{ googleId }})</li>
-        <li v-if="hasEmail">Email &amp; password ({{ emailId }})</li>
+        <li v-if="hasGoogle">Google Account &mdash; {{ googleId }}</li>
+        <li v-if="hasEmail">Email &amp; password &mdash; {{ emailId }}</li>
       </ul>
       <router-link
         class="button"
         v-if="!hasEmail"
         to="/register/account-link"
       >Link email &amp; password</router-link>
-      <GoogleSignIn v-else-if="!hasGoogle" />
+      <GoogleSignIn v-else-if="!hasGoogle" link-mode />
     </section>
-    <button id="signout" class="button" @click="signout">Sign out</button>
   </main>
 </template>
 
 <script>
-import firebase from '@/firebase';
 import GoogleSignIn from '@/components/GoogleSignIn.vue';
+
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export default {
   name: 'Account',
@@ -37,7 +40,7 @@ export default {
     },
     hasEmail: function() {
       const { providerData } = firebase.auth().currentUser;
-      return providerData.find(p => p.providerId == 'email');
+      return providerData.find(p => p.providerId == 'password');
     },
     googleId: function() {
       return this.hasGoogle.displayName;
@@ -86,9 +89,12 @@ section:last-of-type {
   margin-bottom: 2.5rem;
 }
 
+li {
+  margin: 0.8em 0;
+}
+
 #signout {
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 0;
 }
 </style>

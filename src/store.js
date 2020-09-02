@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import firebase from '@/firebase';
+import firebase from '@/firebase-init';
 import debounce from 'lodash.debounce';
 
 // General state for the app itself
