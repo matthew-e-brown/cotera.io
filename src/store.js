@@ -48,6 +48,12 @@ const levelDown = armor => {
   else localStorage.setItem('user-progress', JSON.stringify(userProgress));
 }
 
+const resetProgress = () => {
+  Object.entries(DEFAULT_PROGRESS)
+    .forEach(([k, v]) => Vue.set(userProgress, k, v));
+  uploadToFirebase();
+}
+
 let unsubscribe = undefined;
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
@@ -84,4 +90,4 @@ firebase.auth().onAuthStateChanged(user => {
 });
 
 export default state;
-export { userProgress, levelUp, levelDown };
+export { userProgress, levelUp, levelDown, resetProgress };

@@ -3,12 +3,17 @@
     <h2>Your Account</h2>
     <p>Currently signed in as {{ email }}</p>
     <button id="signout" class="button" @click="signout">Sign out</button>
-    <h3 class="separator"><span>Account Operations</span></h3>
-    <section>
-      <h4>Sign-in Methods</h4>
+    <h3>Account Operations</h3>
+    <section id="progress">
+      <h4 class="separator"><span>Progress</span></h4>
+      <button id="reset" class="button" @click="reset">Reset progress</button>
+      <p v-if="erased">Progress cleared.</p>
+    </section>
+    <section id="sign-in">
+      <h4 class="separator"><span>Sign-in Methods</span></h4>
       <p>Currently registered sign-in methods:</p>
       <ul>
-        <li v-if="hasGoogle">Google Account &mdash; {{ googleId }}</li>
+        <li v-if="hasGoogle">Google account &mdash; {{ googleId }}</li>
         <li v-if="hasEmail">Email &amp; password &mdash; {{ emailId }}</li>
       </ul>
       <router-link
@@ -17,12 +22,23 @@
         to="/register/account-link"
       >Link email &amp; password</router-link>
       <GoogleSignIn v-else-if="!hasGoogle" link-mode />
+      <div v-if="hasGoogle && hasEmail" id="unlink" class="row">
+        <button
+          class="button"
+          @click="unlink($event, 'google.com')"
+        >Unlink Google account</button>
+        <button
+          class="button"
+          @click="unlink($event, 'password')"
+        >Unlink email &amp; password</button>
+      </div>
     </section>
   </main>
 </template>
 
 <script>
 import GoogleSignIn from '@/components/GoogleSignIn.vue';
+import { resetProgress } from '@/store';
 
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -30,18 +46,15 @@ import 'firebase/auth';
 export default {
   name: 'Account',
   components: { GoogleSignIn },
+  data: function() {
+    return {
+      email: '',
+      hasGoogle: undefined,
+      hasEmail: undefined,
+      erased: false,
+    }
+  },
   computed: {
-    email: function() {
-      return firebase.auth().currentUser.email;
-    },
-    hasGoogle: function() {
-      const { providerData } = firebase.auth().currentUser;
-      return providerData.find(p => p.providerId == 'google.com');
-    },
-    hasEmail: function() {
-      const { providerData } = firebase.auth().currentUser;
-      return providerData.find(p => p.providerId == 'password');
-    },
     googleId: function() {
       return this.hasGoogle.displayName;
     },
@@ -50,12 +63,37 @@ export default {
     }
   },
   methods: {
+    // To make it reactive when things change
+    evaluate: function(user) {
+      const { providerData } = user;
+
+      this.email = user.email;
+      this.hasGoogle = providerData.find(p => p.providerId == 'google.com');
+      this.hasEmail = providerData.find(p => p.providerId == 'password');
+    },
     signout: function() {
       firebase.auth().signOut().catch(error => {
         console.error(error);
         alert("An error occured. Could not sign out.");
       });
+    },
+    reset: function() {
+      if (
+        confirm("Are you super sure you want to reset progress?") &&
+        confirm("Last chance! Reset account progress?")
+      ) {
+        resetProgress();
+        this.erased = true;
+      }
+    },
+    unlink: function(event, providerId) {
+      firebase.auth().currentUser.unlink(providerId).then(user => {
+        this.evaluate(user);
+      });
     }
+  },
+  mounted: function() {
+    this.evaluate(firebase.auth().currentUser);
   }
 }
 </script>
@@ -66,6 +104,8 @@ export default {
   main {
     min-width: initial;
     width: calc(40rem + 5vw);
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 }
 
@@ -86,15 +126,23 @@ section {
 }
 
 section:last-of-type {
-  margin-bottom: 2.5rem;
+  margin-bottom: 0;
+}
+
+section:last-of-type>:last-child {
+  margin-bottom: 0;
 }
 
 li {
   margin: 0.8em 0;
 }
 
-#signout {
+.button {
   margin-left: auto;
   margin-right: auto;
+}
+
+#progress p {
+  text-align: center;
 }
 </style>

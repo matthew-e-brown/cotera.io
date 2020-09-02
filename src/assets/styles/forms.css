@@ -35,8 +35,13 @@ h2 {
   font-size: 1.8rem;
 }
 
+h3 {
+  font-size: 1.4rem;
+}
+
 h4 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 form .button {
@@ -52,7 +57,8 @@ form .button {
   justify-content: space-between;
 }
 
-.row>* {
+/* .row>.button for specificity */
+.row>*, .row>.button {
   flex: 1 0 0;
   margin: 0 0.85rem;
 }
@@ -85,20 +91,4 @@ form .button {
 #bottom-buttons a {
   font-size: 85%;
   margin: 0.5rem;
-}
-
-.button {
-  margin-left: auto;
-}
-
-@media screen and (max-width: 550px) {
-  .row {
-    flex-flow: column nowrap;
-    margin: 0;
-  }
-
-  .row>* {
-    flex: initial;
-    margin: 0.85rem 0;
-  }
 }
