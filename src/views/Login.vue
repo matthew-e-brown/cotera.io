@@ -54,16 +54,14 @@ export default {
     }
   },
   methods: {
-    login: async function() {
+    login: function() {
       if (!this.validateForm()) return;
-
-      try {
-        await firebase.auth()
-          .signInWithEmailAndPassword(this.form.email, this.form.password);
-      } catch (error) {
-        if (!error.message.endsWith('.')) error.message += '.';
-        this.errors.push(error.message);
-      };
+      else firebase.auth()
+        .signInWithEmailAndPassword(this.form.email, this.form.password)
+        .catch(error => {
+          if (!error.message.endsWith('.')) error.message += '.';
+          this.errors.push(error.message);
+        });
     },
     validateForm: function() {
       this.errors = [];

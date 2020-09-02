@@ -75,17 +75,15 @@ export default {
     }
   },
   methods: {
-    register: async function() {
+    register: function() {
       if (!this.validateForm()) return;
-
-      try {
-        await firebase.auth()
-          .createUserWithEmailAndPassword(this.form.email1, this.form.password1)
-      } catch (error) {
-        // Add a period :P
-        if (!error.message.endsWith('.')) error.message += '.';
-        this.errors.push(error.message);
-      }
+      else firebase.auth()
+        .createUserWithEmailAndPassword(this.form.email1, this.form.password1)
+        .catch(error => {
+          // Add a period :P
+          if (!error.message.endsWith('.')) error.message += '.';
+          this.errors.push(error.message);
+        });
     },
     validateForm: function() {
       this.errors = [];

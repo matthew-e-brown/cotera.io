@@ -3,30 +3,19 @@
     <nav>
       <router-link to="/"><h1>Cotera<span>.io</span></h1></router-link>
       <router-link v-if="!state.signedin" to="/login">Log in</router-link>
-      <button v-else @click="signout">Sign out</button>
+      <router-link v-else to="/account">Your Account</router-link>
     </nav>
     <router-view />
   </div>
 </template>
 
 <script>
-import firebase from '@/firebase';
 import state from '@/store';
 
 export default {
   name: 'App',
   data: function() {
     return { state }
-  },
-  methods: {
-    signout: async function() {
-      try {
-        await firebase.auth().signOut();
-      } catch (error) {
-        console.error(error);
-        alert("An error occured. Could not sign out.");
-      }
-    }
   }
 }
 </script>
@@ -120,16 +109,17 @@ span.num {
   width: 1.25em;
 }
 
-.button {
+.button, a.button {
   box-sizing: border-box;
   display: block;
   text-decoration: none;
   text-align: center;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 2rem;
   color: black;
   font-weight: 700;
   background-color: white;
   border-radius: 0.4rem;
+  width: fit-content;
   min-width: 10rem;
   margin: 0.5rem;
 }

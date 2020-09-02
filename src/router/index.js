@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 
 import firebase from '@/firebase';
+import state from '@/store';
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,24 @@ const routes = [
       requiresAuth: 'out'
     },
     component: () => import('../views/Register.vue')
+  },
+  {
+    path: '/register/account-link',
+    name: 'AccountLink',
+    meta: {
+      title: "Link Account | Cotera.io",
+      requiresAuth: 'in'
+    },
+    component: () => import('../views/Register.vue')
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    meta: {
+      title: "Account | Cotera.io",
+      requiresAuth: 'in'
+    },
+    component: () => import('../views/Account.vue')
   }
 ];
 
