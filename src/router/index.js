@@ -41,6 +41,13 @@ const routes = [
       title: "Link Account | Cotera.io",
       requiresAuth: 'in'
     },
+    beforeEnter: (to, from, next) => {
+      // Don't let them re-link again
+      const { providerData } = firebase.auth().currentUser;
+      if (providerData.some(p => p.providerId == 'password')) {
+        next({ path: '/account' });
+      } else next();
+    },
     component: () => import('../views/Register.vue')
   },
   {
