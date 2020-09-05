@@ -9,6 +9,45 @@
       <button id="reset" class="button" @click="reset">Reset progress</button>
       <p v-if="erased">Progress cleared.</p>
     </section>
+    <section id="password-reset" v-if="hasEmail">
+      <h4 class="separator"><span>Change Password</span></h4>
+      <form @submit.prevent="changePassword">
+        <div class="row">
+          <PasswordField
+            ref="password1"
+            id="current-password"
+            name="current-password"
+            placeholder="Current password"
+            autocomplete="current-password"
+            v-model="form.current"
+            @change="passwordToggle"
+          />
+        </div>
+        <div class="row">
+          <PasswordField
+            ref="password2"
+            id="new-password-1"
+            name="new-password-1"
+            placeholder="New password"
+            autocomplete="new-password"
+            v-model="form.new1"
+            @change="passwordToggle"
+          />
+        </div>
+        <div class="row">
+          <PasswordField
+            ref="password3"
+            id="new-password-2"
+            name="new-password-2"
+            placeholder="Re-type new password"
+            autocomplete="new-password"
+            v-model="form.new2"
+            @change="passwordToggle"
+          />
+        </div>
+        <button class="button" type="submit">Change password</button>
+      </form>
+    </section>
     <section id="sign-in">
       <h4 class="separator"><span>Sign-in Methods</span></h4>
       <p>Currently registered sign-in methods:</p>
@@ -38,6 +77,7 @@
 
 <script>
 import GoogleSignIn from '@/components/GoogleSignIn.vue';
+import PasswordField from '@/components/PasswordField.vue';
 import { resetProgress } from '@/store';
 
 import firebase from 'firebase/app';
@@ -45,13 +85,19 @@ import 'firebase/auth';
 
 export default {
   name: 'Account',
-  components: { GoogleSignIn },
+  components: { GoogleSignIn, PasswordField },
   data: function() {
     return {
       email: '',
       hasGoogle: undefined,
       hasEmail: undefined,
       erased: false,
+      form: {
+        current: '',
+        new1: '',
+        new2: '',
+        errors: []
+      }
     }
   },
   computed: {
@@ -90,6 +136,23 @@ export default {
       firebase.auth().currentUser.unlink(providerId).then(user => {
         this.evaluate(user);
       });
+    },
+    changePassword: function() {
+      // verify form input
+
+      const credential = firebase.auth
+        .EmailAuthProvider
+        .credential(firebase.auth().currentUser.email, this.form.current);
+
+      firebase.auth()
+        .currentUser
+        .reauthenticateWithCredential(credential)
+        .then(usercred => usercred.user.updatePassword());
+    },
+    passwordToggle: function(value) {
+      this.$refs.password1.set(value);
+      this.$refs.password2.set(value);
+      this.$refs.password3.set(value);
     }
   },
   mounted: function() {
@@ -135,6 +198,11 @@ section:last-of-type>:last-child {
 
 li {
   margin: 0.8em 0;
+}
+
+form {
+  margin: 0 auto;
+  max-width: 25rem;
 }
 
 .button {
