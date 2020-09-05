@@ -1,47 +1,32 @@
-label, input, * >>> input {
+input, * >>> input {
   box-sizing: border-box;
   display: block;
   width: 100%;
 }
 
-label {
-  padding-left: 0.75em;
-  margin-bottom: 0.5em;
-}
-
 input, * >>> input {
   box-sizing: border-box;
-  padding: 1em 1em 0.75em;
+  padding: 1em 1.5em 0.75em;
   border-radius: 0.4rem;
   border: 0;
-
-  /* Need to give this a fixed height becuase Firefox doesn't know how to handle
-   * flexbox properly with SVGs or Buttons. Both seem to cause it to FREAK out.
-   */
   height: 2.77rem;
+  background-color: var(--block-color-a);
+  color: var(--body-text);
+}
+
+input::placeholder, * >>> input::placeholder {
+  color: var(--body-text-1);
 }
 
 main {
   padding: 2rem;
 }
 
-h2, h3, h4 {
-  text-align: center;
-}
-
 h2 {
+  text-align: center;
   margin-top: 0;
   margin-bottom: 1em;
   font-size: 1.8rem;
-}
-
-h3 {
-  font-size: 1.4rem;
-}
-
-h4 {
-  font-size: 1.2rem;
-  font-weight: 500;
 }
 
 form .button {
@@ -89,6 +74,7 @@ form .button {
 }
 
 #bottom-buttons a {
-  font-size: 85%;
+  color: var(--body-text-1);
+  font-size: 80%;
   margin: 0.5rem;
 }

@@ -92,9 +92,11 @@ span.num {
   text-decoration: none;
   text-align: center;
   padding: 0.75rem 2rem;
-  color: black;
   font-weight: 700;
-  background-color: white;
+  font-size: 0.9em;
+  background-color: transparent;
+  color: var(--body-text);
+  border: 0.15rem solid var(--body-text);
   border-radius: 0.4rem;
   width: fit-content;
   min-width: 10rem;

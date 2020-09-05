@@ -41,6 +41,13 @@ export default {
 button {
   padding-left: 1.25em;
   padding-right: 1.25em;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+}
+
+svg {
+  font-size: 1.35em;
 }
 
 span {
