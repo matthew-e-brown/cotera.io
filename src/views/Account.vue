@@ -4,10 +4,35 @@
     <section>
       <h3>Email &amp; Password</h3>
       <template v-if="hasEmail">
-        <div class="account-row">
+        <div class="account-row" :class="{ update: email.state == 'update' }">
           <div>Email</div>
-          <div>{{ emailAddress }}</div>
-          <button class="button">Change</button>
+          <div v-if="email.state != 'update'">{{ emailAddress }}</div>
+          <form v-else @submit.prevent="changeEmail">
+            <input
+              id="new-email"
+              type="text"
+              name="email"
+              placeholder="New email address"
+              autocomplete="email"
+              v-model="email.new"
+            >
+            <div class="form-buttons">
+              <button
+                class="button"
+                type="submit"
+              >Save</button>
+              <button
+                class="button"
+                type="button"
+                @click="cancelEmailChange"
+              >Cancel</button>
+            </div>
+          </form>
+          <button
+            v-if="email.state != 'update'"
+            class="button"
+            @click="email.state = 'update'"
+          >Change</button>
         </div>
         <div
           class="account-row"
@@ -17,7 +42,10 @@
           <div v-if="password.state == 'initial'">
             &ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;
           </div>
-          <form v-else-if="password.state == 'update'">
+          <div v-else-if="password.state == 'success'" class="success">
+            Changed successfully!
+          </div>
+          <form v-else @submit.prevent="changePassword">
             <PasswordField
               ref="password1"
               id="old-password"
@@ -48,10 +76,11 @@
             <div class="form-buttons">
               <button
                 class="button"
-                @click="changePassword"
+                type="submit"
               >Save</button>
               <button
                 class="button"
+                type="button"
                 @click="cancelPasswordChange"
               >Cancel</button>
             </div>
@@ -86,7 +115,7 @@ export default {
     return {
       email: {
         state: 'initial',
-        newEmail: ''
+        new: ''
       },
       password: {
         state: 'initial',
@@ -118,7 +147,14 @@ export default {
       this.password.new1 = '';
       this.password.new2 = '';
     },
+    cancelEmailChange: function() {
+      this.email.state = 'initial';
+      this.email.new = '';
+    },
     changePassword: function() {
+      return false;
+    },
+    changeEmail: function() {
       return false;
     }
   }
@@ -189,13 +225,17 @@ h3::after {
 
 .form-buttons {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   flex-flow: row nowrap;
   margin-top: 1em;
 }
 
 .form-buttons button {
   margin: 0;
+}
+
+.form-buttons button:last-child {
+  margin-left: 1em;
 }
 
 @media (max-width: 770px) {
@@ -217,5 +257,9 @@ h3::after {
   .account-row>*:nth-child(1) { grid-area: h; }
   .account-row>*:nth-child(2) { grid-area: e; }
   .account-row>*:nth-child(3) { grid-area: b; }
+
+  .form-buttons {
+    justify-content: flex-end;
+  }
 }
 </style>
