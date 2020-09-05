@@ -3,8 +3,10 @@
     <h2>Account Settings</h2>
     <section>
       <h3>Email &amp; Password</h3>
+      <!-- !! ------------------ Start of hasEmail ------------------ !! -->
       <template v-if="hasEmail">
-        <div class="account-row" :class="{ update: email.state == 'update' }">
+        <!-- Email row -->
+        <div class="account-row" :class="{update: email.state == 'update'}">
           <div>Email</div>
           <div v-if="email.state != 'update'">{{ emailAddress }}</div>
           <form v-else @submit.prevent="changeEmail">
@@ -34,16 +36,14 @@
             @click="email.state = 'update'"
           >Change</button>
         </div>
-        <div
-          class="account-row"
-          :class="{ update: password.state == 'update' }"
-        >
+        <!-- Password Row -->
+        <div class="account-row" :class="{update: password.state == 'update'}">
           <div>Password</div>
           <div v-if="password.state == 'initial'">
             &ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;
           </div>
           <div v-else-if="password.state == 'success'" class="success">
-            Changed successfully!
+            Password changed successfully!
           </div>
           <form v-else @submit.prevent="changePassword">
             <PasswordField
@@ -73,6 +73,11 @@
               v-model="password.new2"
               @change="passwordToggle"
             />
+            <ul v-if="password.errors.length" class="errors">
+              <li v-for="(error, i) in password.errors" :key="i">
+                {{ error }}
+              </li>
+            </ul>
             <div class="form-buttons">
               <button
                 class="button"
@@ -92,6 +97,7 @@
           >Change</button>
         </div>
       </template>
+      <!-- !! ------------------ End of hasEmail ------------------ !! -->
     </section>
     <section>
       <h3>Progress</h3>
@@ -115,13 +121,15 @@ export default {
     return {
       email: {
         state: 'initial',
-        new: ''
+        new: '',
+        errors: []
       },
       password: {
         state: 'initial',
         old: '',
         new1: '',
-        new2: ''
+        new2: '',
+        errors: [],
       }
     }
   },
@@ -151,8 +159,48 @@ export default {
       this.email.state = 'initial';
       this.email.new = '';
     },
-    changePassword: function() {
-      return false;
+    changePassword: async function() {
+      this.password.errors = [];
+
+      if (this.password.old == '')
+        this.password.errors.push("Please type your current password.");
+      else if (this.password.new1 == '')
+        this.password.errors.push("Please enter a password.");
+      else if (this.password.new2 == '')
+        this.password.errors.push("Please verify your password.");
+      else if (this.password.new1 != this.password.new2)
+        this.password.errors.push("Those passwords do not match.");
+
+      const { email } = firebase.auth().currentUser;
+      const credential = firebase.auth
+        .EmailAuthProvider
+        .credential(email, this.password.old);
+
+      try {
+        await firebase.auth()
+          .currentUser
+          .reauthenticateWithCredential(credential);
+      } catch (err) {
+        if (err.code == 'auth/wrong-password') {
+          this.password.errors.push("Your current password is incorrect.");
+        } else {
+          console.log(err);
+          this.password.errors.push("Something went wrong: " + err.message);
+        }
+        
+        return false;
+      }
+      
+      try {
+        await firebase.auth().currentUser.updatePassword(this.password.new1);
+      } catch (err) {
+        console.log(err);
+        this.password.errors.push("Something went wrong: " + err.message);
+        return false;
+      }
+
+      this.password.state = 'success';
+      return true;
     },
     changeEmail: function() {
       return false;
@@ -167,8 +215,7 @@ export default {
   main {
     min-width: initial;
     width: calc(45rem + 5vw);
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding: 2rem 5rem 4rem;
   }
 }
 
@@ -189,6 +236,10 @@ h3::after {
   flex: 1 1 0;
   align-self: flex-end;
   background-color: var(--block-color-a);
+}
+
+section {
+  font-size: 0.9em;
 }
 
 .account-row {
@@ -225,7 +276,8 @@ h3::after {
 
 .form-buttons {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
+  font-size: 0.9em;
   flex-flow: row nowrap;
   margin-top: 1em;
 }
@@ -236,6 +288,7 @@ h3::after {
 
 .form-buttons button:last-child {
   margin-left: 1em;
+  border: none;
 }
 
 @media (max-width: 770px) {

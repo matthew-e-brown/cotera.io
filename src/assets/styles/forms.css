@@ -7,9 +7,9 @@ input, * >>> input {
 input, * >>> input {
   box-sizing: border-box;
   padding: 1em 1.5em 0.75em;
-  border-radius: 0.4rem;
+  border-radius: 0.5em;
   border: 0;
-  height: 2.77rem;
+  height: 2.77em;
   background-color: var(--block-color-a);
   color: var(--body-text);
 }
@@ -56,7 +56,7 @@ form .button {
   margin-right: 0;
 }
 
-.errors ul {
+.errors ul, ul.errors {
   color: var(--red-text);
   padding-left: 1.5em;
   list-style-type: none;

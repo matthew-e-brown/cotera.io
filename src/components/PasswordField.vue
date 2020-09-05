@@ -61,9 +61,9 @@ button {
   background: none;
   cursor: pointer;
   padding: 0.40em;
-  width: 2.77rem;
-  height: 2.77rem;
-  border-radius: 0.4rem;
+  width: 2.77em;
+  height: 2.77em;
+  border-radius: 0.5em;
   position: absolute;
   right: 0;
 }

@@ -96,7 +96,7 @@ export default {
       if (!this.validateForm()) return;
       const credential = firebase.auth
         .EmailAuthProvider
-        .credential(this.form.email1, this.form.password1);
+        .credential(this.form.email, this.form.password1);
 
       firebase.auth()
         .currentUser
@@ -115,7 +115,7 @@ export default {
     register: function() {
       if (!this.validateForm()) return;
       else firebase.auth()
-        .createUserWithEmailAndPassword(this.form.email1, this.form.password1)
+        .createUserWithEmailAndPassword(this.form.email, this.form.password1)
         .then(user => user.sendEmailVerification())
         .catch(error => {
           // Add a period :P
