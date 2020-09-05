@@ -6,9 +6,9 @@
       <!-- !! ------------------ Start of hasEmail ------------------ !! -->
       <template v-if="hasEmail">
         <!-- Email row -->
-        <div class="account-row" :class="{update: email.state == 'update'}">
+        <div class="account-row" :class="{update: emailForm.state == 'update'}">
           <div>Email</div>
-          <div v-if="email.state != 'update'">{{ emailAddress }}</div>
+          <div v-if="emailForm.state != 'update'">{{ emailAddress }}</div>
           <form v-else @submit.prevent="changeEmail">
             <input
               id="new-email"
@@ -16,7 +16,7 @@
               name="email"
               placeholder="New email address"
               autocomplete="email"
-              v-model="email.new"
+              v-model="emailForm.new"
             >
             <div class="form-buttons">
               <button
@@ -31,18 +31,18 @@
             </div>
           </form>
           <button
-            v-if="email.state != 'update'"
+            v-if="emailForm.state != 'update'"
             class="button"
-            @click="email.state = 'update'"
+            @click="emailForm.state = 'update'"
           >Change</button>
         </div>
         <!-- Password Row -->
-        <div class="account-row" :class="{update: password.state == 'update'}">
+        <div class="account-row" :class="{update: passwordForm.state == 'update'}">
           <div>Password</div>
-          <div v-if="password.state == 'initial'">
+          <div v-if="passwordForm.state == 'initial'">
             &ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;
           </div>
-          <div v-else-if="password.state == 'success'" class="success">
+          <div v-else-if="passwordForm.state == 'success'" class="success">
             Password changed successfully!
           </div>
           <form v-else @submit.prevent="changePassword">
@@ -52,7 +52,7 @@
               name="old-password"
               placeholder="Current password"
               autocomplete="current-password"
-              v-model="password.old"
+              v-model="passwordForm.old"
               @change="passwordToggle"
             />
             <PasswordField
@@ -61,7 +61,7 @@
               name="new-password-1"
               placeholder="New password"
               autocomplete="new-password"
-              v-model="password.new1"
+              v-model="passwordForm.new1"
               @change="passwordToggle"
             />
             <PasswordField
@@ -70,11 +70,11 @@
               name="new-password-2"
               placeholder="Re-type new password"
               autocomplete="new-password"
-              v-model="password.new2"
+              v-model="passwordForm.new2"
               @change="passwordToggle"
             />
-            <ul v-if="password.errors.length" class="errors">
-              <li v-for="(error, i) in password.errors" :key="i">
+            <ul v-if="passwordForm.errors.length" class="errors">
+              <li v-for="(error, i) in passwordForm.errors" :key="i">
                 {{ error }}
               </li>
             </ul>
@@ -91,9 +91,9 @@
             </div>
           </form>
           <button
-            v-if="password.state != 'update'"
+            v-if="passwordForm.state != 'update'"
             class="button"
-            @click="password.state = 'update'"
+            @click="passwordForm.state = 'update'"
           >Change</button>
         </div>
       </template>
@@ -119,12 +119,12 @@ export default {
   components: { PasswordField },
   data: function() {
     return {
-      email: {
+      emailForm: {
         state: 'initial',
         new: '',
         errors: []
       },
-      password: {
+      passwordForm: {
         state: 'initial',
         old: '',
         new1: '',
@@ -150,31 +150,31 @@ export default {
       this.$refs.password3.set(value);
     },
     cancelPasswordChange: function() {
-      this.password.state = 'initial';
-      this.password.old = '';
-      this.password.new1 = '';
-      this.password.new2 = '';
+      this.passwordForm.state = 'initial';
+      this.passwordForm.old = '';
+      this.passwordForm.new1 = '';
+      this.passwordForm.new2 = '';
     },
     cancelEmailChange: function() {
-      this.email.state = 'initial';
-      this.email.new = '';
+      this.emailForm.state = 'initial';
+      this.emailForm.new = '';
     },
     changePassword: async function() {
-      this.password.errors = [];
+      this.passwordForm.errors = [];
 
-      if (this.password.old == '')
-        this.password.errors.push("Please type your current password.");
-      else if (this.password.new1 == '')
-        this.password.errors.push("Please enter a password.");
-      else if (this.password.new2 == '')
-        this.password.errors.push("Please verify your password.");
-      else if (this.password.new1 != this.password.new2)
-        this.password.errors.push("Those passwords do not match.");
+      if (this.passwordForm.old == '')
+        this.passwordForm.errors.push("Please type your current password.");
+      else if (this.passwordForm.new1 == '')
+        this.passwordForm.errors.push("Please enter a password.");
+      else if (this.passwordForm.new2 == '')
+        this.passwordForm.errors.push("Please verify your password.");
+      else if (this.passwordForm.new1 != this.passwordForm.new2)
+        this.passwordForm.errors.push("Those passwords do not match.");
 
       const { email } = firebase.auth().currentUser;
       const credential = firebase.auth
         .EmailAuthProvider
-        .credential(email, this.password.old);
+        .credential(email, this.passwordForm.old);
 
       try {
         await firebase.auth()
@@ -182,24 +182,26 @@ export default {
           .reauthenticateWithCredential(credential);
       } catch (err) {
         if (err.code == 'auth/wrong-password') {
-          this.password.errors.push("Your current password is incorrect.");
+          this.passwordForm.errors.push("Your current password is incorrect.");
         } else {
           console.log(err);
-          this.password.errors.push("Something went wrong: " + err.message);
+          this.passwordForm.errors.push("Something went wrong: " + err.message);
         }
         
         return false;
       }
       
       try {
-        await firebase.auth().currentUser.updatePassword(this.password.new1);
+        await firebase.auth()
+          .currentUser
+          .updatePassword(this.passwordForm.new1);
       } catch (err) {
         console.log(err);
-        this.password.errors.push("Something went wrong: " + err.message);
+        this.passwordForm.errors.push("Something went wrong: " + err.message);
         return false;
       }
 
-      this.password.state = 'success';
+      this.passwordForm.state = 'success';
       return true;
     },
     changeEmail: function() {
