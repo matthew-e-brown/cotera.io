@@ -1,5 +1,8 @@
 <template>
-  <button class="button" @click="submit">{{ text }}</button>
+  <button class="button" @click="submit">
+    <fa-icon :icon="[ 'fab', 'google' ]" />
+    <span>Sign in with Google</span>
+  </button>
 </template>
 
 <script>
@@ -29,18 +32,18 @@ export default {
           this.$emit('error', error);
           alert("Could not sign into Google account. Please try again later.");
         });
-    },
-    link: function() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth()
-        .currentUser
-        .linkWithRedirect(provider)
-        .then(() => this.$emit('finish'))
-        .catch(error => {
-          this.$emit('error', error);
-          alert("Could not sign into Google account. Please try again later.");
-        })
     }
   }
 }
 </script>
+
+<style scoped>
+button {
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+}
+
+span {
+  margin-left: 1em;
+}
+</style>
