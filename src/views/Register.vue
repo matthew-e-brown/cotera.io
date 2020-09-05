@@ -5,20 +5,12 @@
     <form @submit.prevent="submit">
       <div class="row">
         <input
-          id="email-1"
+          id="email"
           type="text"
-          name="email-1"
+          name="email"
           placeholder="Email address"
           autocomplete="email"
-          v-model="form.email1"
-        />
-        <input
-          id="email-2"
-          type="text"
-          name="email-2"
-          placeholder="Re-type email address"
-          autocomplete="email"
-          v-model="form.email2"
+          v-model="form.email"
         />
       </div>
       <div class="row">
@@ -85,8 +77,7 @@ export default {
       errors: [],
       requiresAuth: false,
       form: {
-        email1: '',
-        email2: '',
+        email: '',
         password1: '',
         password2: ''
       }
@@ -135,12 +126,8 @@ export default {
     validateForm: function() {
       this.errors = [];
 
-      if (this.form.email1.length == 0)
+      if (this.form.email.length == 0)
         this.errors.push("Please enter an email address.");
-      else if (this.form.email2.length == 0)
-        this.errors.push("Please verify your email address.");
-      else if (this.form.email1 != this.form.email2)
-        this.errors.push("Those email addresses don't match.");
 
       if (this.form.password1.length == 0)
         this.errors.push("Please enter a password.");

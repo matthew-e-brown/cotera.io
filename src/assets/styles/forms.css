@@ -58,6 +58,7 @@ form .button {
 
 .errors ul {
   color: var(--red-text);
+  padding-left: 1.5em;
   list-style-type: none;
   font-style: italic;
   font-size: 92.5%;
