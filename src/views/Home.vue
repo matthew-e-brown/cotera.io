@@ -1,9 +1,9 @@
 <template>
   <main id="home">
     <ArmorInfo class="sticky-box" :armor="state.selected" />
-    <div id="armor-list">
+    <ul id="armor-list">
       <ArmorItem v-for="piece in armor" :key="piece.tag" :armor="piece" />
-    </div>
+    </ul>
   </main>
 </template>
 
@@ -35,10 +35,12 @@ export default {
 }
 
 #armor-list {
+  list-style: none;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   margin: 2rem 1rem;
+  padding: 0;
 }
 
 @media (max-width: 770px) {

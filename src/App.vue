@@ -2,8 +2,8 @@
   <div id="app">
     <nav>
       <router-link to="/"><h1>Cotera<span>.io</span></h1></router-link>
-      <router-link v-if="!state.signedin" to="/login">Log in</router-link>
-      <router-link v-else to="/account">Your Account</router-link>
+      <router-link to="/login" v-if="!state.signedin">Log in</router-link>
+      <router-link to="/account" v-else>Your Account</router-link>
     </nav>
     <router-view />
   </div>

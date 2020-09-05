@@ -1,13 +1,15 @@
 <template>
-  <button type="button" :aria-label="armor.name" @click="select">
-    <div class="stars">
-      <span v-for="i in 4" :class="{ filled: i <= armor.level }" :key="i">
-        <Star />
-      </span>
-    </div>
-    <img :src="armor.sprite" draggable="false" aria-hidden="true" alt="">
-    <span v-if="armor" class="num" aria-label="defense">{{ armor.defense }}</span>
-  </button>
+  <li :aria-label="armor.name">
+    <button type="button" @click="select">
+      <div class="stars">
+        <span v-for="i in 4" :class="{ filled: i <= armor.level }" :key="i">
+          <Star />
+        </span>
+      </div>
+      <img :src="armor.sprite" draggable="false" aria-hidden="true" alt="">
+      <span v-if="armor" class="num" aria-label="defense">{{ armor.defense }}</span>
+    </button>
+  </li>
 </template>
 
 <script>
@@ -32,13 +34,19 @@ export default {
 </script>
 
 <style scoped>
+li {
+  display: block;
+  list-style: none;
+  margin: 1rem;
+}
+
 button {
   display: block;
   cursor: pointer;
   position: relative;
   background-color: var(--block-color-t);
   padding: 0.25rem;
-  margin: 1rem;
+  margin: 0;
   border: 0.25rem double var(--block-border);
   border-radius: 0.3rem;
 }
@@ -61,15 +69,13 @@ span.num {
 
 img {
   display: block;
-  max-height: 100%;
-  max-width: 100%;
   min-height: 82px;
   min-width: 82px;
   height: calc(2rem + 5vw);
 }
 
 @media (max-width: 770px) {
-  button {
+  li {
     margin: 0.5rem;
   }
 
