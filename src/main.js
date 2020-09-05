@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 
 import '@/assets/fonts/calamity-sans.css';
+import '@/assets/styles/global.css';
 
 Vue.config.productionTip = false;
 

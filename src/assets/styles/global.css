@@ -1,0 +1,190 @@
+/* Small CSS Reset */
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  appearance: none;
+  touch-action: manipulation;
+}
+
+label, input, button {
+  font: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --red-text: #ff7170;
+  --body-text: #fdfbe2;
+  --body-text-1: #898576;
+  --body-text-2: #5c594e;
+  --block-color: rgb(14, 10, 6);
+  --block-color-t: rgba(14, 10, 6, 0.85);
+  --block-color-a: rgba(249, 237, 180, 0.10);
+  --block-border: rgba(249, 237, 180, 0.40);
+}
+
+:root {
+  font-family: 'Epilogue', Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.065ch;
+  color: var(--body-text);
+  background-color: #312626;
+}
+
+#app {
+  position: relative;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Calamity', 'Avenir', Helvetica, Arial, sans-serif;
+  letter-spacing: initial;
+}
+
+main {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(1440px + 3vw);
+}
+
+.sticky-box {
+  position: sticky;
+  top: 8rem;
+  margin: 2rem;
+  padding: 1rem;
+  z-index: 1;
+  min-width: calc(18rem + 12vw);
+  background-color: var(--block-color);
+  border-radius: 0.3rem;
+  border: 0.25rem double var(--block-border);
+}
+
+main, main.sticky-box {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a, a:visited {
+  font: inherit;
+  color: inherit;
+}
+
+span.num {
+  background-color: var(--block-color);
+  color: var(--body-text);
+  font-weight: bold;
+  padding: 0.25em 0.75em 0.075em 0.75em;
+  border: 0.1rem solid var(--block-border);
+  border-radius: 0.2em;
+  text-align: center;
+  width: 1.25em;
+}
+
+.button, a.button {
+  box-sizing: border-box;
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.75rem 2rem;
+  color: black;
+  font-weight: 700;
+  background-color: white;
+  border-radius: 0.4rem;
+  width: fit-content;
+  min-width: 10rem;
+  margin: 0.5rem;
+}
+
+.separator {
+  box-sizing: border-box;
+  width: 80%;
+  margin: 2rem auto;
+  font-family: 'Epilogue', Helvetica, Arial, sans-serif;
+  font-style: italic;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.separator>* {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.separator::before, .separator::after {
+  content: "";
+  flex: 1 1 0;
+  height: 0.1em;
+  background-color: var(--body-text);
+  border-radius: 9999px;
+}
+
+div.separator {
+  cursor: default;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+}
+
+.stars span {
+  margin: 0.1em;
+  color: var(--body-text-2);
+  filter: drop-shadow(0 0.025em 0.25em #000000ff);
+}
+
+.stars span.filled {
+  filter: drop-shadow(0 0.025em 0.15em #ffffff80);
+}
+
+.stars svg {
+  height: 1.2em;
+}
+
+.stars span.filled, .stars button {
+  color: var(--body-text);
+}
+
+.stars button:disabled {
+  color: var(--body-text-2);
+  cursor: default;
+}
+
+svg {
+  display: block;
+  fill: currentColor;
+}
+
+@media screen and (max-width: 430px) {
+  :root {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 770px) {
+  .sticky-box {
+    width: 100%;
+    margin: 0;
+    top: 5.3rem;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+}
+
+@supports (backdrop-filter: blur(10px)) {
+  .sticky-box {
+    background-color: var(--block-color-t);
+    backdrop-filter: blur(10px);
+  }
+}
