@@ -11,16 +11,31 @@
         :class="{update: emailForm.state == 'update'}"
       >
         <div><strong>Email</strong></div>
-        <div v-if="emailForm.state != 'update'">{{ emailAddress }}</div>
+        <div v-if="emailForm.state == 'initial'">{{ emailAddress }}</div>
+        <div v-else-if="emailForm.state == 'success'" class="success">
+          Email address changed successfully!
+        </div>
         <form v-else @submit.prevent="changeEmail">
           <input
             id="new-email"
             type="text"
             name="email"
             placeholder="New email address"
-            autocomplete="email"
+            autocomplete="off"
             v-model="emailForm.new"
           >
+          <PasswordField
+            id="email-password"
+            name="email-password"
+            placeholder="Current password"
+            autocomplete="current-password"
+            v-model="emailForm.password"
+          />
+          <ul v-if="emailForm.errors.length" class="errors">
+            <li v-for="(error, i) in emailForm.errors" :key="i">
+              {{ error }}
+            </li>
+          </ul>
           <div class="form-buttons">
             <button
               class="button"
@@ -124,6 +139,7 @@ export default {
       emailForm: {
         state: 'initial',
         new: '',
+        password: '',
         errors: []
       },
       passwordForm: {
@@ -191,10 +207,10 @@ export default {
           console.log(err);
           this.passwordForm.errors.push("Something went wrong: " + err.message);
         }
-        
+
         return false;
       }
-      
+
       try {
         await firebase.auth()
           .currentUser
@@ -205,11 +221,52 @@ export default {
         return false;
       }
 
+      this.cancelPasswordChange(); // reset fields
       this.passwordForm.state = 'success';
       return true;
     },
-    changeEmail: function() {
-      return false;
+    changeEmail: async function() {
+      this.emailForm.errors = [];
+
+      if (this.emailForm.new.length == 0)
+        this.emailForm.errors.push("Please enter an email address.");
+
+      if (this.emailForm.errors.length != 0) return false;
+
+      const change = async () => {
+        await firebase.auth().currentUser.updateEmail(this.emailForm.new);
+        firebase.auth().currentUser.sendEmailVerification();
+      }
+
+      try {
+        try {
+          await change();
+        } catch (err) {
+          if (err.code == 'auth/requires-recent-login') {
+            console.log('re-auth');
+
+            // Re-auth and try again
+            const { email } = firebase.auth().currentUser;
+            const credential = firebase.auth
+              .EmailAuthProvider
+              .credential(email, this.emailForm.password);
+
+            await firebase.auth()
+              .currentUser
+              .reauthenticateWithCredential(credential);
+
+            await change();
+          } else throw err;
+        }
+      } catch (err) {
+        console.log(err);
+        this.emailForm.errors.push(err.message);
+      }
+
+      this.cancelEmailChange(); // reset fields
+      this.$parent.$forceUpdate(); // update email in nav-bar
+      this.emailForm.state = 'success';
+      return true;
     }
   }
 }
@@ -262,6 +319,10 @@ section {
 
 .account-row>div:nth-child(2) {
   color: var(--body-text-1);
+}
+
+.account-row div.success {
+  color: #6cd40d;
 }
 
 .account-row>:nth-child(3) {

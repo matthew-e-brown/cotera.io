@@ -4,7 +4,7 @@
       <router-link to="/" id="home-link"><h1>Cotera<span>.io</span></h1></router-link>
       <router-link to="/login" v-if="!state.signedin">Log in</router-link>
       <div id="account-links" v-else>
-        <div>{{ userID }}</div>
+        <div>{{ getUserEmail() }}</div>
         <div>
           <router-link to="/account" class="account-link">Settings</router-link>
           <button class="account-link" type="button" @click="signout">Sign out</button>
@@ -26,12 +26,12 @@ export default {
   data: function() {
     return { state }
   },
-  computed: {
-    userID: function() {
-      return firebase.auth().currentUser.email;
-    }
-  },
   methods: {
+    getUserEmail: function() {
+      // Method instead of computed so that it can be re-run if changed in
+      // Acccount settings with vm.$forceUpdate().
+      return firebase.auth().currentUser.email;
+    },
     signout: async function() {
       try {
         await firebase.auth().signOut();
