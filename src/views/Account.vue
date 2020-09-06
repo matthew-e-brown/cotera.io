@@ -118,6 +118,11 @@
     </section>
     <section>
       <h3>Progress</h3>
+      <button
+        id="reset-progress"
+        class="button"
+        @click="resetProgress"
+      >{{ resetText }}</button>
     </section>
     <section>
       <h3>Sign-in Methods</h3>
@@ -127,6 +132,8 @@
 
 <script>
 import PasswordField from '@/components/PasswordField.vue';
+
+import { resetProgress } from '@/store';
 
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -148,7 +155,8 @@ export default {
         new1: '',
         new2: '',
         errors: [],
-      }
+      },
+      resetText: "Reset progress"
     }
   },
   computed: {
@@ -243,8 +251,6 @@ export default {
           await change();
         } catch (err) {
           if (err.code == 'auth/requires-recent-login') {
-            console.log('re-auth');
-
             // Re-auth and try again
             const { email } = firebase.auth().currentUser;
             const credential = firebase.auth
@@ -267,6 +273,14 @@ export default {
       this.$parent.$forceUpdate(); // update email in nav-bar
       this.emailForm.state = 'success';
       return true;
+    },
+    resetProgress: function() {
+      if (this.resetText == "Reset progress") {
+        this.resetText = "Are you sure?"
+        return;
+      } else if (confirm("Are you really sure?")) {
+        resetProgress();
+      }
     }
   }
 }
@@ -360,6 +374,28 @@ section {
 .form-buttons button:last-child {
   margin-left: 1em;
   border: none;
+}
+
+#reset-progress {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#reset-progress:active, #reset-progress:focus {
+  color: var(--red-text);
+  border-color: var(--red-text);
+}
+
+@media (hover :hover) {
+  #reset-progress {
+    transition-property: color, border-color;
+    transition: 125ms linear;
+  }
+
+  #reset-progress:hover {
+    color: var(--red-text);
+    border-color: var(--red-text);
+  }
 }
 
 @media (max-width: 770px) {
