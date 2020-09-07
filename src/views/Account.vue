@@ -5,114 +5,120 @@
       <h3>Email &amp; Password</h3>
       <!-- !! ------------------ Start of hasEmail ------------------ !! -->
       <!-- Email row -->
-      <div
-        v-if="hasEmail"
-        class="account-row"
-        :class="{update: emailForm.state == 'update'}"
-      >
-        <div><strong>Email</strong></div>
-        <div v-if="emailForm.state == 'initial'">{{ emailAddress }}</div>
-        <div v-else-if="emailForm.state == 'success'" class="success">
-          Email address changed successfully!
-        </div>
-        <form v-else @submit.prevent="changeEmail">
-          <input
-            id="new-email"
-            type="text"
-            name="email"
-            placeholder="New email address"
-            autocomplete="off"
-            v-model="emailForm.new"
-          >
-          <PasswordField
-            id="email-password"
-            name="email-password"
-            placeholder="Current password"
-            autocomplete="current-password"
-            v-model="emailForm.password"
-          />
-          <ul v-if="emailForm.errors.length" class="errors">
-            <li v-for="(error, i) in emailForm.errors" :key="i">
-              {{ error }}
-            </li>
-          </ul>
-          <div class="form-buttons">
-            <button
-              class="button"
-              type="submit"
-            >Save</button>
-            <button
-              class="button"
-              type="button"
-              @click="cancelEmailChange"
-            >Cancel</button>
+      <template v-if="hasEmail">
+        <div class="account-row" :class="{ update: emailForm.state == 'update' }">
+          <div><strong>Email</strong></div>
+          <div v-if="emailForm.state == 'initial'">{{ emailAddress }}</div>
+          <div v-else-if="emailForm.state == 'success'" class="success">
+            Email address changed successfully!
           </div>
-        </form>
-        <button
-          v-if="emailForm.state != 'update'"
-          class="button"
-          @click="emailForm.state = 'update'"
-        >Change</button>
-      </div>
-      <!-- Password Row -->
-      <div class="account-row" :class="{update: passwordForm.state == 'update'}">
-        <div><strong>Password</strong></div>
-        <div v-if="passwordForm.state == 'initial'">
-          &ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;
+          <form v-else @submit.prevent="changeEmail">
+            <input
+              id="new-email"
+              type="text"
+              name="email"
+              placeholder="New email address"
+              autocomplete="off"
+              v-model="emailForm.new"
+            >
+            <PasswordField
+              id="email-password"
+              name="email-password"
+              placeholder="Current password"
+              autocomplete="current-password"
+              v-model="emailForm.password"
+            />
+            <ul v-if="emailForm.errors.length" class="errors">
+              <li v-for="(error, i) in emailForm.errors" :key="i">
+                {{ error }}
+              </li>
+            </ul>
+            <div class="form-buttons">
+              <button
+                class="button"
+                type="submit"
+              >Save</button>
+              <button
+                class="button"
+                type="button"
+                @click="cancelEmailChange"
+              >Cancel</button>
+            </div>
+          </form>
+          <button
+            v-if="emailForm.state != 'update'"
+            class="button"
+            @click="emailForm.state = 'update'"
+          >Change</button>
         </div>
-        <div v-else-if="passwordForm.state == 'success'" class="success">
-          Password changed successfully!
-        </div>
-        <form v-else @submit.prevent="changePassword">
-          <PasswordField
-            ref="password1"
-            id="old-password"
-            name="old-password"
-            placeholder="Current password"
-            autocomplete="current-password"
-            v-model="passwordForm.old"
-            @change="passwordToggle"
-          />
-          <PasswordField
-            ref="password2"
-            id="new-password-1"
-            name="new-password-1"
-            placeholder="New password"
-            autocomplete="new-password"
-            v-model="passwordForm.new1"
-            @change="passwordToggle"
-          />
-          <PasswordField
-            ref="password3"
-            id="new-password-2"
-            name="new-password-2"
-            placeholder="Re-type new password"
-            autocomplete="new-password"
-            v-model="passwordForm.new2"
-            @change="passwordToggle"
-          />
-          <ul v-if="passwordForm.errors.length" class="errors">
-            <li v-for="(error, i) in passwordForm.errors" :key="i">
-              {{ error }}
-            </li>
-          </ul>
-          <div class="form-buttons">
-            <button
-              class="button"
-              type="submit"
-            >Save</button>
-            <button
-              class="button"
-              type="button"
-              @click="cancelPasswordChange"
-            >Cancel</button>
+        <!-- Password Row -->
+        <div class="account-row" :class="{ update: passwordForm.state == 'update' }">
+          <div><strong>Password</strong></div>
+          <div v-if="passwordForm.state == 'initial'">
+            &ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;
           </div>
-        </form>
-        <button
-          v-if="passwordForm.state != 'update'"
-          class="button"
-          @click="passwordForm.state = 'update'"
-        >Change</button>
+          <div v-else-if="passwordForm.state == 'success'" class="success">
+            Password changed successfully!
+          </div>
+          <form v-else @submit.prevent="changePassword">
+            <PasswordField
+              ref="password1"
+              id="old-password"
+              name="old-password"
+              placeholder="Current password"
+              autocomplete="current-password"
+              v-model="passwordForm.old"
+              @change="passwordToggle"
+            />
+            <PasswordField
+              ref="password2"
+              id="new-password-1"
+              name="new-password-1"
+              placeholder="New password"
+              autocomplete="new-password"
+              v-model="passwordForm.new1"
+              @change="passwordToggle"
+            />
+            <PasswordField
+              ref="password3"
+              id="new-password-2"
+              name="new-password-2"
+              placeholder="Re-type new password"
+              autocomplete="new-password"
+              v-model="passwordForm.new2"
+              @change="passwordToggle"
+            />
+            <ul v-if="passwordForm.errors.length" class="errors">
+              <li v-for="(error, i) in passwordForm.errors" :key="i">
+                {{ error }}
+              </li>
+            </ul>
+            <div class="form-buttons">
+              <button
+                class="button"
+                type="submit"
+              >Save</button>
+              <button
+                class="button"
+                type="button"
+                @click="cancelPasswordChange"
+              >Cancel</button>
+            </div>
+          </form>
+          <button
+            v-if="passwordForm.state != 'update'"
+            class="button"
+            @click="passwordForm.state = 'update'"
+          >Change</button>
+        </div>
+      </template>
+      <div v-else id="no-email-row">
+        <div>
+          Sign in with an email &amp; password in addition to Google
+        </div>
+        <router-link class="button" to="/register/account-link">
+          Link
+        </router-link>
       </div>
       <!-- !! ------------------ End of hasEmail ------------------ !! -->
     </section>
@@ -132,9 +138,12 @@
         <router-link
           v-if="!hasEmail"
           to="/register/account-link"
-          class="button"
-        >Link email address &amp; password</router-link>
-        <button class="button icon-button">
+          class="button icon-button"
+        >
+          <fa-icon icon="envelope" class="fa-fw" />
+          <span>Link email &amp; password</span>
+        </router-link>
+        <button v-else class="button icon-button" @click="unlinkEmail">
           <fa-icon icon="envelope" class="fa-fw" />
           <span>Unlink email &amp; password</span>
         </button>
@@ -311,6 +320,10 @@ export default {
       this.emailForm.state = 'success';
       return true;
     },
+    unlinkEmail: async function() {
+      await firebase.auth().currentUser.unlink('password');
+      this.refresh();
+    },
     resetProgress: function() {
       if (this.reset.state == 'initial' || this.reset.state == 'cancel') {
         this.reset.state = 'confirm';
@@ -373,7 +386,7 @@ section {
   font-size: 0.9em;
 }
 
-.account-row {
+.account-row, #no-email-row {
   margin: 0.85rem 0;
   display: grid;
   grid-template-columns: 7em 2fr 1fr;
@@ -413,6 +426,20 @@ section {
   margin-top: 0.85em;
 }
 
+#no-email-row {
+  margin: 0;
+  align-items: center;
+  color: var(--body-text-1);
+}
+
+#no-email-row>:first-child {
+  grid-column: 1 / span 2;
+}
+
+#no-email-row>:last-child {
+  justify-self: flex-end;
+}
+
 .form-buttons {
   display: flex;
   justify-content: flex-end;
@@ -449,7 +476,16 @@ section {
   width: 46%;
 }
 
-@media (hover :hover) {
+#sign-in>:first-child {
+  margin-left: 0;
+}
+
+#sign-in>:last-child {
+  margin-right: 0;
+}
+
+
+@media (hover: hover) {
   #reset-progress {
     transition-property: color, border-color;
     transition: 125ms linear;
@@ -480,6 +516,16 @@ section {
   .account-row>*:nth-child(1) { grid-area: h; }
   .account-row>*:nth-child(2) { grid-area: e; }
   .account-row>*:nth-child(3) { grid-area: b; }
+
+  #no-email-row {
+    grid-template-columns: initial;
+    grid-template-rows: 1fr 2fr;
+    row-gap: 0.85em;
+  }
+
+  #no-email-row>:first-child {
+    grid-column: initial;
+  }
 
   .form-buttons {
     justify-content: flex-end;

@@ -35,9 +35,7 @@ form .button {
 }
 
 .icon-button, * >>> .icon-button {
-  padding-left: 1.25em;
-  padding-right: 1.25em;
-  padding-bottom: 1em;
+  padding: 0.6em 1.25em 0.8em;
   vertical-align: middle;
   display: flex;
   align-items: center;
@@ -48,9 +46,8 @@ form .button {
 }
 
 .icon-button span, * >>> .icon-button span {
-  font-size: 1.05em;
-  padding-top: 0.15em;
-  margin-left: 1.85em;
+  padding-top: 0.25em;
+  margin-left: 1.65em;
 }
 
 .row {
@@ -103,8 +100,10 @@ form .button {
   .icon-button svg, * >>> .icon-button svg {
     font-size: 1.60em;
   }
+}
 
+@media (max-width: 430px) {
   .icon-button span, * >>> .icon-button span {
-    margin-left: 0.35em;
+    margin-left: 0.65em;
   }
 }

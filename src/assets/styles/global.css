@@ -87,13 +87,14 @@ span.num {
 }
 
 .button, a.button {
+  font-family: 'Epilogue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.9em;
   box-sizing: border-box;
   display: block;
   text-decoration: none;
   text-align: center;
-  padding: 0.80em 2.5em;
-  font-weight: 700;
-  font-size: 0.9em;
+  padding: 0.80em 2.5em 0.7em;
   background-color: transparent;
   color: var(--body-text);
   border: 0.15em solid var(--body-text);
