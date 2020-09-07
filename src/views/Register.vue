@@ -92,36 +92,42 @@ export default {
     submit: function() {
       this.linkMode ? this.link() : this.register();
     },
-    link: function() {
+    link: async function() {
       if (!this.validateForm()) return;
+
       const credential = firebase.auth
         .EmailAuthProvider
         .credential(this.form.email, this.form.password1);
 
-      firebase.auth()
-        .currentUser
-        .linkWithCredential(credential)
-        .then(usercred => usercred.user.sendEmailVerification())
-        .then(() => this.$router.push('/account'))
-        .catch(error => {
-          if (error.code == 'auth/requires-recent-login') {
-            this.requiresAuth = true;
-          } else {
-            if (!error.message.endsWith('.')) error.message += '.';
-            this.errors.push(error.message);
-          }
-        });
-    },
-    register: function() {
-      if (!this.validateForm()) return;
-      else firebase.auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password1)
-        .then(user => user.sendEmailVerification())
-        .catch(error => {
-          // Add a period :P
+      try {
+        const usercred = await firebase.auth().currentUser
+          .linkWithCredential(credential);
+
+        usercred.user.sendEmailVerification();
+        this.$router.push('/account');
+      } catch (error) {
+        if (error.code == 'auth/requires-recent-login') {
+          this.requiresAuth = true;
+        } else {
           if (!error.message.endsWith('.')) error.message += '.';
           this.errors.push(error.message);
-        });
+        }
+      }
+    },
+    register: async function() {
+      if (!this.validateForm()) return;
+
+      try {
+        const user = await firebase.auth()
+          .createUserWithEmailAndPassword(this.form.email, this.form.password1);
+
+        user.sendEmailVerification();
+      } catch (error) {
+        // Add a period :P
+        if (!error.message.endsWith('.')) error.message += '.';
+        this.errors.push(error.message);
+      }
+
     },
     validateForm: function() {
       this.errors = [];

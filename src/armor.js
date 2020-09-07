@@ -24,7 +24,7 @@ class Armor {
   }
 
   get nextDefense() {
-    if (this.level == 4) return '??';
+    if (this.level == 4) return NaN;
     else return this.upgrades[this.level].defense;
   }
 
