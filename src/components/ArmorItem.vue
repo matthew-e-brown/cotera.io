@@ -3,7 +3,7 @@
     <button type="button" @click="select">
       <div class="stars">
         <span v-for="i in 4" :class="{ filled: i <= armor.level }" :key="i">
-          <Star />
+          <fa-icon icon="star" />
         </span>
       </div>
       <img :src="armor.sprite" draggable="false" aria-hidden="true" alt="">
@@ -14,14 +14,12 @@
 
 <script>
 import state from '@/store';
-import Star from '@/assets/icons/star-solid.svg';
 
 export default {
   name: 'ArmorItem',
   props: {
     armor: { type: Object, required: false }
   },
-  components: { Star },
   data: function() {
     return { state }
   },

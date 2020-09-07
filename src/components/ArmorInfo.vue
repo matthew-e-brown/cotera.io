@@ -9,7 +9,9 @@
           <span class="num" aria-label="current defense">
             {{ armor.defense }}
           </span>
-          <span v-if="!completed" aria-hidden="true"><CaretRight /></span>
+          <span v-if="!completed" aria-hidden="true">
+            <fa-icon icon="caret-right" />
+          </span>
           <span v-if="!completed" class="num" aria-label="next defense">
             {{ armor.nextDefense }}
           </span>
@@ -23,19 +25,19 @@
             aria-label="decrease level"
             :disabled="!(armor.level > 0)"
             @click="decrease"
-          ><Minus /></button>
+          ><fa-icon icon="minus" /></button>
           <span
             v-for="i in 4"
             :key="i"
             :class="{ filled: i <= armor.level }"
             aria-hidden="true"
-          ><Star /></span>
+          ><fa-icon icon="star" /></span>
           <button
             type="button"
             aria-label="increase level"
             :disabled="!(armor.level < 4)"
             @click="increase"
-          ><Plus /></button>
+          ><fa-icon icon="plus" /></button>
         </div>
       </div>
       <template v-if="!completed">
@@ -68,11 +70,6 @@
 
 <script>
 import Shirt from '@/assets/icons/shirt.svg';
-import Star from '@/assets/icons/star-solid.svg';
-import Plus from '@/assets/icons/plus-solid.svg';
-import Minus from '@/assets/icons/minus-solid.svg';
-import CaretRight from '@/assets/icons/caret-right-solid.svg';
-
 import { userProgress, levelUp, levelDown } from '@/store';
 import items from '@/assets/data/items.json';
 
@@ -81,7 +78,7 @@ export default {
   props: {
     armor: { type: Object, required: false }
   },
-  components: { Shirt, Plus, Minus, CaretRight, Star },
+  components: { Shirt },
   methods: {
     increase: function() {
       if (this.armor.level < 4) levelUp(this.armor);

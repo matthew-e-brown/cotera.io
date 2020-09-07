@@ -1,9 +1,15 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/"><h1>Cotera<span>.io</span></h1></router-link>
+      <router-link to="/" id="home-link"><h1>Cotera<span>.io</span></h1></router-link>
       <router-link to="/login" v-if="!state.signedin">Log in</router-link>
-      <router-link to="/account" v-else>Your Account</router-link>
+      <div id="account-links" v-else>
+        <div>{{ getUserEmail() }}</div>
+        <div>
+          <router-link to="/account" class="account-link">Settings</router-link>
+          <button class="account-link" type="button" @click="signout">Sign out</button>
+        </div>
+      </div>
     </nav>
     <router-view />
   </div>
@@ -12,10 +18,28 @@
 <script>
 import state from '@/store';
 
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
 export default {
   name: 'App',
   data: function() {
     return { state }
+  },
+  methods: {
+    getUserEmail: function() {
+      // Method instead of computed so that it can be re-run if changed in
+      // Acccount settings with vm.$forceUpdate().
+      return firebase.auth().currentUser.email;
+    },
+    signout: async function() {
+      try {
+        await firebase.auth().signOut();
+      } catch (error) {
+        console.error(error);
+        alert("Could not sign out. Please try again later.");
+      }
+    }
   }
 }
 </script>
@@ -46,13 +70,41 @@ nav {
 
 nav a, nav button {
   cursor: pointer;
+}
+
+nav div {
+  text-align: right;
+}
+
+nav div .account-link {
+  color: var(--body-text-1);
+  text-decoration: underline;
+  font-size: 80%;
+  margin: 0 0.5em;
+}
+
+nav div .account-link:last-child {
+  margin-right: 0;
+}
+
+nav a:not(.account-link) {
   text-decoration: none;
-  color: inherit;
+}
+
+#account-links {
+  max-width: 52.5%;
+}
+
+#account-links>div:first-child {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media (max-width: 770px) {
   nav {
     border-bottom: 0.3rem double var(--block-border);
+    padding: 1rem 2rem;
   }
 }
 

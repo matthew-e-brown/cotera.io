@@ -1,52 +1,53 @@
-label, input, * >>> input {
+input, * >>> input {
   box-sizing: border-box;
   display: block;
   width: 100%;
 }
 
-label {
-  padding-left: 0.75em;
-  margin-bottom: 0.5em;
-}
-
 input, * >>> input {
   box-sizing: border-box;
-  padding: 1em 1em 0.75em;
-  border-radius: 0.4rem;
+  padding: 1em 1.5em 0.75em;
+  border-radius: 0.5em;
   border: 0;
+  height: 2.77em;
+  background-color: var(--block-color-a);
+  color: var(--body-text);
+}
 
-  /* Need to give this a fixed height becuase Firefox doesn't know how to handle
-   * flexbox properly with SVGs or Buttons. Both seem to cause it to FREAK out.
-   */
-  height: 2.77rem;
+input::placeholder, * >>> input::placeholder {
+  color: var(--body-text-1);
 }
 
 main {
   padding: 2rem;
 }
 
-h2, h3, h4 {
-  text-align: center;
-}
-
 h2 {
+  text-align: center;
   margin-top: 0;
   margin-bottom: 1em;
   font-size: 1.8rem;
 }
 
-h3 {
-  font-size: 1.4rem;
-}
-
-h4 {
-  font-size: 1.2rem;
-  font-weight: 500;
-}
-
 form .button {
   margin-left: auto;
   margin-right: 0;
+}
+
+.icon-button, * >>> .icon-button {
+  padding: 0.6em 1.25em 0.8em;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+}
+
+.icon-button svg, * >>> .icon-button svg {
+  font-size: 1.75em;
+}
+
+.icon-button span, * >>> .icon-button span {
+  padding-top: 0.25em;
+  margin-left: 1.65em;
 }
 
 .row {
@@ -71,8 +72,9 @@ form .button {
   margin-right: 0;
 }
 
-.errors ul {
+.errors ul, ul.errors {
   color: var(--red-text);
+  padding-left: 1.5em;
   list-style-type: none;
   font-style: italic;
   font-size: 92.5%;
@@ -89,6 +91,19 @@ form .button {
 }
 
 #bottom-buttons a {
-  font-size: 85%;
+  color: var(--body-text-1);
+  font-size: 80%;
   margin: 0.5rem;
+}
+
+@media (max-width: 770px) {
+  .icon-button svg, * >>> .icon-button svg {
+    font-size: 1.60em;
+  }
+}
+
+@media (max-width: 430px) {
+  .icon-button span, * >>> .icon-button span {
+    margin-left: 0.65em;
+  }
 }

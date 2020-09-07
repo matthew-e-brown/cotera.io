@@ -49,6 +49,7 @@ export default {
 
 <style scoped>
 div {
+  display: flex;
   position: relative;
   box-sizing: content-box;
 }
@@ -58,22 +59,24 @@ button {
   justify-content: center;
   align-items: center;
   background: none;
-  background-color: white;
-  border: 0;
-  z-index: 2;
   cursor: pointer;
-  position: absolute;
-  top: 0; bottom: 0; right: 0;
   padding: 0.40em;
-  max-width: 2.77rem;
-  border-top-right-radius: 0.4rem;
-  border-bottom-right-radius: 0.4rem;
+  width: 2.77em;
+  height: 2.77em;
+  border-radius: 0.5em;
+  position: absolute;
+  right: 0;
+}
+
+button:active {
+  color: var(--body-text);
+  background-color: var(--block-color-a);
 }
 
 svg {
   display: block;
   height: 100%;
-  fill: #000000aa;
+  fill: var(--body-text-1);
 }
 
 @media (hover: hover) {
@@ -82,7 +85,8 @@ svg {
   }
 
   button:hover, button:focus {
-    background-color: #e0e0e0;
+    color: var(--body-text);
+    background-color: var(--block-color-a);
   }
 }
 </style>

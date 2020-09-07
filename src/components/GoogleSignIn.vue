@@ -1,5 +1,8 @@
 <template>
-  <button class="button" @click="submit">{{ text }}</button>
+  <button class="button icon-button" @click="submit">
+    <fa-icon :icon="[ 'fab', 'google' ]" />
+    <span>{{ text }}</span>
+  </button>
 </template>
 
 <script>
@@ -9,14 +12,22 @@ import 'firebase/auth';
 export default {
   name: 'GoogleSignIn',
   props: {
-    linkMode: { type: Boolean, required: false, default: false }
+    mode: { type: String, required: false, default: "normal" }
   },
   computed: {
     submit: function() {
-      return this.linkMode ? this.link : this.signin;
+      switch (this.mode) {
+        case 'normal': return this.signin;
+        case 'link': return this.link;
+        case 'unlink': return this.unlink;
+      }
     },
     text: function() {
-      return this.linkMode ? "Link Google account" : "Sign in with Google";
+      switch (this.mode) {
+        case 'normal': return "Sign in with Google";
+        case 'link': return "Link Google account";
+        case 'unlink': return "Unlink Google account";
+      }
     }
   },
   methods: {
@@ -39,7 +50,13 @@ export default {
         .catch(error => {
           this.$emit('error', error);
           alert("Could not sign into Google account. Please try again later.");
-        })
+        });
+    },
+    unlink: function() {
+      firebase.auth()
+        .currentUser
+        .unlink('google.com')
+        .then(() => this.$emit('finish'));
     }
   }
 }

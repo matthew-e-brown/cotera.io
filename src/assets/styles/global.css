@@ -87,18 +87,21 @@ span.num {
 }
 
 .button, a.button {
+  font-family: 'Epilogue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.9em;
   box-sizing: border-box;
   display: block;
   text-decoration: none;
   text-align: center;
-  padding: 0.75rem 2rem;
-  color: black;
-  font-weight: 700;
-  background-color: white;
-  border-radius: 0.4rem;
+  padding: 0.80em 2.5em 0.7em;
+  background-color: transparent;
+  color: var(--body-text);
+  border: 0.15em solid var(--body-text);
+  border-radius: 0.5em;
   width: fit-content;
-  min-width: 10rem;
-  margin: 0.5rem;
+  min-width: 10em;
+  margin: 0.5em;
 }
 
 .separator {
