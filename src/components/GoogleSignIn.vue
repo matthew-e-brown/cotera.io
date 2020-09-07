@@ -1,7 +1,7 @@
 <template>
-  <button class="button" @click="submit">
+  <button class="button icon-button" @click="submit">
     <fa-icon :icon="[ 'fab', 'google' ]" />
-    <span>Sign in with Google</span>
+    <span>{{ text }}</span>
   </button>
 </template>
 
@@ -12,14 +12,22 @@ import 'firebase/auth';
 export default {
   name: 'GoogleSignIn',
   props: {
-    linkMode: { type: Boolean, required: false, default: false }
+    mode: { type: String, required: false, default: "normal" }
   },
   computed: {
     submit: function() {
-      return this.linkMode ? this.link : this.signin;
+      switch (this.mode) {
+        case 'normal': return this.signin;
+        case 'link': return this.link;
+        case 'unlink': return this.unlink;
+      }
     },
     text: function() {
-      return this.linkMode ? "Link Google account" : "Sign in with Google";
+      switch (this.mode) {
+        case 'normal': return "Sign in with Google";
+        case 'link': return "Link Google account";
+        case 'unlink': return "Unlink Google account";
+      }
     }
   },
   methods: {
@@ -32,25 +40,24 @@ export default {
           this.$emit('error', error);
           alert("Could not sign into Google account. Please try again later.");
         });
+    },
+    link: function() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth()
+        .currentUser
+        .linkWithRedirect(provider)
+        .then(() => this.$emit('finish'))
+        .catch(error => {
+          this.$emit('error', error);
+          alert("Could not sign into Google account. Please try again later.");
+        });
+    },
+    unlink: function() {
+      firebase.auth()
+        .currentUser
+        .unlink('google.com')
+        .then(() => this.$emit('finish'));
     }
   }
 }
 </script>
-
-<style scoped>
-button {
-  padding-left: 1.25em;
-  padding-right: 1.25em;
-  vertical-align: middle;
-  display: flex;
-  align-items: center;
-}
-
-svg {
-  font-size: 1.35em;
-}
-
-span {
-  margin-left: 1em;
-}
-</style>

@@ -121,17 +121,31 @@
       <button
         id="reset-progress"
         class="button"
+        :class="{ confirm: reset.state == 'confirm' }"
         @click="resetProgress"
       >{{ resetText }}</button>
     </section>
     <section>
       <h3>Sign-in Methods</h3>
+      <div id="sign-in">
+        <GoogleSignIn :mode="hasGoogle ? 'unlink' : 'link'" @finish="refresh" />
+        <router-link
+          v-if="!hasEmail"
+          to="/register/account-link"
+          class="button"
+        >Link email address &amp; password</router-link>
+        <button class="button icon-button">
+          <fa-icon icon="envelope" class="fa-fw" />
+          <span>Unlink email &amp; password</span>
+        </button>
+      </div>
     </section>
   </main>
 </template>
 
 <script>
 import PasswordField from '@/components/PasswordField.vue';
+import GoogleSignIn from '@/components/GoogleSignIn.vue';
 
 import { resetProgress } from '@/store';
 
@@ -140,9 +154,11 @@ import 'firebase/auth';
 
 export default {
   name: 'Account',
-  components: { PasswordField },
+  components: { PasswordField, GoogleSignIn },
   data: function() {
     return {
+      // declare here to be reactive for computed props
+      user: firebase.auth().currentUser,
       emailForm: {
         state: 'initial',
         new: '',
@@ -156,20 +172,41 @@ export default {
         new2: '',
         errors: [],
       },
-      resetText: "Reset progress"
+      reset: {
+        state: 'initial',
+        timer: null,
+      },
+      signInMethods: {
+        errors: []
+      }
     }
   },
   computed: {
+    resetText: function() {
+      switch (this.reset.state) {
+        case 'initial': return 'Reset progress';
+        case 'confirm': return 'Are you sure?';
+        case 'success': return 'Done.';
+        case 'cancel': return 'Cancelled.';
+      }
+    },
     hasEmail: function() {
-      const { providerData } = firebase.auth().currentUser;
+      const { providerData } = this.user;
       return providerData.some(p => p.providerId == 'password');
     },
+    hasGoogle: function() {
+      const { providerData } = this.user;
+      return providerData.some(p => p.providerId == 'google.com');
+    },
     emailAddress: function() {
-      const { providerData } = firebase.auth().currentUser;
+      const { providerData } = this.user;
       return providerData.find(p => p.providerId == 'password').email;
     }
   },
   methods: {
+    refresh: function() {
+      this.$set(this.user, firebase.auth().currentUser);
+    },
     passwordToggle: function(value) {
       this.$refs.password1.set(value);
       this.$refs.password2.set(value);
@@ -275,11 +312,28 @@ export default {
       return true;
     },
     resetProgress: function() {
-      if (this.resetText == "Reset progress") {
-        this.resetText = "Are you sure?"
-        return;
-      } else if (confirm("Are you really sure?")) {
-        resetProgress();
+      if (this.reset.state == 'initial' || this.reset.state == 'cancel') {
+        this.reset.state = 'confirm';
+
+        // Set it back to 'initial' after 5s
+        this.reset.timer = setTimeout(() => {
+          this.reset.state = 'initial';
+          this.reset.timer = null;
+        }, 5000);
+      } else if (this.reset.state == 'confirm') {
+        // Cancel the timer, so it doesn't expire while confirming
+        clearTimeout(this.reset.timer);
+
+        if (confirm("Are you really sure?")) {
+          resetProgress();
+          this.reset.state = 'success';
+        } else {
+          this.reset.state = 'cancel';
+          this.reset.timer = setTimeout(() => {
+            this.reset.state = 'initial';
+            this.reset.timer = null;
+          }, 3000);
+        }
       }
     }
   }
@@ -381,9 +435,18 @@ section {
   margin-right: auto;
 }
 
-#reset-progress:active, #reset-progress:focus {
+#reset-progress.confirm, #reset-progress:active, #reset-progress:focus {
   color: var(--red-text);
   border-color: var(--red-text);
+}
+
+#sign-in {
+  display: flex;
+  justify-content: space-between;
+}
+
+#sign-in>* {
+  width: 46%;
 }
 
 @media (hover :hover) {

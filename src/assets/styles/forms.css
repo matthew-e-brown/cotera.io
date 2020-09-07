@@ -34,6 +34,25 @@ form .button {
   margin-right: 0;
 }
 
+.icon-button, * >>> .icon-button {
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+  padding-bottom: 1em;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+}
+
+.icon-button svg, * >>> .icon-button svg {
+  font-size: 1.75em;
+}
+
+.icon-button span, * >>> .icon-button span {
+  font-size: 1.05em;
+  padding-top: 0.15em;
+  margin-left: 1.85em;
+}
+
 .row {
   margin: 1.25rem 0;
   display: flex;
@@ -78,4 +97,14 @@ form .button {
   color: var(--body-text-1);
   font-size: 80%;
   margin: 0.5rem;
+}
+
+@media (max-width: 770px) {
+  .icon-button svg, * >>> .icon-button svg {
+    font-size: 1.60em;
+  }
+
+  .icon-button span, * >>> .icon-button span {
+    margin-left: 0.35em;
+  }
 }
