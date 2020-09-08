@@ -206,15 +206,12 @@ export default {
         case 'initial': return 'Reset progress';
         case 'confirm': return 'Are you sure?';
         case 'success': return 'Done.';
-        case 'cancel': return 'Cancelled.';
       }
     },
     deleteText: function() {
       switch(this.accDelete.state) {
         case 'initial': return "Delete account";
         case 'confirm': return "Are you sure?";
-        case 'confirm-again': return "Are you <strong>really</strong> sure?"
-        case 'cancel': return "Cancelled.";
       }
     },
     hasEmail: function() {
@@ -343,66 +340,50 @@ export default {
       this.refresh();
     },
     resetProgress: function() {
-      if (this.reset.state == 'initial' || this.reset.state == 'cancel') {
+      if (this.reset.state == 'initial') {
+        // Set it to "Are you sure?", but change back after 5s
         this.reset.state = 'confirm';
-
-        // Set it back to 'initial' after 5s
         this.reset.timer = setTimeout(() => {
           this.reset.state = 'initial';
-          this.reset.timer = null;
         }, 5000);
       } else if (this.reset.state == 'confirm') {
         // Cancel the timer, so it doesn't expire while confirming
         clearTimeout(this.reset.timer);
+        this.reset.timer = null;
 
         if (confirm("Are you really sure?")) {
           resetProgress();
           this.reset.state = 'success';
         } else {
-          this.reset.state = 'cancel';
-          this.reset.timer = setTimeout(() => {
-            this.reset.state = 'initial';
-            this.reset.timer = null;
-          }, 3000);
+          this.reset.state = 'initial';
         }
       }
     },
     deleteAccount: async function() {
-      this.accDelete.timer = setTimeout(() => {
-        this.accDelete.state = 'initial';
+      if (this.accDelete.state == 'initial') {
+        this.accDelete.state = 'confirm';
+        this.accDelete.timer = setTimeout(() => {
+          this.accDelete.state = 'initial';
+        }, 5000);
+      } else {
+        clearTimeout(this.accDelete.timer);
         this.accDelete.timer = null;
-      }, 5000);
 
-      switch (this.accDelete.state) {
-        case 'initial':
-        case 'cancel':
-          this.accDelete.state = 'confirm';
-          break;
-        case 'confirm':
-          this.accDelete.state = 'confirm-again';
-          break;
-        case 'confirm-again':
-          clearTimeout(this.accDelete.timer);
-          this.accDelete.timer = null;
-          if (confirm("Last chance. For real?")) {
-            await deleteProgress();
-            try {
-              firebase.auth().currentUser.delete();
-            } catch (error) {
-              if (error.code == 'auth/requires-recent-login') {
-                this.needsReauth = true;
-              }
-            }
-          } else {
-            this.accDelete.state = 'cancel';
-            setTimeout(() => {
+        if (confirm("Are you really sure?")) {
+          await deleteProgress();
+          try {
+            await firebase.auth().currentUser.delete();
+          } catch (error) {
+            if (error.code == 'auth/needs-recent-login') {
+              this.needsReauth = true;
               this.accDelete.state = 'initial';
-              this.accDelete.timer = null;
-            }, 3000);
+            }
           }
-
-          break;
+        } else {
+          this.accDelete.state = 'initial';
+        }
       }
+
     }
   }
 }

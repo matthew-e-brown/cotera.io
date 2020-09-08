@@ -31,32 +31,56 @@ export default {
     }
   },
   methods: {
-    signin: function() {
+    signin: async function() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth()
-        .signInWithRedirect(provider)
-        .then(() => this.$emit('finish'))
-        .catch(error => {
-          this.$emit('error', error);
-          alert("Could not sign into Google account. Please try again later.");
-        });
+
+      try {
+        try {
+          await firebase.auth().signInWithPopup(provider);
+        } catch (error) {
+          if (error.code == 'auth/popup-blocked') {
+            await firebase.auth().signInWithRedirect(provider);
+          } else throw error;
+        }
+      } catch (error) {
+        this.$emit('error', error);
+        alert("Could not sign into Google account. Please try again later.");
+      }
+      
+      this.$emit('finish');
     },
-    link: function() {
+    link: async function() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth()
-        .currentUser
-        .linkWithRedirect(provider)
-        .then(() => this.$emit('finish'))
-        .catch(error => {
-          this.$emit('error', error);
-          alert("Could not sign into Google account. Please try again later.");
-        });
+
+      try {
+        try {
+          await firebase.auth().currentUser.linkWithPopup(provider);
+        } catch (error) {
+          if (error.code == 'auth/popup-blocked') {
+            await firebase.auth().currentUser.linkWithRedirect(provider);
+          } else throw error;
+        }
+      } catch (error) {
+        this.$emit('error', error);
+        alert("Could not sign into Google account. Please try again later.");
+      }
+
+      this.$emit('finish');
     },
-    unlink: function() {
-      firebase.auth()
-        .currentUser
-        .unlink('google.com')
-        .then(() => this.$emit('finish'));
+    unlink: async function() {
+      await firebase.auth().currentUser.unlink('google.com');
+      this.$emit('finish');
+    }
+  },
+  mounted: async function() {
+    try {
+      const userCred = await firebase.auth().getRedirectResult();
+      if (userCred.user) {
+        this.$emit('finish');
+      }
+    } catch (error) {
+      this.$emit('error', error);
+      alert("Could not sign into Google account. Please try again later");
     }
   }
 }
