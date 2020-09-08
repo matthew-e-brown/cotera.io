@@ -125,7 +125,11 @@
     <section>
       <h3>Sign-in Methods</h3>
       <div id="sign-in">
-        <GoogleSignIn :mode="hasGoogle ? 'unlink' : 'link'" @finish="refresh" />
+        <GoogleSignIn v-if="!hasGoogle" @finish="refresh" />
+        <button v-else @click="unlinkGoogle" class="button icon-button">
+          <fa-icon :icon="[ 'fab', 'google' ]" />
+          <span>Unlink Google account</span>
+        </button>
         <router-link
           v-if="!hasEmail"
           to="/register/account-link"
@@ -139,23 +143,17 @@
           <span>Unlink email &amp; password</span>
         </button>
       </div>
+      <ul class="errors" v-if="showSignInErrors">
+        <li v-if="!hasGoogle">
+          Please link a Google account before unlinking your email address.
+        </li>
+        <li v-if="!hasEmail">
+          Please link an email address before unlinking your Google account.
+        </li>
+      </ul>
     </section>
     <section>
       <h3>Danger Zone</h3>
-      <div id="danger-zone">
-        <button
-          class="button"
-          :class="{ confirm: reset.state == 'confirm' }"
-          @click="resetProgress"
-          v-html="resetText"
-        />
-        <button
-          class="button"
-          :class="{ confirm: accDelete.state == 'confirm' }"
-          @click="deleteAccount"
-          v-html="deleteText"
-        />
-      </div>
     </section>
   </main>
 </template>
@@ -189,31 +187,10 @@ export default {
         new2: '',
         errors: []
       },
-      reset: {
-        state: 'initial',
-        timer: null
-      },
-      accDelete: {
-        state: 'initial',
-        timer: null
-      },
-      needsReauth: false
+      showSignInErrors: false
     }
   },
   computed: {
-    resetText: function() {
-      switch (this.reset.state) {
-        case 'initial': return 'Reset progress';
-        case 'confirm': return 'Are you sure?';
-        case 'success': return 'Done.';
-      }
-    },
-    deleteText: function() {
-      switch(this.accDelete.state) {
-        case 'initial': return "Delete account";
-        case 'confirm': return "Are you sure?";
-      }
-    },
     hasEmail: function() {
       const { providerData } = this.user;
       return providerData.some(p => p.providerId == 'password');
@@ -327,7 +304,7 @@ export default {
         }
       } catch (err) {
         console.log(err);
-        this.emailForm.errors.push(err.message);
+        this.emailForm.errors.push("Something went wrong: " + err.message);
       }
 
       this.cancelEmailChange(); // reset fields
@@ -336,54 +313,22 @@ export default {
       return true;
     },
     unlinkEmail: async function() {
-      await firebase.auth().currentUser.unlink('password');
-      this.refresh();
-    },
-    resetProgress: function() {
-      if (this.reset.state == 'initial') {
-        // Set it to "Are you sure?", but change back after 5s
-        this.reset.state = 'confirm';
-        this.reset.timer = setTimeout(() => {
-          this.reset.state = 'initial';
-        }, 5000);
-      } else if (this.reset.state == 'confirm') {
-        // Cancel the timer, so it doesn't expire while confirming
-        clearTimeout(this.reset.timer);
-        this.reset.timer = null;
-
-        if (confirm("Are you really sure?")) {
-          resetProgress();
-          this.reset.state = 'success';
-        } else {
-          this.reset.state = 'initial';
-        }
-      }
-    },
-    deleteAccount: async function() {
-      if (this.accDelete.state == 'initial') {
-        this.accDelete.state = 'confirm';
-        this.accDelete.timer = setTimeout(() => {
-          this.accDelete.state = 'initial';
-        }, 5000);
+      if (!this.hasGoogle) {
+        this.showSignInErrors = true;
+        return false;
       } else {
-        clearTimeout(this.accDelete.timer);
-        this.accDelete.timer = null;
-
-        if (confirm("Are you really sure?")) {
-          await deleteProgress();
-          try {
-            await firebase.auth().currentUser.delete();
-          } catch (error) {
-            if (error.code == 'auth/needs-recent-login') {
-              this.needsReauth = true;
-              this.accDelete.state = 'initial';
-            }
-          }
-        } else {
-          this.accDelete.state = 'initial';
-        }
+        await firebase.auth().currentUser.unlink('password');
+        this.refresh();
       }
-
+    },
+    unlinkGoogle: async function() {
+      if (!this.hasEmail) {
+        this.showSignInErrors = true;
+        return false;
+      } else {
+        await firebase.auth().currentUser.unlink('google.com');
+        this.refresh();
+      }
     }
   }
 }
@@ -496,7 +441,7 @@ section {
 #sign-in, #danger-zone {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
 }
 
 #sign-in .button, #danger-zone .button {
@@ -511,34 +456,8 @@ section {
   margin-right: 0;
 }
 
-.button:active, .button:focus {
-  color: #70b3ff;
-  border-color: currentColor;
-}
-
-#danger-zone .confirm,
-#danger-zone .button:active,
-#danger-zone .button:focus {
-  color: var(--red-text);
-  border-color: currentColor;
-}
-
-@media (hover: hover) {
-  .button {
-    transition:
-      color 125ms linear,
-      border-color 125ms linear;
-  }
-
-  .button:hover {
-    color: #70b3ff;
-    border-color: currentColor;
-  }
-
-  #danger-zone .button:hover {
-    color: var(--red-text);
-    border-color: currentColor;
-  }
+#sign-in+.errors {
+  font-size: 100%;
 }
 
 @media (max-width: 770px) {

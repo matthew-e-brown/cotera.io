@@ -50,9 +50,9 @@
         Sorry&hellip; it's been a while since you signed in. Please
         re-authenticate and try again.
       </p>
-      <GoogleSignIn />
+      <GoogleSignIn @finish="submit" mode="re-auth" />
     </template>
-    <template v-if="!linkMode">
+    <template v-else-if="!linkMode">
       <div class="separator"><span>or</span></div>
       <div id="bottom-buttons">
         <GoogleSignIn />
@@ -168,7 +168,7 @@ p {
 }
 
 /* Re-auth button */
-p+button {
+p+.button {
   margin-left: auto;
   margin-right: auto;
 }

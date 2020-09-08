@@ -34,7 +34,48 @@ form .button {
   margin-right: 0;
 }
 
-.icon-button, * >>> .icon-button {
+.button, a.button {
+  font-family: 'Epilogue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.9em;
+  box-sizing: border-box;
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.80em 2.5em 0.7em;
+  background-color: transparent;
+  color: var(--body-text);
+  border: 0.15em solid currentColor;
+  border-radius: 0.5em;
+  width: fit-content;
+  min-width: 10em;
+  margin: 0.5em;
+}
+
+.button:active, .button:focus
+a.button:active, a.button:focus {
+  color: var(--block-color);
+  border-color: var(--body-text);
+  background-color: var(--body-text);
+}
+
+@media (hover: hover) {
+  .button, a.button {
+    transition:
+      color 125ms linear,
+      border-color 125ms linear,
+      background-color 125ms linear;
+  }
+
+  .button:hover, a.button:hover {
+    color: var(--block-color);
+    border-color: var(--body-text);
+    background-color: var(--body-text);
+  }
+}
+
+.icon-button, * >>> .icon-button,
+a.icon-button, * >>> a.icon-button {
   padding: 0.6em 1.25em 0.8em;
   vertical-align: middle;
   display: flex;
@@ -47,7 +88,7 @@ form .button {
 
 .icon-button span, * >>> .icon-button span {
   padding-top: 0.25em;
-  margin: 0 auto;
+  margin-left: 1.50em;
 }
 
 .row {
