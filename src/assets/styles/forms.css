@@ -47,7 +47,7 @@ form .button {
 
 .icon-button span, * >>> .icon-button span {
   padding-top: 0.25em;
-  margin-left: 1.65em;
+  margin: 0 auto;
 }
 
 .row {

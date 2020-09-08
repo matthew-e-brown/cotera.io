@@ -123,15 +123,6 @@
       <!-- !! ------------------ End of hasEmail ------------------ !! -->
     </section>
     <section>
-      <h3>Progress</h3>
-      <button
-        id="reset-progress"
-        class="button"
-        :class="{ confirm: reset.state == 'confirm' }"
-        @click="resetProgress"
-      >{{ resetText }}</button>
-    </section>
-    <section>
       <h3>Sign-in Methods</h3>
       <div id="sign-in">
         <GoogleSignIn :mode="hasGoogle ? 'unlink' : 'link'" @finish="refresh" />
@@ -149,6 +140,23 @@
         </button>
       </div>
     </section>
+    <section>
+      <h3>Danger Zone</h3>
+      <div id="danger-zone">
+        <button
+          class="button"
+          :class="{ confirm: reset.state == 'confirm' }"
+          @click="resetProgress"
+          v-html="resetText"
+        />
+        <button
+          class="button"
+          :class="{ confirm: accDelete.state == 'confirm' }"
+          @click="deleteAccount"
+          v-html="deleteText"
+        />
+      </div>
+    </section>
   </main>
 </template>
 
@@ -156,7 +164,7 @@
 import PasswordField from '@/components/PasswordField.vue';
 import GoogleSignIn from '@/components/GoogleSignIn.vue';
 
-import { resetProgress } from '@/store';
+import { resetProgress, deleteProgress } from '@/store';
 
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -179,15 +187,17 @@ export default {
         old: '',
         new1: '',
         new2: '',
-        errors: [],
+        errors: []
       },
       reset: {
         state: 'initial',
-        timer: null,
+        timer: null
       },
-      signInMethods: {
-        errors: []
-      }
+      accDelete: {
+        state: 'initial',
+        timer: null
+      },
+      needsReauth: false
     }
   },
   computed: {
@@ -197,6 +207,14 @@ export default {
         case 'confirm': return 'Are you sure?';
         case 'success': return 'Done.';
         case 'cancel': return 'Cancelled.';
+      }
+    },
+    deleteText: function() {
+      switch(this.accDelete.state) {
+        case 'initial': return "Delete account";
+        case 'confirm': return "Are you sure?";
+        case 'confirm-again': return "Are you <strong>really</strong> sure?"
+        case 'cancel': return "Cancelled.";
       }
     },
     hasEmail: function() {
@@ -348,6 +366,43 @@ export default {
           }, 3000);
         }
       }
+    },
+    deleteAccount: async function() {
+      this.accDelete.timer = setTimeout(() => {
+        this.accDelete.state = 'initial';
+        this.accDelete.timer = null;
+      }, 5000);
+
+      switch (this.accDelete.state) {
+        case 'initial':
+        case 'cancel':
+          this.accDelete.state = 'confirm';
+          break;
+        case 'confirm':
+          this.accDelete.state = 'confirm-again';
+          break;
+        case 'confirm-again':
+          clearTimeout(this.accDelete.timer);
+          this.accDelete.timer = null;
+          if (confirm("Last chance. For real?")) {
+            await deleteProgress();
+            try {
+              firebase.auth().currentUser.delete();
+            } catch (error) {
+              if (error.code == 'auth/requires-recent-login') {
+                this.needsReauth = true;
+              }
+            }
+          } else {
+            this.accDelete.state = 'cancel';
+            setTimeout(() => {
+              this.accDelete.state = 'initial';
+              this.accDelete.timer = null;
+            }, 3000);
+          }
+
+          break;
+      }
     }
   }
 }
@@ -359,7 +414,7 @@ export default {
   main {
     min-width: initial;
     width: calc(45rem + 5vw);
-    padding: 2rem 5rem 4rem;
+    padding: 2rem 5rem;
   }
 }
 
@@ -457,43 +512,51 @@ section {
   border: none;
 }
 
-#reset-progress {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#reset-progress.confirm, #reset-progress:active, #reset-progress:focus {
-  color: var(--red-text);
-  border-color: var(--red-text);
-}
-
-#sign-in {
+#sign-in, #danger-zone {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-#sign-in>* {
-  width: 46%;
+#sign-in .button, #danger-zone .button {
+  flex: 1 1 50%;
 }
 
-#sign-in>:first-child {
+#sign-in>:first-child, #danger-zone>:first-child {
   margin-left: 0;
 }
 
-#sign-in>:last-child {
+#sign-in>:last-child, #danger-zone>:last-child {
   margin-right: 0;
 }
 
+.button:active, .button:focus {
+  color: #70b3ff;
+  border-color: currentColor;
+}
+
+#danger-zone .confirm,
+#danger-zone .button:active,
+#danger-zone .button:focus {
+  color: var(--red-text);
+  border-color: currentColor;
+}
 
 @media (hover: hover) {
-  #reset-progress {
-    transition-property: color, border-color;
-    transition: 125ms linear;
+  .button {
+    transition:
+      color 125ms linear,
+      border-color 125ms linear;
   }
 
-  #reset-progress:hover {
+  .button:hover {
+    color: #70b3ff;
+    border-color: currentColor;
+  }
+
+  #danger-zone .button:hover {
     color: var(--red-text);
-    border-color: var(--red-text);
+    border-color: currentColor;
   }
 }
 

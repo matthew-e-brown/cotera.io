@@ -21,18 +21,16 @@ const userProgress = Vue.observable(
   JSON.parse(localStorage.getItem('user-progress')) || { ...DEFAULT_PROGRESS }
 );
 
-const uploadToFirebase = () => {
-  firebase.firestore()
-    .collection('user-progress')
-    .doc(state.userid)
-    .set(
-      Object.entries(userProgress)
-        // Turn arrays to strings
-        .map(([k, v]) => ({ [k]: v.join('') }))
-        // Re-join [ {head: ""}, {body: ""} ] -> { head: "", body: "" }
-        .reduce((acc, cur) => ({ ...acc, ...cur }))
-    );
-}
+const uploadToFirebase = () => firebase.firestore()
+  .collection('user-progress')
+  .doc(state.userid)
+  .set(
+    Object.entries(userProgress)
+      // Turn arrays to strings
+      .map(([k, v]) => ({ [k]: v.join('') }))
+      // Re-join [ {head: ""}, {body: ""} ] -> { head: "", body: "" }
+      .reduce((acc, cur) => ({ ...acc, ...cur }))
+  );
 
 const debouncedUpload = debounce(uploadToFirebase, 900);
 
@@ -51,8 +49,13 @@ const levelDown = armor => {
 const resetProgress = () => {
   Object.entries(DEFAULT_PROGRESS)
     .forEach(([k, v]) => Vue.set(userProgress, k, v));
-  uploadToFirebase();
+  return uploadToFirebase();
 }
+
+const deleteProgress = () => firebase.firestore()
+  .collection('user-progress')
+  .doc(state.userid)
+  .delete();
 
 let unsubscribe = undefined;
 firebase.auth().onAuthStateChanged(user => {
@@ -90,4 +93,4 @@ firebase.auth().onAuthStateChanged(user => {
 });
 
 export default state;
-export { userProgress, levelUp, levelDown, resetProgress };
+export { userProgress, levelUp, levelDown, resetProgress, deleteProgress };
