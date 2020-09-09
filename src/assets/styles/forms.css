@@ -52,6 +52,10 @@ form .button {
   margin: 0.5em;
 }
 
+.danger, a.danger {
+  color: var(--red-text);
+}
+
 .button:active, .button:focus
 a.button:active, a.button:focus {
   color: var(--block-color);

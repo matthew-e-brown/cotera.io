@@ -125,8 +125,8 @@
     <section>
       <h3>Sign-in Methods</h3>
       <div id="sign-in">
-        <GoogleSignIn v-if="!hasGoogle" @finish="refresh" />
-        <button v-else @click="unlinkGoogle" class="button icon-button">
+        <GoogleSignIn v-if="!hasGoogle" @finish="refresh" mode="link" />
+        <button v-else @click="unlinkGoogle" class="button icon-button danger">
           <fa-icon :icon="[ 'fab', 'google' ]" />
           <span>Unlink Google account</span>
         </button>
@@ -138,7 +138,7 @@
           <fa-icon icon="envelope" class="fa-fw" />
           <span>Link email &amp; password</span>
         </router-link>
-        <button v-else class="button icon-button" @click="unlinkEmail">
+        <button v-else @click="unlinkEmail" class="button icon-button danger">
           <fa-icon icon="envelope" class="fa-fw" />
           <span>Unlink email &amp; password</span>
         </button>
@@ -155,12 +155,26 @@
     <section>
       <h3>Danger Zone</h3>
     </section>
+    <transition name='fade'>
+      <ConfirmModal v-if="modal.show"
+        @confirm="modal.confirm"
+        @cancel="modal.show = false"
+      >
+        <h4>Are you sure?</h4>
+        <p
+          id="modal-confirm"
+          v-if="modal.innerHTML != ''"
+          v-html="modal.innerHTML"
+        />
+      </ConfirmModal>
+    </transition>
   </main>
 </template>
 
 <script>
 import PasswordField from '@/components/PasswordField.vue';
 import GoogleSignIn from '@/components/GoogleSignIn.vue';
+import ConfirmModal from '@/components/ConfirmModal.vue';
 
 import { resetProgress, deleteProgress } from '@/store';
 
@@ -169,7 +183,7 @@ import 'firebase/auth';
 
 export default {
   name: 'Account',
-  components: { PasswordField, GoogleSignIn },
+  components: { PasswordField, GoogleSignIn, ConfirmModal },
   data: function() {
     return {
       // declare here to be reactive for computed props
@@ -187,7 +201,12 @@ export default {
         new2: '',
         errors: []
       },
-      showSignInErrors: false
+      modal: {
+        show: false,
+        confirm: undefined, // set to a function
+        innerHTML: "",
+      },
+      showSignInErrors: false,
     }
   },
   computed: {
@@ -312,22 +331,34 @@ export default {
       this.emailForm.state = 'success';
       return true;
     },
-    unlinkEmail: async function() {
+    unlinkEmail: function() {
       if (!this.hasGoogle) {
         this.showSignInErrors = true;
         return false;
       } else {
-        await firebase.auth().currentUser.unlink('password');
-        this.refresh();
+        this.modal.innerHTML = `
+          You will need to use your Google account to sign in from now on.
+        `;
+        this.modal.show = true;
+        this.modal.confirm = async () => {
+          await firebase.auth().currentUser.unlink('password');
+          this.refresh();
+        }
       }
     },
-    unlinkGoogle: async function() {
+    unlinkGoogle: function() {
       if (!this.hasEmail) {
         this.showSignInErrors = true;
         return false;
       } else {
-        await firebase.auth().currentUser.unlink('google.com');
-        this.refresh();
+        this.modal.innerHTML = `
+          You will need to use your email and password to sign in from now on.
+        `;
+        this.modal.show = true;
+        this.modal.confirm = async () => {
+          await firebase.auth().currentUser.unlink('google.com');
+          this.refresh();
+        }
       }
     }
   }
@@ -458,6 +489,10 @@ section {
 
 #sign-in+.errors {
   font-size: 100%;
+}
+
+.modal-wrapper >>> p, .modal-wrapper >>> button {
+  font-size: 92.5%;
 }
 
 @media (max-width: 770px) {
