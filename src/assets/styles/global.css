@@ -70,6 +70,10 @@ main, main.sticky-box {
   margin-right: auto;
 }
 
+p {
+  line-height: 1.25;
+}
+
 a, a:visited {
   font: inherit;
   color: inherit;

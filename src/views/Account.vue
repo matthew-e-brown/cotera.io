@@ -126,7 +126,7 @@
       <h3>Sign-in Methods</h3>
       <div id="sign-in">
         <GoogleSignIn v-if="!hasGoogle" @finish="refresh" mode="link" />
-        <button v-else @click="unlinkGoogle" class="button icon-button danger">
+        <button v-else @click="unlinkGoogle" class="button icon-button">
           <fa-icon :icon="[ 'fab', 'google' ]" />
           <span>Unlink Google account</span>
         </button>
@@ -138,7 +138,7 @@
           <fa-icon icon="envelope" class="fa-fw" />
           <span>Link email &amp; password</span>
         </router-link>
-        <button v-else @click="unlinkEmail" class="button icon-button danger">
+        <button v-else @click="unlinkEmail" class="button icon-button">
           <fa-icon icon="envelope" class="fa-fw" />
           <span>Unlink email &amp; password</span>
         </button>
@@ -154,6 +154,15 @@
     </section>
     <section>
       <h3>Danger Zone</h3>
+      <p>These actions are irreversible.</p>
+      <div id="danger-zone">
+        <button @click="resetProgress" class="button danger">
+          Reset progress
+        </button>
+        <button @click="deleteAccount" class="button danger">
+          Delete account
+        </button>
+      </div>
     </section>
     <transition name='fade'>
       <ConfirmModal v-if="modal.show"
@@ -161,11 +170,7 @@
         @cancel="modal.show = false"
       >
         <h4>Are you sure?</h4>
-        <p
-          id="modal-confirm"
-          v-if="modal.innerHTML != ''"
-          v-html="modal.innerHTML"
-        />
+        <p v-if="modal.message" v-html="modal.message" />
       </ConfirmModal>
     </transition>
   </main>
@@ -204,7 +209,7 @@ export default {
       modal: {
         show: false,
         confirm: undefined, // set to a function
-        innerHTML: "",
+        message: "",
       },
       showSignInErrors: false,
     }
@@ -336,8 +341,11 @@ export default {
         this.showSignInErrors = true;
         return false;
       } else {
-        this.modal.innerHTML = `
-          You will need to use your Google account to sign in from now on.
+        // This should *probably* be like... a data property instead of
+        // hardcoded into a function, but... whatever.
+        this.modal.message = `
+          You will need to use your Google account to sign in from now on. You
+          can always re-link your email address and password later.
         `;
         this.modal.show = true;
         this.modal.confirm = async () => {
@@ -351,13 +359,43 @@ export default {
         this.showSignInErrors = true;
         return false;
       } else {
-        this.modal.innerHTML = `
+        this.modal.message = `
           You will need to use your email and password to sign in from now on.
+          You can always re-link your Google account later.
         `;
         this.modal.show = true;
         this.modal.confirm = async () => {
           await firebase.auth().currentUser.unlink('google.com');
           this.refresh();
+        }
+      }
+    },
+    resetProgress: function() {
+      this.modal.message = `
+        This will reset the level on all the pieces of armor on your account to
+        zero.
+      `;
+      this.modal.show = true;
+      this.modal.confirm = async () => {
+        await resetProgress();
+        this.modal.show = false;
+      }
+    },
+    deleteAccount: function() {
+      this.modal.message = `
+        This will delete your account as well as remove all progress-related
+        data from the database.
+      `;
+      this.modal.show = true;
+      this.modal.confirm = () => {
+        this.modal.message =
+          `Are you <strong style="font-style: italic;">really</strong> sure?
+          Last chance.
+        `;
+
+        this.modal.confirm = async () => {
+          await deleteProgress();
+          await firebase.auth().currentUser.delete();
         }
       }
     }

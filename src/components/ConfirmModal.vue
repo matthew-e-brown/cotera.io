@@ -7,7 +7,7 @@
           <slot name="confirm">Yes</slot>
         </button>
         <button class="button" @click="$emit('cancel')">
-          <slot name="cancel">No</slot>
+          <slot name="cancel">Cancel</slot>
         </button>
       </div>
     </div>
@@ -22,11 +22,16 @@
   background-color: var(--block-color);
 }
 
+@supports (backdrop-filter: blur(10px)) {
+  .modal-wrapper {
+    background-color: var(--block-color-t);
+    backdrop-filter: blur(10px);
+  }
+}
+
 .modal {
   margin: 5em auto;
-  min-width: 50%;
-  max-width: 80%;
-  width: fit-content;
+  width: 72.5%;
 }
 
 h4 {

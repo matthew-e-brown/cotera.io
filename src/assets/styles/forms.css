@@ -76,6 +76,11 @@ a.button:active, a.button:focus {
     border-color: var(--body-text);
     background-color: var(--body-text);
   }
+
+  .danger:hover, a.danger:hover {
+    border-color: var(--red-text);
+    background-color: var(--red-text);
+  }
 }
 
 .icon-button, * >>> .icon-button,

@@ -52,12 +52,16 @@ const resetProgress = () => {
   return uploadToFirebase();
 }
 
-const deleteProgress = () => firebase.firestore()
-  .collection('user-progress')
-  .doc(state.userid)
-  .delete();
-
 let unsubscribe = undefined;
+
+const deleteProgress = () => {
+  if (unsubscribe) unsubscribe();
+  return firebase.firestore()
+    .collection('user-progress')
+    .doc(state.userid)
+    .delete();
+}
+
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     state.userid = user.uid;
