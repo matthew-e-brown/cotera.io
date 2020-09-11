@@ -54,7 +54,10 @@ const resetProgress = () => {
 
 let unsubscribe = undefined;
 
+// Unsubscribes from and removes the document entirely, instead of just setting
+// it to all zeroes
 const deleteProgress = () => {
+  debouncedUpload.cancel();
   if (unsubscribe) unsubscribe();
   return firebase.firestore()
     .collection('user-progress')

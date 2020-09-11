@@ -2,8 +2,8 @@
   <div class="modal-wrapper">
     <div class="modal">
       <slot></slot>
-      <div>
-        <button class="button danger" @click="$emit('confirm')">
+      <div class="modal-buttons">
+        <button v-if="showConfirm" class="button danger" @click="$emit('confirm')">
           <slot name="confirm">Yes</slot>
         </button>
         <button class="button" @click="$emit('cancel')">
@@ -13,6 +13,15 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'ConfirmModal',
+  props: {
+    showConfirm: { type: Boolean, required: false, default: true }
+  }
+}
+</script>
 
 <style scoped src="@/assets/styles/forms.css"></style>
 <style scoped>
@@ -38,21 +47,21 @@ h4 {
   text-align: center;
 }
 
-.modal div {
+.modal-buttons {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.modal div>* {
+.modal-buttons>* {
   flex: 1 1 50%;
 }
 
-.modal div>:first-child {
+.modal-buttons>:first-child {
   margin-left: 0;
 }
 
-.modal div>:last-child {
+.modal-buttons>:last-child {
   margin-right: 0;
 }
 </style>

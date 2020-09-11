@@ -90,6 +90,8 @@ export default {
         this.$emit('error');
         alert("Could not sign into Google account. Please try again later.");
       }
+
+      this.$emit('finish');
     }
   },
   mounted: async function() {

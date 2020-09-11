@@ -165,12 +165,87 @@
       </div>
     </section>
     <transition name='fade'>
-      <ConfirmModal v-if="modal.show"
+      <ConfirmModal
+        v-if="modal.show"
         @confirm="modal.confirm"
         @cancel="modal.show = false"
+        :show-confirm="modal.showConfirm"
       >
         <h4>Are you sure?</h4>
-        <p v-if="modal.message" v-html="modal.message" />
+        <p v-if="modal.message == 'unlink-email'">
+          You will need to use your Google account to sign in from now on. You
+          can always re-link your email address and password later.
+        </p>
+        <p v-else-if="modal.message == 'unlink-google'">
+          You will need to use your email and password to sign in from now on.
+          You can always re-link your Google account later.
+        </p>
+        <p v-else-if="modal.message == 'reset-progress'">
+          This will reset the level on all the pieces of armor on your account
+          to zero.
+        </p>
+        <p v-else-if="modal.message == 'delete-account-1'">
+          This will delete your account as well as remove all progress-related
+          data from the database.
+        </p>
+        <p v-else-if="modal.message == 'delete-account-2'">
+          Are you <strong>really</strong> sure? Last chance.
+        </p>
+        <template v-else-if="modal.message == 're-auth'">
+          <template v-if="hasEmail && !hasGoogle">
+            <p>
+              Account deletion failed. Sorry&hellip; since it's been a while
+              since you authenticated, please confirm it's you by entering your
+              password.
+            </p>
+            <PasswordField
+              id="re-auth-password"
+              name="re-auth-password"
+              placeholder="Your password"
+              autocomplete="current-password"
+              v-model="modal.reAuthPassword"
+            />
+          </template>
+          <template v-else-if="!hasEmail && hasGoogle">
+            <p>
+              Account deletion failed. Sorry&hellip; since it's been a while
+              since you authenticated, please confirm it's you by signing in
+              with Google account.
+            </p>
+            <GoogleSignIn @finish="modal.confirm" mode="re-auth" />
+            <p class="google-warning">
+              If your browser has popups disabled, you will need to go through
+              these account deletion steps again once Google is finished and the
+              page refreshes. All that matters is that you have signed in
+              recently.
+            </p>
+          </template>
+          <template v-else>
+            <p>
+              Account deletion failed. Sorry&hellip; since it's been a while
+              since you authenticated, please confirm it's you by
+              re-authenticating with Google or entering your password.
+            </p>
+            <GoogleSignIn @finish="modal.confirm" mode="re-auth" />
+            <p class="google-warning">
+              If your browser has popups disabled, you will need to go through
+              these account deletion steps again once Google is finished and the
+              page refreshes. All that matters is that you have signed in
+              recently.
+            </p>
+            <div class="separator"><span>or</span></div>
+            <PasswordField
+              id="re-auth-password"
+              name="re-auth-password"
+              placeholder="Your password"
+              autocomplete="current-password"
+              v-model="modal.reAuthPassword"
+            />
+          </template>
+        </template>
+        <template v-if="modal.message == 're-auth'" v-slot:confirm>
+          Submit
+        </template>
       </ConfirmModal>
     </transition>
   </main>
@@ -209,7 +284,9 @@ export default {
       modal: {
         show: false,
         confirm: undefined, // set to a function
+        showConfirm: true,
         message: "",
+        reAuthPassword: ""
       },
       showSignInErrors: false,
     }
@@ -341,12 +418,7 @@ export default {
         this.showSignInErrors = true;
         return false;
       } else {
-        // This should *probably* be like... a data property instead of
-        // hardcoded into a function, but... whatever.
-        this.modal.message = `
-          You will need to use your Google account to sign in from now on. You
-          can always re-link your email address and password later.
-        `;
+        this.modal.message = 'unlink-email';
         this.modal.show = true;
         this.modal.confirm = async () => {
           await firebase.auth().currentUser.unlink('password');
@@ -359,10 +431,7 @@ export default {
         this.showSignInErrors = true;
         return false;
       } else {
-        this.modal.message = `
-          You will need to use your email and password to sign in from now on.
-          You can always re-link your Google account later.
-        `;
+        this.modal.message = 'unlink-google';
         this.modal.show = true;
         this.modal.confirm = async () => {
           await firebase.auth().currentUser.unlink('google.com');
@@ -371,10 +440,7 @@ export default {
       }
     },
     resetProgress: function() {
-      this.modal.message = `
-        This will reset the level on all the pieces of armor on your account to
-        zero.
-      `;
+      this.modal.message = 'reset-progress';
       this.modal.show = true;
       this.modal.confirm = async () => {
         await resetProgress();
@@ -382,20 +448,27 @@ export default {
       }
     },
     deleteAccount: function() {
-      this.modal.message = `
-        This will delete your account as well as remove all progress-related
-        data from the database.
-      `;
+      this.modal.message = 'delete-account-1';
       this.modal.show = true;
       this.modal.confirm = () => {
-        this.modal.message =
-          `Are you <strong style="font-style: italic;">really</strong> sure?
-          Last chance.
-        `;
+        this.modal.message = 'delete-account-2';
 
         this.modal.confirm = async () => {
-          await deleteProgress();
-          await firebase.auth().currentUser.delete();
+          await deleteProgress(); // imported
+          try {
+            await firebase.auth().currentUser.delete();
+          } catch (error) {
+            if (error.code == 'auth/requires-recent-login') {
+              this.modal.message = 're-auth';
+              this.modal.confirm = async () => {
+                await firebase.auth().currentUser.delete();
+              }
+
+              if (this.hasGoogle && !this.hasEmail) {
+                this.modal.showConfirm = false;
+              }
+            } else throw error;
+          }
         }
       }
     }
@@ -434,6 +507,10 @@ h3::after {
 
 section {
   font-size: 0.9em;
+}
+
+strong {
+  font-style: italic;
 }
 
 .account-row, #no-email-row {
@@ -529,8 +606,22 @@ section {
   font-size: 100%;
 }
 
-.modal-wrapper >>> p, .modal-wrapper >>> button {
+.modal-wrapper p, .modal-wrapper button:not(.icon-button) {
   font-size: 92.5%;
+}
+
+.modal-wrapper .icon-button {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.modal-wrapper .hide-input {
+  margin-bottom: 0.8em;
+}
+
+.modal-wrapper p.google-warning {
+  font-size: 70%;
+  color: var(--body-text-1);
 }
 
 @media (max-width: 770px) {
