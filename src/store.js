@@ -11,9 +11,9 @@ const state = Vue.observable({
 
 // State for user progress
 const DEFAULT_PROGRESS = {
-  head: Array(23).fill(0),
-  body: Array(14).fill(0),
-  legs: Array(15).fill(0)
+  head: Array(30).fill(0),
+  body: Array(20).fill(0),
+  legs: Array(21).fill(0)
 }
 
 const userProgress = Vue.observable(

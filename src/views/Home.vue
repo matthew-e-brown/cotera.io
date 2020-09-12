@@ -12,13 +12,16 @@ import ArmorItem from '@/components/ArmorItem.vue';
 import ArmorInfo from '@/components/ArmorInfo.vue';
 
 import state from '@/store';
-import armor from '@/armor';
+import armor, { amiibo } from '@/armor';
 
 export default {
   name: 'Home',
   components: { ArmorItem, ArmorInfo },
   data: function() {
-    return { state, armor }
+    return {
+      state,
+      armor: armor.concat(amiibo)
+    }
   }
 }
 </script>

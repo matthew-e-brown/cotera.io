@@ -202,9 +202,9 @@
     "name": "Sheik's Mask",
     "defense": 2,
     "upgrades": [
-      { "defense": 4, "items": { "item_81": 1, "item_77": 4 } },
-      { "defense": 6, "items": { "item_81": 2, "item_77": 4 } },
-      { "defense": 9, "items": { "item_81": 3, "item_77": 4 } },
+      { "defense": 4, "items": { "item_81": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_81": 2, "item_77": 2 } },
+      { "defense": 9, "items": { "item_81": 3, "item_77": 3 } },
       { "defense": 16, "items": { "item_81": 4, "item_77": 4 } }
     ]
   },
