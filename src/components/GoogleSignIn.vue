@@ -19,14 +19,14 @@ export default {
       switch (this.mode) {
         case 'normal': return this.signin;
         case 'link': return this.link;
-        case 'unlink': return this.unlink;
+        case 're-auth': return this.reauthenticate;
       }
     },
     text: function() {
       switch (this.mode) {
+        case 're-auth':
         case 'normal': return "Sign in with Google";
         case 'link': return "Link Google account";
-        case 'unlink': return "Unlink Google account";
       }
     }
   },
@@ -54,10 +54,14 @@ export default {
 
       try {
         try {
-          await firebase.auth().currentUser.linkWithPopup(provider);
+          await firebase.auth()
+            .currentUser
+            .linkWithPopup(provider);
         } catch (error) {
           if (error.code == 'auth/popup-blocked') {
-            await firebase.auth().currentUser.linkWithRedirect(provider);
+            await firebase.auth()
+              .currentUser
+              .linkWithRedirect(provider);
           } else throw error;
         }
       } catch (error) {
@@ -67,8 +71,26 @@ export default {
 
       this.$emit('finish');
     },
-    unlink: async function() {
-      await firebase.auth().currentUser.unlink('google.com');
+    reauthenticate: async function() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+
+      try {
+        try {
+          await firebase.auth()
+            .currentUser
+            .reauthenticateWithPopup(provider);
+        } catch (error) {
+          if (error.code == 'auth/popup-blocked') {
+            await firebase.auth()
+              .currentUser
+              .reauthenticateWithRedirect(provider);
+          } else throw error;
+        }
+      } catch (error) {
+        this.$emit('error');
+        alert("Could not sign into Google account. Please try again later.");
+      }
+
       this.$emit('finish');
     }
   },
@@ -77,7 +99,7 @@ export default {
       const userCred = await firebase.auth().getRedirectResult();
       if (userCred.user) {
         this.$emit('finish');
-      }
+      } // else, do nothing because there was no redirect
     } catch (error) {
       this.$emit('error', error);
       alert("Could not sign into Google account. Please try again later");

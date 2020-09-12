@@ -52,12 +52,19 @@ const resetProgress = () => {
   return uploadToFirebase();
 }
 
-const deleteProgress = () => firebase.firestore()
-  .collection('user-progress')
-  .doc(state.userid)
-  .delete();
-
 let unsubscribe = undefined;
+
+// Unsubscribes from and removes the document entirely, instead of just setting
+// it to all zeroes
+const deleteProgress = () => {
+  debouncedUpload.cancel();
+  if (unsubscribe) unsubscribe();
+  return firebase.firestore()
+    .collection('user-progress')
+    .doc(state.userid)
+    .delete();
+}
+
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     state.userid = user.uid;
