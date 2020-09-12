@@ -526,49 +526,5 @@
       { "defense": 18, "items": { "item_73": 20, "item_76": 3 } },
       { "defense": 28, "items": { "item_73": 30, "item_76": 3 } }
     ]
-  },
-  {
-    "tag": "head_19",
-    "name": "Vah Ruta Divine Helm",
-    "defense": 4,
-    "upgrades": [
-      { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
-      { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
-      { "defense": 18, "items": { "item_20": 15, "item_21": 5 } },
-      { "defense": 28, "items": { "item_77": 1, "item_22": 2 } }
-    ]
-  },
-  {
-    "tag": "head_20",
-    "name": "Vah Medoh Divine Helm",
-    "defense": 4,
-    "upgrades": [
-      { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
-      { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
-      { "defense": 18, "items": { "item_20": 15, "item_21": 5 } },
-      { "defense": 28, "items": { "item_77": 1, "item_22": 2 } }
-    ]
-  },
-  {
-    "tag": "head_21",
-    "name": "Vah Rudania Divine Helm",
-    "defense": 4,
-    "upgrades": [
-      { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
-      { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
-      { "defense": 18, "items": { "item_20": 15, "item_21": 5 } },
-      { "defense": 28, "items": { "item_77": 1, "item_22": 2 } }
-    ]
-  },
-  {
-    "tag": "head_22",
-    "name": "Vah Naboris Divine Helm",
-    "defense": 4,
-    "upgrades": [
-      { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
-      { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
-      { "defense": 18, "items": { "item_20": 15, "item_21": 5 } },
-      { "defense": 28, "items": { "item_77": 1, "item_22": 2 } }
-    ]
   }
 ]

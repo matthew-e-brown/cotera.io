@@ -1,0 +1,255 @@
+[
+  {
+    "tag": "head_19",
+    "name": "Cap of Time",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_73": 3, "item_77": 1 } },
+      { "defense": 6, "items": { "item_73": 5, "item_77": 1 } },
+      { "defense": 7, "items": { "item_73": 15, "item_77": 1 } },
+      { "defense": 11, "items": { "item_73": 20, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "body_14",
+    "name": "Tunic of Time",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_73": 3, "item_77": 1 } },
+      { "defense": 6, "items": { "item_73": 5, "item_77": 1 } },
+      { "defense": 7, "items": { "item_73": 15, "item_77": 1 } },
+      { "defense": 11, "items": { "item_73": 20, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "legs_15",
+    "name": "Trousers of Time",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_73": 3, "item_77": 1 } },
+      { "defense": 6, "items": { "item_73": 5, "item_77": 1 } },
+      { "defense": 7, "items": { "item_73": 15, "item_77": 1 } },
+      { "defense": 11, "items": { "item_73": 20, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "head_20",
+    "name": "Cap of the Wind",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_72": 3, "item_77": 1 } },
+      { "defense": 6, "items": { "item_72": 5, "item_77": 1 } },
+      { "defense": 7, "items": { "item_72": 10, "item_77": 1 } },
+      { "defense": 11, "items": { "item_72": 20, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "body_15",
+    "name": "Tunic of the Wind",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_72": 3, "item_77": 1 } },
+      { "defense": 6, "items": { "item_72": 5, "item_77": 1 } },
+      { "defense": 7, "items": { "item_72": 10, "item_77": 1 } },
+      { "defense": 11, "items": { "item_72": 20, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "legs_16",
+    "name": "Trousers of the Wind",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_72": 3, "item_77": 1 } },
+      { "defense": 6, "items": { "item_72": 5, "item_77": 1 } },
+      { "defense": 7, "items": { "item_72": 10, "item_77": 1 } },
+      { "defense": 11, "items": { "item_72": 20, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "head_21",
+    "name": "Cap of Twilight",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_71": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_71": 3, "item_77": 1 } },
+      { "defense": 7, "items": { "item_71": 5, "item_77": 1 } },
+      { "defense": 11, "items": { "item_71": 10, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "body_16",
+    "name": "Tunic of Twilight",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_71": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_71": 3, "item_77": 1 } },
+      { "defense": 7, "items": { "item_71": 5, "item_77": 1 } },
+      { "defense": 11, "items": { "item_71": 10, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "legs_17",
+    "name": "Trousers of Twilight",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_71": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_71": 3, "item_77": 1 } },
+      { "defense": 7, "items": { "item_71": 5, "item_77": 1 } },
+      { "defense": 11, "items": { "item_71": 10, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "head_22",
+    "name": "Cap of the Sky",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_70": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_70": 3, "item_77": 1 } },
+      { "defense": 7, "items": { "item_70": 5, "item_77": 1 } },
+      { "defense": 11, "items": { "item_70": 10, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "body_17",
+    "name": "Tunic of the Sky",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_70": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_70": 3, "item_77": 1 } },
+      { "defense": 7, "items": { "item_70": 5, "item_77": 1 } },
+      { "defense": 11, "items": { "item_70": 10, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "legs_18",
+    "name": "Trousers of the Sky",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_70": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_70": 3, "item_77": 1 } },
+      { "defense": 7, "items": { "item_70": 5, "item_77": 1 } },
+      { "defense": 11, "items": { "item_70": 10, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "head_23",
+    "name": "Fierce Deity Mask",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 8, "items": { "item_28": 5, "item_38": 1 } },
+      { "defense": 11, "items": { "item_29": 5, "item_32": 1 } },
+      { "defense": 15, "items": { "item_30": 2, "item_41": 1 } },
+      { "defense": 23, "items": { "item_6": 2, "item_35": 1 } }
+    ]
+  },
+  {
+    "tag": "body_18",
+    "name": "Fierce Deity Armor",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 8, "items": { "item_28": 5, "item_39": 1 } },
+      { "defense": 11, "items": { "item_29": 5, "item_33": 1 } },
+      { "defense": 15, "items": { "item_30": 2, "item_42": 1 } },
+      { "defense": 23, "items": { "item_6": 2, "item_36": 1 } }
+    ]
+  },
+  {
+    "tag": "legs_19",
+    "name": "Fierce Deity Boots",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 8, "items": { "item_28": 5, "item_40": 1 } },
+      { "defense": 11, "items": { "item_29": 5, "item_34": 1 } },
+      { "defense": 15, "items": { "item_30": 2, "item_43": 1 } },
+      { "defense": 23, "items": { "item_6": 2, "item_37": 1 } }
+    ]
+  },
+  {
+    "tag": "head_24",
+    "name": "Cap of the Hero",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_69": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_69": 3, "item_77": 1 } },
+      { "defense": 7, "items": { "item_69": 5, "item_77": 1 } },
+      { "defense": 11, "items": { "item_69": 10, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "body_19",
+    "name": "Tunic of the Hero",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_69": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_69": 3, "item_77": 1 } },
+      { "defense": 7, "items": { "item_69": 5, "item_77": 1 } },
+      { "defense": 11, "items": { "item_69": 10, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "legs_20",
+    "name": "Trousers of the Hero",
+    "defense": 3,
+    "upgrades": [
+      { "defense": 5, "items": { "item_69": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_69": 3, "item_77": 1 } },
+      { "defense": 7, "items": { "item_69": 5, "item_77": 1 } },
+      { "defense": 11, "items": { "item_69": 10, "item_77": 1 } }
+    ]
+  },
+  {
+    "tag": "head_25",
+    "name": "Sheik's Mask",
+    "defense": 2,
+    "upgrades": [
+      { "defense": 4, "items": { "item_81": 1, "item_77": 1 } },
+      { "defense": 6, "items": { "item_81": 2, "item_77": 2 } },
+      { "defense": 9, "items": { "item_81": 3, "item_77": 3 } },
+      { "defense": 16, "items": { "item_81": 4, "item_77": 4 } }
+    ]
+  },
+  {
+    "tag": "head_26",
+    "name": "Vah Ruta Divine Helm",
+    "defense": 4,
+    "upgrades": [
+      { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
+      { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
+      { "defense": 18, "items": { "item_20": 15, "item_21": 5 } },
+      { "defense": 28, "items": { "item_77": 1, "item_22": 2 } }
+    ]
+  },
+  {
+    "tag": "head_27",
+    "name": "Vah Medoh Divine Helm",
+    "defense": 4,
+    "upgrades": [
+      { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
+      { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
+      { "defense": 18, "items": { "item_20": 15, "item_21": 5 } },
+      { "defense": 28, "items": { "item_77": 1, "item_22": 2 } }
+    ]
+  },
+  {
+    "tag": "head_28",
+    "name": "Vah Rudania Divine Helm",
+    "defense": 4,
+    "upgrades": [
+      { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
+      { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
+      { "defense": 18, "items": { "item_20": 15, "item_21": 5 } },
+      { "defense": 28, "items": { "item_77": 1, "item_22": 2 } }
+    ]
+  },
+  {
+    "tag": "head_29",
+    "name": "Vah Naboris Divine Helm",
+    "defense": 4,
+    "upgrades": [
+      { "defense": 7, "items": { "item_18": 5, "item_19": 5 } },
+      { "defense": 12, "items": { "item_19": 15, "item_17": 10 } },
+      { "defense": 18, "items": { "item_20": 15, "item_21": 5 } },
+      { "defense": 28, "items": { "item_77": 1, "item_22": 2 } }
+    ]
+  }
+]

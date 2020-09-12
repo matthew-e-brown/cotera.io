@@ -1,5 +1,6 @@
 import { userProgress } from '@/store';
 import rawArmorList from '@/assets/data/armor.json';
+import rawAmiiboList from '@/assets/data/amiibo.json';
 
 class Armor {
   constructor(src) {
@@ -35,3 +36,4 @@ class Armor {
 }
 
 export default rawArmorList.map(a => new Armor(a));
+export const amiibo= rawAmiiboList.map(a => new Armor(a));
