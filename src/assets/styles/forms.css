@@ -10,7 +10,8 @@ input, * >>> input {
   border-radius: 0.5em;
   border: 0;
   height: 2.77em;
-  background-color: var(--block-color-a);
+  /* rgb comes from var(--block-color-a) on top of background color */
+  background-color: rgb(43, 37, 27);
   color: var(--body-text);
 }
 

@@ -3,7 +3,7 @@
     <h2>Account Settings</h2>
     <section>
       <h3>Email &amp; Password</h3>
-      <!-- !! ------------------ Start of hasEmail ------------------ !! -->
+      <!-- !! Start of hasEmail !! -->
       <!-- Email row -->
       <template v-if="hasEmail">
         <div class="account-row" :class="{ update: emailForm.state == 'update' }">
@@ -120,7 +120,7 @@
           Link
         </router-link>
       </div>
-      <!-- !! ------------------ End of hasEmail ------------------ !! -->
+      <!-- !! End of hasEmail !! -->
     </section>
     <section>
       <h3>Sign-in Methods</h3>
@@ -465,6 +465,7 @@ export default {
               }
 
               if (this.hasGoogle && !this.hasEmail) {
+                // the "confirm" button is just the GoogleSignIn
                 this.modal.showConfirm = false;
               }
             } else throw error;
@@ -622,6 +623,18 @@ strong {
 .modal-wrapper p.google-warning {
   font-size: 70%;
   color: var(--body-text-1);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 80ms linear;
+}
+
+.fade-enter-to, .fade-leave {
+  opacity: 1;
+}
+
+.fade-leave-to, .fade-enter {
+  opacity: 0;
 }
 
 @media (max-width: 770px) {
