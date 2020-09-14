@@ -1,0 +1,37 @@
+[
+  {
+    "tag": "set_0",
+    "name": "Set of Time",
+    "pieces": [ "head_19", "body_14", "legs_15" ]
+  },
+  {
+    "tag": "set_1",
+    "name": "Set of the Winds",
+    "pieces": [ "head_20", "body_15", "legs_16" ]
+  },
+  {
+    "tag": "set_2",
+    "name": "Set of Twilight",
+    "pieces": [ "head_21", "body_16", "legs_17" ]
+  },
+  {
+    "tag": "set_3",
+    "name": "Set of the Sky",
+    "pieces": [ "head_22", "body_17", "legs_18" ]
+  },
+  {
+    "tag": "set_4",
+    "name": "Fierce Deity's Set",
+    "pieces": [ "head_23", "body_18", "legs_19" ]
+  },
+  {
+    "tag": "set_5",
+    "name": "Set of the Hero",
+    "pieces": [ "head_24", "body_19", "legs_20" ]
+  },
+  {
+    "tag": "set_6",
+    "name": "Others",
+    "pieces": [ "head_25", "head_26", "head_27", "head_28", "head_29" ]
+  }
+]

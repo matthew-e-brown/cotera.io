@@ -7,6 +7,13 @@ const state = Vue.observable({
   userid: undefined,
   selected: undefined,
   get signedin() { return this.userid != undefined; },
+  // Don't need to bother syncing this one to firestore
+  _sortOrder: localStorage.getItem('sort-order') || 'set',
+  get sortOrder() { return this._sortOrder },
+  set sortOrder(value) {
+    this._sortOrder = value;
+    localStorage.setItem('sort-order', value);
+  },
 });
 
 // State for user progress
