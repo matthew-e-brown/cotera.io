@@ -1,6 +1,6 @@
 <template>
   <div class="modal-wrapper">
-    <div class="modal">
+    <div class="modal" aria-modal="true">
       <slot></slot>
       <div class="modal-buttons">
         <button v-if="showConfirm" class="button danger" @click="$emit('confirm')">

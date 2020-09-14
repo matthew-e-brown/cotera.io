@@ -2,7 +2,7 @@
   <main id="account" class="sticky-box">
     <h2>Account Settings</h2>
     <section>
-      <h3>Email &amp; Password</h3>
+      <h3 class="line">Email &amp; Password</h3>
       <!-- !! Start of hasEmail !! -->
       <!-- Email row -->
       <template v-if="hasEmail">
@@ -123,7 +123,7 @@
       <!-- !! End of hasEmail !! -->
     </section>
     <section>
-      <h3>Sign-in Methods</h3>
+      <h3 class="line">Sign-in Methods</h3>
       <div id="sign-in">
         <GoogleSignIn v-if="!hasGoogle" @finish="refresh" mode="link" />
         <button v-else @click="unlinkGoogle" class="button icon-button">
@@ -153,7 +153,7 @@
       </ul>
     </section>
     <section>
-      <h3>Danger Zone</h3>
+      <h3 class="line">Danger Zone</h3>
       <p>These actions are irreversible.</p>
       <div id="danger-zone">
         <button @click="resetProgress" class="button danger">
@@ -488,22 +488,7 @@ export default {
 }
 
 h3 {
-  display: flex;
-  flex-flow: row nowrap;
   margin-bottom: 1.25em;
-}
-
-h3::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 0.1em;
-  margin-left: 1em;
-  margin-bottom: 0.1em;
-  border-radius: 100px;
-  flex: 1 1 0;
-  align-self: flex-end;
-  background-color: var(--block-color-a);
 }
 
 section {

@@ -79,6 +79,24 @@ a, a:visited {
   color: inherit;
 }
 
+h3.line {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+h3.line::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0.1em;
+  margin-left: 1em;
+  margin-bottom: 0.1em;
+  border-radius: 100px;
+  flex: 1 1 0;
+  align-self: flex-end;
+  background-color: var(--block-color-a);
+}
+
 span.num {
   background-color: var(--block-color);
   color: var(--body-text);
