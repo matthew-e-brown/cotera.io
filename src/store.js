@@ -14,6 +14,12 @@ const state = Vue.observable({
     this._sortOrder = value;
     localStorage.setItem('sort-order', value);
   },
+  _showAmiibo: localStorage.getItem('show-amiibo') || true,
+  get showAmiibo() { return this._showAmiibo },
+  set showAmiibo(value) {
+    this._showAmiibo = value;
+    localStorage.setItem('show-amiibo', value);
+  },
 });
 
 // State for user progress

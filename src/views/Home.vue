@@ -1,27 +1,40 @@
 <template>
   <main id="home">
-    <div id="main-container">
-      <ArmorInfo class="sticky-box" :armor="state.selected" />
-      <div id="list-container">
-        <section>
-          <h3 class="line">
-            <Shirt />
-            <span>Armor</span>
-          </h3>
-          <ul class="armor-list">
-            <ArmorItem v-for="piece in armor" :key="piece.tag" :armor="piece" />
-          </ul>
-        </section>
-        <section>
-          <h3 class="line">
-            <Amiibo id="amiibo" aria-label="amiibo" />
-            <span>Armor</span>
-          </h3>
-          <ul class="armor-list">
-            <ArmorItem v-for="piece in amiibo" :key="piece.tag" :armor="piece" />
-          </ul>
-        </section>
+    <ArmorInfo class="sticky-box" :armor="state.selected" />
+    <div id="list-container">
+      <div id="list-settings">
+        <button
+          @click="toggleSort"
+        >Sort by {{ state.sortOrder == 'set' ? 'type' : 'set' }}</button>
+        <button
+          @click="toggleAmiibo"
+          :aria-label="`${state.showAmiibo ? 'Hide' : 'Show'} Amiibo armor`"
+        >
+          <Amiibo class="amiibo" aria-hidden="true" />
+          <fa-icon
+            class="fa-fw"
+            :icon="state.showAmiibo ? 'eye' : 'eye-slash'"
+          />
+        </button>
       </div>
+      <section>
+        <h3 class="line">
+          <Shirt />
+          <span>Armor</span>
+        </h3>
+        <ul class="armor-list">
+          <ArmorItem v-for="piece in armor" :key="piece.tag" :armor="piece" />
+        </ul>
+      </section>
+      <section v-if="state.showAmiibo">
+        <h3 class="line">
+          <Amiibo class="amiibo" aria-label="amiibo" />
+          <span>Armor</span>
+        </h3>
+        <ul class="armor-list">
+          <ArmorItem v-for="piece in amiibo" :key="piece.tag" :armor="piece" />
+        </ul>
+      </section>
     </div>
   </main>
 </template>
@@ -44,6 +57,16 @@ export default {
     return { state, armor, amiibo }
   },
   methods: {
+    toggleSort: function() {
+      this.$set(
+        this.state,
+        'sortOrder',
+        this.state.sortOrder == 'set' ? 'type' : 'set'
+      );
+    },
+    toggleAmiibo: function() {
+      this.$set(this.state, 'showAmiibo', !this.state.showAmiibo);
+    },
     sortArmor: function(list, set, value) {
       const order = set.reduce((acc, cur) => [...acc, ...cur.pieces], []);
 
@@ -60,7 +83,6 @@ export default {
         });
       }
 
-      console.log(order);
       list.sort((a, b) => {
         // Put Champion's Tunic first and jewelry/divine headgear last
         if (a.tag == 'body_13') return -1;
@@ -82,25 +104,39 @@ export default {
     }
   },
   mounted: function() {
-    this.sortArmor(this.armor, sets, state.sortOrder);
-    this.sortArmor(this.amiibo, amiiboSets, state.sortOrder);
+    this.sortArmor(this.armor, sets, this.state.sortOrder);
+    this.sortArmor(this.amiibo, amiiboSets, this.state.sortOrder);
   }
 }
 </script>
 
 <style scoped>
-#main-container {
+#home {
   display: flex;
   flex-flow: row-reverse nowrap;
   align-items: flex-start;
 }
 
-#main-container>* {
+#home>* {
   flex: 1 1 auto;
 }
 
 section {
-  margin: 2rem 1rem;
+  margin-bottom: 2rem;
+}
+
+#list-container {
+  padding: 3rem 2rem 0;
+}
+
+#list-container>:first-child {
+  margin-top: 0;
+}
+
+#list-settings {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0;
 }
 
 .armor-list {
@@ -111,8 +147,24 @@ section {
   padding: 0;
 }
 
-h3 {
-  margin: 0 1rem;
+button {
+  color: var(--text-color);
+  background-color: var(--block-color);
+  padding: 0.60em 1em;
+  border-radius: 0.4em;
+  margin-left: 1em;
+  border: 0.1em solid var(--block-border);
+  display: flex;
+  align-items: center;
+}
+
+button svg {
+  display: inline-block;
+}
+
+button svg:last-child {
+  font-size: 1.25em;
+  margin-left: 0.5em;
 }
 
 h3 svg {
@@ -121,15 +173,22 @@ h3 svg {
   align-self: center;
 }
 
-#amiibo {
+svg.amiibo {
   height: 1.275em;
-  margin-right: 0.30em;
   align-self: flex-end;
 }
 
+h3 svg.amiibo {
+  margin-right: 0.30em;
+}
+
 @media (max-width: 770px) {
-  #main-container {
+  #home {
     flex-flow: row wrap;
+  }
+
+  #list-container {
+    padding-top: 1.5rem;
   }
 }
 </style>
