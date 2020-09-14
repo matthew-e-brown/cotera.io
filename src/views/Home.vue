@@ -5,7 +5,11 @@
       <div id="list-settings">
         <button
           @click="toggleSort"
-        >Sort by {{ state.sortOrder == 'set' ? 'type' : 'set' }}</button>
+          :aria-label="`Order by ${state.sortOrder == 'set' ? 'type' : 'sets'}`"
+        >
+          <fa-icon icon="sort-alt" />
+          <span>{{ state.sortOrder == 'set' ? 'Sets' : 'Type' }}</span>
+        </button>
         <button
           @click="toggleAmiibo"
           :aria-label="`${state.showAmiibo ? 'Hide' : 'Show'} Amiibo armor`"
@@ -153,18 +157,28 @@ button {
   padding: 0.60em 1em;
   border-radius: 0.4em;
   margin-left: 1em;
-  border: 0.1em solid var(--block-border);
+  border: 0.15em solid var(--block-border);
   display: flex;
   align-items: center;
+  justify-content: center;
+  min-width: 6.25rem;
 }
 
-button svg {
-  display: inline-block;
+/* Spacing */
+button svg:first-child {
+  margin-right: 0.80rem;
 }
 
+/* The eye */
 button svg:last-child {
   font-size: 1.25em;
-  margin-left: 0.5em;
+}
+
+/* The text in the left button */
+button span {
+  margin-bottom: -0.15em;
+  text-align: center;
+  width: 4.25ch;
 }
 
 h3 svg {

@@ -5,13 +5,15 @@ import router from './router';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
-  faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash
+  faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
+  faSortAlt
 } from '@fortawesome/pro-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 Vue.component('fa-icon', FontAwesomeIcon);
 library.add(
-  faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash, faGoogle
+  faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
+  faGoogle, faSortAlt
 );
 
 import '@/assets/fonts/calamity-sans.css';
