@@ -1,15 +1,12 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/" id="home-link"><h1>Cotera<span>.io</span></h1></router-link>
-      <router-link to="/login" v-if="!state.signedin">Log in</router-link>
-      <div id="account-links" v-else>
-        <div>{{ getUserEmail() }}</div>
-        <div>
-          <router-link to="/account" class="account-link">Settings</router-link>
-          <button class="account-link" type="button" @click="signout">Sign out</button>
-        </div>
-      </div>
+      <router-link to="/" id="home-link">
+        <h1>Cotera<span>.io</span></h1>
+      </router-link>
+      <router-link to="/about">about</router-link>
+      <router-link to='/login' v-if="!state.signedin">log in</router-link>
+      <router-link to="/account" v-else>account</router-link>
     </nav>
     <router-view />
   </div>
@@ -25,21 +22,6 @@ export default {
   name: 'App',
   data: function() {
     return { state }
-  },
-  methods: {
-    getUserEmail: function() {
-      // Method instead of computed so that it can be re-run if changed in
-      // Acccount settings with vm.$forceUpdate().
-      return firebase.auth().currentUser.email;
-    },
-    signout: async function() {
-      try {
-        await firebase.auth().signOut();
-      } catch (error) {
-        console.error(error);
-        alert("Could not sign out. Please try again later.");
-      }
-    }
   }
 }
 </script>
@@ -47,7 +29,7 @@ export default {
 <style scoped>
 h1 {
   margin: 0;
-  font-size: 2.4em;
+  font-size: 2.4rem;
 }
 
 h1 span {
@@ -64,47 +46,36 @@ nav {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: space-between;
   background-color: var(--block-color);
 }
 
-nav a, nav button {
-  cursor: pointer;
-}
-
-nav div {
-  text-align: right;
-}
-
-nav div .account-link {
-  color: var(--body-text-1);
-  text-decoration: underline;
-  font-size: 80%;
-  margin: 0 0.5em;
-}
-
-nav div .account-link:last-child {
-  margin-right: 0;
-}
-
-nav a:not(.account-link) {
+nav a {
   text-decoration: none;
 }
 
-#account-links {
-  max-width: 52.5%;
+nav a:first-child {
+  margin-right: auto;
 }
 
-#account-links>div:first-child {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+nav a:not(:first-child) {
+  cursor: pointer;
+  color: var(--body-text);
+  margin-left: 1.85em;
+  padding-top: 0.225em;
 }
 
 @media (max-width: 770px) {
   nav {
     border-bottom: 0.3rem double var(--block-border);
     padding: 1rem 2rem;
+  }
+
+  nav {
+    align-items: flex-end;
+  }
+
+  nav a:not(:first-child) {
+    padding-bottom: 0.25em;
   }
 }
 

@@ -3,7 +3,11 @@
     <div class="modal" aria-modal="true">
       <slot></slot>
       <div class="modal-buttons">
-        <button v-if="showConfirm" class="button danger" @click="$emit('confirm')">
+        <button
+          v-if="showConfirm"
+          class="button danger"
+          @click="$emit('confirm')"
+        >
           <slot name="confirm">Yes</slot>
         </button>
         <button class="button" @click="$emit('cancel')">

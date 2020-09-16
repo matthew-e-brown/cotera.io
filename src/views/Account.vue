@@ -1,6 +1,8 @@
 <template>
   <main id="account" class="sticky-box">
     <h2>Account Settings</h2>
+    <p>Currently signed in as <span>{{ user.email }}</span></p>
+    <button type="button" class="button" @click="signout">Sign out</button>
     <section>
       <h3 class="line">Email &amp; Password</h3>
       <!-- !! Start of hasEmail !! -->
@@ -113,12 +115,11 @@
         </div>
       </template>
       <div v-else id="no-email-row">
-        <div>
-          Sign in with an email &amp; password in addition to Google
-        </div>
-        <router-link class="button" to="/register/account-link">
-          Link
-        </router-link>
+        <div>Sign in with an email &amp; password in addition to Google</div>
+        <router-link
+          class="button"
+          to="/register/account-link"
+        >Link</router-link>
       </div>
       <!-- !! End of hasEmail !! -->
     </section>
@@ -306,6 +307,14 @@ export default {
     }
   },
   methods: {
+    signout: async function() {
+      try {
+        await firebase.auth().signOut();
+      } catch (error) {
+        console.error(error);
+        alert("Could not sign out. Please try again later.");
+      }
+    },
     refresh: function() {
       this.$set(this.user, firebase.auth().currentUser);
     },
@@ -487,12 +496,41 @@ export default {
   }
 }
 
-h3 {
-  margin-bottom: 1.25em;
+h2 {
+  margin-bottom: 1.5rem;
+}
+
+h2+p {
+  color: var(--body-text-1);
+  font-size: 75%;
+  text-align: center;
+  overflow-x: hidden;
+  word-wrap: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 1rem 0;
+}
+
+h2+p span {
+  font-style: italic;
+}
+
+h2~.button {
+  margin: 1rem auto;
+  font-size: 75%;
 }
 
 section {
   font-size: 0.9em;
+  margin-top: 2rem;
+}
+
+section:first-of-type {
+  margin-top: 2.25rem;
+}
+
+h3 {
+  margin-bottom: 1.25em;
 }
 
 strong {
@@ -526,6 +564,7 @@ strong {
 .account-row:not(.update)>:nth-child(2) {
   overflow-x: hidden;
   word-wrap: none;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 

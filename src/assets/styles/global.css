@@ -56,7 +56,7 @@ main {
 .sticky-box {
   position: sticky;
   top: 8rem;
-  margin: 2rem;
+  margin: 2rem 2rem 0;
   padding: 1rem;
   z-index: 1;
   min-width: calc(18rem + 12vw);

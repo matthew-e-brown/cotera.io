@@ -7,7 +7,11 @@
         </span>
       </div>
       <img :src="armor.sprite" draggable="false" aria-hidden="true" alt="">
-      <span v-if="armor" class="num" aria-label="defense">{{ armor.defense }}</span>
+      <span
+        v-if="armor"
+        class="num"
+        aria-label="defense"
+      >{{ armor.defense }}</span>
     </button>
   </li>
 </template>
