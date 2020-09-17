@@ -15,5 +15,6 @@
     ],
     "theme_color": "#312626",
     "background_color": "#312626",
+    "start_url": "https://cotera.io",
     "display": "standalone"
 }
