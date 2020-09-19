@@ -146,11 +146,10 @@ div.separator {
 .stars span {
   margin: 0.1em;
   color: var(--body-text-2);
-  filter: drop-shadow(0 0.025em 0.25em #000000ff);
 }
 
 .stars span.filled {
-  filter: drop-shadow(0 0.025em 0.15em #ffffff80);
+  filter: drop-shadow(0 0.025em 0.15em rgba(255, 255, 255, 0.5));
 }
 
 .stars svg {

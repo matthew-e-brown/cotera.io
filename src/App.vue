@@ -41,7 +41,7 @@ nav {
   padding: 1rem 4rem;
   height: 3rem;
   position: sticky;
-  z-index: 2;
+  z-index: 5;
   top: 0;
   display: flex;
   flex-flow: row nowrap;

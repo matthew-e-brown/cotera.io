@@ -1,5 +1,5 @@
 <template>
-  <li :aria-label="armor.name">
+  <li :aria-label="armor.name" :class="{ selected }">
     <button type="button" @click="select">
       <div class="stars">
         <span v-for="i in 4" :class="{ filled: i <= armor.level }" :key="i">
@@ -26,6 +26,11 @@ export default {
   },
   data: function() {
     return { state }
+  },
+  computed: {
+    selected: function() {
+      return this.state.selected == this.armor;
+    }
   },
   methods: {
     select: function() {
@@ -57,6 +62,7 @@ button {
   flex-flow: column-reverse;
   position: absolute;
   bottom: 0.2em; left: 0.2em;
+  z-index: 2;
 }
 
 .stars span {
@@ -67,6 +73,7 @@ span.num {
   font-size: 1.25rem;
   position: absolute;
   right: -0.4em; bottom: -0.4em;
+  z-index: 2;
 }
 
 img {
@@ -74,6 +81,25 @@ img {
   min-height: 82px;
   min-width: 82px;
   height: calc(2rem + 5vw);
+  position: relative;
+  z-index: 1;
+}
+
+.selected {
+  --block-border: rgba(249, 237, 180, 0.55);
+}
+
+.selected button::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0.125em; right: 0.125em; bottom: 0.125em; left: 0.125em;
+  z-index: 0;
+  opacity: 0.80;
+  border-radius: 0.15em;
+  box-shadow: inset 0 0 1em -0.15em rgba(255, 255, 255, 0.85);
+  background:
+    radial-gradient(rgb(3, 145, 255), rgba(255, 255, 255, 0.80) 250%);
 }
 
 @media (max-width: 770px) {
