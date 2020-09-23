@@ -106,6 +106,10 @@ img {
   display: block;
 }
 
+#armor-info {
+  z-index: 4;
+}
+
 #armor-info>* {
   margin-bottom: 0;
 }

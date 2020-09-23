@@ -1,6 +1,6 @@
 <template>
   <li :aria-label="armor.name" :class="{ selected }">
-    <button type="button" @click="select">
+    <button type="button" @click="select" ref="button">
       <div class="stars">
         <span v-for="i in 4" :class="{ filled: i <= armor.level }" :key="i">
           <fa-icon icon="star" />
@@ -33,8 +33,11 @@ export default {
     }
   },
   methods: {
-    select: function() {
-      this.state.selected = this.armor;
+    select: function(event) {
+      if (this.state.selected == this.armor) {
+        this.state.selected = undefined;
+        this.$refs.button.blur();
+      } else this.state.selected = this.armor;
     }
   }
 }

@@ -170,7 +170,7 @@ svg {
   fill: currentColor;
 }
 
-@media screen and (max-width: 430px) {
+@media (max-width: 430px) {
   :root {
     font-size: 12px;
   }
