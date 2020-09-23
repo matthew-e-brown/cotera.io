@@ -1,0 +1,142 @@
+<template>
+  <main id="about" class="sticky-box">
+    <h2>About &amp; FAQ</h2>
+    <section>
+      <h3 id="faq">FAQ</h3>
+      <dl>
+        <dt>
+          This site seems to work just fine without an account. Why should I make
+          one?
+        </dt>
+        <dd>
+          <p>
+            By default, this site will store your current progress inside your
+            web browser's local storage. It is safe between browsing sessions,
+            but will not survive if ever you decide to <em>clear browsing
+            data</em> for this site.
+          </p>
+          <p>
+            Using an account will sync your progress to a server, allowing you
+            to keep your progress safe indefinitely, as well as allow your
+            progress to be accessed from different devices. When using multiple,
+            the other devices will even update in real-time as you make changes!
+          </p>
+        </dd>
+
+        <dt>
+          Is this site secure? Are you being smart about what happens to my
+          password?
+        </dt>
+        <dd>
+          <p>
+            This site uses Google's Firebase service behind the scenes: they
+            handle the authentication and storage. As long as you trust Google,
+            you have nothing to fear here.
+          </p>
+          <p>
+            On a related note, it's worth mentioning that <em>Google
+            Analytics</em> are turned off for this site. Google only sees what I
+            need to let them see for this app to work. 😁
+          </p>
+        </dd>
+
+        <dt>I found a problem/bug/error. What should I do?</dt>
+        <dd>
+          <p>
+            I'm glad you asked! This web-app is open-source: as much as I am the
+            primary developer, anybody is free to contribute to the project. If
+            you need to submit a bug-report, you can do so <a
+            href="https://github.com/matthew-e-brown/Cotera.io/issues"
+            target="_blank" >here</a>.
+          </p>
+        </dd>
+      </dl>
+    </section>
+    <section>
+      <h3 id="about">About</h3>
+      <p>
+        Thank you for checking out <strong>Cotera.io</strong>! I made this app
+        as a passion-project, a resume-filler, and as a tool for myself to use
+        as I complete my fourth playthrough of The Legend of Zelda: Breath of
+        the Wild.
+      </p>
+      <p>
+        I created this app because, as I strove for 100% completion in my most
+        recent Breath of the Wild playthrough, I kept finding myself forgetting
+        which items I needed to upgrade my armor through the final levels.
+      </p>
+      <p>
+        I often thought to myself, "wouldn't it be handy to have something I can
+        whip out on my phone, or leave open on my second monitor to quickly
+        double check what flower I'm looking for?" I used a notepad on my desk
+        for a while, but it quickly became messy as I upgraded pieces and
+        scratched them off the page.
+      </p>
+      <p>
+        So, as someone trying to get my foot in the door as web developer, I
+        figured this would be a fun project to throw myself into the flames a
+        little bit. I hope you like it!
+      </p>
+      <p id="nerdy">
+        Some info for my nerdy friends: If you're wondering, this app is built
+        with Vue.js on the front-end, and uses Google Firebase as a back-end. As
+        mentioned above, it's open-source, and all of the source-code is
+        available on GitHub: you can find it
+        <a href="https://github.com/matthew-e-brown/Cotera.io" target="_blank">here</a>!
+      </p>
+    </section>
+  </main>
+</template>
+
+<style scoped src="@/assets/styles/forms.css"></style>
+<style scoped>
+/* 400-weight */
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital@0;1&display=swap');
+
+@media (min-width: 770px) {
+  main {
+    min-width: initial;
+    width: calc(50rem + 5vw);
+    padding-left: 4.5rem;
+    padding-right: 4.5rem;
+  }
+}
+
+h3 {
+  text-align: center;
+}
+
+main, main p {
+  /* Lots of reading, we need to give the text some breathing room */
+  line-height: 1.55;
+}
+
+p {
+  font-weight: 400;
+  max-width: 80ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#about~p {
+  text-indent: 2.8em;
+}
+
+a {
+  color: var(--body-text-1);
+}
+
+dt, strong {
+  font-family: 'Calamity', 'Avenir', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+}
+
+dd {
+  margin-bottom: 1.75em;
+}
+
+#nerdy {
+  margin-top: 3.25rem;
+  font-size: 75%;
+}
+</style>

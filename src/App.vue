@@ -4,7 +4,7 @@
       <router-link to="/" id="home-link">
         <h1>Cotera<span>.io</span></h1>
       </router-link>
-      <router-link to="/about">about</router-link>
+      <router-link to="/about">about &amp; faq</router-link>
       <router-link to='/login' v-if="!state.signedin">log in</router-link>
       <router-link to="/account" v-else>account</router-link>
     </nav>
@@ -76,6 +76,12 @@ nav a:not(:first-child) {
 
   nav a:not(:first-child) {
     padding-bottom: 0.25em;
+  }
+}
+
+@media (max-width: 370px) {
+  nav a:not(:first-child) {
+    font-size: 90%;
   }
 }
 

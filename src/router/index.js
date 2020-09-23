@@ -26,6 +26,14 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '/about',
+    name: 'About',
+    meta: {
+      title: "About | Cotera.io"
+    },
+    component: () => import('../views/About.vue')
+  },
+  {
     path: '/register',
     name: 'Register',
     meta: {
