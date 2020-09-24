@@ -129,6 +129,10 @@ section {
   margin-bottom: 2rem;
 }
 
+section:last-child {
+  margin-bottom: 0;
+}
+
 #list-container {
   padding: 3rem 2rem 0;
 }

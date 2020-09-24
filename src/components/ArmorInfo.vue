@@ -147,11 +147,11 @@ h2 {
   }
 
   .stars span:first-of-type {
-    margin-left: 1.2em;
+    margin-left: 0.8em;
   }
 
   .stars span:last-of-type {
-    margin-right: 1.2em;
+    margin-right: 0.8em;
   }
 }
 
@@ -246,6 +246,21 @@ h2 {
 @media (max-width: 430px) {
   #stats {
     font-size: 1.20em
+  }
+}
+
+@media (max-width: 330px) {
+  #defense {
+    font-size: 0.75em;
+  }
+
+  .upgrade-item span:first-of-type {
+    font-size: 0.80em;
+  }
+
+  .upgrade-item>* {
+    margin-left: 0.65rem;
+    margin-right: 0.65rem;
   }
 }
 

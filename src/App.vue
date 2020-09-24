@@ -37,9 +37,9 @@ h1 span {
 }
 
 nav {
-  box-sizing: content-box;
+  box-sizing: border-box;
+  height: 5.3rem;
   padding: 1rem 4rem;
-  height: 3rem;
   position: sticky;
   z-index: 5;
   top: 0;

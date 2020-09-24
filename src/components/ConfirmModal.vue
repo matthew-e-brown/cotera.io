@@ -68,4 +68,10 @@ h4 {
 .modal-buttons>:last-child {
   margin-right: 0;
 }
+
+@media (max-width: 300px) {
+  .button {
+    min-width: initial;
+  }
+}
 </style>
