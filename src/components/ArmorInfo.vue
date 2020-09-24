@@ -119,8 +119,8 @@ img {
 }
 
 h2 {
-  margin-top: 0.5rem;
-  padding-bottom: 0.85rem;
+  margin-top: 0.45em;
+  padding-bottom: 0.50em;
   padding-left: 0.35em;
   border-bottom: 0.1rem solid var(--block-border);
 }
@@ -141,14 +141,14 @@ h2 {
 }
 
 #defense {
-  font-size: 0.85rem;
+  font-size: 0.85em;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
 }
 
 #defense span {
-  font-size: 1.25rem;
+  font-size: 1.45em;
 }
 
 #defense>* {
@@ -217,5 +217,41 @@ h2 {
   font-weight: 700;
   margin-top: 1.8em;
   margin-bottom: 1.75em;
+}
+
+@media (max-width: 850px) and (min-width: 771px) {
+  #armor-info {
+    min-width: calc(12rem + 12vw);
+    margin: 1.5rem 1.5rem 0;
+    font-size: 0.85em;
+  }
+}
+
+/* See Home.vue -- mobile and squished desktop */
+@media (max-width: 850px) {
+  #stats {
+    flex-flow: column nowrap;
+    align-items: flex-end;
+  }
+
+  #defense {
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+}
+
+/* squished desktop and mobile */
+@media (max-width: 850px) {
+  /* give the stars a little more breathing room as things get cramped */
+  .stars span {
+    margin: 0.25em;
+  }
+}
+
+/* small-font size mobile */
+@media (max-width: 430px) {
+  #stats {
+    font-size: 1.20em
+  }
 }
 </style>

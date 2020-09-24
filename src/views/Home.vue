@@ -151,6 +151,7 @@ section {
   padding: 0;
 }
 
+/* Only <buttons> directly in this component are the #list-setting ones */
 button {
   color: var(--text-color);
   background-color: var(--block-color);
@@ -162,6 +163,7 @@ button {
   align-items: center;
   justify-content: center;
   min-width: 6.25rem;
+  height: 2.80em;
 }
 
 /* Spacing */
@@ -203,6 +205,32 @@ h3 svg.amiibo {
 
   #list-container {
     padding-top: 1.5rem;
+  }
+}
+
+@media (max-width: 880px) and (min-width: 771px) {
+  .armor-list {
+    justify-content: space-around;
+  }
+}
+
+/* For when it's not quite mobile, but desktop gets down to one-per-column */
+@media (max-width: 850px) and (min-width: 771px) {
+  #list-container {
+    padding: 3rem 1.5rem 0;
+  }
+
+  #list-settings {
+    flex-flow: column nowrap;
+    align-items: flex-end;
+  }
+
+  button {
+    width: 10em;
+  }
+
+  button:last-child {
+    margin-top: 0.75em;
   }
 }
 </style>

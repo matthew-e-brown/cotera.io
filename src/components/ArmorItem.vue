@@ -105,6 +105,12 @@ img {
     radial-gradient(rgb(3, 145, 255), rgba(255, 255, 255, 0.80) 250%);
 }
 
+@media (max-width: 980px) {
+  li {
+    margin: 0.55rem 0.30rem;
+  }
+}
+
 @media (max-width: 770px) {
   li {
     margin: 0.5rem;
