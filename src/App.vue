@@ -62,6 +62,7 @@ nav a:not(:first-child) {
   color: var(--body-text);
   margin-left: 1.85em;
   padding-top: 0.225em;
+  white-space: nowrap;
 }
 
 @media (max-width: 770px) {
@@ -79,9 +80,23 @@ nav a:not(:first-child) {
   }
 }
 
-@media (max-width: 370px) {
+@media (max-width: 470px) {
   nav a:not(:first-child) {
     font-size: 90%;
+  }
+}
+
+/* Some screens are *really* narrow these days... looking at you, Galaxy Fold...
+ * Or, I guess just the outside screen, but I'd like it to always work... */
+@media (max-width: 300px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  nav a:not(:first-child) {
+    margin-left: 1.25em;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
   }
 }
 

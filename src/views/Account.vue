@@ -491,6 +491,7 @@ export default {
 @media (min-width: 770px) {
   main {
     min-width: initial;
+    max-width: 95%;
     width: calc(45rem + 5vw);
     padding: 2rem 5rem;
   }

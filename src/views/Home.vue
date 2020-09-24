@@ -208,29 +208,10 @@ h3 svg.amiibo {
   }
 }
 
-@media (max-width: 880px) and (min-width: 771px) {
-  .armor-list {
-    justify-content: space-around;
-  }
-}
-
-/* For when it's not quite mobile, but desktop gets down to one-per-column */
-@media (max-width: 850px) and (min-width: 771px) {
-  #list-container {
-    padding: 3rem 1.5rem 0;
-  }
-
+@media (max-width: 430px) {
+  /* Offset the shrinking on really small screens */
   #list-settings {
-    flex-flow: column nowrap;
-    align-items: flex-end;
-  }
-
-  button {
-    width: 10em;
-  }
-
-  button:last-child {
-    margin-top: 0.75em;
+    font-size: 1.1em;
   }
 }
 </style>

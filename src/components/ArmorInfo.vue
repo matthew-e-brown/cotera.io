@@ -140,6 +140,21 @@ h2 {
   margin-right: 1em;
 }
 
+@media (any-pointer: coarse) {
+  /* give the stars a little more breathing room if they have a touch screen */
+  .stars span {
+    margin: 0.2em;
+  }
+
+  .stars span:first-of-type {
+    margin-left: 1.2em;
+  }
+
+  .stars span:last-of-type {
+    margin-right: 1.2em;
+  }
+}
+
 #defense {
   font-size: 0.85em;
   display: flex;
@@ -221,14 +236,21 @@ h2 {
 
 @media (max-width: 850px) and (min-width: 771px) {
   #armor-info {
-    min-width: calc(12rem + 12vw);
+    min-width: calc(13.8rem + 12vw);
     margin: 1.5rem 1.5rem 0;
     font-size: 0.85em;
   }
 }
 
-/* See Home.vue -- mobile and squished desktop */
-@media (max-width: 850px) {
+/* small-font size mobile */
+@media (max-width: 430px) {
+  #stats {
+    font-size: 1.20em
+  }
+}
+
+/* Galaxy Fold */
+@media (max-width: 300px) {
   #stats {
     flex-flow: column nowrap;
     align-items: flex-end;
@@ -237,21 +259,6 @@ h2 {
   #defense {
     margin-top: 0;
     margin-bottom: 1em;
-  }
-}
-
-/* squished desktop and mobile */
-@media (max-width: 850px) {
-  /* give the stars a little more breathing room as things get cramped */
-  .stars span {
-    margin: 0.25em;
-  }
-}
-
-/* small-font size mobile */
-@media (max-width: 430px) {
-  #stats {
-    font-size: 1.20em
   }
 }
 </style>

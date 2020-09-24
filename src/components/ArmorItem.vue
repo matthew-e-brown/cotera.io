@@ -47,7 +47,7 @@ export default {
 li {
   display: block;
   list-style: none;
-  margin: 1rem;
+  margin: 0.85rem;
 }
 
 button {

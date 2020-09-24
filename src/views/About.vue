@@ -96,6 +96,7 @@
 @media (min-width: 770px) {
   main {
     min-width: initial;
+    max-width: 95%;
     width: calc(50rem + 5vw);
     padding-left: 4.5rem;
     padding-right: 4.5rem;
