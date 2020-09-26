@@ -23,18 +23,22 @@
           <button
             type="button"
             aria-label="decrease level"
+            class="plus-minus"
             :disabled="!(armor.level > 0)"
             @click="decrease"
           ><fa-icon icon="minus" /></button>
-          <span
+          <button
             v-for="i in 4"
             :key="i"
             :class="{ filled: i <= armor.level }"
+            class="star"
+            @click="setLevel(i)"
             aria-hidden="true"
-          ><fa-icon icon="star" /></span>
+          ><fa-icon icon="star" /></button>
           <button
             type="button"
             aria-label="increase level"
+            class="plus-minus"
             :disabled="!(armor.level < 4)"
             @click="increase"
           ><fa-icon icon="plus" /></button>
@@ -70,7 +74,7 @@
 
 <script>
 import Shirt from '@/assets/icons/shirt.svg';
-import { userProgress, levelUp, levelDown } from '@/store';
+import { userProgress, setArmorLevel } from '@/store';
 import items from '@/assets/data/items.json';
 
 export default {
@@ -80,11 +84,14 @@ export default {
   },
   components: { Shirt },
   methods: {
+    setLevel: function(level) {
+      setArmorLevel(this.armor, level);
+    },
     increase: function() {
-      if (this.armor.level < 4) levelUp(this.armor);
+      if (this.armor.level < 4) setArmorLevel(this.armor, this.armor.level + 1);
     },
     decrease: function() {
-      if (this.armor.level > 0) levelDown(this.armor);
+      if (this.armor.level > 0) setArmorLevel(this.armor, this.armor.level - 1);
     },
     itemName: function(item) {
       return items.find(i => i.tag == item).name;
@@ -132,26 +139,26 @@ h2 {
   align-items: center;
 }
 
-.stars span:first-of-type {
-  margin-left: 1em;
+.stars>:first-child {
+  margin-right: 1em;
 }
 
-.stars span:last-of-type {
-  margin-right: 1em;
+.stars>:last-child {
+  margin-left: 1em;
 }
 
 @media (any-pointer: coarse) {
   /* give the stars a little more breathing room if they have a touch screen */
-  .stars span {
+  .stars .star {
     margin: 0.2em;
   }
 
-  .stars span:first-of-type {
-    margin-left: 0.8em;
+  .stars>:first-child {
+    margin-right: 0.8em;
   }
 
-  .stars span:last-of-type {
-    margin-right: 0.8em;
+  .stars>:last-child {
+    margin-left: 0.8em;
   }
 }
 
@@ -239,6 +246,15 @@ h2 {
     min-width: calc(13.8rem + 12vw);
     margin: 1.5rem 1.5rem 0;
     font-size: 0.85em;
+  }
+
+  .upgrade-item {
+    font-size: 1.1em;
+  }
+
+  .upgrade-item>* {
+    margin-left: 0.55rem;
+    margin-right: 0.55rem;
   }
 }
 

@@ -47,14 +47,8 @@ const uploadToFirebase = () => firebase.firestore()
 
 const debouncedUpload = debounce(uploadToFirebase, 900);
 
-const levelUp = armor => {
-  Vue.set(userProgress[armor.type], armor.indx, armor.level + 1);
-  if (state.signedin) debouncedUpload();
-  else localStorage.setItem('user-progress', JSON.stringify(userProgress));
-}
-
-const levelDown = armor => {
-  Vue.set(userProgress[armor.type], armor.indx, armor.level - 1);
+const setArmorLevel = (armor, level) => {
+  Vue.set(userProgress[armor.type], armor.indx, level);
   if (state.signedin) debouncedUpload();
   else localStorage.setItem('user-progress', JSON.stringify(userProgress));
 }
@@ -113,4 +107,4 @@ firebase.auth().onAuthStateChanged(user => {
 });
 
 export default state;
-export { userProgress, levelUp, levelDown, resetProgress, deleteProgress };
+export { userProgress, setArmorLevel, resetProgress, deleteProgress };

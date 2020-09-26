@@ -145,12 +145,12 @@ div.separator {
   align-items: center;
 }
 
-.stars span {
+.stars span, .stars .star {
   margin: 0.1em;
   color: var(--body-text-2);
 }
 
-.stars span.filled {
+.stars span.filled, .stars .star.filled {
   filter: drop-shadow(0 0.025em 0.15em rgba(255, 255, 255, 0.5));
 }
 
@@ -158,11 +158,13 @@ div.separator {
   height: 1.2em;
 }
 
-.stars span.filled, .stars button {
+.stars span.filled,
+.stars .star.filled,
+.stars button.plus-minus {
   color: var(--body-text);
 }
 
-.stars button:disabled {
+.stars button.plus-minus:disabled {
   color: var(--body-text-2);
   cursor: default;
 }
