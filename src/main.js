@@ -13,7 +13,7 @@ import {
 Vue.component('fa-icon', FontAwesomeIcon);
 library.add(
   faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
-  faGoogle, faSortAlt
+  faSortAlt, faGoogle
 );
 
 import '@/assets/fonts/calamity-sans.css';

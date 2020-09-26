@@ -11,32 +11,30 @@
         <dd>
           <p>
             By default, this site will store your current progress inside your
-            web browser's local storage. It is safe between browsing sessions,
+            web browser's local storage. It is saved between browsing sessions,
             but will not survive if ever you decide to <em>clear browsing
             data</em> for this site.
           </p>
           <p>
-            Using an account will sync your progress to a server, allowing you
-            to keep your progress safe indefinitely, as well as allow your
-            progress to be accessed from different devices. When using multiple,
-            the other devices will even update in real-time as you make changes!
+            Using an account will store your progress on a server, allowing you
+            to keep your it saved indefinitely, as well as allow it to be
+            accessed from another device. When using multiple devices at the
+            same time, the other devices will even update in real-time as you
+            make changes!
           </p>
         </dd>
 
         <dt>
           Is this site secure? Are you being smart about what happens to my
-          password?
+          password and to my data?
         </dt>
         <dd>
           <p>
             This site uses Google's Firebase service behind the scenes: they
             handle the authentication and storage. As long as you trust Google,
-            you have nothing to fear here.
-          </p>
-          <p>
-            On a related note, it's worth mentioning that <em>Google
-            Analytics</em> are turned off for this site. Google only sees what I
-            need to let them see for this app to work. 😁
+            you have nothing to fear here. The only information this app
+            collects from you is your email address and password, and none of it
+            is sent or sold anywhere.
           </p>
         </dd>
 
@@ -74,15 +72,13 @@
       </p>
       <p>
         So, as someone trying to get my foot in the door as web developer, I
-        figured this would be a fun project to throw myself into the flames a
-        little bit. I hope you like it!
+        figured this would be a fun project to throw myself into. I hope you
+        like it!
       </p>
-      <p id="nerdy">
-        Some info for my nerdy friends: If you're wondering, this app is built
-        with Vue.js on the front-end, and uses Google Firebase as a back-end. As
-        mentioned above, it's open-source, and all of the source-code is
-        available on GitHub: you can find it
-        <a href="https://github.com/matthew-e-brown/Cotera.io" target="_blank">here</a>!
+      <p>
+        If you're interested, you can find the source code for this project
+        <a href="https://github.com/matthew-e-brown/Cotera.io">here</a>, on
+        GitHub.
       </p>
     </section>
   </main>
@@ -90,8 +86,8 @@
 
 <style scoped src="@/assets/styles/forms.css"></style>
 <style scoped>
-/* 400-weight */
-@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital@0;1&display=swap');
+/* lighter weight */
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;1,300&display=swap');
 
 @media (min-width: 770px) {
   main {
@@ -113,14 +109,10 @@ main, main p {
 }
 
 p {
-  font-weight: 400;
+  font-weight: 300;
   max-width: 80ch;
   margin-left: auto;
   margin-right: auto;
-}
-
-#about~p {
-  text-indent: 2.8em;
 }
 
 a {
@@ -134,10 +126,5 @@ dt, strong {
 
 dd {
   margin-bottom: 1.75em;
-}
-
-#nerdy {
-  margin-top: 3.25rem;
-  font-size: 75%;
 }
 </style>

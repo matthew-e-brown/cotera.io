@@ -29,7 +29,7 @@ const routes = [
     path: '/about',
     name: 'About',
     meta: {
-      title: "About | Cotera.io"
+      title: "About & FAQ | Cotera.io"
     },
     component: () => import('../views/About.vue')
   },
