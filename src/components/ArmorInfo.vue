@@ -1,8 +1,13 @@
 <template>
-  <div id="armor-info" :class="{ empty: !armor, complete: armor && completed }">
+  <div id="armor-info" ref="main" :data-folded="folded" :style="foldedTop">
     <template v-if="armor">
       <img :src="armor.sprite" alt="" aria-hidden="true" draggable="true">
-      <h2>{{ armor.name }}</h2>
+      <h2 :style="foldedTransform" ref="heading">
+        <span>{{ armor.name }}</span>
+        <button @click="folded = false">
+          <fa-icon icon="chevron-circle-down" class="fa-fw" />
+        </button>
+      </h2>
       <div id="stats">
         <div id="defense">
           <Shirt />
@@ -66,9 +71,16 @@
           <span>{{ count }}</span>
         </div>
       </template>
-      <p v-else>This armor is fully upgraded!</p>
+      <p v-else id="complete">
+        This armor is fully upgraded!
+      </p>
     </template>
-    <h2 v-else>No armor selected.</h2>
+    <h2 v-else id="empty" :style="foldedTransform" ref="heading">
+      <span>No armor selected.</span>
+      <button @click="folded = false">
+        <fa-icon icon="chevron-circle-down" class="fa-fw" />
+      </button>
+    </h2>
   </div>
 </template>
 
@@ -76,11 +88,24 @@
 import Shirt from '@/assets/icons/shirt.svg';
 import { userProgress, setArmorLevel } from '@/store';
 import items from '@/assets/data/items.json';
+import throttle from 'lodash.throttle';
 
 export default {
   name: 'ArmorInfo',
+  data: function() {
+    return {
+      folded: false,
+      isMobile: false,
+      query: window.matchMedia('(max-width: 770px)'),
+      // Keep track of current scroll to tell if they're going up or down
+      oldScrollPos:
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        window.scrollY
+    }
+  },
   props: {
-    armor: { type: Object, required: false }
+    armor: { type: Object, required: false },
   },
   components: { Shirt },
   methods: {
@@ -98,12 +123,70 @@ export default {
     },
     itemSprite: function(item) {
       return `/images/items/${item}.png`;
-    }
+    },
+    handleScrollHelper: function() {
+      if (this.isMobile) this.handleScroll();
+    },
+    handleScroll: throttle(function() {
+      const oldScrollPos = this.oldScrollPos;
+      const newScrollPos = this.oldScrollPos =
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        window.scrollY;
+      const lowestTop = document.body.scrollHeight - window.innerHeight;
+
+      if (newScrollPos > 0 && newScrollPos > oldScrollPos) {
+        // Check if the distance moved was big enough to warrant a change
+        if (!(Math.abs(newScrollPos - oldScrollPos) > 45)) return;
+        this.folded = true;
+      } else if (newScrollPos <= 120) {
+        // Unfold when at the very top, no speed-checking necessary
+        this.folded = false;
+      } else if (newScrollPos <= lowestTop) {
+        // Need less oomph on page-move to warrant re-opening than closing
+        if (!(Math.abs(newScrollPos - oldScrollPos) > 35)) return;
+        this.folded = false;
+      }
+
+    }, 100, { leading: true, trailing: true })
   },
   computed: {
     completed: function() {
       return this.armor.level == 4;
+    },
+    foldedTop: function() {
+      if (!this.folded) return {};
+      else {
+        const h = this.$refs.main.getBoundingClientRect().height;
+        return { top: `calc(-${h}px + 5.3rem + var(--fold-nav-offset))` };
+      }
+    },
+    foldedTransform: function() {
+      if (!this.folded) return {};
+      else {
+        // Find how far down we have to move the current "keep text" (the text
+        // that shows while folded -- it has to animate back and forth)
+
+        // How far from the TOP of #armor-info is the BOTTOM of $refs.heading
+        const offsetBottom =
+          this.$refs.heading.offsetTop +
+          this.$refs.heading.getBoundingClientRect().height;
+        const parentHeight =
+          this.$refs.main.getBoundingClientRect().height;
+        const distance = parentHeight - offsetBottom;
+
+        return { transform: `translateY(calc(${distance}px - 1rem))` };
+      }
     }
+  },
+  created: function() {
+    this.isMobile = this.query.matches;
+    this.query.onchange = () => this.isMobile = this.query.matches;
+    document.addEventListener('scroll', this.handleScrollHelper);
+  },
+  destroyed: function() {
+    this.query.onchange = null;
+    document.removeEventListener('scroll', this.handleScrollHelper);
   }
 }
 </script>
@@ -114,6 +197,8 @@ img {
 }
 
 #armor-info {
+  --fold-transition: 500ms ease;
+  --fold-nav-offset: 5.35rem;
   z-index: 4;
 }
 
@@ -130,6 +215,25 @@ h2 {
   padding-bottom: 0.50em;
   padding-left: 0.35em;
   border-bottom: 0.1rem solid var(--block-border);
+  position: relative;
+}
+
+h2 button {
+  color: currentColor;
+  position: absolute;
+  top: 0; right: 0;
+  bottom: 0.50em;
+  /* ↓↓ overridden in mobile & shown view */
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    right var(--fold-transition),
+    opacity var(--fold-transition),
+    visibility var(--fold-transition);
+}
+
+h2 button svg {
+  font-size: 1.25em;
 }
 
 #stats {
@@ -223,7 +327,7 @@ h2 {
   margin-left: auto;
 }
 
-#armor-info.empty h2 {
+h2#empty {
   border: none;
   color: var(--body-text-1);
   text-align: center;
@@ -232,13 +336,68 @@ h2 {
 }
 
 /* Class just for specificity */
-#armor-info.complete p {
+p#complete {
   text-align: center;
   font-family: 'Calamity', 'Avenir', Helvetica, Arial, sans-serif;
   font-size: 1.2em;
   font-weight: 700;
   margin-top: 1.8em;
   margin-bottom: 1.75em;
+}
+
+@media (max-width: 770px) {
+  #armor-info {
+    transition: top var(--fold-transition);
+  }
+
+  h2 {
+    transition:
+      transform var(--fold-transition),
+      padding-left var(--fold-transition),
+      border-color var(--fold-transition);
+  }
+
+  h2#empty {
+    text-align: left;
+    padding-left: 1em;
+  }
+
+  [data-folded] h2 {
+    border-color: transparent;
+  }
+
+  /* Give the text some breathing room */
+  [data-folded] h2 {
+    padding-left: 1em;
+  }
+
+  #armor-info>:not(h2) {
+    transition:
+      opacity var(--fold-transition),
+      visibility var(--fold-transition);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #armor-info[data-folded]>:not(h2) {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  h2 button svg {
+    transition: transform var(--fold-transition);
+    transform: rotate(180deg);
+  }
+
+  [data-folded] h2 button {
+    right: 1em;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  [data-folded] h2 button svg {
+    transform: rotate(0deg);
+  }
 }
 
 @media (max-width: 850px) and (min-width: 771px) {

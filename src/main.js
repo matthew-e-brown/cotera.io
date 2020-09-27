@@ -7,13 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import {
   faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
-  faSortAlt
+  faSortAlt, faChevronCircleDown
 } from '@fortawesome/pro-solid-svg-icons';
 
 Vue.component('fa-icon', FontAwesomeIcon);
 library.add(
   faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
-  faSortAlt, faGoogle
+  faSortAlt, faChevronCircleDown, faGoogle
 );
 
 import '@/assets/fonts/calamity-sans.css';
