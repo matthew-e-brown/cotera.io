@@ -182,6 +182,7 @@ svg {
 
 @media (max-width: 770px) {
   .sticky-box {
+    box-sizing: border-box;
     width: 100%;
     margin: 0;
     top: calc(5.3rem - 1px);

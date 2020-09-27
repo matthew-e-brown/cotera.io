@@ -2,7 +2,7 @@
   <div id="armor-info" ref="main" :data-folded="folded" :style="foldedTop">
     <template v-if="armor">
       <img :src="armor.sprite" alt="" aria-hidden="true" draggable="true">
-      <h2 :style="foldedTransform" ref="heading">
+      <h2 :style="foldedTransform" ref="heading" key="h2-1">
         <span>{{ armor.name }}</span>
         <button @click="folded = false">
           <fa-icon icon="chevron-circle-down" class="fa-fw" />
@@ -75,7 +75,7 @@
         This armor is fully upgraded!
       </p>
     </template>
-    <h2 v-else id="empty" :style="foldedTransform" ref="heading">
+    <h2 v-else id="empty" :style="foldedTransform" ref="heading" key="h2-2">
       <span>No armor selected.</span>
       <button @click="folded = false">
         <fa-icon icon="chevron-circle-down" class="fa-fw" />
@@ -86,7 +86,7 @@
 
 <script>
 import Shirt from '@/assets/icons/shirt.svg';
-import { userProgress, setArmorLevel } from '@/store';
+import state, { userProgress, setArmorLevel } from '@/store';
 import items from '@/assets/data/items.json';
 import throttle from 'lodash.throttle';
 
@@ -94,6 +94,7 @@ export default {
   name: 'ArmorInfo',
   data: function() {
     return {
+      state,
       folded: false,
       isMobile: false,
       query: window.matchMedia('(max-width: 770px)'),
@@ -101,7 +102,9 @@ export default {
       oldScrollPos:
         document.documentElement.scrollTop ||
         document.body.scrollTop ||
-        window.scrollY
+        window.scrollY,
+      foldedTop: {},
+      foldedTransform: {}
     }
   },
   props: {
@@ -137,51 +140,77 @@ export default {
 
       if (newScrollPos > 0 && newScrollPos > oldScrollPos) {
         // Check if the distance moved was big enough to warrant a change
-        if (!(Math.abs(newScrollPos - oldScrollPos) > 45)) return;
+        if (!(Math.abs(newScrollPos - oldScrollPos) > 50)) return;
         this.folded = true;
       } else if (newScrollPos <= 120) {
         // Unfold when at the very top, no speed-checking necessary
         this.folded = false;
       } else if (newScrollPos <= lowestTop) {
-        // Need less oomph on page-move to warrant re-opening than closing
-        if (!(Math.abs(newScrollPos - oldScrollPos) > 35)) return;
+        // Need more oomph on page-move to warrant re-opening than closing
+        if (!(Math.abs(newScrollPos - oldScrollPos) > 90)) return;
         this.folded = false;
       }
+    }, 100, { leading: true, trailing: true }),
+    computedFoldedStyles: function() {
+      const foldedTop = () => {
+        if (!this.folded || !this.isMobile) return {};
+        else {
+          const h = this.$refs.main.getBoundingClientRect().height;
+          return { top: `calc(-${h}px + 5.3rem + var(--fold-nav-offset))` };
+        }
+      }
 
-    }, 100, { leading: true, trailing: true })
+      const foldedTransform = () => {
+        if (!this.folded || !this.isMobile) return {};
+        else {
+          // Find how far down we have to move the current "keep text" (the text
+          // that shows while folded -- it has to animate back and forth)
+
+          // How far from the TOP of #armor-info is the BOTTOM of $refs.heading
+          const offsetBottom =
+            this.$refs.heading.offsetTop +
+            this.$refs.heading.getBoundingClientRect().height;
+          const parentHeight =
+            this.$refs.main.getBoundingClientRect().height;
+          const distance = parentHeight - offsetBottom;
+
+          return { transform: `translateY(calc(${distance}px - 1rem))` };
+        }
+      }
+
+      this.foldedTop = foldedTop();
+      this.foldedTransform = foldedTransform();
+    }
   },
   computed: {
     completed: function() {
       return this.armor.level == 4;
+    }
+  },
+  watch: {
+    folded: function() {
+      this.computedFoldedStyles();
     },
-    foldedTop: function() {
-      if (!this.folded) return {};
-      else {
-        const h = this.$refs.main.getBoundingClientRect().height;
-        return { top: `calc(-${h}px + 5.3rem + var(--fold-nav-offset))` };
-      }
-    },
-    foldedTransform: function() {
-      if (!this.folded) return {};
-      else {
-        // Find how far down we have to move the current "keep text" (the text
-        // that shows while folded -- it has to animate back and forth)
-
-        // How far from the TOP of #armor-info is the BOTTOM of $refs.heading
-        const offsetBottom =
-          this.$refs.heading.offsetTop +
-          this.$refs.heading.getBoundingClientRect().height;
-        const parentHeight =
-          this.$refs.main.getBoundingClientRect().height;
-        const distance = parentHeight - offsetBottom;
-
-        return { transform: `translateY(calc(${distance}px - 1rem))` };
+    'state.selected': function(newVal, oldVal) {
+      if (this.isMobile) {
+        this.folded = false;
+        // Fix for chrome bug -- changing the size of #armor-info to be larger
+        // triggers a scroll event (since it auto-scrolls to make up for the
+        // page reflowing when the sticky up top shunts the page down)
+        if (oldVal == undefined) {
+          // Re-un-fold the thing on the very next frame
+          window.requestAnimationFrame(() => this.folded = false);
+        }
       }
     }
   },
   created: function() {
     this.isMobile = this.query.matches;
-    this.query.onchange = () => this.isMobile = this.query.matches;
+    this.query.onchange = () => {
+      this.isMobile = this.query.matches
+      this.computedFoldedStyles();
+    }
+
     document.addEventListener('scroll', this.handleScrollHelper);
   },
   destroyed: function() {
@@ -224,6 +253,7 @@ h2 button {
   top: 0; right: 0;
   bottom: 0.50em;
   /* ↓↓ overridden in mobile & shown view */
+  display: none;
   opacity: 0;
   visibility: hidden;
   transition:
@@ -360,6 +390,13 @@ p#complete {
   h2#empty {
     text-align: left;
     padding-left: 1em;
+    transition:
+      transform var(--fold-transition),
+      padding-left var(--fold-transition);
+  }
+
+  h2 button {
+    display: initial;
   }
 
   [data-folded] h2 {
