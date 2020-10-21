@@ -137,17 +137,20 @@ export default {
         document.body.scrollTop ||
         window.scrollY;
       const lowestTop = document.body.scrollHeight - window.innerHeight;
+      const currentRem = parseFloat(
+        getComputedStyle(document.documentElement).fontSize
+      );
 
       if (newScrollPos > 0 && newScrollPos > oldScrollPos) {
         // Check if the distance moved was big enough to warrant a change
-        if (!(Math.abs(newScrollPos - oldScrollPos) > 50)) return;
+        if (!(Math.abs(newScrollPos - oldScrollPos) > 5 * currentRem)) return;
         this.folded = true;
-      } else if (newScrollPos <= 120) {
+      } else if (newScrollPos <= 10.25 * currentRem) {
         // Unfold when at the very top, no speed-checking necessary
         this.folded = false;
       } else if (newScrollPos <= lowestTop) {
         // Need more oomph on page-move to warrant re-opening than closing
-        if (!(Math.abs(newScrollPos - oldScrollPos) > 90)) return;
+        if (!(Math.abs(newScrollPos - oldScrollPos) > 6 * currentRem)) return;
         this.folded = false;
       }
     }, 100, { leading: true, trailing: true }),
@@ -194,12 +197,17 @@ export default {
     'state.selected': function(newVal, oldVal) {
       if (this.isMobile) {
         this.folded = false;
+
         // Fix for chrome bug -- changing the size of #armor-info to be larger
         // triggers a scroll event (since it auto-scrolls to make up for the
         // page reflowing when the sticky up top shunts the page down)
+        // -- Apparently as of Chrome 86 it needs to be offset by TWO animation
+        // -- frames. FFS.
         if (oldVal == undefined) {
-          // Re-un-fold the thing on the very next frame
-          window.requestAnimationFrame(() => this.folded = false);
+          // Re-un-fold the thing on the very next (next) frame
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => this.folded = false);
+          });
         }
       }
     }
