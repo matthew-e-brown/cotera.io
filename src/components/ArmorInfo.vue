@@ -2,11 +2,19 @@
   <div id="armor-info" ref="main" :data-folded="folded" :style="foldedTop">
     <template v-if="armor">
       <img :src="armor.sprite" alt="" aria-hidden="true" draggable="true">
-      <h2 :style="foldedTransform" ref="heading" key="h2-1">
+      <h2
+        :style="foldedTransform"
+        ref="heading"
+        key="h2-filled"
+        :tabindex="isMobile && folded ? 0 : -1"
+        :role="isMobile && folded ? 'button' : undefined"
+        @click="fold"
+        @keydown.space.enter.prevent="fold"
+      >
         <span>{{ armor.name }}</span>
-        <button @click="folded = false">
+        <div id="fold-button">
           <fa-icon icon="chevron-circle-down" class="fa-fw" />
-        </button>
+        </div>
       </h2>
       <div id="stats">
         <div id="defense">
@@ -75,11 +83,21 @@
         This armor is fully upgraded!
       </p>
     </template>
-    <h2 v-else id="empty" :style="foldedTransform" ref="heading" key="h2-2">
+    <h2
+      v-else
+      id="empty"
+      ref="heading"
+      key="h2-empty"
+      :style="foldedTransform"
+      :tabindex="isMobile && folded ? 0 : -1"
+      :role="isMobile && folded ? 'button' : ''"
+      @click="fold"
+      @keydown.space.enter.prevent="fold"
+    >
       <span>No armor selected.</span>
-      <button @click="folded = false">
+      <div id="fold-button">
         <fa-icon icon="chevron-circle-down" class="fa-fw" />
-      </button>
+      </div>
     </h2>
   </div>
 </template>
@@ -127,6 +145,9 @@ export default {
     itemSprite: function(item) {
       return `/images/items/${item}.png`;
     },
+    fold: function() {
+      if (this.isMobile) this.folded = false;
+    },
     handleScrollHelper: function() {
       if (this.isMobile) this.handleScroll();
     },
@@ -154,7 +175,7 @@ export default {
         this.folded = false;
       }
     }, 100, { leading: true, trailing: true }),
-    computedFoldedStyles: function() {
+    computeFoldedStyles: function() {
       const foldedTop = () => {
         if (!this.folded || !this.isMobile) return {};
         else {
@@ -192,7 +213,7 @@ export default {
   },
   watch: {
     folded: function() {
-      this.computedFoldedStyles();
+      this.computeFoldedStyles();
     },
     'state.selected': function(newVal, oldVal) {
       if (this.isMobile) {
@@ -216,7 +237,7 @@ export default {
     this.isMobile = this.query.matches;
     this.query.onchange = () => {
       this.isMobile = this.query.matches
-      this.computedFoldedStyles();
+      this.computeFoldedStyles();
     }
 
     document.addEventListener('scroll', this.handleScrollHelper);
@@ -248,17 +269,17 @@ img {
 }
 
 h2 {
-  margin-top: 0.45em;
-  padding-bottom: 0.50em;
-  padding-left: 0.35em;
+  margin-top: 0;
+  padding: 0.45em 0 0.50em 0.35em;
   border-bottom: 0.1rem solid var(--block-border);
   position: relative;
 }
 
-h2 button {
+#fold-button {
   color: currentColor;
   position: absolute;
-  top: 0; right: 0;
+  right: 0;
+  top: 0.45em;
   bottom: 0.50em;
   /* ↓↓ overridden in mobile & shown view */
   display: none;
@@ -270,8 +291,18 @@ h2 button {
     visibility var(--fold-transition);
 }
 
-h2 button svg {
+#fold-button svg {
   font-size: 1.25em;
+}
+
+/* Only have the outline when in button-mode */
+h2:focus-within, h2:focus {
+  outline: none;
+}
+
+[role="button"] {
+  cursor: pointer;
+  outline: initial;
 }
 
 #stats {
@@ -403,7 +434,7 @@ p#complete {
       padding-left var(--fold-transition);
   }
 
-  h2 button {
+  #fold-button {
     display: initial;
   }
 
@@ -429,18 +460,18 @@ p#complete {
     visibility: hidden;
   }
 
-  h2 button svg {
+  #fold-button svg {
     transition: transform var(--fold-transition);
     transform: rotate(180deg);
   }
 
-  [data-folded] h2 button {
+  [data-folded] #fold-button {
     right: 1em;
     opacity: 1;
     visibility: visible;
   }
 
-  [data-folded] h2 button svg {
+  [data-folded] #fold-button svg {
     transform: rotate(0deg);
   }
 }
