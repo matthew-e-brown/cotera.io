@@ -59,6 +59,15 @@ const routes = [
     component: () => import('../views/Register.vue')
   },
   {
+    path: '/login/reset',
+    name: 'PasswordReset',
+    meta: {
+      title: "Reset Password | Cotera.io",
+      requiresAuth: 'out'
+    },
+    component: () => import('../views/Login.vue')
+  },
+  {
     path: '/account',
     name: 'Account',
     meta: {

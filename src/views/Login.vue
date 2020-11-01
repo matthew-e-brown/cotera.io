@@ -1,7 +1,8 @@
 <template>
   <main id="login" class="sticky-box">
-    <h2>Log in</h2>
-    <form @submit.prevent="login">
+    <h2 v-if="!resetMode">Log in</h2>
+    <h2 v-else>Reset password</h2>
+    <form @submit.prevent="submit">
       <div class="row">
         <input
           id="email"
@@ -12,7 +13,7 @@
           v-model="form.email"
         />
       </div>
-      <div class="row">
+      <div class="row" v-if="!resetMode">
         <PasswordField
           id="password"
           name="password"
@@ -26,12 +27,21 @@
           <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
         </ul>
       </div>
-      <button class="button" type="submit">Log in</button>
+      <button v-if="!resetMode" class="button" type="submit">Log in</button>
+      <button v-else class="button" type="submit">Send reset email</button>
     </form>
     <div class="separator"><span>or</span></div>
     <div id="bottom-buttons">
       <GoogleSignIn />
       <router-link to="/register">Create a new account</router-link>
+      <router-link
+        v-if="!resetMode"
+        to="/login/reset"
+      >Forgot your password?</router-link>
+      <router-link
+        v-else
+        to="/login"
+      >Back to log-in</router-link>
     </div>
   </main>
 </template>
@@ -55,11 +65,38 @@ export default {
       }
     }
   },
+  watch: {
+    $route: function() {
+      // clear errors when navigating between /login and /login/reset
+      this.errors = [];
+    }
+  },
+  computed: {
+    resetMode: function() {
+      return this.$route.name == "PasswordReset";
+    }
+  },
   methods: {
+    submit: function() {
+      this.resetMode ? this.sendReset() : this.login();
+    },
     login: function() {
       if (!this.validateForm()) return;
       else firebase.auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
+        .catch(error => {
+          if (!error.message.endsWith('.')) error.message += '.';
+          this.errors.push(error.message);
+        });
+    },
+    sendReset: function() {
+      // Only need to validate email here, just re-use code... Ahh well.
+      if (this.form.email.length == 0) {
+        this.errors.push("Please enter an email address.");
+        return;
+      } else firebase.auth()
+        .sendPasswordResetEmail(this.form.email)
+        .then(() => this.$router.push({ path: '/login' }))
         .catch(error => {
           if (!error.message.endsWith('.')) error.message += '.';
           this.errors.push(error.message);

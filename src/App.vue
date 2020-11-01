@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/" id="home-link">
+      <router-link to="/">
         <h1>Cotera<span>.io</span></h1>
       </router-link>
       <router-link to="/about">about &amp; faq</router-link>

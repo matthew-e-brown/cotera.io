@@ -85,7 +85,7 @@ export default {
   },
   computed: {
     linkMode: function() {
-      return this.$router.currentRoute.name == "AccountLink";
+      return this.$route.name == "AccountLink";
     }
   },
   methods: {
