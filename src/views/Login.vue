@@ -1,7 +1,7 @@
 <template>
   <main id="login" class="sticky-box">
     <h2 v-if="!resetMode">Log in</h2>
-    <h2 v-else>Reset password</h2>
+    <h2 v-else>Reset Password</h2>
     <form @submit.prevent="submit">
       <div class="row">
         <input
