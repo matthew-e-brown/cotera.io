@@ -4,7 +4,8 @@
     <section id="about">
       <h3>About</h3>
       <p>
-        <strong>Cotera.io</strong> is a web-app for tracking armor upgrades in
+        <strong>Cotera.io</strong>, named after the Great Fairy in Kakariko
+        Village, is a web-app for tracking armor upgrades in
         <em>The Legend of Zelda: Breath of the Wild</em>. It has two main goals:
         to help you recall which items you need to find to upgrade each piece of
         armor to the next level, and, simply to help you keep track of your
@@ -12,9 +13,10 @@
       </p>
       <p>
         If you would like to support this project, you can show your
-        appreciation financailly with my Buy Me a Coffee link; or you can
-        contribute to the project by opening an issue on its GitHub page. You
-        can find both of those here:
+        appreciation financially with my Buy Me a Coffee link; or you can
+        contribute to the project by opening an issue on its GitHub page. If you
+        have a more general question, you can send me an email. You can find all
+        three of these here:
       </p>
       <div id="links">
         <a
@@ -32,6 +34,14 @@
         >
           <fa-icon :icon="[ 'fab', 'github' ]" />
           <span>Source code</span>
+        </a>
+        <a
+          href="mailto:matthew.e.brown.17@gmail.com?subject=Question/Concern about Cotera.io"
+          target="_blank"
+          class="button icon-button"
+        >
+          <fa-icon icon="envelope" />
+          <span>Contact</span>
         </a>
       </div>
     </section>
@@ -51,7 +61,7 @@
           </p>
           <p>
             Using an account will store your progress in the cloud, allowing you
-            to keep your it saved indefinitely, no matter how often you cear
+            to keep your it saved indefinitely, no matter how often you clear
             your browsing data, as well as allow it to be accessed from another
             device. If you use multiple devices at the same time, they will all
             update in real-time as you make changes!
@@ -82,6 +92,11 @@
               href="https://github.com/matthew-e-brown/Cotera.io/issues"
               target="_blank"
             >here</a>.
+            If you don't have a GitHub account, you can feel free to send me an
+            <a
+              href="mailto:matthew.e.brown.17@gmail.com?subject=Cotera.io Bug Report&body=Hi, I've found an issue with Cotera.io."
+              target="_blank"
+            >email instead</a>.
           </p>
         </dd>
       </dl>
@@ -156,14 +171,14 @@ dd+dt {
 #links {
   font-size: 92.5%;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   justify-content: center;
 }
 
 #links a {
   box-sizing: border-box;
   width: max-content;
-  margin: 0.5em 1em;
+  margin: 1em;
   padding: 0.75em 2.25em 0.8em 1.55em;
 }
 
