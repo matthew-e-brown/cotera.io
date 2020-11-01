@@ -17,6 +17,14 @@ const routes = [
     component: Home
   },
   {
+    path: '/about',
+    name: 'About',
+    meta: {
+      title: "About & FAQ | Cotera.io"
+    },
+    component: () => import('../views/About.vue')
+  },
+  {
     path: '/login',
     name: 'Log in',
     meta: {
@@ -26,12 +34,13 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
-    path: '/about',
-    name: 'About',
+    path: '/login/reset',
+    name: 'PasswordReset',
     meta: {
-      title: "About & FAQ | Cotera.io"
+      title: "Reset Password | Cotera.io",
+      requiresAuth: 'out'
     },
-    component: () => import('../views/About.vue')
+    component: () => import('../views/Login.vue')
   },
   {
     path: '/register',
@@ -59,15 +68,6 @@ const routes = [
     component: () => import('../views/Register.vue')
   },
   {
-    path: '/login/reset',
-    name: 'PasswordReset',
-    meta: {
-      title: "Reset Password | Cotera.io",
-      requiresAuth: 'out'
-    },
-    component: () => import('../views/Login.vue')
-  },
-  {
     path: '/account',
     name: 'Account',
     meta: {
@@ -93,9 +93,18 @@ router.beforeEach((to, from, next) => {
     // auth is done its thing
     firebase.auth().onAuthStateChanged(user => {
       // Check if required auth state matches current auth state
-      if (to.meta.requiresAuth == 'out' && !user) next();
-      else if (to.meta.requiresAuth == 'in' && user) next();
-      else next({ path: '/' }); // redirect to home
+      if (to.meta.requiresAuth == 'out') {
+        if (!user) next();
+        // Send them to home if they're signed in
+        else next({ path: '/' });
+      } else if (to.meta.requiresAuth == 'in') {
+        if (user) next();
+        // Send them to login if they're supposed to be logged in
+        else next({ path: '/login' });
+      } else {
+        console.error("Route meta.requiresAuth information mismatch");
+        next();
+      }
     });
   } else next();
 });
