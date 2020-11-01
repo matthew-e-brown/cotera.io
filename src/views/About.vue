@@ -175,7 +175,7 @@ dd+dt {
   display: block;
   font-size: 80%;
   font-weight: 300;
-  margin-top: 1.75rem;
+  margin-top: 2.5rem;
   padding-top: 1.5rem;
   text-align: center;
   border-top: 0.05em solid var(--body-text-2);

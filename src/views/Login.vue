@@ -37,7 +37,7 @@
       <router-link
         v-if="!resetMode"
         to="/login/reset"
-      >Forgot your password?</router-link>
+      >Reset your password</router-link>
       <router-link
         v-else
         to="/login"
