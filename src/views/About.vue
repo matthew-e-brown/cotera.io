@@ -24,7 +24,12 @@
           target="_blank"
           class="button icon-button"
         >
-          <CoffeeIcon class="svg-inline--fa fa-w-16" />
+          <CoffeeIcon
+            class="svg-inline--fa fa-w-16"
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+          />
           <span>Support</span>
         </a>
         <a
@@ -61,8 +66,8 @@
           </p>
           <p>
             Using an account will store your progress in the cloud, allowing you
-            to keep your it saved indefinitely, no matter how often you clear
-            your browsing data, as well as allow it to be accessed from another
+            to keep it saved indefinitely, no matter how often you clear your
+            browsing data, as well as allow it to be accessed from another
             device. If you use multiple devices at the same time, they will all
             update in real-time as you make changes!
           </p>
@@ -102,8 +107,9 @@
       </dl>
     </section>
     <span id="last">
-      <fa-icon icon="code" /> with <fa-icon icon="heart" /> in
-      <fa-icon :icon="[ 'fab', 'canadian-maple-leaf' ]" /> by
+      <fa-icon title="Made" icon="code" /> with
+      <fa-icon icon="heart" title="love" /> in
+      <fa-icon :icon="[ 'fab', 'canadian-maple-leaf' ]" title="Canada" /> by
       <a href="https://matthew-brown.net/" target="_blank">Matt</a>, with help
       from <a href="https://theo.works/" target="_blank">Theo</a>.
     </span>
