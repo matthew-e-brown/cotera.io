@@ -1,12 +1,46 @@
 <template>
   <main id="about" class="sticky-box">
     <h2>About &amp; FAQ</h2>
-    <section>
-      <h3 id="faq">FAQ</h3>
+    <section id="about">
+      <h3>About</h3>
+      <p>
+        <strong>Cotera.io</strong> is a web-app for tracking armor upgrades in
+        <em>The Legend of Zelda: Breath of the Wild</em>. It has two main goals:
+        to help you recall which items you need to find to upgrade each piece of
+        armor to the next level, and, simply to help you keep track of your
+        progress!
+      </p>
+      <p>
+        If you would like to support this project, you can show your
+        appreciation financailly with my Buy Me a Coffee link; or you can
+        contribute to the project by opening an issue on its GitHub page. You
+        can find both of those here:
+      </p>
+      <div id="links">
+        <a
+          href="https://buymeacoffee.com/matthewbrown"
+          target="_blank"
+          class="button icon-button"
+        >
+          <CoffeeIcon class="svg-inline--fa fa-w-16" />
+          <span>Support</span>
+        </a>
+        <a
+          href="https://github.com/matthew-e-brown/Cotera.io"
+          target="_blank"
+          class="button icon-button"
+        >
+          <fa-icon :icon="[ 'fab', 'github' ]" />
+          <span>Source code</span>
+        </a>
+      </div>
+    </section>
+    <section id="faq">
+      <h3>FAQ</h3>
       <dl>
         <dt>
-          This site seems to work just fine without an account. Why should I make
-          one?
+          This site seems to work just fine without an account. Why should I
+          make one?
         </dt>
         <dd>
           <p>
@@ -16,11 +50,11 @@
             data</em> for this site.
           </p>
           <p>
-            Using an account will store your progress on a server, allowing you
-            to keep your it saved indefinitely, as well as allow it to be
-            accessed from another device. When using multiple devices at the
-            same time, the other devices will even update in real-time as you
-            make changes!
+            Using an account will store your progress in the cloud, allowing you
+            to keep your it saved indefinitely, no matter how often you cear
+            your browsing data, as well as allow it to be accessed from another
+            device. If you use multiple devices at the same time, they will all
+            update in real-time as you make changes!
           </p>
         </dd>
 
@@ -42,47 +76,33 @@
         <dd>
           <p>
             I'm glad you asked! This web-app is open-source: as much as I am the
-            primary developer, anybody is free to contribute to the project. If
-            you need to submit a bug-report, you can do so <a
-            href="https://github.com/matthew-e-brown/Cotera.io/issues"
-            target="_blank" >here</a>.
+            primary developer, anybody is free to contribute ideas to the
+            project. If you need to submit a bug-report, you can do so
+            <a
+              href="https://github.com/matthew-e-brown/Cotera.io/issues"
+              target="_blank"
+            >here</a>.
           </p>
         </dd>
       </dl>
     </section>
-    <section>
-      <h3 id="about">About</h3>
-      <p>
-        Thank you for checking out <strong>Cotera.io</strong>! I made this app
-        as a passion-project, a resume-filler, and as a tool for myself to use
-        as I complete my fourth playthrough of The Legend of Zelda: Breath of
-        the Wild.
-      </p>
-      <p>
-        I created this app because, as I strove for 100% completion in my most
-        recent Breath of the Wild playthrough, I kept finding myself forgetting
-        which items I needed to upgrade my armor through the final levels.
-      </p>
-      <p>
-        I often thought to myself, "wouldn't it be handy to have something I can
-        whip out on my phone, or leave open on my second monitor to quickly
-        double check what flower I'm looking for?" I used a notepad on my desk
-        for a while, but it quickly became messy as I upgraded pieces and
-        scratched them off the page.
-      </p>
-      <p>
-        So, as someone trying to get my foot in the door as web developer, I
-        figured this would be a fun project to throw myself into. I hope you
-        like it!
-      </p>
-      <p>
-        If you're interested, you can find the source code for this project
-        <a href="https://github.com/matthew-e-brown/Cotera.io">here</a>, on
-        GitHub.
-      </p>
-    </section>
+    <span id="last">
+      <fa-icon icon="code" /> with <fa-icon icon="heart" /> in
+      <fa-icon :icon="[ 'fab', 'canadian-maple-leaf' ]" /> by
+      <a href="https://matthew-brown.net/" target="_blank">Matt</a>, with help
+      from <a href="https://theo.works/" target="_blank">Theo</a>.
+    </span>
   </main>
 </template>
+
+<script>
+import CoffeeIcon from '@/assets/icons/bmc-black.svg';
+
+export default {
+  name: 'About',
+  components: { CoffeeIcon }
+}
+</script>
 
 <style scoped src="@/assets/styles/forms.css"></style>
 <style scoped>
@@ -100,6 +120,7 @@
 }
 
 h3 {
+  margin: 1.5em 0 1em;
   text-align: center;
 }
 
@@ -126,5 +147,41 @@ dt, strong {
 
 dd {
   margin-bottom: 1.75em;
+}
+
+dd+dt {
+  margin-top: 2.5em;
+}
+
+#links {
+  font-size: 92.5%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+#links a {
+  box-sizing: border-box;
+  width: max-content;
+  margin: 0.5em 1em;
+  padding: 0.75em 2.25em 0.8em 1.55em;
+}
+
+#links svg {
+  font-size: 175%;
+}
+
+#last {
+  display: block;
+  font-size: 80%;
+  font-weight: 300;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  text-align: center;
+  border-top: 0.05em solid var(--body-text-2);
+}
+
+#last svg {
+  margin: 0 0.25em;
 }
 </style>
