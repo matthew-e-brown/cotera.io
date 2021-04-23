@@ -1,112 +1,25 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
-
-import firebase from 'firebase/app';
-import 'firebase/auth';
-
-Vue.use(VueRouter);
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    meta: {
-      title: "Cotera.io"
-    },
     component: Home
   },
   {
     path: '/about',
     name: 'About',
-    meta: {
-      title: "About & FAQ | Cotera.io"
-    },
-    component: () => import('../views/About.vue')
-  },
-  {
-    path: '/login',
-    name: 'Log in',
-    meta: {
-      title: "Log in | Cotera.io",
-      requiresAuth: 'out'
-    },
-    component: () => import('../views/Login.vue')
-  },
-  {
-    path: '/login/reset',
-    name: 'PasswordReset',
-    meta: {
-      title: "Reset Password | Cotera.io",
-      requiresAuth: 'out'
-    },
-    component: () => import('../views/Login.vue')
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    meta: {
-      title: "Register | Cotera.io",
-      requiresAuth: 'out'
-    },
-    component: () => import('../views/Register.vue')
-  },
-  {
-    path: '/register/account-link',
-    name: 'AccountLink',
-    meta: {
-      title: "Link Account | Cotera.io",
-      requiresAuth: 'in'
-    },
-    beforeEnter: (to, from, next) => {
-      // Don't let them re-link again
-      const { providerData } = firebase.auth().currentUser;
-      if (providerData.some(p => p.providerId == 'password')) {
-        next({ path: '/account' });
-      } else next();
-    },
-    component: () => import('../views/Register.vue')
-  },
-  {
-    path: '/account',
-    name: 'Account',
-    meta: {
-      title: "Account | Cotera.io",
-      requiresAuth: 'in'
-    },
-    component: () => import('../views/Account.vue')
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   }
-];
+]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes
-});
+})
 
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || to.title;
-
-  // If the matched route has a requiresAuth field
-  if (to.matched.some(record => record.meta.requiresAuth != undefined)) {
-    // Register the callback handler, so next() is only called once firebase
-    // auth is done its thing
-    firebase.auth().onAuthStateChanged(user => {
-      // Check if required auth state matches current auth state
-      if (to.meta.requiresAuth == 'out') {
-        if (!user) next();
-        // Send them to home if they're signed in
-        else next({ path: '/' });
-      } else if (to.meta.requiresAuth == 'in') {
-        if (user) next();
-        // Send them to login if they're supposed to be logged in
-        else next({ path: '/login' });
-      } else {
-        console.error("Route meta.requiresAuth information mismatch");
-        next();
-      }
-    });
-  } else next();
-});
-
-export default router;
+export default router
