@@ -1,0 +1,33 @@
+$body-font: 'Epilogue', Helvetica, Arial, sans-serif;
+$head-font: 'Calamity', 'Avenir', Helvetica, Arial, sans-serif;
+
+// Text/foreground colors
+$fg-color: #fdfbe2;
+$fg-color-red: #ff7170;
+$fg-color-dim: #898576;
+$fg-color-dimmer: #5c594e;
+
+// Body/background colors
+$bg-color: rgb(14, 10, 6);
+$bg-color-transparent: rgba(14, 10, 6, 0.85);
+$bg-color-accent: rgba(249, 237, 180, 0.10);
+
+$border-color: rgba(249, 237, 180, 0.40);
+
+// Breakpoints
+$break-small: 430px;
+$break-x-small: 330px;
+$break-medium: 770px;
+$break-x-medium: 980px;
+
+// Fixed sizes
+$nav-height: 5.3rem;
+
+:export {
+  breakSmall: $break-small;
+  breakXSmall: $break-x-small;
+  breakMedium: $break-medium;
+  breakXMedium: $break-x-medium;
+
+  navHeight: $nav-height;
+}
