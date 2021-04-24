@@ -24,10 +24,9 @@ $break-x-medium: 980px;
 $nav-height: 5.3rem;
 
 :export {
-  breakSmall: $break-small;
-  breakXSmall: $break-x-small;
-  breakMedium: $break-medium;
-  breakXMedium: $break-x-medium;
-
-  navHeight: $nav-height;
+  break_small: $break-small;
+  break_xsmall: $break-x-small;
+  break_medium: $break-medium;
+  break_xmedium: $break-x-medium;
+  nav_height: $nav-height;
 }
