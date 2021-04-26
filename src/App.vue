@@ -4,24 +4,22 @@
       <h1>Cotera<span>.io</span></h1>
     </router-link>
     <router-link to="/about">about &amp; faq</router-link>
-    <router-link to="/login" v-if="!state.isSignedIn">log in</router-link>
+    <router-link to="/login" v-if="!localState.isSignedIn">log in</router-link>
     <router-link to="/account" v-else>account</router-link>
   </nav>
   <router-view />
 </template>
 
-<script>
-import { toRefs } from 'vue';
-import { localState, syncedState } from '@/store';
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { localState } from '@/state';
 
-export default {
+export default defineComponent({
   name: 'Cotera.io',
   data: function() {
-    return {
-      state: { ...toRefs(localState), ...toRefs(syncedState) }
-    }
+    return { localState }
   }
-};
+});
 </script>
 
 <style scoped lang="scss">
