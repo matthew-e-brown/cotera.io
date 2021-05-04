@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { reactive, toRefs } from 'vue';
 import debounce from 'lodash.debounce';
 
 import firebase from 'firebase/app';
@@ -17,8 +17,14 @@ type SerializedProgress = {
   [ key in ArmorType ]: string;
 }
 
+export enum SortChoice { type = 'type', sets = 'sets', };
+export const nextSortChoice = (choice: SortChoice): SortChoice => {
+  if (choice == SortChoice.type) return SortChoice.sets;
+  else return SortChoice.type;
+}
+
 type Preferences = {
-  sortOrder: 'type' | 'sets';
+  sortOrder: SortChoice;
   showAmiibo: boolean;
 };
 
@@ -130,7 +136,7 @@ const DEFAULT_PROGRESS: Progress = {
  * The default options for user settings.
  */
 const DEFAULT_PREFERENCES: Preferences = {
-  sortOrder: 'type',
+  sortOrder: SortChoice.type,
   showAmiibo: false
 };
 
@@ -147,7 +153,7 @@ export const syncedState = reactive<{
 });
 
 
-const setArmorLevel = (armor: Armor, level: ArmorLevel): void => {
+export const setArmorLevel = (armor: Armor, level: ArmorLevel): void => {
   syncedState.progress[armor.type][armor.indx] = level;
 
   if (localState.isSignedIn) {
@@ -157,7 +163,7 @@ const setArmorLevel = (armor: Armor, level: ArmorLevel): void => {
   }
 }
 
-const setPreference = <T extends keyof Preferences>(
+export const setPreference = <T extends keyof Preferences>(
   key: T,
   value: Preferences[T]
 ): void => {
@@ -273,3 +279,6 @@ export const storeAuthChange = (user: firebase.User | null): void => {
     syncedState.preferences = { ...DEFAULT_PREFERENCES };
   }
 }
+
+
+export const allState = { ...toRefs(localState), ...toRefs(syncedState) };

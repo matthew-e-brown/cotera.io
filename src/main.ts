@@ -20,6 +20,14 @@ import '@fontsource/epilogue/700.css';
 import '@/assets/fonts/calamity-sans.css';
 import '@/assets/styles/global.scss';
 
+// FontAwesome
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import {
+  faStar, faSortAlt, faEye, faEyeSlash
+} from '@fortawesome/pro-solid-svg-icons';
+
+library.add(faStar, faSortAlt, faEye, faEyeSlash);
 
 /** cspell: disable */
 firebase.initializeApp({
@@ -34,4 +42,8 @@ firebase.initializeApp({
 /** cspell: enable */
 
 firebase.app().auth().onAuthStateChanged(storeAuthChange);
-createApp(App).use(router).mount('#app');
+
+createApp(App)
+  .use(router)
+  .component('fa-icon', FontAwesomeIcon)
+  .mount('#app');
