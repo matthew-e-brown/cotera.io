@@ -5,6 +5,15 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 
+declare module 'vue-router' {
+  interface RouteMeta {
+    title: string;
+    extraSass?: string[];
+    requiredAuthState?: 'in' | 'out';
+  }
+}
+
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -63,26 +72,23 @@ router.afterEach(to => {
 
 
 router.beforeEach((to, _, next) => {
-
-  // If (any of) the matched route(s) have a 'requiredAuthState' meta field,
-  // check with Firebase first
-  if (to.matched.some(record => record.meta.requiredAuthState)) {
+  // If the matched route has a 'requiredAuthState' meta field, check with
+  // Firebase first
+  if (to.meta.requiredAuthState) {
     const user = firebase.app().auth().currentUser;
 
-    if (to.meta.requiredAuthState == 'in') {
-      if (user) next();
-      else next({ path: '/' });
-    } else if (to.meta.requiredAuthState == 'out') {
-      if (!user) next();
-      else next({ path: '/' });
-    } else {
-      console.error("Route meta.requiredAuthState information mismatch.");
+    if (to.meta.requiredAuthState == 'in' && !user) {
       next({ path: '/' });
+      return;
+    }
+
+    else if (to.meta.requiredAuthState == 'out' && user) {
+      next({ path: '/' });
+      return;
     }
   }
 
-  else next();
-
+  next();
 });
 
 

@@ -31,11 +31,10 @@ h1 {
     font-size: 40%;
   }
 
-  @media (max-width: $break-x-small - 30px) {
+  @media (max-width: $break-tiny - 30px) {
     font-size: 1.6rem;
   }
 }
-
 
 nav {
   box-sizing: border-box;
@@ -73,7 +72,7 @@ nav {
       padding-top: 0.225em;
       white-space: nowrap;
 
-      @media (max-width: $break-medium) {
+      @media (max-width: $break-mobile) {
         padding-bottom: 0.25em;
       }
 
@@ -81,7 +80,7 @@ nav {
         font-size: 90%;
       }
 
-      @media (max-width: $break-x-small - 30px) {
+      @media (max-width: $break-tiny - 30px) {
         margin-left: 1.25em;
         overflow-x: hidden;
         text-overflow: ellipsis;
@@ -89,7 +88,7 @@ nav {
     }
   }
 
-  @media (max-width: $break-medium) {
+  @media (max-width: $break-mobile) {
     border-bottom: 0.3rem double $border-color;
     padding: 1rem 2rem;
 

@@ -38,6 +38,64 @@ label, input, button {
   position: relative;
 }
 
+main {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(1440px + 3vw);
+  margin-top: 0;
+}
+
+main, main.sticky-box {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+}
+
+.sticky-box {
+  position: sticky;
+  top: 8rem;
+  z-index: 1;
+
+  margin: 2rem 2rem 0;
+  padding: 1rem;
+  min-width: calc(18rem + 12vw);
+
+  border-radius: 0.3em;
+  border: 0.25rem double $border-color;
+  background-color: $bg-color;
+
+  @supports (backdrop-filter: blur(10px)) {
+    background-color: $bg-color-transparent;
+    backdrop-filter: blur(10px);
+  }
+
+  // top of the screen, full-width version
+  @media (max-width: $break-mobile) {
+    box-sizing: border-box;
+    width: 100%;
+
+    margin: 0;
+    top: calc(#{$nav-height} - 1px);
+
+    border-top: unset;
+    border-left: unset;
+    border-right: unset;
+    border-radius: 0;
+  }
+}
+
+// for standalone-stickies -- when the whole page is the sticky-box
+main.sticky-box {
+  padding: 2rem;
+
+  h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1em;
+    font-size: 1.8rem;
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: $head-font;
   letter-spacing: initial;
@@ -153,5 +211,74 @@ span.num {
       color: $fg-color-dimmer;
       cursor: default;
     }
+  }
+}
+
+.button {
+  font-family: $body-font;
+  font-weight: 700;
+  font-size: 0.9em;
+
+  text-align: center;
+  text-decoration: none;
+
+  display: block;
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: 10em;
+
+  margin: 0.5em;
+  padding: 0.80em 2.5em 0.70em;
+
+  color: $fg-color;
+  background-color: transparent;
+  border: 0.15em solid currentColor;
+  border-radius: 0.5em;
+
+  &:active, &:focus {
+    color: $bg-color;
+    background-color: $fg-color;
+  }
+
+  @media (hover: hover) {
+    transition-property: color, border-color, background-color;
+    transition-duration: 125ms;
+    transition-timing-function: linear;
+
+    &:hover {
+      color: $bg-color;
+      border-color: $fg-color;
+      background-color: $fg-color;
+    }
+  }
+}
+
+.danger-button {
+  @extend .button;
+  color: $fg-color-red;
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: $fg-color-red;
+      background-color: $fg-color-red;
+    }
+  }
+}
+
+.icon-button {
+  @extend .button;
+
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  padding: 0.6em 1.25em 0.8em;
+
+  svg {
+    font-size: 1.75em;
+  }
+
+  span {
+    padding-top: 0.25em;
+    margin-left: 1.50em;
   }
 }

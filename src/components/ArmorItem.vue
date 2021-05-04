@@ -18,6 +18,7 @@ import { defineComponent } from 'vue';
 import { Armor } from '@/armor';
 import { localState } from '@/state';
 
+
 export default defineComponent({
   name: 'ArmorItem',
   props: {
@@ -42,11 +43,11 @@ li {
   list-style: none;
   margin: 0.85rem;
 
-  @media (max-width: $break-x-medium) {
+  @media (max-width: $break-large) {
     margin: 0.55rem 0.30rem;
   }
 
-  @media (max-width: $break-medium) {
+  @media (max-width: $break-mobile) {
     margin: 0.5rem;
   }
 }
@@ -112,7 +113,7 @@ img {
   min-width: 82px;
   height: calc(2em + 5vw);
 
-  @media (max-width: $break-medium) {
+  @media (max-width: $break-mobile) {
     height: calc(2em + 3vh + 4vw);
   }
 }

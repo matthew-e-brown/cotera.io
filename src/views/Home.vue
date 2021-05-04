@@ -1,5 +1,8 @@
 <template>
   <main id="home">
+
+    <TheArmorInfo />
+
     <div id="list-container">
 
       <div id="list-settings">
@@ -47,6 +50,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import TheArmorInfo from '@/components/TheArmorInfo.vue';
 import ArmorItem from '@/components/ArmorItem.vue';
 
 import ShirtIcon from '@/assets/icons/shirt.svg';
@@ -64,7 +68,7 @@ import { allState, SortChoice, nextSortChoice, setPreference } from '@/state';
 
 export default defineComponent({
   name: 'Home',
-  components: { ArmorItem, ShirtIcon, AmiiboIcon },
+  components: { TheArmorInfo, ArmorItem, ShirtIcon, AmiiboIcon },
   data() {
     return {
       armor, amiibo,
@@ -83,6 +87,10 @@ export default defineComponent({
     }
   },
   computed: {
+    /**
+     * Wrapper for the state's nextSortChoice enum iterator, just to keep lines
+     * short.
+     */
     nextSortChoice(): SortChoice {
       return nextSortChoice(this.state.preferences.sortOrder);
     }
@@ -98,6 +106,10 @@ main {
 
   >* {
     flex: 1 1 auto;
+  }
+
+  @media (max-width: $break-mobile) {
+    flex-flow: row wrap;
   }
 }
 

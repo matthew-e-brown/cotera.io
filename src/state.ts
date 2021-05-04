@@ -1,4 +1,4 @@
-import { reactive, toRefs } from 'vue';
+import { reactive, watch, toRefs } from 'vue';
 import debounce from 'lodash.debounce';
 
 import firebase from 'firebase/app';
@@ -152,15 +152,14 @@ export const syncedState = reactive<{
   preferences: getLocalPreferences() || { ...DEFAULT_PREFERENCES }
 });
 
+const sync = () => {
+  if (localState.isSignedIn) uploadPreferences();
+  else setLocalPreferences();
+}
 
 export const setArmorLevel = (armor: Armor, level: ArmorLevel): void => {
   syncedState.progress[armor.type][armor.indx] = level;
-
-  if (localState.isSignedIn) {
-    uploadProgress();
-  } else {
-    setLocalProgress();
-  }
+  sync();
 }
 
 export const setPreference = <T extends keyof Preferences>(
@@ -168,12 +167,7 @@ export const setPreference = <T extends keyof Preferences>(
   value: Preferences[T]
 ): void => {
   syncedState.preferences[key] = value;
-
-  if (localState.isSignedIn) {
-    uploadPreferences();
-  } else {
-    setLocalPreferences();
-  }
+  sync();
 }
 
 let unsubProgress: Subscription = undefined;
@@ -213,6 +207,14 @@ export const deletePreferences = (): Promise<void> => {
 }
 
 
+/**
+ * Wrapper function for subscribing to Firestore
+ * @param collectionName The collection on Firestore to subscribe to
+ * @param dataFound Callback to run when updated data is found
+ * @param otherwise Callback to run when no data is found. Happens when a new
+ * user registers and first creates document.
+ * @returns A function to call when ready to unsubscribe
+ */
 const subscribeHelper = (
   collectionName: 'user-progress' | 'user-preferences',
   dataFound: (data: firebase.firestore.DocumentData) => void,

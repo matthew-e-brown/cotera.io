@@ -15,18 +15,35 @@ $bg-color-accent: rgba(249, 237, 180, 0.10);
 $border-color: rgba(249, 237, 180, 0.40);
 
 // Breakpoints
-$break-small: 430px;
-$break-x-small: 330px;
-$break-medium: 770px;
-$break-x-medium: 980px;
+$break-large:   980px;  // Wider than this are wide screens
+$break-medium:  850px;  // Medium width full-size
+$break-mobile:  770px;  // Mobile view
+$break-small:   430px;  // Really small screens
+$break-tiny:    330px;  // The smallest of screens
 
 // Fixed sizes
 $nav-height: 5.3rem;
 
+/**
+ * Used for main.sticky-box to have a defined maximum width and customized
+ * padding; for when they are the main item on the page.
+ */
+@mixin standalone-sticky($pref-width, $padding-lr: null, $padding-tb: null) {
+  main {
+    @media (min-width: $break-mobile) {
+      min-width: initial;
+      max-width: 95%;
+      width: $pref-width;
+      padding-left: $padding-lr;
+      padding-right: $padding-lr;
+      padding-top: $padding-tb;
+      padding-bottom: $padding-tb;
+    }
+  }
+}
+
+
 :export {
-  break_small: $break-small;
-  break_xsmall: $break-x-small;
-  break_medium: $break-medium;
-  break_xmedium: $break-x-medium;
+  break-mobile: $break-mobile;
   nav_height: $nav-height;
 }
