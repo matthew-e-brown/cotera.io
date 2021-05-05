@@ -1,4 +1,4 @@
-import { reactive, watch, toRefs } from 'vue';
+import { reactive, toRefs } from 'vue';
 import debounce from 'lodash.debounce';
 
 import firebase from 'firebase/app';
@@ -152,14 +152,11 @@ export const syncedState = reactive<{
   preferences: getLocalPreferences() || { ...DEFAULT_PREFERENCES }
 });
 
-const sync = () => {
-  if (localState.isSignedIn) uploadPreferences();
-  else setLocalPreferences();
-}
 
 export const setArmorLevel = (armor: Armor, level: ArmorLevel): void => {
   syncedState.progress[armor.type][armor.indx] = level;
-  sync();
+  if (localState.isSignedIn) uploadProgress();
+  else setLocalProgress();
 }
 
 export const setPreference = <T extends keyof Preferences>(
@@ -167,7 +164,8 @@ export const setPreference = <T extends keyof Preferences>(
   value: Preferences[T]
 ): void => {
   syncedState.preferences[key] = value;
-  sync();
+  if (localState.isSignedIn) uploadPreferences();
+  else setLocalPreferences();
 }
 
 let unsubProgress: Subscription = undefined;

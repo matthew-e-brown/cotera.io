@@ -9,15 +9,15 @@ export type ArmorType = 'head' | 'body' | 'legs';
 export type ArmorTag = `${ArmorType}_${number}`;
 export type Upgrade = {
   defense: number;
-  items: Map<ItemTag, number>;
+  items: [ ItemTag, number ][];
 };
 
 export class Armor {
   public readonly name: string;
-  public readonly upgrades: Upgrade[];
   public readonly type: ArmorType;
   public readonly indx: number;
 
+  private readonly upgrades: Upgrade[];
   private baseDefense: number;
 
   constructor(json: any) {
@@ -25,10 +25,10 @@ export class Armor {
     this.baseDefense = json.defense;
 
     this.upgrades = json.upgrades.map((upgrade: any) => {
-      const items = new Map<ItemTag, number>();
+      const items: [ ItemTag, number ][] = [];
 
       Object.keys(upgrade.items).forEach(tag => {
-        items.set(tag as ItemTag, upgrade.items[tag]);
+        items.push([tag as ItemTag, upgrade.items[tag]]);
       });
 
       return { defense: upgrade.defense, items };
@@ -61,8 +61,8 @@ export class Armor {
     else return this.upgrades[this.level].defense;
   }
 
-  public get itemsToUpgrade(): Map<ItemTag, number> {
-    if (this.level + 1 >= 5) return new Map<ItemTag, number>();
+  public get itemsToUpgrade(): [ ItemTag, number ][] {
+    if (this.level + 1 >= 5) return [];
     else return this.upgrades[this.level].items;
   }
 

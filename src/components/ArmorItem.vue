@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 
 import { Armor } from '@/armor';
 import { localState } from '@/state';
@@ -24,15 +24,22 @@ export default defineComponent({
   props: {
     armor: { type: Armor, required: true }
   },
-  methods: {
-    select(): void {
-      localState.selected = this.armor;
+  setup(props) {
+    // Use setup() function to get better TypeScript on button ref
+    const button = ref<HTMLButtonElement>();
+
+    const selected = computed(() => localState.selected === props.armor);
+
+    const select = (): void => {
+      if (selected.value) {
+        localState.selected = undefined;
+        button.value?.blur();
+      } else {
+        localState.selected = props.armor;
+      }
     }
-  },
-  computed: {
-    selected(): boolean {
-      return localState.selected == this.armor;
-    }
+
+    return { select, selected, button };
   }
 });
 </script>

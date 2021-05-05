@@ -24,10 +24,18 @@ import '@/assets/styles/global.scss';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
-  faStar, faSortAlt, faEye, faEyeSlash
+  faGoogle, faGithub, faCanadianMapleLeaf
+} from '@fortawesome/free-brands-svg-icons';
+import {
+  faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
+  faSortAlt, faChevronCircleDown, faCode, faHeart
 } from '@fortawesome/pro-solid-svg-icons';
 
-library.add(faStar, faSortAlt, faEye, faEyeSlash);
+library.add(
+  faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
+  faSortAlt, faChevronCircleDown, faCode, faHeart, faGoogle, faGithub,
+  faCanadianMapleLeaf
+);
 
 /** cspell: disable */
 firebase.initializeApp({
