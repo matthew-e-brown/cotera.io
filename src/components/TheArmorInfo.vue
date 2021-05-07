@@ -1,15 +1,28 @@
 <template>
   <div
     id="armor-info"
-    ref="main"
+    ref="root"
     class="sticky-box"
+    :data-folded="isFolded"
+    :style="foldedRootStyles"
   >
 
     <template v-if="selected">
       <img :src="selected.sprite" alt="" aria-hidden="true" draggable="true">
 
-      <h2 ref="header" key="h2-filled">
+      <h2
+        ref="header"
+        key="h2-filled"
+        :style="foldedHeaderStyles"
+        :tabindex="isFolded ? 0 : -1"
+        :role="isFolded ? 'button' : ''"
+        @click="unfold"
+        @keydown.space.enter.prevent="unfold"
+      >
         <span>{{ selected.name }}</span>
+        <div class="fold-button">
+          <fa-icon icon="chevron-circle-down" class="fa-fw" />
+        </div>
       </h2>
 
       <div id="stats">
@@ -85,31 +98,57 @@
       class="empty"
       ref="header"
       key="h2-empty"
+      :style="foldedHeaderStyles"
+      :tabindex="isFolded ? 0 : -1"
+      :role="isFolded ? 'button' : ''"
+      @click="unfold"
+      @keydown.space.enter.prevent="unfold"
     >
       <span>No armor selected.</span>
+      <div class="fold-button">
+        <fa-icon icon="chevron-circle-down" class="fa-fw" />
+      </div>
     </h2>
 
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRef } from 'vue';
-import throttle from 'lodash.throttle';
+import {
+  defineComponent,
+  computed, watch,
+  onUnmounted,
+  ref, toRef, Ref
+} from 'vue';
+import throttle from 'lodash/throttle';
 
 import ShirtIcon from '@/assets/icons/shirt.svg';
 
 import { Armor, ArmorLevel } from '@/armor';
 import { itemSprites, itemNames } from '@/items';
 import { allState as state, setArmorLevel } from '@/state';
+import sassVars from '@/assets/styles/_variables.scss';
 
 
+// Extract 'selected' from state, it's all we need
 const selected = toRef(state, 'selected');
+
+// Extract number and unit from nav_height, since we are going to do math with
+// it
+const navHeight = (() => {
+  const match = sassVars.nav_height.match(/(-?[\d.]+)([a-z%]*)/);
+  return {
+    value: match ? Number(match[1]) ?? NaN : NaN,
+    unit: match ? match[2] ?? "" : ""
+  };
+})();
+
 
 export default defineComponent({
   name: 'TheArmorInfo',
   components: { ShirtIcon },
   setup() {
-    return { ...useArmor(), selected };
+    return { ...useArmor(), ...useFolding(), selected };
   }
 });
 
@@ -119,7 +158,6 @@ export default defineComponent({
  * item-list, levels up and down the armor, et cetera.
  */
 function useArmor() {
-
   const setLevel = (level: ArmorLevel): void => {
     setArmorLevel(selected.value as Armor, level);
   }
@@ -141,10 +179,198 @@ function useArmor() {
 
 
 /**
- * Handles listening to changing styles when the user scrolls on mobile
+ * Handles checking if the current window is in mobile or not
  */
-function useScroll() {
+function useMobile() {
+  const query = window.matchMedia(`(max-width: ${sassVars.break_mobile})`);
+  const isMobile = ref(query.matches);
 
+  const onQueryChange = () => isMobile.value = query.matches;
+
+  query.addEventListener('change', onQueryChange);
+  onUnmounted(() => query.removeEventListener('change', onQueryChange));
+
+  return { isMobile };
+}
+
+
+/**
+ * Handles listening to changing styles when the user scrolls on mobile
+ * @param {Ref<boolean>[]} onlyWhen Do not trigger the scroll listeners unless
+ * all of these conditions are met.
+ * @param {() => void} hitTop The function to run when the user scrolls to the
+ * top of the page
+ * @param {() => void} down The function to run when the user scrolls down
+ * @param {() => void} up The function to run when the user scrolls up
+ */
+function useScroll(options: {
+  hitTop: () => void,
+  down: () => void,
+  up: () => void,
+  onlyWhen?: Ref<boolean>[]
+}) {
+  /**
+   * Wrapper for the various different properties to grab scroll-height from,
+   * depending on browser/support.
+   * @returns The current scroll-position of the document.
+   */
+  const getScroll = (): number => {
+    return document.documentElement.scrollTop ||
+    document.body.scrollTop ||
+    window.scrollY;
+  }
+
+  const savedScrollPos = ref(getScroll());   // The last pos the user stopped
+
+  const canDoScroll = (): boolean => {
+    if (options.onlyWhen === undefined) return true;
+    else if (options.onlyWhen.every(ref => ref.value)) return true;
+    else return false;
+  }
+
+  const onScroll = throttle((): void => {
+    const { body, documentElement } = document;
+
+    const oldScrollPos = savedScrollPos.value;
+    const newScrollPos = savedScrollPos.value = getScroll();
+
+    // The Y position of the top of the screen when scrolled down all the way
+    const lowestTop = body.scrollHeight - window.innerHeight;
+    // :root's current font-size property at whatever the current breakpoint is
+    const currentRem = parseFloat(getComputedStyle(documentElement).fontSize);
+
+    if (!canDoScroll()) return;
+
+    // If they scrolled down
+    if (newScrollPos > 0 && newScrollPos > oldScrollPos) {
+      // If the difference was a big enough scroll to warrant being called a
+      // "down" scroll
+      if (Math.abs(newScrollPos - oldScrollPos) > 5 * currentRem)
+        options.down();
+    }
+
+    // If they scrolled to within the top 10.25 rem
+    else if (newScrollPos <= 10.25 * currentRem) {
+      options.hitTop();
+    }
+
+    // If they didn't scroll up (went down), but they *also* aren't below the
+    // page (they can be below the page when mobile browsers do that bouncy
+    // effect when you try and scroll off the bottom)
+    else if (newScrollPos <= lowestTop) {
+      // Check if the difference was big enough ( ↓ -- requires larger force
+      // than going "down" did) to be called "up" ↓
+      if (Math.abs(newScrollPos - oldScrollPos) > 6 * currentRem)
+        options.up();
+    }
+
+  }, 100, {
+    leading: true,
+    trailing: true
+  });
+
+  window.addEventListener('scroll', onScroll);
+  onUnmounted(() => window.removeEventListener('scroll', onScroll));
+}
+
+
+function useFolding() {
+
+  const { isMobile } = useMobile();
+
+  const isFolded = ref(false);
+
+  // See @NOTE below explaining why this is needed
+  const chromiumFoldEnabled = ref(true);
+
+  const root = ref<HTMLDivElement>();              // Root <div> of TheArmorInfo
+  const header = ref<HTMLHeadingElement>();        // Either of the two headings
+
+  const foldedRootStyles = ref<{ top?: string }>();
+  const foldedHeaderStyles = ref<{ transform?: string }>();
+
+  const unfold = () => {
+    isFolded.value = false;
+    foldedRootStyles.value = { };
+    foldedHeaderStyles.value = { };
+    header.value?.blur();
+  }
+
+  // Unfold and clear styles if they ever leave mobile view
+  watch(isMobile, newValue => { if (!newValue) unfold(); });
+
+  watch(selected, (_, oldValue) => {
+    if (isMobile.value) {
+      unfold();
+
+      if (oldValue === undefined) {
+
+        /**
+         * @note
+         *
+         * When selecting a new armor, the size of the root <div> changes.
+         * Because it's up at the top, this means that the user's browser can
+         * either let the document slide down in the viewport (the bigger header
+         * shunts the rest down), or it can accommodate for this by
+         * automatically scrolling the viewport down to keep the element the
+         * user was looking at in place.
+         *
+         * The latter is what Chromium browsers do. However, since we're
+         * listening to the 'scroll' event, and folding when the user scrolls
+         * down far enough, this will trigger *another* fold, and subsequently
+         * re-hide whatever the user just tried to show.
+         *
+         * @see {@link https://stackoverflow.com/a/63460737/10549827}
+         *
+         * We fix this by:
+         * - unfolding as normal
+         * - disable unfolding
+         * - wait for Chromium to move the viewport
+         * - re-enable unfolding
+         *
+         * Since Chrome 86, this requires waiting for two animation-frames. I'm
+         * not sure why.
+         */
+
+        chromiumFoldEnabled.value = false;
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            chromiumFoldEnabled.value = true;
+          });
+        });
+      }
+    }
+  });
+
+  useScroll({
+    onlyWhen: [ isMobile, chromiumFoldEnabled ],
+    hitTop: unfold,
+    up: unfold,
+    down: () => {
+      // Height of root <div>
+      const rHeight = (root.value?.getBoundingClientRect().height ?? 0);
+
+      // Offset of header <h2> from top of root <div>
+      const hOffset =
+        (header.value?.offsetTop ?? 0) +
+        (header.value?.getBoundingClientRect().height ?? 0);
+
+      isFolded.value = true;
+
+      foldedRootStyles.value = {
+        top: `calc(-${rHeight}px + ${navHeight.value * 2}${navHeight.unit})`
+      };
+
+      foldedHeaderStyles.value = {
+        transform: `translateY(calc(${rHeight - hOffset}px - 1rem))`
+      };
+    }
+  });
+
+  return {
+    root, header, isFolded, foldedRootStyles, foldedHeaderStyles,
+    unfold: () => { if (isFolded.value) unfold(); } // used for keypress/click
+  };
 }
 </script>
 
@@ -172,6 +398,29 @@ h2 {
 
     margin-top: 5rem;
     margin-bottom: 4.5rem;
+  }
+
+  &:not([role="button"]) {
+    :focus, :focus-within, :focus-visible {
+      outline: none;
+    }
+  }
+
+  &[role="button"] { cursor: pointer; }
+}
+
+.fold-button {
+  color: currentColor;
+
+  position: absolute; // relative to h2
+  top: 0.45em;
+  bottom: 0.50em;
+
+  display: none; // overridden in mobile view
+
+  svg {
+    font-size: 1.25em;
+    transform: rotate(180deg); // start upside-down
   }
 }
 
@@ -299,7 +548,77 @@ p {
 
 // Mobile and below
 @media (max-width: $break-mobile) {
-  /* nothing yet */
+  // Where all the styles for folding go
+  #armor-info {
+    transition: top $fold-transition;
+
+    >:not(h2) {
+      transition:
+        opacity $fold-transition,
+        visibility $fold-transition;
+
+      // By default, show everything
+      opacity: 1;
+      visibility: visible;
+    }
+
+    // When folded
+    &[data-folded="true"]>:not(h2) {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  h2 {
+    transition:
+      transform $fold-transition,
+      padding-left $fold-transition,
+      border-color $fold-transition;
+
+    &.empty {
+      text-align: left;
+      padding-left: 1em;
+      transition:
+        transform $fold-transition,
+        padding-left $fold-transition;
+    }
+
+    // Shown properties
+    @at-root [data-folded="true"] & {
+      border-color: transparent;
+      padding-left: 1em;
+    }
+  }
+
+  .fold-button {
+    display: initial;
+
+    transition:
+      right $fold-transition,
+      opacity $fold-transition,
+      visibility $fold-transition;
+
+    // By default, hide it and keep on the far right
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+
+    // Shown properties
+    @at-root [data-folded="true"] & {
+      right: 1em;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    svg {
+      transition: transform $fold-transition;
+
+      // Shown properties
+      @at-root [data-folded="true"] & {
+        transform: rotate(0deg);
+      }
+    }
+  }
 }
 
 

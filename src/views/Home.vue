@@ -60,10 +60,14 @@ import armor, { amiiboList as amiibo } from '@/armor';
 import { allState, SortChoice, nextSortChoice, setPreference } from '@/state';
 
 /**
- * @NOTE:  
- * https://github.com/FortAwesome/vue-fontawesome/issues/230  
+ * @note
+ *
  * Currently (2021-05-03), in Vue 3, using reactive :icon on FontAwesome icons
- * requires a :key.
+ * requires a :key. There is a PR to fix it, but it doesn't look like it'll be
+ * merged anytime soon; it's been sitting there since September.
+ *
+ * @see {@link https://github.com/FortAwesome/vue-fontawesome/issues/250}
+ * @see {@link https://github.com/FortAwesome/vue-fontawesome/pull/297}
  */
 
 export default defineComponent({
@@ -124,12 +128,20 @@ section {
   >:first-child {
     margin-top: 0;
   }
+
+  @media (max-width: $break-mobile) {
+    padding-top: 1.5rem;
+  }
 }
 
 #list-settings {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 0;
+
+  @media (max-width: $break-small) {
+    font-size: 1.1em;
+  }
 }
 
 .armor-list {

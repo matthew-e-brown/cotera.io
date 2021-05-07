@@ -1,5 +1,5 @@
 import { reactive, toRefs } from 'vue';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
