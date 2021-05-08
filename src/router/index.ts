@@ -8,7 +8,6 @@ import 'firebase/auth';
 declare module 'vue-router' {
   interface RouteMeta {
     title: string;
-    extraSass?: string[];
     requiredAuthState?: 'in' | 'out';
   }
 }
@@ -38,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
       requiredAuthState: 'out'
     },
     component: () => import(
-      /* webpackChunkName: "login" */
+      /* webpackChunkName: "forms" */
       '../views/Login.vue'
     )
   },
@@ -50,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
       requiredAuthState: 'in'
     },
     component: () => import(
-      /* webpackChunkName: "account" */
+      /* webpackChunkName: "forms" */
       '../views/Account.vue'
     )
   }
