@@ -12,6 +12,8 @@ import 'firebase/auth';
 import { handleAuthChange } from '@/store';
 
 // Fonts
+import '@fontsource/epilogue/300.css'
+import '@fontsource/epilogue/300-italic.css'
 import '@fontsource/epilogue/500.css';
 import '@fontsource/epilogue/500-italic.css';
 import '@fontsource/epilogue/700.css';

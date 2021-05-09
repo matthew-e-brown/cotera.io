@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import Home from '../views/Home.vue';
+
+import Home from '@/views/Home.vue';
+import About from '@/views/About.vue';
 
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -45,10 +47,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/about',
     name: 'About',
     meta: { title: "About & FAQ | Cotera.io" },
-    component: () => import(
-      /* webpackChunkName: "about" */
-      '../views/About.vue'
-    )
+    component: About
   },
 
   {

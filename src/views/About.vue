@@ -143,9 +143,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import '@fontsource/epilogue/300.css'
-import '@fontsource/epilogue/300-italic.css'
-
 import CoffeeIcon from '@/assets/icons/bmc-black.svg';
 
 export default defineComponent({

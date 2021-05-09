@@ -262,9 +262,9 @@ export const handleAuthChange = (user: firebase.User | null): void => {
         if (doc.exists && !doc.metadata.hasPendingWrites) {
           const rawData = doc.data() as RawProgress;
           const processed = {
-            'head': <number[]>[],
-            'body': <number[]>[],
-            'legs': <number[]>[]
+            head: <number[]>[],
+            body: <number[]>[],
+            legs: <number[]>[]
           };
 
           processed.head = rawData.head.split('').map(n => Number(n));
