@@ -4,20 +4,20 @@
       <h1>Cotera<span>.io</span></h1>
     </router-link>
     <router-link to="/about">about &amp; faq</router-link>
-    <router-link to="/login" v-if="!localState.isSignedIn">log in</router-link>
+    <router-link to="/login" v-if="!isSignedIn">log in</router-link>
     <router-link to="/account" v-else>account</router-link>
   </nav>
   <router-view />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, toRef } from 'vue';
 import { localState } from '@/state';
 
 export default defineComponent({
   name: 'Cotera.io',
-  data: function() {
-    return { localState }
+  setup() {
+    return { isSignedIn: toRef(localState, 'isSignedIn') };
   }
 });
 </script>

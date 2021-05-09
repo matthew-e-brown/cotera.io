@@ -159,7 +159,8 @@ span.num {
 
   display: flex;
   flex-flow: row nowrap;
-  place-items: center space-between;
+  align-items: center;
+  justify-content: space-between;
 
   // Add space around the text in the separator and the strike-through
   >* {
@@ -271,14 +272,17 @@ span.num {
   display: flex;
   align-items: center;
   vertical-align: middle;
-  padding: 0.75em 2.25em 0.8em 1.55em;
+  padding: 0.75em 2.25em 0.80em 1.55em;
 
   svg {
     font-size: 1.75em;
   }
 
   span {
+    font-size: 1.1em;
     padding-top: 0.25em;
+    padding-bottom: 0.05em;
     margin-left: 1.50em;
+    @media (max-width: $break-small) { margin-left: 0.75em; }
   }
 }

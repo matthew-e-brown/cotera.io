@@ -1,12 +1,12 @@
 <template>
-  <li :aria-label="armor.name" :class="{ selected }">
-    <button type="button" @click="select" ref="button">
+  <li :aria-label="armor.name" :class="{ selected }" class="armor-item">
+    <button type="button" @click="select" class="armor-button" ref="button">
       <div class="stars">
         <span v-for="i in 4" :class="{ filled: i <= armor.level }" :key="i">
           <fa-icon icon="star" />
         </span>
       </div>
-      <img :src="armor.sprite" draggable="false" aria-hidden="true" alt="">
+      <img :src="armor.sprite" class="armor-sprite" draggable="false" aria-hidden="true" alt="">
       <span class="num" aria-label="defense">{{ armor.defense }}</span>
     </button>
   </li>
@@ -45,7 +45,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-li {
+.armor-item {
   display: block;
   list-style: none;
   margin: 0.85rem;
@@ -59,7 +59,7 @@ li {
   }
 }
 
-button {
+.armor-button {
   display: block;
   position: relative;
 
@@ -111,7 +111,7 @@ button {
   z-index: 2;
 }
 
-img {
+.armor-sprite {
   display: block;
   position: relative;
   z-index: 1;

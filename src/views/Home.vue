@@ -6,11 +6,18 @@
     <div id="list-container">
 
       <div id="list-settings">
-        <button @click="toggleSort" :aria-label="`Order by ${nextSortChoice}`">
+        <button
+          type="button"
+          class="option-button"
+          @click="toggleSort"
+          :aria-label="`Order by ${nextSortChoice}`"
+        >
           <fa-icon icon="sort-alt" />
           <span>{{ capitalize(nextSortChoice) }}</span>
         </button>
         <button
+          type="button"
+          class="option-button"
           @click="toggleAmiibo"
           :aria-label="`${ state.preferences.showAmiibo ? 'Hide' : 'Show' } Amiibo armor`"
         >
@@ -152,8 +159,7 @@ section {
   padding: 0;
 }
 
-// The only buttons directly in this component are the list-setting ones
-button {
+.option-button {
   color: $fg-color;
   background-color: $bg-color;
 
