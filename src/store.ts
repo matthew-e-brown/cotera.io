@@ -267,9 +267,9 @@ export const handleAuthChange = (user: firebase.User | null): void => {
             'legs': <number[]>[]
           };
 
-          (<ArmorType[]>[ 'head', 'body', 'legs' ]).forEach(type => {
-            processed[type] = rawData[type].split('').map(n => Number(n));
-          });
+          processed.head = rawData.head.split('').map(n => Number(n));
+          processed.body = rawData.body.split('').map(n => Number(n));
+          processed.legs = rawData.legs.split('').map(n => Number(n));
 
           if (isProgress(processed)) {
             store.importProgress(processed as Progress);
