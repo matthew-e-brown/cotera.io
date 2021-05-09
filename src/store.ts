@@ -1,4 +1,4 @@
-import { reactive, computed, toRef, ComputedRef } from 'vue';
+import { reactive } from 'vue';
 import { debounce } from 'lodash';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -24,9 +24,15 @@ interface State {
   selected: Armor | null;
   progress: Progress;
   prefs: Prefs;
+  readonly isSignedIn: boolean;
 };
 
 
+/**
+ * User-defined type-guard for Progress interface.
+ * @param obj An object to check.
+ * @returns Whether or not the object correctly represents user progress.
+ */
 const isProgress = (obj: any): obj is Progress => {
   return (
     ('head' in obj && 'body' in obj && 'legs' in obj) &&
@@ -40,6 +46,11 @@ const isProgress = (obj: any): obj is Progress => {
 }
 
 
+/**
+ * User-defined type-guard for Prefs interface.
+ * @param obj An object to check.
+ * @returns Whether or not the object correctly represents user preferences.
+ */
 const isPrefs = (obj: any): obj is Prefs => {
   return (
     ('sortOrder' in obj && 'showAmiibo' in obj) &&
@@ -90,12 +101,20 @@ const initialPreferences = (): Prefs => {
 }
 
 
+/**
+ * Holds the Firebase functions for unsubscribing from onSnapshot. These need to
+ * be called if the user signs out.
+ */
 const unsubscribe = {
   progress: <Subscription>undefined,
   prefs: <Subscription>undefined
 };
 
 
+/**
+ * Holds functions that can be used to upload an object to Firestore. There's
+ * one for Progress and one for Preferences.s
+ */
 const uploaders = {
   progress: async (data: Progress, doc: string) => {
     const head = data.head.join('');
@@ -112,6 +131,9 @@ const uploaders = {
 };
 
 
+/**
+ * A "proxy" to `uploaders` that has the same functions, debounced by 900 ms.
+ */
 const debounced = {
   progress: debounce(uploaders.progress, 900),
   prefs: debounce(uploaders.prefs, 900)
@@ -119,21 +141,19 @@ const debounced = {
 
 
 /**
- * The main store object
+ * The main store object. Holds information that the app may need to have access
+ * to at any given time.
  */
 const store = {
-  debug: (process.env?.NODE_ENV ?? '') != 'production',
+  debug: false, //(process.env?.NODE_ENV ?? '') != 'production',
 
   state: reactive<State>({
     userID: null,
     selected: null,
     progress: initialProgress(),
-    prefs: initialPreferences()
+    prefs: initialPreferences(),
+    get isSignedIn(): boolean { return this.userID !== null; }
   }),
-
-  get isSignedIn(): ComputedRef<boolean> {
-    return computed(() => toRef(this.state, 'userID').value !== undefined);
-  },
 
   setUserID(value: string | null): void {
     if (this.debug)
@@ -152,7 +172,7 @@ const store = {
       console.log(`setSortOrder triggered with ${value} value.`);
     this.state.prefs.sortOrder = value;
 
-    if (this.isSignedIn.value)
+    if (this.state.isSignedIn)
       debounced.prefs(this.state.prefs, this.state.userID!);
     else
       localStorage.setItem('user-preferences', JSON.stringify(this.state.prefs));
@@ -163,7 +183,7 @@ const store = {
       console.log(`setShowAmiibo triggered with ${value} value.`);
     this.state.prefs.showAmiibo = value;
 
-    if (this.isSignedIn.value)
+    if (this.state.isSignedIn)
       debounced.prefs(this.state.prefs, this.state.userID!);
     else
       localStorage.setItem('user-preferences', JSON.stringify(this.state.prefs));
@@ -180,7 +200,7 @@ const store = {
 
     this.state.progress[type][indx] = value;
 
-    if (this.isSignedIn.value)
+    if (this.state.isSignedIn)
       debounced.progress(this.state.progress, this.state.userID!);
     else
       localStorage.setItem('user-progress', JSON.stringify(this.state.progress));
@@ -202,7 +222,14 @@ const store = {
 
 export default store;
 
-export const onAuthStateChanged = (user: firebase.User | null): void => {
+
+/**
+ * A callback for handling a user's authorization state changing: exported here,
+ * and expected to be registered once the app is initialized in order to listen
+ * for changes.
+ * @param user The user that has just logged in or out of Firebase.
+ */
+export const handleAuthChange = (user: firebase.User | null): void => {
 
   // They just signed in
   if (user !== null) {

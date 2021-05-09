@@ -31,10 +31,10 @@
           <span class="num" aria-label="current defense">
             {{ selected.defense }}
           </span>
-          <span v-if="!completed" aria-hidden="true">
+          <span v-if="!isCompleted" aria-hidden="true">
             <fa-icon icon="caret-right" />
           </span>
-          <span v-if="!completed" class="num" aria-label="next defense">
+          <span v-if="!isCompleted" class="num" aria-label="next defense">
             {{ selected.nextDefense }}
           </span>
         </div>
@@ -65,7 +65,7 @@
         </div>
       </div>
 
-      <template v-if="!completed">
+      <template v-if="!isCompleted">
         <div class="upgrade-item">
           <img :src="selected.sprite" alt="" aria-hidden="true">
           <span>{{ selected.name }}</span>
@@ -115,23 +115,19 @@
 
 <script lang="ts">
 import {
-  defineComponent,
+  defineComponent, Ref, ref, toRef,
   computed, watch,
-  onUnmounted,
-  ref, toRef, Ref
+  onUnmounted
 } from 'vue';
 import throttle from 'lodash/throttle';
 
 import ShirtIcon from '@/assets/icons/shirt.svg';
 
-import { Armor, ArmorLevel } from '@/armor';
+import { ArmorLevel } from '@/armor';
 import { itemSprites, itemNames } from '@/items';
-import { allState as state, setArmorLevel } from '@/state';
+import store from '@/store';
 import sassVars from '@/assets/styles/_variables.scss';
 
-
-// Extract 'selected' from state, it's all we need
-const selected = toRef(state, 'selected');
 
 // Extract number and unit from nav_height, since we are going to do math with
 // it
@@ -148,7 +144,10 @@ export default defineComponent({
   name: 'TheArmorInfo',
   components: { ShirtIcon },
   setup() {
-    return { ...useArmor(), ...useFolding(), selected };
+    return {
+      selected: toRef(store.state, 'selected'),
+      ...useArmor(), ...useFolding()
+    };
   }
 });
 
@@ -158,23 +157,24 @@ export default defineComponent({
  * item-list, levels up and down the armor, et cetera.
  */
 function useArmor() {
-  const setLevel = (level: ArmorLevel): void => {
-    setArmorLevel(selected.value as Armor, level);
-  }
-
   const increase = (): void => {
-    if (selected.value && selected.value.level < 4)
-      setLevel((selected.value.level + 1) as ArmorLevel);
+    if ((store.state.selected?.level ?? NaN) < 4)
+      store.setArmorLevel(store.state.selected!.level + 1 as ArmorLevel);
   }
 
   const decrease = (): void => {
-    if (selected.value && selected.value.level > 0)
-      setLevel((selected.value.level - 1) as ArmorLevel);
+    if ((store.state.selected?.level ?? NaN) > 0)
+      store.setArmorLevel(store.state.selected!.level - 1 as ArmorLevel);
   }
 
-  const completed = computed(() => (selected.value?.level ?? NaN) == 4);
+  const isCompleted = computed(() => (store.state.selected?.level ?? NaN) == 4);
 
-  return { increase, decrease, setLevel, completed, itemSprites, itemNames };
+  return {
+    increase, decrease,
+    setLevel: store.setArmorLevel,
+    isCompleted,
+    itemSprites, itemNames
+  };
 }
 
 
@@ -299,11 +299,11 @@ function useFolding() {
   // Unfold and clear styles if they ever leave mobile view
   watch(isMobile, newValue => { if (!newValue) unfold(); });
 
-  watch(selected, (_, oldValue) => {
+  watch(toRef(store.state, 'selected'), (_, oldValue) => {
     if (isMobile.value) {
       unfold();
 
-      if (oldValue === undefined) {
+      if (oldValue === null) {
 
         /**
          * @note

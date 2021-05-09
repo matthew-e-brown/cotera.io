@@ -10,22 +10,22 @@
           type="button"
           class="option-button"
           @click="toggleSort"
-          :aria-label="`Order by ${nextSortChoice}`"
+          :aria-label="`Order by ${sortLabel}`"
         >
           <fa-icon icon="sort-alt" />
-          <span>{{ capitalize(nextSortChoice) }}</span>
+          <span>{{ capitalize(sortLabel) }}</span>
         </button>
         <button
           type="button"
           class="option-button"
           @click="toggleAmiibo"
-          :aria-label="`${ state.preferences.showAmiibo ? 'Hide' : 'Show' } Amiibo armor`"
+          :aria-label="`${ showAmiibo ? 'Hide' : 'Show' } Amiibo armor`"
         >
           <AmiiboIcon class="amiibo" aria-label="amiibo" />
           <fa-icon
             class="fa-fw"
-            :icon="state.preferences.showAmiibo ? 'eye' : 'eye-slash'"
-            :key="state.preferences.showAmiibo ? 'eye' : 'eye-slash'"
+            :icon="showAmiibo ? 'eye' : 'eye-slash'"
+            :key="showAmiibo ? 'eye' : 'eye-slash'"
           />
         </button>
       </div>
@@ -40,7 +40,7 @@
         </ul>
       </section>
 
-      <section v-if="state.preferences.showAmiibo">
+      <section v-if="showAmiibo">
         <h3 class="line">
           <AmiiboIcon />
           <span>Armor</span>
@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 import TheArmorInfo from '@/components/TheArmorInfo.vue';
 import ArmorItem from '@/components/ArmorItem.vue';
@@ -64,7 +64,7 @@ import ShirtIcon from '@/assets/icons/shirt.svg';
 import AmiiboIcon from '@/assets/icons/amiibo.svg';
 
 import armor, { amiiboList as amiibo } from '@/armor';
-import { allState, SortChoice, nextSortChoice, setPreference } from '@/state';
+import store, { iterChoice } from '@/store';
 
 /**
  * @note
@@ -80,32 +80,29 @@ import { allState, SortChoice, nextSortChoice, setPreference } from '@/state';
 export default defineComponent({
   name: 'Home',
   components: { TheArmorInfo, ArmorItem, ShirtIcon, AmiiboIcon },
-  data() {
+  setup() {
+    const capitalize = (str: string): string => {
+      return `${str[0].toUpperCase()}${str.slice(1)}`;
+    }
+
+    const toggleSort = () => {
+      store.setSortOrder(iterChoice(store.state.prefs.sortOrder));
+    }
+
+    const toggleAmiibo = () => {
+      store.setShowAmiibo(!store.state.prefs.showAmiibo);
+    }
+
+    const sortLabel = computed(() => iterChoice(store.state.prefs.sortOrder));
+    const showAmiibo = computed(() => store.state.prefs.showAmiibo);
+    const sortOrder = computed(() => store.state.prefs.sortOrder);
+
     return {
       armor, amiibo,
-      state: allState
-    }
-  },
-  methods: {
-    capitalize(str: string): string {
-      return `${str[0].toUpperCase()}${str.slice(1)}`;
-    },
-    toggleSort(): void {
-      setPreference('sortOrder', this.nextSortChoice);
-    },
-    toggleAmiibo(): void {
-      setPreference('showAmiibo', !this.state.preferences.showAmiibo);
-    }
-  },
-  computed: {
-    /**
-     * Wrapper for the state's nextSortChoice enum iterator, just to keep lines
-     * short.
-     */
-    nextSortChoice(): SortChoice {
-      return nextSortChoice(this.state.preferences.sortOrder);
-    }
-  },
+      showAmiibo, sortOrder, sortLabel,
+      capitalize, toggleSort, toggleAmiibo
+    };
+  }
 });
 </script>
 

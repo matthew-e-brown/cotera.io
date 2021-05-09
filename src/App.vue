@@ -12,12 +12,12 @@
 
 <script lang="ts">
 import { defineComponent, toRef } from 'vue';
-import { localState } from '@/state';
+import store from '@/store';
 
 export default defineComponent({
   name: 'Cotera.io',
   setup() {
-    return { isSignedIn: toRef(localState, 'isSignedIn') };
+    return { isSignedIn: toRef(store.state, 'isSignedIn') };
   }
 });
 </script>

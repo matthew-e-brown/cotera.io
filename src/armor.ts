@@ -1,5 +1,5 @@
 import { ItemTag } from '@/items';
-import { syncedState } from '@/state';
+import store from '@/store';
 
 import rawArmorList from '@/assets/data/armor.json';
 import rawAmiiboList from '@/assets/data/amiibo.json';
@@ -44,7 +44,7 @@ export class Armor {
   }
 
   public get level(): ArmorLevel {
-    return syncedState.progress[this.type][this.indx];
+    return store.state.progress[this.type][this.indx];
   }
 
   public get sprite(): string {
