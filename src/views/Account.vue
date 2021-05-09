@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import router from '@/router';
 
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -21,6 +22,7 @@ export default defineComponent({
     const signOut = async () => {
       try {
         await firebase.auth().signOut();
+        router.push({ name: 'Home' });
       } catch (error) {
         console.error(error);
         alert(

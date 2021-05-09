@@ -83,10 +83,24 @@ export default defineComponent({
     }
 
     const googleSubmit = async () => {
-
+      try {
+        try { await firebase.auth().signInWithPopup(google); }
+        catch (error) {
+          if (error.code == 'auth/popup-blocked') {
+            firebase.auth().signInWithRedirect(google);
+            await firebase.auth().getRedirectResult();
+          } else throw error;
+        }
+        // On success
+        router.push({ name: 'Home' });
+      } catch (error) {
+        console.error(error.message);
+        if (!error.message.endsWith('.')) error.message += '.';
+        errors.value.push(error.message);
+      }
     }
 
-    return { email, password, errors, submit };
+    return { email, password, errors, submit, googleSubmit };
   }
 });
 </script>
