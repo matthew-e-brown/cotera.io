@@ -43,9 +43,9 @@ module.exports = {
     },
     manifestOptions: {
       name: "Cotera.io",
-      short_name: "Cotera",
+      short_name: "Cotera.io",
       background_color: "#312626",
-      start_url: "https://cotera.io",
+      start_url: "/",
       display: "standalone",
       orientation: "portrait",
       // Include icons in the manifest itself

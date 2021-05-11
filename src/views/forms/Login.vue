@@ -45,17 +45,28 @@ import router from '@/router';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import { useEmailPasswordAuth, useGoogleAuth } from '@/hooks/auth-flow';
 import PasswordField from '@/components/PasswordField.vue';
 
 export default defineComponent({
   name: 'LoginForm',
   components: { PasswordField },
   setup() {
+    const { signIn: emailPasswordSignIn } = useEmailPasswordAuth();
+    const { signIn: googleSignIn } = useGoogleAuth();
+
     const email = ref("");
     const password = ref("");
     const errors = ref<string[]>([]);
 
-    const google = new firebase.auth.GoogleAuthProvider();
+    const handleError = (error: any): void => {
+      console.log(error);
+      // console.error(error);
+      // alert(
+      //   `Something went wrong. Please notify the developer that ${error.code}` +
+      //   ` occurred.`
+      // );
+    }
 
     const validate = () => {
       errors.value = [];
@@ -71,32 +82,23 @@ export default defineComponent({
 
     const submit = async () => {
       if (!validate()) return;
-      else {
-        firebase.auth()
-          .signInWithEmailAndPassword(email.value, password.value)
-          .then(() => router.push({ name: 'Home' }))
-          .catch(error => {
-            if (!error.message.endsWith('.')) error.message += '.';
-            errors.value.push(error.message);
-          });
+
+      try {
+        const attempt = await emailPasswordSignIn(email.value, password.value);
+        if (attempt === true) router.push({ name: 'Home' });
+        else errors.value.push(attempt);
+      } catch (error) {
+        handleError(error);
       }
     }
 
     const googleSubmit = async () => {
       try {
-        try { await firebase.auth().signInWithPopup(google); }
-        catch (error) {
-          if (error.code == 'auth/popup-blocked') {
-            firebase.auth().signInWithRedirect(google);
-            await firebase.auth().getRedirectResult();
-          } else throw error;
-        }
-        // On success
-        router.push({ name: 'Home' });
+        const attempt = await googleSignIn();
+        if (attempt === true) router.push({ name: 'Home' });
+        else errors.value.push(attempt);
       } catch (error) {
-        console.error(error.message);
-        if (!error.message.endsWith('.')) error.message += '.';
-        errors.value.push(error.message);
+        handleError(error);
       }
     }
 

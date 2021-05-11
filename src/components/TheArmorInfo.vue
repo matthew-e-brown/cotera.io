@@ -280,14 +280,14 @@ function useFolding() {
 
   const isFolded = ref(false);
 
-  // See @NOTE below explaining why this is needed
+  // See @note below explaining why this is needed
   const chromiumFoldEnabled = ref(true);
 
   const root = ref<HTMLDivElement>();              // Root <div> of TheArmorInfo
   const header = ref<HTMLHeadingElement>();        // Either of the two headings
 
-  const foldedRootStyles = ref<{ top?: string }>();
-  const foldedHeaderStyles = ref<{ transform?: string }>();
+  const foldedRootStyles = ref<{ top?: string }>({ });
+  const foldedHeaderStyles = ref<{ transform?: string }>({ });
 
   const unfold = () => {
     isFolded.value = false;
