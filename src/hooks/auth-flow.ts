@@ -45,12 +45,24 @@ const errorMessages = new Map<`auth/${string}`, string>([
 
 export function useEmailPasswordAuth() {
 
-  const generateFlow = (
-    getMethod: (() => EmailPasswordAuthFunction),
-  ): ((email: string, password: string) => Promise<true | string>) => {
-    return async (email, password) => {
+  /**
+   * A helper function which generates a new function that performs the desired
+   * Firebase action.
+   * @param getAction A function which will return the Firebase function to
+   * perform with the email and password.
+   * @returns The new function.
+   * @note A function is used to retrieve the Firebase action because we want to
+   * make sure the auth() and auth().currentUser objects are what they should be
+   * at the runtime of the final functions.
+   * @note The functions returned by getAction should be bound to the
+   * firebase.auth() context.
+   */
+  const authFunctionFactory = (
+    getAction: (() => EmailPasswordAuthFunction)
+  ) => {
+    return async (email: string, password: string) => {
       try {
-        await getMethod()(email, password);
+        await getAction()(email, password);
       } catch (error) {
         const message = errorMessages.get(error.code);
         if (message !== undefined) return message;
@@ -60,11 +72,18 @@ export function useEmailPasswordAuth() {
     }
   }
 
-  const signIn = generateFlow(
-    () => firebase.auth().signInWithEmailAndPassword
+  /**
+   * Signs the user into their account.
+   */
+  const signIn = authFunctionFactory(
+    () => firebase.auth().signInWithEmailAndPassword.bind(firebase.auth())
   );
 
-  const createAccount = generateFlow(
+  /**
+   * Creates a new account which can be signed into with the provided email and
+   * password.
+   */
+  const createAccount = authFunctionFactory(
     () => async (email: string, password: string) => {
       const userCred = await firebase
         .auth()
@@ -73,12 +92,12 @@ export function useEmailPasswordAuth() {
     }
   );
 
-  const reauthenticate = generateFlow(
+  /**
+   * Reauthenticates the user into an existing account.
+   */
+  const reauthenticate = authFunctionFactory(
     () => async (email: string, password: string) => {
-      const cred = await firebase
-        .auth
-        .EmailAuthProvider
-        .credential(email, password);
+      const cred = firebase.auth.EmailAuthProvider.credential(email, password);
       return await firebase
         .auth()
         .currentUser!
@@ -86,12 +105,13 @@ export function useEmailPasswordAuth() {
     }
   );
 
-  const link = generateFlow(
+  /**
+   * Links the email and password to an existing account with another provider,
+   * like a Google account.
+   */
+  const link = authFunctionFactory(
     () => async (email: string, password: string) => {
-      const cred = await firebase
-        .auth
-        .EmailAuthProvider
-        .credential(email, password);
+      const cred = firebase.auth.EmailAuthProvider.credential(email, password);
       const userCred = await firebase
         .auth()
         .currentUser!
@@ -105,61 +125,66 @@ export function useEmailPasswordAuth() {
 
 
 export function useGoogleAuth() {
-  const provider = new firebase.auth.GoogleAuthProvider();
 
   /**
-   * Creates a new function which will perform the desired Firebase Auth action
-   * using either the popup flow, if supported, or the redirect flow.
-   * @param getPopupMethod A function which will return the Firebase Auth
+   * Helper function for creating a new function which will perform the desired
+   * Firebase Auth action using either the popup flow or the redirect flow (if
+   * popup is not supported).
+   * @param getPopupAction A function which will return the Firebase Auth
    * function to use when attempting the popup flow.
-   * @param getRedirectMethod A function which will return the Firebase Auth
+   * @param getRedirectAction A function which will return the Firebase Auth
    * function to use when attempting the redirection flow, should the popup flow
    * fail (like on mobile/PWA)
    * @returns The new function.
-   * @note Functions are used for popupAction and redirectAction because they
-   * involve calling firebase.auth(), a function: we want to do that at
+   * @note Functions are used for getPopupAction and getRedirectAction because
+   * they involve calling firebase.auth(), a function: we want to do that at
    * run-time, not when the component using this hook is setup.
+   * @note The functions returned from get(Popup|Redirect)Action must be bound
+   * to the firebase.auth() context.
    */
-  const generateFlow = (
-    getPopupMethod: (() => ProviderAuthFunction),
-    getRedirectMethod: (() => ProviderAuthFunction)
-  ): (() => Promise<true | string>) => async () => {
-    try {
-      await getPopupMethod()(provider);
-    } catch (error) {
-      const message = errorMessages.get(error.code);
-
-      if (error.code == 'auth/popup-blocked')
-        await getRedirectMethod()(provider);
-
-      else if (message !== undefined) return message;
-      else throw error;
+  const authFunctionFactory = (
+    getPopupAction: (() => ProviderAuthFunction),
+    getRedirectAction: (() => ProviderAuthFunction)
+  ) => {
+    return async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        await getPopupAction()(provider);
+      } catch (error) {
+        const message = errorMessages.get(error.code);
+        if (error.code == 'auth/popup-blocked')
+          await getRedirectAction()(provider);
+        else if (message !== undefined) return message;
+        else throw error;
+      }
+      return true;
     }
-    return true;
   }
 
   /**
    * Signs the user into a Google account.
    */
-  const signIn = generateFlow(
-    () => firebase.auth().signInWithPopup,
-    () => firebase.auth().signInWithRedirect
+  const signIn = authFunctionFactory(
+    () => firebase.auth().signInWithPopup.bind(firebase.auth()),
+    () => firebase.auth().signInWithRedirect.bind(firebase.auth())
   );
 
   /**
    * Signs the user into a Google account for the purpose of reauthenticating.
    */
-  const reauthenticate = generateFlow(
-    () => firebase.auth().currentUser!.reauthenticateWithPopup,
+  const reauthenticate = authFunctionFactory(
+    () => firebase.auth().currentUser!.reauthenticateWithPopup
+      .bind(firebase.auth()),
     () => firebase.auth().currentUser!.reauthenticateWithRedirect
+      .bind(firebase.auth())
   );
 
   /**
    * Links the user's email-and-password account with their Google account.
    */
-  const link = generateFlow(
-    () => firebase.auth().currentUser!.linkWithPopup,
-    () => firebase.auth().currentUser!.linkWithRedirect
+  const link = authFunctionFactory(
+    () => firebase.auth().currentUser!.linkWithPopup.bind(firebase.auth()),
+    () => firebase.auth().currentUser!.linkWithRedirect.bind(firebase.auth())
   );
 
   return { signIn, reauthenticate, link };

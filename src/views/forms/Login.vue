@@ -60,12 +60,11 @@ export default defineComponent({
     const errors = ref<string[]>([]);
 
     const handleError = (error: any): void => {
-      console.log(error);
-      // console.error(error);
-      // alert(
-      //   `Something went wrong. Please notify the developer that ${error.code}` +
-      //   ` occurred.`
-      // );
+      console.error(error);
+      alert(
+        `Something went wrong. Please notify the developer that ${error.code}` +
+        ` occurred.`
+      );
     }
 
     const validate = () => {
