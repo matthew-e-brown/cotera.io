@@ -1,7 +1,8 @@
 <template>
-  <h2>Log in</h2>
+  <h2>Log In</h2>
 
   <form @submit.prevent="submit">
+
     <div class="row">
       <input
         id="email"
@@ -11,18 +12,22 @@
         v-model="email"
       />
     </div>
+
     <div class="row">
       <PasswordField
         id="password"
         placeholder="Password"
         autocomplete="current-password"
-        v-model="password"
+        v-model:value="password"
       />
     </div>
+
     <ul class="errors" v-if="errors.length > 0">
       <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
     </ul>
+
     <button type="submit" class="button">Log in</button>
+
   </form>
 
   <div class="separator"><span>or</span></div>
@@ -40,32 +45,26 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import router from '@/router';
 
-import firebase from 'firebase/app';
-import 'firebase/auth';
-
-import { useEmailPasswordAuth, useGoogleAuth } from '@/hooks/auth-flow';
 import PasswordField from '@/components/PasswordField.vue';
+
+import {
+  useEmailPasswordAuth, useGoogleAuth, useFormSubmit
+} from '@/hooks/auth-flow';
 
 export default defineComponent({
   name: 'LoginForm',
   components: { PasswordField },
   setup() {
-    const { signIn: emailPasswordSignIn } = useEmailPasswordAuth();
-    const { signIn: googleSignIn } = useGoogleAuth();
-
     const email = ref("");
     const password = ref("");
     const errors = ref<string[]>([]);
 
-    const handleError = (error: any): void => {
-      console.error(error);
-      alert(
-        `Something went wrong. Please notify the developer that ${error.code}` +
-        ` occurred.`
-      );
-    }
+    const { signIn: emailPasswordSignIn } = useEmailPasswordAuth();
+    const { signIn: googleSignIn } = useGoogleAuth();
+    const { authExecutor, handleRedirection } = useFormSubmit({
+      errors, successForward: 'Home'
+    });
 
     const validate = () => {
       errors.value = [];
@@ -79,27 +78,16 @@ export default defineComponent({
       return errors.value.length == 0;
     }
 
-    const submit = async () => {
+    const submit = () => {
       if (!validate()) return;
-
-      try {
-        const attempt = await emailPasswordSignIn(email.value, password.value);
-        if (attempt === true) router.push({ name: 'Home' });
-        else errors.value.push(attempt);
-      } catch (error) {
-        handleError(error);
-      }
+      return authExecutor(emailPasswordSignIn(email.value, password.value));
     }
 
-    const googleSubmit = async () => {
-      try {
-        const attempt = await googleSignIn();
-        if (attempt === true) router.push({ name: 'Home' });
-        else errors.value.push(attempt);
-      } catch (error) {
-        handleError(error);
-      }
+    const googleSubmit = () => {
+      return authExecutor(googleSignIn());
     }
+
+    handleRedirection();
 
     return { email, password, errors, submit, googleSubmit };
   }

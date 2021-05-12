@@ -1,3 +1,7 @@
+import { Ref } from 'vue';
+import { RouteRecordName } from 'vue-router';
+import router from '@/router';
+
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -23,10 +27,11 @@ type ProviderAuthFunction = (
  */
 
 /**
- * Contains the "polite" error codes for any error that could be caused by
- * *user* error.
+ * Contains the "polite" error messages for any error code that could be caused
+ * by *user* error. Anything else should be handled as an error normally instead
+ * of simply presented to the user.
  */
-const errorMessages = new Map<`auth/${string}`, string>([
+export const errorMessages = new Map<`auth/${string}`, string>([
   [ 'auth/email-already-in-use',
     "An account with that email address already exists." ],
   [ 'auth/invalid-email',
@@ -39,8 +44,89 @@ const errorMessages = new Map<`auth/${string}`, string>([
     "Sorry, that password is incorrect." ],
   [ 'auth/cancelled-popup-request',
     "Only one popup window can be use at a time: please use the most " +
-    "recently opened one." ]
+    "recently opened one." ],
+  [ 'auth/timeout',
+    "Sorry, your request timed out before the action was completed. " +
+    "Please try again." ]
 ]);
+
+
+/**
+ * A hook for the two other auth-flow hooks. This hook handles actually
+ * executing the signIn, createAccount, etc. hooks exported by
+ * useEmailPasswordAuth() and useGoogleAuth().
+ * @param options Options about the route using this hook
+ * @param options.errors A reference to the string array to dump user errors
+ * into.
+ * @param options.successForward The name of the route to forward to upon
+ * success. If 'false', authExecutor will return 'true' on success.
+ * @param options.errorHandler An optional function to pass errors to.
+ * @returns Wrapper functions for handling auth.
+ */
+export function useFormSubmit(options: {
+  errors: Ref<string[]>
+  successForward: RouteRecordName | false,
+  errorHandler?: ((error: any) => void)
+}) {
+
+  const defaultErrorHandler = (error: any): void => {
+    console.error(error);
+    alert(
+      `Something went wrong. Please notify the developer that ` +
+      `${error.code || error.message || error} occurred.`
+    );
+  }
+
+  /**
+   * Executes an auth action with error handling.
+   * @param call A promise which resolves with the execution of a Firebase Auth
+   * action, like those exported by the hooks below.
+   * @returns If successForward was 'false', this function will return 'true' on
+   * success. Otherwise, it will return a Promise for the RouteNavigation. It
+   * will return 'false' on error.
+   */
+  const authExecutor = async (call: Promise<true | string>) => {
+    try {
+      const attempt = await call;
+      if (attempt === true) {
+        if (options.successForward)
+          return router.push({ name: options.successForward });
+        else return true;
+      } else {
+        options.errors.value.push(attempt);
+        return false;
+      }
+    } catch (error) {
+      if (options.errorHandler === undefined) defaultErrorHandler(error);
+      else options.errorHandler(error);
+      return false;
+    }
+  }
+
+  /**
+   * Checks if this page loaded with a redirection result.
+   * @returns A promise which, upon success, will resolve to 'true' or to a
+   * RouteNavigation, depending on options.successForward; and, on failure, will
+   * resolve with 'false'.
+   */
+  const handleRedirection = () => firebase.auth().getRedirectResult()
+    .then(async (userCred: firebase.auth.UserCredential) => {
+      if (userCred.user !== null) {
+        if (options.successForward)
+          return router.replace({ name: options.successForward })
+        else return true;
+      }
+    })
+    .catch((error: any) => {
+      const message = errorMessages.get(error.code);
+      if (message !== undefined) options.errors.value.push(message);
+      else if (options.errorHandler === undefined) defaultErrorHandler(error);
+      else options.errorHandler(error);
+      return false;
+    });
+
+  return { authExecutor, handleRedirection };
+}
 
 
 export function useEmailPasswordAuth() {

@@ -2,18 +2,18 @@
   <div class="hide-input">
     <input
       :type="hidden ? 'password' : 'text'"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      :value="value"
+      @input="onInput"
       v-bind="$attrs"
     />
-    <button type="button" @click="hidden = !hidden">
+    <button type="button" @click="onClick">
       <component :is="icon" />
     </button>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, watch } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 
 import EyeOpen from '@/assets/icons/eye-open.svg';
 import EyeClosed from '@/assets/icons/eye-closed.svg';
@@ -21,15 +21,43 @@ import EyeClosed from '@/assets/icons/eye-closed.svg';
 export default defineComponent({
   name: 'PasswordField',
   props: {
-    modelValue: { type: String as PropType<string> }
+    // v-model value
+    value: { type: String as PropType<string> },
+    // Optional v-model hidden -- if passed, will model this variable
+    hidden: {
+      type: Boolean as PropType<boolean> | undefined as PropType<undefined>,
+      default: undefined
+    }
   },
-  emits: [ 'toggle', 'update:modelValue' ],
-  setup(_, { emit }) {
-    const hidden = ref(true);
-    const icon = computed(() => hidden.value ? EyeClosed : EyeOpen);
-    watch(hidden, v => emit('toggle', v));
+  emits: [ 'toggle', 'update:value', 'update:hidden' ],
+  setup(props, { emit }) {
+    // Internal state, used only when prop is not passed: undefined otherwise
+    const _hidden = ref<boolean | undefined>(
+      props.hidden === undefined ? true : undefined
+    );
 
-    return { hidden, icon };
+    /**
+     * Wrapper for alternative 'hidden' behaviour: if props.hidden is passed,
+     * then this will return its value on get and emit 'update:hidden' on set.
+     * Otherwise, it will proxy to the internal _hidden state.
+     */
+    const hidden = computed({
+      get: () => {
+        if (props.hidden === undefined) return _hidden.value;
+        else return props.hidden;
+      },
+      set: (value) => {
+        if (props.hidden === undefined) _hidden.value = value;
+        else emit('update:hidden', value);
+      }
+    });
+
+    const icon = computed(() => hidden.value ? EyeClosed : EyeOpen);
+
+    const onInput = (event: any) => emit('update:value', event.target.value);
+    const onClick = () => hidden.value = !hidden.value;
+
+    return { icon, hidden, onInput, onClick };
   }
 });
 </script>
