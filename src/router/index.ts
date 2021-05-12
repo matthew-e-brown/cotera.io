@@ -94,22 +94,6 @@ const routes: Array<RouteRecordRaw> = [
           /* webpackChunkName: "auth" */
           '@/views/forms/ResetPassword.vue'
         )
-      },
-
-      {
-        path: 'link-email',
-        name: 'LinkEmail',
-        meta: {
-          title: "Link Email Address | Cotera.io",
-          requiredAuthState: 'in'
-        },
-        component: () => import(
-          /* webpackChunkName: "auth" */
-          '@/views/forms/LinkEmail.vue'
-        ),
-        beforeEnter: (to, _, next) => {
-          // console.log('beforeEnter');
-        }
       }
 
     ]

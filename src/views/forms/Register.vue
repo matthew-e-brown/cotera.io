@@ -37,7 +37,7 @@
       <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
     </ul>
 
-    <button type="submit" class="button">Log in</button>
+    <button type="submit" class="button">Create Account</button>
 
   </form>
 
@@ -48,8 +48,7 @@
       <fa-icon :icon="[ 'fab', 'google' ]" />
       <span>Sign in with Google</span>
     </button>
-    <router-link to="/register">Create a new account</router-link>
-    <router-link to="/reset-password">Reset your password</router-link>
+    <router-link to="/login">Log into an existing account</router-link>
   </div>
 </template>
 

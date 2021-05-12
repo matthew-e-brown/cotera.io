@@ -35,16 +35,23 @@ form .button {
   >* { flex: 1 1 0; }
 }
 
-ul.errors {
-  display: block;
-
-  margin: 1.25rem 0;
+.notice {
   padding-left: 1.5em;
+  margin: 1.35rem auto;
+
+  font-size: 92.5%;
+  font-style: italic;
+}
+
+ul.errors {
+  @extend .notice;
+
+  display: block;
+  margin-left: 0;
+  margin-right: 0;
 
   list-style: none;
   color: $fg-color-red;
-  font-style: italic;
-  font-size: 92.5%;
 
   li+li { margin-top: 0.5em; }
 }
@@ -60,7 +67,7 @@ ul.errors {
   >* {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    &:last-child { margin-bottom: 0; }
+    &:last-child:not(:first-child) { margin-bottom: 0; }
   }
 
   button {

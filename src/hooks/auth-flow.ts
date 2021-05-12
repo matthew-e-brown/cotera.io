@@ -1,5 +1,5 @@
 import { Ref } from 'vue';
-import { RouteRecordName } from 'vue-router';
+import { NavigationFailure, RouteRecordName } from 'vue-router';
 import router from '@/router';
 
 import firebase from 'firebase/app';
@@ -85,10 +85,10 @@ export function useFormSubmit(options: {
    * success. Otherwise, it will return a Promise for the RouteNavigation. It
    * will return 'false' on error.
    */
-  const authExecutor = async (call: Promise<true | string>) => {
+  const authExecutor = async (call: Promise<true | string | void>) => {
     try {
       const attempt = await call;
-      if (attempt === true) {
+      if (attempt === true || attempt === undefined) {
         if (options.successForward)
           return router.push({ name: options.successForward });
         else return true;
