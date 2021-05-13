@@ -28,8 +28,8 @@ $nav-height: 5.3rem;
  * Used for main.sticky-box to have a defined maximum width and customized
  * padding; for when they are the main item on the page.
  */
-@mixin standalone-sticky($pref-width, $padding-lr: null, $padding-tb: null) {
-  main {
+@mixin standalone-sticky($pref-width, $padding-lr: null, $padding-tb: null, $suffix: null) {
+  main#{$suffix} {
     @media (min-width: $break-mobile) {
       min-width: initial;
       max-width: 95%;
@@ -40,6 +40,29 @@ $nav-height: 5.3rem;
       padding-bottom: $padding-tb;
     }
   }
+}
+
+/**
+ * Mixes two colors. Calculates a fully opaque colour that emulates a
+ * transparent one being overtop of another opaque one.
+ * @see {@link https://stackoverflow.com/a/8743658/10549827}
+ */
+@function opaque-mix($fg, $bg) {
+  $p: alpha($fg);
+
+  $r1: red($bg);
+  $g1: green($bg);
+  $b1: blue($bg);
+
+  $r2: red($fg);
+  $g2: green($fg);
+  $b2: blue($fg);
+
+  $r: (1 - $p) * $r1 + $p * $r2;
+  $g: (1 - $p) * $g1 + $p * $g2;
+  $b: (1 - $p) * $b1 + $p * $b2;
+
+  @return rgb($r, $g, $b);
 }
 
 

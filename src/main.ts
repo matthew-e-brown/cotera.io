@@ -9,9 +9,11 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
-import { storeAuthChange } from '@/state';
+import { handleAuthChange } from '@/store';
 
 // Fonts
+import '@fontsource/epilogue/300.css'
+import '@fontsource/epilogue/300-italic.css'
 import '@fontsource/epilogue/500.css';
 import '@fontsource/epilogue/500-italic.css';
 import '@fontsource/epilogue/700.css';
@@ -49,7 +51,7 @@ firebase.initializeApp({
 });
 /** cspell: enable */
 
-firebase.app().auth().onAuthStateChanged(storeAuthChange);
+firebase.app().auth().onAuthStateChanged(handleAuthChange);
 
 createApp(App)
   .use(router)
