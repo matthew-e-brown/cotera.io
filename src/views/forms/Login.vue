@@ -45,12 +45,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import PasswordField from '@/components/PasswordField.vue';
-
-import {
-  useEmailPasswordAuth, useGoogleAuth, useFormSubmit
-} from '@/hooks/auth-flow';
+import { useAuthFlow, useThirdPartyAuth } from '@/hooks/auth-flow';
 
 export default defineComponent({
   name: 'LoginForm',
@@ -60,10 +59,9 @@ export default defineComponent({
     const password = ref("");
     const errors = ref<string[]>([]);
 
-    const { signIn: emailPasswordSignIn } = useEmailPasswordAuth();
-    const { signIn: googleSignIn } = useGoogleAuth();
-    const { authExecutor, handleRedirection } = useFormSubmit({
-      errors, successForward: 'Home'
+    const { signIn: googleSignIn } = useThirdPartyAuth();
+    const { authExecutor, handleRedirection } = useAuthFlow({
+      errors, redirectName: 'Home'
     });
 
     const validate = () => {
@@ -80,7 +78,8 @@ export default defineComponent({
 
     const submit = () => {
       if (!validate()) return;
-      return authExecutor(emailPasswordSignIn(email.value, password.value));
+      return authExecutor(firebase.auth()
+        .signInWithEmailAndPassword(email.value, password.value));
     }
 
     const googleSubmit = () => {

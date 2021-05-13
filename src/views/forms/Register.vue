@@ -54,12 +54,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import PasswordField from '@/components/PasswordField.vue';
-
-import {
-  useGoogleAuth, useEmailPasswordAuth, useFormSubmit
-} from '@/hooks/auth-flow';
+import { useAuthFlow, useThirdPartyAuth } from '@/hooks/auth-flow';
 
 export default defineComponent({
   name: 'RegisterForm',
@@ -72,10 +71,9 @@ export default defineComponent({
 
     const showPasswords = ref(false);
 
-    const { createAccount: emailPasswordCreate } = useEmailPasswordAuth();
-    const { signIn: googleSignIn } = useGoogleAuth();
-    const { authExecutor, handleRedirection } = useFormSubmit({
-      errors, successForward: 'Home'
+    const { signIn: googleSignIn } = useThirdPartyAuth();
+    const { authExecutor, handleRedirection } = useAuthFlow({
+      errors, redirectName: 'Home'
     });
 
     const validate = () => {
@@ -96,7 +94,8 @@ export default defineComponent({
 
     const submit = () => {
       if (!validate()) return;
-      return authExecutor(emailPasswordCreate(email.value, password1.value));
+      return authExecutor(firebase.auth()
+        .createUserWithEmailAndPassword(email.value, password1.value));
     }
 
     const googleSubmit = () => {

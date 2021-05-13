@@ -36,11 +36,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { useFormSubmit } from '@/hooks/auth-flow';
+import { fallbackHandler } from '@/hooks/auth-flow';
 
 export default defineComponent({
   name: 'ResetPasswordForm',
@@ -48,10 +47,6 @@ export default defineComponent({
     const email = ref("");
     const errors = ref<string[]>([]);
     const success = ref(false);
-
-    const { authExecutor } = useFormSubmit({
-      errors, successForward: false
-    });
 
     const submit = async () => {
       errors.value = [];
@@ -66,11 +61,12 @@ export default defineComponent({
         return;
       }
 
-      const attempt = await authExecutor(
+      try {
         firebase.auth().sendPasswordResetEmail(email.value)
-      );
-
-      if (attempt === true) success.value = true;
+        success.value = true;
+      } catch (error) {
+        fallbackHandler(error);
+      }
     }
 
     return { email, errors, success, submit };
