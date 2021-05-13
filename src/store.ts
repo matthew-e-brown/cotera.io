@@ -283,8 +283,9 @@ export const handleAuthChange = (user: firebase.User | null): void => {
         // signing in: we need to make a document for them. So we, upload their
         // current progress, whatever it may be (like, from localStorage, if
         // applicable).
-        else if (!doc.exists) {
+        else if (!doc.exists && !doc.metadata.hasPendingWrites) {
           uploaders.progress(store.state.progress, user.uid);
+          localStorage.removeItem('user-progress');
         }
 
       });
@@ -305,8 +306,9 @@ export const handleAuthChange = (user: firebase.User | null): void => {
           }
         }
 
-        else if (!doc.exists) {
+        else if (!doc.exists && !doc.metadata.hasPendingWrites) {
           uploaders.prefs(store.state.prefs, user.uid);
+          localStorage.removeItem('user-preferences');
         }
 
       });
