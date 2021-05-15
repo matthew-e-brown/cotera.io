@@ -6,7 +6,15 @@
           <fa-icon icon="star" />
         </span>
       </div>
-      <img :src="armor.sprite" class="armor-sprite" draggable="false" aria-hidden="true" alt="">
+      <img
+        :src="armor.sprite"
+        class="armor-sprite"
+        draggable="false"
+        width="144"
+        height="144"
+        aria-hidden="true"
+        alt=""
+      >
       <span class="num" aria-label="defense">{{ armor.defense }}</span>
     </button>
   </li>
@@ -122,6 +130,7 @@ export default defineComponent({
   min-height: 82px;
   min-width: 82px;
   height: calc(2em + 5vw);
+  width: auto;
 
   @media (max-width: $break-mobile) {
     height: calc(2em + 3vh + 4vw);

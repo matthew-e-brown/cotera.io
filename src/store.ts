@@ -236,6 +236,11 @@ export const handleAuthChange = (user: firebase.User | null): void => {
 
     store.setUserID(user.uid);
 
+    // Unsubscribe existing listeners before re-creating, just in case something
+    // else triggers this handler
+    unsubscribe.progress?.();
+    unsubscribe.prefs?.();
+
     unsubscribe.progress = firebase.firestore()
       .collection('user-progress')
       .doc(user.uid)

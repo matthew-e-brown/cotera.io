@@ -29,7 +29,7 @@ $nav-height: 5.3rem;
  * padding; for when they are the main item on the page.
  */
 @mixin standalone-sticky($pref-width, $padding-lr: null, $padding-tb: null, $suffix: null) {
-  main#{$suffix} {
+  main.sticky-box#{$suffix} {
     @media (min-width: $break-mobile) {
       min-width: initial;
       max-width: 95%;

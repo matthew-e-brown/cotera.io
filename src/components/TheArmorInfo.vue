@@ -8,7 +8,14 @@
   >
 
     <template v-if="selected">
-      <img :src="selected.sprite" alt="" aria-hidden="true" draggable="true">
+      <img
+        :src="selected.sprite"
+        draggable="true"
+        width="144"
+        height="144"
+        aria-hidden="true"
+        alt=""
+      >
 
       <h2
         ref="header"
@@ -193,12 +200,13 @@ function useMobile() {
 
 /**
  * Handles listening to changing styles when the user scrolls on mobile
- * @param {Ref<boolean>[]} onlyWhen Do not trigger the scroll listeners unless
- * all of these conditions are met.
- * @param {() => void} hitTop The function to run when the user scrolls to the
- * top of the page
- * @param {() => void} down The function to run when the user scrolls down
- * @param {() => void} up The function to run when the user scrolls up
+ * @param {() => void} options.hitTop The function to run when the user scrolls
+ * to the top of the page
+ * @param {() => void} options.down The function to run when the user scrolls
+ * down
+ * @param {() => void} options.up The function to run when the user scrolls up
+ * @param {Ref<boolean>[]} options.onlyWhen Do not trigger the scroll listeners
+ * unless all of these conditions are met.
  */
 function useScroll(options: {
   hitTop: () => void,
