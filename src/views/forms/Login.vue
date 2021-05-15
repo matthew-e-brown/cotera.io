@@ -48,6 +48,7 @@ import { defineComponent, ref } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import router from '@/router';
 import PasswordField from '@/components/PasswordField.vue';
 import { useAuthFlow, useThirdPartyAuth } from '@/hooks/auth-flow';
 
@@ -60,9 +61,7 @@ export default defineComponent({
     const errors = ref<string[]>([]);
 
     const { signIn: googleSignIn } = useThirdPartyAuth();
-    const { authExecutor, handleRedirection } = useAuthFlow({
-      errors, redirectName: 'Home'
-    });
+    const { authExecutor, handleRedirection } = useAuthFlow({ errors });
 
     const validate = () => {
       errors.value = [];
@@ -76,17 +75,23 @@ export default defineComponent({
       return errors.value.length == 0;
     }
 
-    const submit = () => {
+    const submit = async () => {
       if (!validate()) return;
-      return authExecutor(firebase.auth()
+
+      const success = await authExecutor(firebase.auth()
         .signInWithEmailAndPassword(email.value, password.value));
+
+      if (success) router.push({ name: 'Home' });
     }
 
-    const googleSubmit = () => {
-      return authExecutor(googleSignIn());
+    const googleSubmit = async () => {
+      const success = await authExecutor(googleSignIn());
+      if (success) router.push({ name: 'Home' });
     }
 
-    handleRedirection();
+    handleRedirection().then(success => {
+      if (success === true) router.replace({ name: 'Home' });
+    });
 
     return { email, password, errors, submit, googleSubmit };
   }

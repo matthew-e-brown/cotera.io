@@ -11,7 +11,6 @@ type UserCredential = firebase.auth.UserCredential;
 interface AuthOptions {
   errors: Ref<string[]>;
   errorHandler?: ((error: any) => void);
-  redirectName?: RouteRecordName;
 }
 
 
@@ -47,10 +46,12 @@ export const errorMessages = new Map<string, string>([
  * @param error The error from Firebase.
  */
 export const fallbackHandler = (error: any): void => {
+  console.log("An unexpected error occurred. See it logged below:");
   console.error(error);
   alert(
     `Something went wrong. Please notify the developer that ` +
-    `${error.code || error.message || error} occurred.`
+    `"${error.code || error.message || error}" occurred. Check the developer ` +
+    `console for details, if you know how to.`
   );
 }
 
@@ -71,29 +72,22 @@ export const fallbackHandler = (error: any): void => {
  * 'NavigationFailure' when the error occurs specifically when trying to
  * redirect.
  */
-export function useAuthFlow(options: AuthOptions) {
+export function useAuthFlow(options?: AuthOptions) {
 
-  const redirect = options.redirectName !== undefined;
+  const catcher = (error: any): void => {
+    const message = errorMessages.get(error.code) ?? false;
+    if (message && options?.errors) options.errors.value.push(message);
+    else (options?.errorHandler ?? fallbackHandler)(error);
+  }
 
   const authExecutor = async (call: Promise<UserCredential | void>) => {
     try {
-
       await call;
 
-      if (redirect) {
-        const reResult = await router.push({ name: options.redirectName });
-        if ((reResult as NavigationFailure)?.type !== undefined)
-          return reResult as NavigationFailure;
-      }
-
+      // If call went through without throwing
       return true;
-
     } catch (error) {
-      const message = errorMessages.get(error.code) ?? false;
-
-      if (message) options.errors.value.push(message);
-      else (options.errorHandler ?? fallbackHandler)(error);
-
+      catcher(error);
       return false;
     }
   }
@@ -102,22 +96,11 @@ export function useAuthFlow(options: AuthOptions) {
     try {
       const userCred = await firebase.auth().getRedirectResult();
 
-      // If a redirect actually happened
-      if (userCred.user !== null) {
-        if (redirect) {
-          const reResult = await router.replace({ name: options.redirectName });
-          if ((reResult as NavigationFailure)?.type !== undefined)
-            return reResult as NavigationFailure;
-          else return true;
-        } else return true;
-      }
-
+      // If a redirect actually happened, and no error got thrown
+      if (userCred.user !== null) return true;
+      return undefined as void;
     } catch (error) {
-      const message = errorMessages.get(error.code) ?? false;
-
-      if (message) options.errors.value.push(message);
-      else (options.errorHandler ?? fallbackHandler)(error);
-
+      catcher(error);
       return false;
     }
   }
