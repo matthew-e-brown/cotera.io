@@ -1,8 +1,11 @@
-import { ItemTag } from '@/items';
-import store from '@/store';
+import { watch, toRef } from 'vue';
 
+import store, { SortChoice } from '@/store';
+import { ItemTag } from '@/items';
 import rawArmorList from '@/assets/data/armor.json';
 import rawAmiiboList from '@/assets/data/amiibo.json';
+import armorSets from '@/assets/data/armor-sets.json';
+import amiiboSets from '@/assets/data/amiibo-sets.json';
 
 export type ArmorLevel = 0 | 1 | 2 | 3 | 4;
 export type ArmorType = 'head' | 'body' | 'legs';
@@ -11,6 +14,12 @@ export type Upgrade = {
   defense: number;
   items: [ ItemTag, number ][];
 };
+
+interface ArmorSet {
+  tag: `set_${number}`;
+  name: string;
+  pieces: ArmorTag[];
+}
 
 export class Armor {
   public readonly name: string;
@@ -70,6 +79,55 @@ export class Armor {
 
 const armorList = rawArmorList.map(armor => new Armor(armor));
 const amiiboList = rawAmiiboList.map(armor => new Armor(armor));
+
+const sortList = (armor: Armor[], sets: ArmorSet[], method: SortChoice) => {
+  // Sort the array based on this secondary array, made up of just
+  // `head_0`, `body_0`, `legs_0`, `head_1`, `body_1`, `legs_1` ...
+  const order = sets.reduce(
+    (acc, cur) => [ ...acc, ...cur.pieces ],
+    [] as ArmorTag[]
+  );
+
+  if (method == SortChoice.Type) {
+    // Change the order of the 'order' array, so that instead of
+    // -> head, body, legs, head, body, legs
+    // it's
+    // -> head, head, body, body, legs, legs
+
+    const o = [ 'head', 'body', 'legs' ];
+    order.sort((a, b): number => {
+      const aType = a.substring(0, a.lastIndexOf('_'));
+      const bType = b.substring(0, b.lastIndexOf('_'));
+      if (aType == bType) return 0; // heads stay with heads, etc.
+      else return o.indexOf(aType) - o.indexOf(bType);
+    });
+
+  }
+
+  const lastHeadgear = /head_(?:1[345678]|2[56789])/;
+  armor.sort((a, b): number => {
+    // Special exceptions:
+
+    // Champion's tunic go first
+    if (a.tag == 'body_13') return -1;
+    else if (b.tag == 'body_13') return 1;
+
+    // Jewelry and Divine Headgear go last
+    else if (lastHeadgear.test(a.tag)) {
+      // Special headgear stays in default order relative to other headgear
+      if (!lastHeadgear.test(b.tag)) return 1;  // all other armors
+      else return 0;                            // against other headgear
+    }
+
+    else return order.indexOf(a.tag) - order.indexOf(b.tag);
+  });
+}
+
+// Resort lists on preference change
+watch(toRef(store.state.prefs, 'sortOrder'), newVal => {
+  sortList(armorList, armorSets as ArmorSet[], newVal);
+  sortList(amiiboList, amiiboSets as ArmorSet[], newVal);
+}, { immediate: true });
 
 const counts = { head: 0, body: 0, legs: 0 };
 ([] as Armor[]).concat(armorList, amiiboList).forEach(armor => {
