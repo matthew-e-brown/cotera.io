@@ -21,7 +21,7 @@
             <input
               id="new-email"
               type="text"
-              name="email"
+              name="new-email"
               placeholder="New email address"
               autocomplete="email"
               v-model="emailForm.newEmail"
@@ -92,7 +92,7 @@
             <PasswordField
               id="new-password-2"
               name="new-password-2"
-              placeholder="New password"
+              placeholder="Re-type password"
               autocomplete="new-password"
               v-model:value="passwordForm.new2"
               v-model:hidden="passwordDone.hidden"
@@ -130,10 +130,62 @@
       </template>
       <!-- end of if has-email -->
 
+      <form
+        v-else-if="showLinkForm"
+        class="update-form"
+        @submit.prevent="linkSubmit"
+      >
+
+        <input
+          id="link-email"
+          type="text"
+          name="link-email"
+          placeholder="Email address"
+          autocomplete="email"
+          v-model="linkForm.email"
+        />
+
+        <PasswordField
+          id="link-password-1"
+          name="link-password-1"
+          placeholder="New password"
+          autocomplete="new-password"
+          v-model:value="linkForm.password1"
+          v-model:hidden="linkForm.hidden"
+        />
+        <PasswordField
+          id="link-password-2"
+          name="link-password-2"
+          placeholder="Re-type password"
+          autocomplete="new-password"
+          v-model:value="linkForm.password2"
+          v-model:hidden="linkForm.hidden"
+        />
+
+        <ul class="errors" v-if="linkForm.errors.length > 0">
+          <li v-for="(error, i) in linkForm.errors" :key="i">
+            {{ error }}
+          </li>
+        </ul>
+
+        <div class="form-buttons">
+          <button
+            class="button"
+            type="button"
+            @click="showLinkForm = false"
+          >Cancel</button>
+          <button
+            class="button"
+            type="submit"
+          >Save</button>
+        </div>
+
+      </form>
+
       <!-- if !has-email -->
       <div v-else>
 
-        <!-- email-linking goes here -->
+        Email &amp; Password are not linked.
 
       </div>
 
@@ -166,6 +218,8 @@ function useChangeEmail(currentEmail: Ref<string | false>) {
   const newEmail = ref("");
   const password = ref("");
   const errors = ref<string[]>([]);
+
+  const hidden = ref(true);
   const done = ref(false);
 
   const { authExecutor } = useAuthFlow({ errors });
@@ -199,7 +253,10 @@ function useChangeEmail(currentEmail: Ref<string | false>) {
     if (success) done.value = true;
   }
 
-  return { form: reactive({ newEmail, password, errors }), done, submit };
+  return {
+    form: reactive({ newEmail, password, errors, hidden }),
+    done, submit
+  };
 }
 
 
@@ -207,8 +264,9 @@ function useChangePassword(currentEmail: Ref<string | false>) {
   const old = ref("");
   const new1 = ref("");
   const new2 = ref("");
-  const hidden = ref(true);
   const errors = ref<string[]>([]);
+
+  const hidden = ref(true);
   const done = ref(false);
 
   const { authExecutor } = useAuthFlow({ errors });
@@ -245,7 +303,59 @@ function useChangePassword(currentEmail: Ref<string | false>) {
     if (success) done.value = true;
   }
 
-  return { form: reactive({ old, new1, new2, errors, hidden }), done, submit };
+  return {
+    form: reactive({ old, new1, new2, errors, hidden }),
+    done, submit
+  };
+}
+
+
+function useLinkAccount() {
+  const email = ref("");
+  const password1 = ref("");
+  const password2 = ref("");
+  const errors = ref<string[]>([]);
+
+  const hidden = ref(true);
+  const done = ref(false);
+
+  const { authExecutor } = useAuthFlow({ errors });
+
+  const validate = () => {
+    errors.value = [];
+
+    if (email.value.length == 0)
+      errors.value.push("Please enter an email address.");
+
+    if (password1.value.length == 0)
+      errors.value.push("Please enter a password.");
+    else if (password2.value.length == 0)
+      errors.value.push("Please verify your password.");
+    else if (password1.value != password2.value)
+      errors.value.push("Those passwords do not match.");
+
+    return errors.value.length == 0;
+  }
+
+  const submit = async () => {
+    if (!validate()) return;
+
+    const cred = firebase.auth.EmailAuthProvider
+      .credential(email.value, password1.value);
+
+    const success = await authExecutor(firebase.auth().currentUser!
+      .linkWithCredential(cred));
+
+    if (success) {
+      await firebase.auth().currentUser!.sendEmailVerification();
+      done.value = true;
+    }
+  }
+
+  return {
+    form: reactive({ email, password1, password2, errors, hidden }),
+    done, submit
+  };
 }
 
 
@@ -289,6 +399,10 @@ export default defineComponent({
       form: passwordForm, submit: passwordSubmit, done: passwordDone
     } = useChangePassword(rawEmail);
 
+    const {
+       form: linkForm, submit: linkSubmit, done: linkDone
+    } = useLinkAccount();
+
     const signOut = async () => {
       const success = await authExecutor(firebase.auth().signOut());
       if (success) router.push({ name: 'Home '});
@@ -298,7 +412,7 @@ export default defineComponent({
       user, hasGoogle, hasEmail, rawEmail,
       showEmailForm, emailForm, emailSubmit, emailDone,
       showPasswordForm, passwordForm, passwordSubmit, passwordDone,
-      showLinkForm,
+      showLinkForm, linkForm, linkSubmit, linkDone,
       signOut
     };
   }

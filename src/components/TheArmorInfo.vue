@@ -221,8 +221,8 @@ function useScroll(options: {
    */
   const getScroll = (): number => {
     return document.documentElement.scrollTop ||
-    document.body.scrollTop ||
-    window.scrollY;
+      document.body.scrollTop ||
+      window.scrollY;
   }
 
   const savedScrollPos = ref(getScroll());   // The last pos the user stopped

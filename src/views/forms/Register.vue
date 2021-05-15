@@ -82,7 +82,7 @@ export default defineComponent({
         errors.value.push("Please enter an email address.");
 
       if (password1.value.length == 0)
-        errors.value.push("Please enter a password");
+        errors.value.push("Please enter a password.");
       else if (password2.value.length == 0)
         errors.value.push("Please verify your password.");
       else if (password1.value != password2.value)
@@ -94,10 +94,18 @@ export default defineComponent({
     const submit = async () => {
       if (!validate()) return;
 
-      const success = await authExecutor(firebase.auth()
-        .createUserWithEmailAndPassword(email.value, password1.value));
+      const newUserCred = ref<firebase.auth.UserCredential>();
 
-      if (success) router.push({ name: 'Home' });
+      const success = await authExecutor(
+        firebase.auth()
+          .createUserWithEmailAndPassword(email.value, password1.value),
+        newUserCred
+      );
+
+      if (success) {
+        await newUserCred.value?.user?.sendEmailVerification();
+        router.push({ name: 'Home' });
+      }
     }
 
     const googleSubmit = async () => {

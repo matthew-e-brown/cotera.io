@@ -1,7 +1,4 @@
 import { Ref } from 'vue';
-import { NavigationFailure, RouteRecordName } from 'vue-router';
-import router from '@/router';
-
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -80,9 +77,21 @@ export function useAuthFlow(options?: AuthOptions) {
     else (options?.errorHandler ?? fallbackHandler)(error);
   }
 
-  const authExecutor = async (call: Promise<UserCredential | void>) => {
+  /**
+   * Executes a Firebase Auth Action with error handling.
+   * @param call The promise to wait for.
+   * @param retVal Optionally, a reference to be filled with the return value of
+   * the above call.
+   * @returns A promise of either true or false, depending on success.
+   */
+  const authExecutor = async (
+    call: Promise<UserCredential | void>,
+    retVal?: Ref<UserCredential | undefined>
+  ) => {
     try {
-      await call;
+      const result = await call;
+
+      if (retVal !== undefined && result !== undefined) retVal.value = result;
 
       // If call went through without throwing
       return true;
