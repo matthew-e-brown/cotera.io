@@ -4,7 +4,8 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
-import { Armor, ArmorType, ArmorLevel, counts } from '@/armor';
+import { Armor } from '@/armor';
+import { ArmorType, ArmorLevel, counts } from '@/types/armor';
 
 type Prefs = { sortOrder: SortChoice, showAmiibo: boolean };
 type Progress = { [ key in ArmorType ]: ArmorLevel[] }; // as stored

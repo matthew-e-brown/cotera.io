@@ -130,7 +130,7 @@ import throttle from 'lodash/throttle';
 
 import ShirtIcon from '@/assets/icons/shirt.svg';
 
-import { ArmorLevel } from '@/armor';
+import { ArmorLevel } from '@/types/armor';
 import { itemSprites, itemNames } from '@/items';
 import store from '@/store';
 import sassVars from '@/assets/styles/_variables.scss';

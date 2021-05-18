@@ -1,25 +1,15 @@
 import { watch, toRef } from 'vue';
 
-import store, { SortChoice } from '@/store';
 import { ItemTag } from '@/items';
+import {
+  ArmorType, ArmorTag, ArmorLevel, ArmorSet, Upgrade
+} from '@/types/armor';
+
+import store, { SortChoice } from '@/store';
 import rawArmorList from '@/assets/data/armor.json';
 import rawAmiiboList from '@/assets/data/amiibo.json';
 import armorSets from '@/assets/data/armor-sets.json';
 import amiiboSets from '@/assets/data/amiibo-sets.json';
-
-export type ArmorLevel = 0 | 1 | 2 | 3 | 4;
-export type ArmorType = 'head' | 'body' | 'legs';
-export type ArmorTag = `${ArmorType}_${number}`;
-export type Upgrade = {
-  defense: number;
-  items: [ ItemTag, number ][];
-};
-
-interface ArmorSet {
-  tag: `set_${number}`;
-  name: string;
-  pieces: ArmorTag[];
-}
 
 export class Armor {
   public readonly name: string;
@@ -129,10 +119,5 @@ watch(toRef(store.state.prefs, 'sortOrder'), newVal => {
   sortList(amiiboList, amiiboSets as ArmorSet[], newVal);
 }, { immediate: true });
 
-const counts = { head: 0, body: 0, legs: 0 };
-([] as Armor[]).concat(armorList, amiiboList).forEach(armor => {
-  counts[armor.type] += 1;
-});
-
 export default armorList;
-export { amiiboList, counts };
+export { amiiboList };

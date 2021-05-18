@@ -10,7 +10,7 @@
           type="button"
           class="option-button"
           @click="toggleSort"
-          :aria-label="`Order by ${sortLabel}`"
+          :aria-label="`Switch to sorting by ${ariaSortLabel}`"
         >
           <fa-icon icon="sort-alt" />
           <span>{{ capitalize(sortLabel) }}</span>
@@ -19,7 +19,7 @@
           type="button"
           class="option-button"
           @click="toggleAmiibo"
-          :aria-label="`${ showAmiibo ? 'Hide' : 'Show' } Amiibo armor`"
+          :aria-label="`Switch to ${ showAmiibo ? 'hiding' : 'showing' } Amiibo armor`"
         >
           <AmiiboIcon class="amiibo" aria-label="amiibo" />
           <fa-icon
@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, toRef } from 'vue';
 
 import TheArmorInfo from '@/components/TheArmorInfo.vue';
 import ArmorItem from '@/components/ArmorItem.vue';
@@ -93,14 +93,15 @@ export default defineComponent({
       store.setShowAmiibo(!store.state.prefs.showAmiibo);
     }
 
-    const sortLabel = computed(() => iterChoice(store.state.prefs.sortOrder));
+    const sortLabel = toRef(store.state.prefs, 'sortOrder');
+    const ariaSortLabel = computed(() => iterChoice(sortLabel.value));
     const showAmiibo = computed(() => store.state.prefs.showAmiibo);
     const sortOrder = computed(() => store.state.prefs.sortOrder);
 
     return {
       armor, amiibo,
       showAmiibo, sortOrder, sortLabel,
-      capitalize, toggleSort, toggleAmiibo
+      capitalize, toggleSort, ariaSortLabel, toggleAmiibo
     };
   }
 });
