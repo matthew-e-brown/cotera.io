@@ -104,13 +104,13 @@ export default defineComponent({
 
       if (success) {
         await newUserCred.value?.user?.sendEmailVerification();
-        router.push({ name: 'Home' });
+        await router.push({ name: 'Home' });
       }
     }
 
     const googleSubmit = async () => {
       const success = await authExecutor(googleSignIn());
-      if (success) router.push({ name: 'Home' });
+      if (success) await router.push({ name: 'Home' });
     }
 
     handleRedirection().then(success => {

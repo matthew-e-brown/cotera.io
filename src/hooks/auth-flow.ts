@@ -173,7 +173,7 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
   );
 
   /**
-   * Signs the user into a Google account for the purpose of reauthenticating.
+   * Signs the user into a Google account for the purpose of re-authenticating.
    */
   const reauthenticate = authFactory(
     () => firebase.auth().currentUser!.reauthenticateWithPopup,

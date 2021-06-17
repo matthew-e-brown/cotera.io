@@ -62,7 +62,7 @@ export default defineComponent({
       }
 
       try {
-        firebase.auth().sendPasswordResetEmail(email.value)
+        await firebase.auth().sendPasswordResetEmail(email.value);
         success.value = true;
       } catch (error) {
         fallbackHandler(error);

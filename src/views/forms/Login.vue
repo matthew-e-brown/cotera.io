@@ -81,12 +81,12 @@ export default defineComponent({
       const success = await authExecutor(firebase.auth()
         .signInWithEmailAndPassword(email.value, password.value));
 
-      if (success) router.push({ name: 'Home' });
+      if (success) await router.push({ name: 'Home' });
     }
 
     const googleSubmit = async () => {
       const success = await authExecutor(googleSignIn());
-      if (success) router.push({ name: 'Home' });
+      if (success) await router.push({ name: 'Home' });
     }
 
     handleRedirection().then(success => {

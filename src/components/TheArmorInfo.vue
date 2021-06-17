@@ -22,14 +22,14 @@
         key="h2-filled"
         :style="foldedHeaderStyles"
         :tabindex="isFolded ? 0 : -1"
-        :role="isFolded ? 'button' : ''"
+        :role="isFolded ? 'button' : null"
         @click="unfold"
         @keydown.space.enter.prevent="unfold"
       >
         <span>{{ selected.name }}</span>
-        <div class="fold-button">
+        <span class="fold-button">
           <fa-icon icon="chevron-circle-down" class="fa-fw" />
-        </div>
+        </span>
       </h2>
 
       <div id="stats">
@@ -107,14 +107,14 @@
       key="h2-empty"
       :style="foldedHeaderStyles"
       :tabindex="isFolded ? 0 : -1"
-      :role="isFolded ? 'button' : ''"
+      :role="isFolded ? 'button' : null"
       @click="unfold"
       @keydown.space.enter.prevent="unfold"
     >
       <span>No armor selected.</span>
-      <div class="fold-button">
+      <span class="fold-button">
         <fa-icon icon="chevron-circle-down" class="fa-fw" />
-      </div>
+      </span>
     </h2>
 
   </div>
@@ -228,9 +228,10 @@ function useScroll(options: {
   const savedScrollPos = ref(getScroll());   // The last pos the user stopped
 
   const canDoScroll = (): boolean => {
+    // If there are no options, they can always scroll.
     if (options.onlyWhen === undefined) return true;
-    else if (options.onlyWhen.every(ref => ref.value)) return true;
-    else return false;
+    // Otherwise, check if all are true.
+    else return options.onlyWhen.every(ref => ref.value);
   }
 
   const onScroll = throttle((): void => {
@@ -596,7 +597,7 @@ p {
   }
 
   .fold-button {
-    display: initial;
+    display: block;
 
     transition:
       right $fold-transition,

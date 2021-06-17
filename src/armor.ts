@@ -17,7 +17,7 @@ export class Armor {
   public readonly indx: number;
 
   private readonly upgrades: Upgrade[];
-  private baseDefense: number;
+  readonly baseDefense: number;
 
   constructor(json: any) {
     this.name = json.name;

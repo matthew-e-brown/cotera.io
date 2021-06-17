@@ -125,7 +125,6 @@ router.afterEach(to => document.title = to.meta.title);
 
 // Check that we are authorized to see this page
 router.beforeEach(async (to, _, next) => {
-  // console.log('beforeEach');
 
   // If the matched route has a 'requiredAuthState' meta field, check with
   // Firebase first

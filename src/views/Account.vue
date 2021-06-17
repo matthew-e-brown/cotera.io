@@ -4,7 +4,7 @@
     <p>Currently signed in as <span>{{ user.email }}</span></p>
     <button type="button" class="button" @click="signOut">Sign out</button>
 
-    <section id="email-password">
+    <section id="email-and-password">
       <h3 class="line">Email &amp; Password</h3>
 
       <template v-if="hasEmail">
@@ -79,7 +79,7 @@
               placeholder="Current password"
               autocomplete="current-password"
               v-model:value="passwordForm.old"
-              v-model:hidden="passwordDone.hidden"
+              v-model:hidden="passwordForm.hidden"
             ></PasswordField>
             <PasswordField
               id="new-password-1"
@@ -87,7 +87,7 @@
               placeholder="New password"
               autocomplete="new-password"
               v-model:value="passwordForm.new1"
-              v-model:hidden="passwordDone.hidden"
+              v-model:hidden="passwordForm.hidden"
             ></PasswordField>
             <PasswordField
               id="new-password-2"
@@ -95,7 +95,7 @@
               placeholder="Re-type password"
               autocomplete="new-password"
               v-model:value="passwordForm.new2"
-              v-model:hidden="passwordDone.hidden"
+              v-model:hidden="passwordForm.hidden"
             ></PasswordField>
 
             <ul class="errors" v-if="passwordForm.errors.length > 0">
@@ -130,76 +130,130 @@
       </template>
       <!-- end of if has-email -->
 
-      <form
-        v-else-if="showLinkForm"
-        class="update-form"
-        @submit.prevent="linkSubmit"
-      >
-
-        <input
-          id="link-email"
-          type="text"
-          name="link-email"
-          placeholder="Email address"
-          autocomplete="email"
-          v-model="linkForm.email"
-        />
-
-        <PasswordField
-          id="link-password-1"
-          name="link-password-1"
-          placeholder="New password"
-          autocomplete="new-password"
-          v-model:value="linkForm.password1"
-          v-model:hidden="linkForm.hidden"
-        />
-        <PasswordField
-          id="link-password-2"
-          name="link-password-2"
-          placeholder="Re-type password"
-          autocomplete="new-password"
-          v-model:value="linkForm.password2"
-          v-model:hidden="linkForm.hidden"
-        />
-
-        <ul class="errors" v-if="linkForm.errors.length > 0">
-          <li v-for="(error, i) in linkForm.errors" :key="i">
-            {{ error }}
-          </li>
-        </ul>
-
-        <div class="form-buttons">
-          <button
-            class="button"
-            type="button"
-            @click="showLinkForm = false"
-          >Cancel</button>
-          <button
-            class="button"
-            type="submit"
-          >Save</button>
-        </div>
-
-      </form>
-
-      <!-- if !has-email -->
-      <div v-else>
-
-        Email &amp; Password are not linked.
-
-      </div>
+      <div v-else>Email &amp; Password are not linked.</div>
 
     </section>
 
     <section id="methods">
       <h3 class="line">Sign-in Methods</h3>
 
+      <button
+        v-if="hasGoogle"
+        class="icon-button"
+        @click="unlinkGoogle"
+      >
+        <fa-icon :icon="[ 'fab', 'google' ]" />
+        <span>Unlink Google account</span>
+      </button>
+      <button
+        v-else
+        class="icon-button"
+        @click="linkGoogle"
+      >
+        <fa-icon :icon="[ 'fab', 'google' ]" />
+        <span>Link Google account</span>
+      </button>
+
+      <button
+        v-if="hasEmail"
+        class="icon-button"
+        @click="unlinkEmailAndPassword"
+      >
+        <fa-icon icon="envelope" />
+        <span>Unlink email and password</span>
+      </button>
+      <button
+        v-else
+        class="icon-button"
+        @click="currentView = ModalView.LinkAccount"
+      >
+        <fa-icon icon="envelope" />
+        <span>Link email and password</span>
+      </button>
+
     </section>
 
     <section id="danger-zone">
       <h3 class="line">Danger Zone</h3>
 
+      <button
+        @click="currentView = ModalView.ResetWarning"
+        class="danger-button"
+      >Clear account progress</button>
+      <button
+        @click="currentView = ModalView.DeletionWarning"
+        class="danger-button"
+      >Delete account</button>
+
     </section>
+
+    <div id="modal" v-show="currentView !== ModalView.None">
+      <div>
+
+        <!-- Link Account -->
+        <form
+          v-if="currentView === ModalView.LinkAccount"
+          class="update-form"
+          @submit.prevent="linkEmailSubmit"
+        >
+
+          <input
+            id="link-email"
+            type="text"
+            name="link-email"
+            placeholder="Email address"
+            autocomplete="email"
+            v-model="linkEmailForm.email"
+          />
+
+          <PasswordField
+            id="link-password-1"
+            name="link-password-1"
+            placeholder="New password"
+            autocomplete="new-password"
+            v-model:value="linkEmailForm.password1"
+            v-model:hidden="linkEmailForm.hidden"
+          />
+          <PasswordField
+            id="link-password-2"
+            name="link-password-2"
+            placeholder="Re-type password"
+            autocomplete="new-password"
+            v-model:value="linkEmailForm.password2"
+            v-model:hidden="linkEmailForm.hidden"
+          />
+
+          <ul class="errors" v-if="linkEmailForm.errors.length > 0">
+            <li v-for="(error, i) in linkEmailForm.errors" :key="i">
+              {{ error }}
+            </li>
+          </ul>
+
+          <div class="form-buttons">
+            <button
+              class="button"
+              type="button"
+              @click="currentView = ModalView.None"
+            >Cancel</button>
+            <button
+              class="button"
+              type="submit"
+            >Save</button>
+          </div>
+
+        </form>
+
+        <!-- Reset Account Warning -->
+        <div v-else-if="currentView === ModalView.ResetWarning"></div>
+
+        <!-- Delete Account Warning -->
+        <div v-else-if="currentView === ModalView.DeletionWarning"></div>
+
+        <!-- Delete Account Final Warning -->
+        <div v-else-if="currentView === ModalView.DeletionFinal"></div>
+
+      </div>
+    </div>
 
   </main>
 </template>
@@ -210,10 +264,23 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import router from '@/router';
+import { useAuthFlow, useThirdPartyAuth } from '@/hooks/auth-flow';
 import PasswordField from '@/components/PasswordField.vue';
-import { useAuthFlow } from '@/hooks/auth-flow';
+
+import '@/assets/styles/forms.scss';
 
 
+enum ModalView {
+  None, LinkAccount, ResetWarning, DeletionWarning, DeletionFinal
+}
+
+
+/**
+ * Provides the form data, validation, and execution for updating an email
+ * address.
+ * @param currentEmail A ref which points to the user's current email address.
+ * Used for authenticating to complete the process.
+ */
 function useChangeEmail(currentEmail: Ref<string | false>) {
   const newEmail = ref("");
   const password = ref("");
@@ -254,12 +321,18 @@ function useChangeEmail(currentEmail: Ref<string | false>) {
   }
 
   return {
-    form: reactive({ newEmail, password, errors, hidden }),
-    done, submit
+    emailForm: reactive({ newEmail, password, errors, hidden }),
+    emailDone: done, emailSubmit: submit
   };
 }
 
 
+/**
+ * Provides the form data, validation, and execution for updating an account
+ * password.
+ * @param currentEmail A ref which points to the user's current email address.
+ * Used for authenticating to complete the process.
+ */
 function useChangePassword(currentEmail: Ref<string | false>) {
   const old = ref("");
   const new1 = ref("");
@@ -304,13 +377,19 @@ function useChangePassword(currentEmail: Ref<string | false>) {
   }
 
   return {
-    form: reactive({ old, new1, new2, errors, hidden }),
-    done, submit
+    passwordForm: reactive({ old, new1, new2, errors, hidden }),
+    passwordDone: done, passwordSubmit: submit
   };
 }
 
 
-function useLinkAccount() {
+/**
+ * Provides form data, validation, and execution for linking an email and
+ * password to the current account.
+ * @param currentView A ref which points to a modal's view state--preferably the
+ * one this form will be used inside of.
+ */
+function useLinkEmailAccount(currentView: Ref<ModalView>) {
   const email = ref("");
   const password1 = ref("");
   const password2 = ref("");
@@ -348,14 +427,48 @@ function useLinkAccount() {
 
     if (success) {
       await firebase.auth().currentUser!.sendEmailVerification();
+      currentView.value = ModalView.None;
       done.value = true;
     }
   }
 
   return {
-    form: reactive({ email, password1, password2, errors, hidden }),
-    done, submit
+    linkEmailForm: reactive({ email, password1, password2, errors, hidden }),
+    linkEmailDone: done, linkEmailSubmit: submit
   };
+}
+
+
+function useLinkGoogleAccount() {
+  // Really just a sign-in with Google button, just needs the error handling
+  const done = ref(false);
+  const errors = ref<string[]>([]);
+
+  const { link } = useThirdPartyAuth();
+  const { handleRedirection } = useAuthFlow({ errors });
+
+  handleRedirection().then(success => {
+    if (success === true) done.value = true;
+  });
+
+  return { linkGoogleDone: done, linkGoogle: link };
+}
+
+
+function useUnlinkMethods(currentUser: Ref<firebase.User>) {
+  const done = ref(false);
+
+  const unlinkGoogle = async () => {
+    await currentUser.value.unlink('google');
+    done.value = true;
+  }
+
+  const unlinkEmailAndPassword = async () => {
+    await currentUser.value.unlink('password');
+    done.value = true;
+  }
+
+  return { unlinkGoogle, unlinkEmailAndPassword };
 }
 
 
@@ -365,12 +478,9 @@ export default defineComponent({
   setup() {
     const showEmailForm = ref(false);
     const showPasswordForm = ref(false);
-    const showLinkForm = ref(false);
-
-    const { authExecutor } = useAuthFlow();
 
     // assert non-null (!) because this route is guarded by a navigation guard
-    const user = computed(() => firebase.auth().currentUser!);
+    const user = ref(firebase.auth().currentUser!);
 
     // True/False for if Google is linked to their account
     const hasGoogle = computed(() => {
@@ -384,36 +494,33 @@ export default defineComponent({
 
     // The email that comes from their Email & Password provider
     const rawEmail = computed(() => {
-      // guard, therefore assert non-null
+      // guarded by the above computed property, therefore assert non-null
       if (hasEmail.value) {
         const p = user.value.providerData.find(p => p!.providerId == 'password');
         return p!.email!;
       } else return false;
     });
 
-    const {
-      form: emailForm, submit: emailSubmit, done: emailDone
-    } = useChangeEmail(rawEmail);
-
-    const {
-      form: passwordForm, submit: passwordSubmit, done: passwordDone
-    } = useChangePassword(rawEmail);
-
-    const {
-       form: linkForm, submit: linkSubmit, done: linkDone
-    } = useLinkAccount();
+    // The only "global" account setup we need -- everything else is from the
+    // hooks defined above
+    const { authExecutor } = useAuthFlow();
 
     const signOut = async () => {
       const success = await authExecutor(firebase.auth().signOut());
-      if (success) router.push({ name: 'Home '});
+      if (success) await router.push({ name: 'Home' });
     }
 
+    const currentView = ref<ModalView>(ModalView.None);
+
     return {
-      user, hasGoogle, hasEmail, rawEmail,
-      showEmailForm, emailForm, emailSubmit, emailDone,
-      showPasswordForm, passwordForm, passwordSubmit, passwordDone,
-      showLinkForm, linkForm, linkSubmit, linkDone,
-      signOut
+      user, rawEmail, signOut,
+      hasGoogle, hasEmail,
+      showEmailForm, ...useChangeEmail(rawEmail),
+      showPasswordForm, ...useChangePassword(rawEmail),
+      ModalView, currentView,
+      ...useLinkEmailAccount(currentView),
+      ...useLinkGoogleAccount(),
+      ...useUnlinkMethods(user)
     };
   }
 });
@@ -436,7 +543,6 @@ h2+p {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow-x: hidden;
-  word-wrap: none;
 
   span { font-style: italic; }
 }
@@ -480,6 +586,23 @@ section {
 
   >.button {
     justify-self: flex-end;
+  }
+}
+
+#modal {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+
+  background-color: $bg-color;
+
+  @supports (backdrop-filter: blur(10px)) {
+    background-color: $bg-color-transparent;
+    backdrop-filter: blur(10px);
+  }
+
+  >div {
+    margin: 5em auto;
+    width: 72.5%;
   }
 }
 </style>
