@@ -18,7 +18,6 @@ declare module 'vue-router' {
 
 /**
  * Gets the currently signed in Firebase user.
- *
  * @returns {Promise<firebase.User | null>} The currently signed in Firebase
  * user, or null if they're not signed in
  *
@@ -26,13 +25,15 @@ declare module 'vue-router' {
  * auth().currentUser won't be loaded in time when using on a navigation guard
  * if the user is navigating directly to that URL.
  */
-const getUser = () => new Promise<firebase.User | null>((resolve, reject) => {
-  // Register callback and immediately un-register it once we get our value
-  const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-    unsubscribe(); // clear listener
-    resolve(user); // return user
-  }, reject);
-});
+const getUser = (): Promise<firebase.User | null> => new Promise(
+  (resolve, reject) => {
+    // Register callback and immediately un-register it once we get our value
+    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+      unsubscribe(); // clear listener
+      resolve(user); // resolve promise with user
+    }, reject);      // reject on error
+  }
+);
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -107,7 +108,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () => import(
       /* webpackChunkName: "auth" */
-      '@/views/Account.vue'
+      '@/views/Account/index.vue'
     )
   },
   { path: '/:junk(.*)', redirect: { name: 'Home' } }

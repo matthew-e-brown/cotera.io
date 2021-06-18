@@ -63,8 +63,6 @@ export const fallbackHandler = (error: any): void => {
  * @param options.errors A reference to an array of strings to insert the errors
  * into.
  * @param options.errorHandler The function to pass errors to.
- * @param options.redirectName The name of the NamedRoute to redirect to upon
- * completion. Should it be absent, no redirect will happen.
  * @returns A set of functions which return 'true' on success, 'false' on error,
  * 'NavigationFailure' when the error occurs specifically when trying to
  * redirect.
@@ -80,18 +78,20 @@ export function useAuthFlow(options?: AuthOptions) {
   /**
    * Executes a Firebase Auth Action with error handling.
    * @param call The promise to wait for.
-   * @param retVal Optionally, a reference to be filled with the return value of
-   * the above call.
+   * @param retValRef Optionally, a reference to be filled with the return value
+   * of the above call.
    * @returns A promise of either true or false, depending on success.
    */
   const authExecutor = async (
     call: Promise<UserCredential | void>,
-    retVal?: Ref<UserCredential | undefined>
+    retValRef?: Ref<UserCredential | undefined>
   ) => {
     try {
       const result = await call;
 
-      if (retVal !== undefined && result !== undefined) retVal.value = result;
+      if (retValRef !== undefined && result !== undefined) {
+        retValRef.value = result;
+      }
 
       // If call went through without throwing
       return true;
