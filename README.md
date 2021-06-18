@@ -1,3 +1,16 @@
+This project is currently being re-worked on the `next` branch. I'm re-writing
+it with TypeScript and Sass, plus some code-quality improvements.
+
+The coming update will also make the site into an *actual* PWA, as well as
+hopefully come with the ability to add multiple lists (so you could have one for
+a regular file, one for Master Mode, and so on if you have multiple save-files).
+
+I've taken the site down for the time being so that I can fiddle with Firestore
+as much as I want without worrying about new users popping up that I'll have to
+migrate. I was the only one using the site, anyways.
+
+---
+
 # Cotera&#46;io
 
 Thank you for checking out **Cotera&#46;io**! I made this app as a
