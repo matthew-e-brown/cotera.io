@@ -1,5 +1,5 @@
 export enum ModalViews {
-  Hidden,
+  Hidden = 0,
   LinkAccount,
   ResetWarning,
   DeletionWarning1,

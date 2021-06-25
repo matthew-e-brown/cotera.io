@@ -1,5 +1,5 @@
 <template>
-  <div id="modal">
+  <div id="modal" v-if="view != ModalViews.Hidden">
 
     <div v-if="view == ModalViews.LinkAccount">
 
@@ -26,7 +26,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import { ModalViews } from './accounts-types';
+import { ModalViews } from './types';
 
 export default defineComponent({
   props: {
