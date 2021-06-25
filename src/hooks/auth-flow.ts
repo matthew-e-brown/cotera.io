@@ -63,16 +63,19 @@ export const fallbackHandler = (error: any): void => {
  * @param options.errors A reference to an array of strings to insert the errors
  * into.
  * @param options.errorHandler The function to pass errors to.
- * @returns A set of functions which return 'true' on success, 'false' on error,
- * 'NavigationFailure' when the error occurs specifically when trying to
- * redirect.
+ * @returns A set of functions which return 'true' on success and 'false' on
+ * error.
  */
 export function useAuthFlow(options?: AuthOptions) {
 
   const catcher = (error: any): void => {
     const message = errorMessages.get(error.code) ?? false;
-    if (message && options?.errors) options.errors.value.push(message);
-    else (options?.errorHandler ?? fallbackHandler)(error);
+
+    if (message && options?.errors) {
+      options.errors.value.push(message);
+    } else {
+      (options?.errorHandler ?? fallbackHandler)(error);
+    }
   }
 
   /**
@@ -107,7 +110,7 @@ export function useAuthFlow(options?: AuthOptions) {
 
       // If a redirect actually happened, and no error got thrown
       if (userCred.user !== null) return true;
-      return undefined as void;
+      else return undefined as void;
     } catch (error) {
       catcher(error);
       return false;

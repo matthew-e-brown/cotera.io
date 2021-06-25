@@ -31,10 +31,10 @@ export default defineComponent({
   },
   emits: [ 'toggle', 'update:value', 'update:hidden' ],
   setup(props, { emit }) {
+    const propPassed = props.hidden !== undefined;
+
     // Internal state, used only when prop is not passed: undefined otherwise
-    const _hidden = ref<boolean | undefined>(
-      props.hidden === undefined ? true : undefined
-    );
+    const _hidden = ref<boolean | undefined>(!propPassed ? true : undefined);
 
     /**
      * Wrapper for alternative 'hidden' behaviour: if props.hidden is passed,
@@ -43,19 +43,21 @@ export default defineComponent({
      */
     const hidden = computed({
       get: () => {
-        if (props.hidden === undefined) return _hidden.value;
+        if (!propPassed) return _hidden.value;
         else return props.hidden;
       },
-      set: (value) => {
-        if (props.hidden === undefined) _hidden.value = value;
+      set: value => {
+        if (!propPassed) _hidden.value = value;
         else emit('update:hidden', value);
       }
     });
 
     const icon = computed(() => hidden.value ? EyeClosed : EyeOpen);
 
-    const onInput = (event: any) => emit('update:value', event.target.value);
     const onClick = () => hidden.value = !hidden.value;
+    const onInput = (event: InputEvent) => {
+      emit('update:value', (event.target as HTMLInputElement).value);
+    }
 
     return { icon, hidden, onInput, onClick };
   }
