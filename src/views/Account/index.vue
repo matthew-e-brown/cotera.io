@@ -34,7 +34,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import router from '@/router';
-import { useAuthFlow } from '@/hooks/auth-flow';
+import { useAuthFlow } from '@/auth-hooks';
 import { ModalViews } from './types';
 import user from './user';
 

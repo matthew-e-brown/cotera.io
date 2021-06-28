@@ -16,9 +16,9 @@ interface AuthOptions {
  * by *user* error. Anything else should be handled as an error normally instead
  * of simply presented to the user.
  */
-export const errorMessages = new Map<string, string>([
+const errorMessages = new Map<string, string>([
   [ 'auth/email-already-in-use',
-    "An account with that email address already exists." ],
+    "Sorry, an account with that email address already exists." ],
   [ 'auth/invalid-email',
     "Please use a valid email address." ],
   [ 'auth/weak-password',

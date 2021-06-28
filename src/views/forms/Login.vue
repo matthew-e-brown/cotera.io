@@ -50,7 +50,7 @@ import 'firebase/auth';
 
 import router from '@/router';
 import PasswordField from '@/components/PasswordField.vue';
-import { useAuthFlow, useThirdPartyAuth } from '@/hooks/auth-flow';
+import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 
 export default defineComponent({
   name: 'LoginForm',

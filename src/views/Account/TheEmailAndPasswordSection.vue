@@ -35,7 +35,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import { useAuthFlow } from '@/hooks/auth-flow';
+import { useAuthFlow } from '@/auth-hooks';
 import user, { refreshUser } from "./user";
 
 function useChangeEmailForm() {
