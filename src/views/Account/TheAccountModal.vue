@@ -35,7 +35,7 @@ export default defineComponent({
   setup() {
     return { ModalViews };
   },
-})
+});
 </script>
 
 

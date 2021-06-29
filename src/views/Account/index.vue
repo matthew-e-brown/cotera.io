@@ -2,6 +2,7 @@
   <main id="account" class="sticky-box">
     <h2>Account Settings</h2>
     <p>Currently signed in as <span>{{ user.email }}</span></p>
+
     <button type="button" class="button" @click="signOut">Sign out</button>
 
     <section id="email-and-password">

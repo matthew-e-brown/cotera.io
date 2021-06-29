@@ -23,7 +23,8 @@ export default defineComponent({
   props: {
     // v-model value
     value: { type: String as PropType<string> },
-    // Optional v-model hidden -- if passed, will model this variable
+    // Optional v-model hidden -- if passed, will model this variable for
+    // whether or not to be hidden; otherwise, will just use its own state
     hidden: {
       type: Boolean as PropType<boolean> | undefined as PropType<undefined>,
       default: undefined
