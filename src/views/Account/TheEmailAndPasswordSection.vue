@@ -10,7 +10,7 @@
         id="new-email"
         type="text"
         name="new-email"
-        placeholder="New Email Address"
+        placeholder="New email address"
         autocomplete="off"
         v-model="emailForm.newEmail"
       />
@@ -107,10 +107,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, reactive, computed } from 'vue';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import { useAuthFlow } from '@/auth-hooks';
-import user, { refreshUser } from "./user";
+import user, { refreshUser, errorHandler } from "./user";
 import PasswordField from '@/components/PasswordField.vue';
 
 
@@ -120,9 +122,15 @@ function useChangeEmailForm() {
   const newEmail = ref("");
   const password = ref("");
 
+  const providerEmail = computed(() => {
+    return user.value.providerData
+      .find(p => p!.providerId == 'password')! // hasEmail guard, therefore '!'
+      .email!; // 'password' provider will always have email
+  });
+
   const errors = ref<string[]>([]);
 
-  const { authExecutor } = useAuthFlow({ errors });
+  const { authExecutor } = useAuthFlow({ errors, errorHandler });
 
   const validate = () => {
     errors.value = [];
@@ -139,19 +147,28 @@ function useChangeEmailForm() {
   const submit = async () => {
     if (!validate()) return;
 
-    const success = await authExecutor(
-      user.value.updateEmail(newEmail.value)
-    );
+    let success = false;
+    try {
+      success = await authExecutor(user.value.updateEmail(newEmail.value));
+    } catch (error) {
+      // catch 'auth/requires-recent-login' error
+
+      const cred = firebase.auth
+        .EmailAuthProvider
+        .credential(providerEmail.value, password.value);
+
+      // Reauthenticate and retry
+      await authExecutor(user.value.reauthenticateWithCredential(cred));
+      success = await authExecutor(user.value.updateEmail(newEmail.value));
+    }
 
     if (success) refreshUser();
   }
 
   return {
+    providerEmail,
     emailShown: shown,
-    emailForm: { newEmail, password, errors, submit },
-    providerEmail: user.value.providerData
-      .find(p => p!.providerId == 'password')! // hasEmail guard -> (!)
-      .email
+    emailForm: reactive({ newEmail, password, errors, submit }),
   };
 }
 
@@ -196,7 +213,7 @@ function useChangePasswordForm() {
 
   return {
     passwordShown: shown,
-    passwordForm: { old, new1, new2, hidden, errors, submit },
+    passwordForm: reactive({ old, new1, new2, hidden, errors, submit }),
   };
 }
 
@@ -212,7 +229,42 @@ export default defineComponent({
 <style lang="scss" scoped>
 .account-row {
   display: grid;
+  align-items: flex-start;
   grid-template-columns: 7em 2fr 1fr;
   column-gap: 1em;
+
+  margin: 0.85rem 0;
+
+  // Offset the *text* from the top to make it appear centered. Can't use actual
+  // centering because the row becomes taller when the value is replaced by the
+  // form.
+  >div {
+    margin-top: 1.2em;
+  }
+
+  >:nth-child(1) {
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  >:nth-child(2) {
+    color: $fg-color-dim;
+  }
+
+  >button { justify-self: flex-end; }
+  input, .hide-input { margin-top: 0.4em; }
+}
+
+.form-buttons {
+  display: flex;
+  column-gap: 1em;
+  justify-content: flex-end;
+  flex-flow: row nowrap;
+
+  margin-top: 1em;
+  font-size: 0.9em;
+
+  button { margin: 0; }
+  button:last-child { border: none; }
 }
 </style>

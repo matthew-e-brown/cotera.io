@@ -69,20 +69,24 @@ export default defineComponent({
 div {
   box-sizing: content-box;
   position: relative;
+
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+input {
+  border-radius: 0.5em 0 0 0.5em;
 }
 
 button {
-  position: absolute;
-  top: 0; right: 0;
-
   color: $fg-color-dim;
-  background: none;
+  background-color: opaque-mix($bg-color-accent, $bg-color);
   cursor: pointer;
 
   padding: 0.4em;
   width: 2.77em;
   height: 2.77em;
-  border-radius: 0.5em;
+  border-radius: 0 0.5em 0.5em 0;
 
   transition: background-color 75ms linear;
 

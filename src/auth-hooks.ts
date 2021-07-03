@@ -47,8 +47,8 @@ export const fallbackHandler = (error: any): void => {
   console.error(error);
   alert(
     `Something went wrong. Please notify the developer that ` +
-    `"${error.code || error.message || error}" occurred. Check the developer ` +
-    `console for details, if you know how to.`
+    `"${error.code || error.message || error}" occurred. Please check the ` +
+    `developer console for details, if you know how to.`
   );
 }
 
@@ -154,7 +154,8 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
       } catch (error) {
         if (error.code == 'auth/popup-blocked')
           return await redirectAction().call(firebase.auth(), prov);
-        else throw error;
+        else if (error.code != 'auth/popup-closed-by-user')
+          throw error;
       }
     }
   }
