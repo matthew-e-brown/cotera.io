@@ -9,8 +9,8 @@
       <h3 class="line">Email &amp; Password</h3>
       <TheEmailAndPasswordSection v-if="hasEmail" />
       <p v-else>
-        You don't have an email and password linked to this account for
-        sign-in. See the section below to link one.
+        You don't have an email and password linked to this account yet; take a
+        look below to add one for sign-in.
       </p>
     </section>
 
@@ -24,7 +24,10 @@
 
     <section id="danger-zone">
       <h3 class="line">Danger Zone</h3>
-      <TheDangerZoneSection />
+      <TheDangerZoneSection
+        @start-reset="currentModalView = ModalViews.ResetWarning"
+        @start-delete="currentModalView = ModalViews.DeletionWarning1"
+      />
     </section>
 
     <TheAccountModal :view="currentModalView" />
@@ -33,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -111,7 +114,23 @@ section {
 #email-and-password p {
   color: $fg-color-dim;
 
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 1.7em;
+  padding-right: 1.7em;
+}
+
+:deep(.split-buttons) {
+  display: flex;
+  column-gap: 1em;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  button {
+    flex: 1 1 50%;
+
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .icon-button span { font-size: unset; }
 }
 </style>

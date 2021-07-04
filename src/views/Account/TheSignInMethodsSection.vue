@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="split-buttons">
+
     <button class="icon-button" @click="googleClick">
       <fa-icon :icon="[ 'fab', 'google' ]" />
       <span v-if="hasGoogle">Unlink Google account</span>
@@ -11,6 +12,7 @@
       <span v-if="hasEmail">Unlink email &amp; password</span>
       <span v-else>Link email &amp; password</span>
     </button>
+
   </div>
 
   <ul v-if="errors.length > 0" class="errors">
@@ -105,16 +107,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss" scoped>
-div {
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-}
-
-button {
-  flex: 1 1 50%;
-  span { font-size: unset; }
-}
-</style>

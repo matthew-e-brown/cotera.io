@@ -91,7 +91,7 @@ main.sticky-box {
   h2 {
     text-align: center;
     margin-top: 0;
-    margin-bottom: 1em;
+    margin-bottom: 0.65em;
     font-size: 1.8rem;
   }
 }
@@ -102,7 +102,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-  line-height: 1.15;
+  line-height: 1.55;
 }
 
 a, a:visited {
@@ -257,6 +257,11 @@ span.num {
 .danger-button {
   @extend .button;
   color: $fg-color-red;
+
+  &:active, &:focus {
+    border-color: $fg-color-red;
+    background-color: $fg-color-red;
+  }
 
   @media (hover: hover) {
     &:hover {
