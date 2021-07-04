@@ -30,7 +30,11 @@
       />
     </section>
 
-    <TheAccountModal :view="currentModalView" />
+    <TheAccountModal
+      :view="currentModalView"
+      @next-delete="currentModalView = ModalViews.DeletionWarning2"
+      @close-me="currentModalView = ModalViews.Hidden"
+    />
 
   </main>
 </template>
@@ -45,12 +49,12 @@ import { useAuthFlow } from '@/auth-hooks';
 import { ModalViews } from './types';
 import user, { hasEmail } from './user';
 
-// These components are more for separating than they are for actually
-// encapsulating data
+// These components are more for separating concerns and shrinking file
+// line-counts than they are for actually encapsulating data
 import TheEmailAndPasswordSection from './TheEmailAndPasswordSection.vue';
 import TheSignInMethodsSection from './TheSignInMethodsSection.vue';
 import TheDangerZoneSection from './TheDangerZoneSection.vue';
-import TheAccountModal from './TheAccountModal.vue';
+import TheAccountModal from './TheAccountModal/index.vue';
 
 import '@/assets/styles/forms.scss';
 
@@ -113,14 +117,12 @@ section {
 
 #email-and-password p {
   color: $fg-color-dim;
-
-  padding-left: 1.7em;
-  padding-right: 1.7em;
+  padding-left: 1.5em;
 }
 
 :deep(.split-buttons) {
   display: flex;
-  column-gap: 1em;
+  column-gap: 1.7rem;
   justify-content: flex-start;
   align-items: stretch;
 
