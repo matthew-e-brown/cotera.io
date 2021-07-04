@@ -1,53 +1,33 @@
+<template>
+  <p><slot></slot></p>
+
+  <div class="split-buttons">
+    <button :class="classL" @click="$emit(nameL)">
+      <slot :name="nameL"></slot>
+    </button>
+    <button :class="classR" @click="$emit(nameR)">
+      <slot :name="nameR"></slot>
+    </button>
+  </div>
+</template>
+
 <script lang="ts">
-import { defineComponent, PropType, h } from 'vue';
+import { defineComponent, PropType, toRef, computed } from 'vue';
 
 export default defineComponent({
   emits: [ 'confirm', 'cancel' ],
+  // Left is confirm unless swapped, then right is confirm
   props: { swapped: { default: false, type: Boolean as PropType<boolean> } },
-  setup(props, { slots, emit }) {
+  setup(props) {
+    const s = toRef(props, 'swapped');
 
-    // To be able to have the slots in one of two different places, we need to
-    // use a render function.
+    const nameL = computed(() => !s.value ? 'confirm' : 'cancel');
+    const nameR = computed(() => !s.value ? 'cancel' : 'confirm');
 
-    /*
-     * TODO: double check that that's actually the case: try again with a
-     * template and see if it works. The problem *actually* ended up being that
-     * the slots were swapped in the parent component the *entire time*... UGH.
-     */
+    const classL = computed(() => !s.value ? 'danger-button' : 'button');
+    const classR = computed(() => !s.value ? 'button' : 'danger-button');
 
-    return () => [
-
-      h(
-        'p',
-        slots.default?.()
-      ),
-
-      h(
-        'div',
-        { class: 'split-buttons' },
-        [
-          // Left button
-          h(
-            'button',
-            {
-              class: !props.swapped ? 'danger-button' : 'button',
-              onClick: () => emit(!props.swapped ? 'confirm' : 'cancel')
-            },
-            !props.swapped ? slots.confirm?.() : slots.cancel?.()
-          ),
-          // Right button
-          h(
-            'button',
-            {
-              class: !props.swapped ? 'button' : 'danger-button',
-              onClick: () => emit(!props.swapped ? 'cancel' : 'confirm')
-            },
-            !props.swapped ? slots.cancel?.() : slots.confirm?.()
-          )
-        ]
-      )
-
-    ];
+    return { nameL, nameR, classL, classR };
   }
 });
 </script>
