@@ -16,7 +16,10 @@
 
     <section id="sign-in-methods">
       <h3 class="line">Sign-in Methods</h3>
-      <TheSignInMethodsSection />
+      <TheSignInMethodsSection
+        @needs-re-auth="currentModalView = ModalViews.Reauthenticate"
+        @open-link-form="currentModalView = ModalViews.LinkAccount"
+      />
     </section>
 
     <section id="danger-zone">
@@ -37,7 +40,7 @@ import 'firebase/auth';
 import router from '@/router';
 import { useAuthFlow } from '@/auth-hooks';
 import { ModalViews } from './types';
-import user from './user';
+import user, { hasEmail } from './user';
 
 // These components are more for separating than they are for actually
 // encapsulating data
@@ -60,23 +63,12 @@ export default defineComponent({
 
     const currentModalView = ref(ModalViews.Hidden);
 
-    const hasGoogle = computed(() => {
-      return user.value.providerData.some(p => p?.providerId == 'google.com')
-    });
-
-    const hasEmail = computed(() => {
-      return user.value.providerData.some(p => p?.providerId == 'password')
-    });
-
     const signOut = async () => {
       const success = await authExecutor(firebase.auth().signOut());
       if (success) await router.push({ name: 'Home' });
     }
 
-    return {
-      user, hasGoogle, hasEmail, signOut,
-      currentModalView,
-    };
+    return { user, hasEmail, signOut, currentModalView, ModalViews };
   }
 });
 </script>
@@ -114,5 +106,12 @@ section :deep(h3) {
 section {
   margin-top: 2.25rem;
   font-size: 0.9em;
+}
+
+#email-and-password p {
+  color: $fg-color-dim;
+
+  padding-left: 1em;
+  padding-right: 1em;
 }
 </style>

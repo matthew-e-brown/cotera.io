@@ -2,6 +2,7 @@ import { Ref } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+type User = firebase.User;
 type AuthProvider = firebase.auth.AuthProvider;
 type UserCredential = firebase.auth.UserCredential;
 
@@ -86,8 +87,8 @@ export function useAuthFlow(options?: AuthOptions) {
    * @returns A promise of either true or false, depending on success.
    */
   const authExecutor = async (
-    call: Promise<UserCredential | void>,
-    retValRef?: Ref<UserCredential | undefined>
+    call: Promise<UserCredential | void> | Promise<User>,
+    retValRef?: Ref<UserCredential | undefined> | Ref<User>
   ) => {
     try {
       const result = await call;

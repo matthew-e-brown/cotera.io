@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -14,6 +14,14 @@ const user = ref(firebase.auth().currentUser!);
  */
 const refreshUser = () => user.value = firebase.auth().currentUser!;
 
+const hasGoogle = computed(() => {
+  return user.value.providerData.some(p => p?.providerId == 'google.com')
+});
+
+const hasEmail = computed(() => {
+  return user.value.providerData.some(p => p?.providerId == 'password')
+});
+
 /**
  * Wraps the fallback handler with a check for 'requires-recent-login', to avoid
  * treating it like an extraneous error.
@@ -28,4 +36,4 @@ const errorHandler = (error: any): void => {
 }
 
 export default user;
-export { refreshUser, errorHandler };
+export { hasGoogle, hasEmail, refreshUser, errorHandler };

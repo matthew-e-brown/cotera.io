@@ -179,7 +179,7 @@ function useChangePasswordForm() {
   const old = ref("");
   const new1 = ref("");
   const new2 = ref("");
-  const hidden = ref(false);
+  const hidden = ref(true);
 
   const errors = ref<string[]>([]);
 

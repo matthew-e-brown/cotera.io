@@ -6,6 +6,11 @@
     </div>
 
 
+    <div v-if="view == ModalViews.Reauthorize">
+
+    </div>
+
+
     <div v-else-if="view == ModalViews.ResetWarning">
 
     </div>
