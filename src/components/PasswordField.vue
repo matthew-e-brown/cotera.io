@@ -92,13 +92,15 @@ button {
 
   &:active, &:focus {
     color: $fg-color;
-    background-color: $bg-color-accent;
+    background-color:
+      opaque-mix($bg-color-accent, opaque-mix($bg-color-accent, $bg-color));
   }
 
   @media (hover: hover) {
     &:hover {
       color: $fg-color;
-      background-color: $bg-color-accent;
+      background-color:
+        opaque-mix($bg-color-accent, opaque-mix($bg-color-accent, $bg-color));
     }
   }
 }

@@ -238,6 +238,7 @@ span.num {
 
   &:active, &:focus {
     color: $bg-color;
+    border-color: $fg-color;
     background-color: $fg-color;
   }
 
