@@ -12,13 +12,13 @@ const user = ref(firebase.auth().currentUser!);
  * after anything that alters the user (like a change to email address)
  * occurs.
  */
-const refreshUser = () => user.value = firebase.auth().currentUser!;
+export const refreshUser = () => user.value = firebase.auth().currentUser!;
 
-const hasGoogle = computed(() => {
+export const hasGoogle = computed(() => {
   return user.value.providerData.some(p => p?.providerId == 'google.com')
 });
 
-const hasEmail = computed(() => {
+export const hasEmail = computed(() => {
   return user.value.providerData.some(p => p?.providerId == 'password')
 });
 
@@ -27,7 +27,7 @@ const hasEmail = computed(() => {
  * treating it like an extraneous error.
  * @param error Error to be handled.
  */
-const errorHandler = (error: any): void => {
+export const errorHandler = (error: any): void => {
   // Throw back out of the AuthHandler flow to be processed by the calling
   // action's code (need to be able to react when attempting to unlink, for
   // example)
@@ -36,4 +36,3 @@ const errorHandler = (error: any): void => {
 }
 
 export default user;
-export { hasGoogle, hasEmail, refreshUser, errorHandler };
