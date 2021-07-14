@@ -16,20 +16,20 @@
 
     <div class="row">
       <PasswordField
-        id="password-1"
-        name="password-1"
+        id="new-password"
+        name="new-password"
         placeholder="Password"
         autocomplete="new-password"
         v-model:value="password1"
-        v-model:hidden="showPasswords"
+        v-model:hidden="hidePasswords"
       />
       <PasswordField
-        id="password-2"
-        name="password-2"
+        id="verify-password"
+        name="verify-password"
         placeholder="Re-type password"
         autocomplete="new-password"
         v-model:value="password2"
-        v-model:hidden="showPasswords"
+        v-model:hidden="hidePasswords"
       />
     </div>
 
@@ -44,10 +44,6 @@
   <div class="separator"><span>or</span></div>
 
   <div class="bottom-buttons">
-    <button type="button" class="icon-button" @click="googleSubmit">
-      <fa-icon :icon="[ 'fab', 'google' ]" />
-      <span>Sign in with Google</span>
-    </button>
     <router-link to="/login">Log into an existing account</router-link>
   </div>
 </template>
@@ -59,7 +55,7 @@ import 'firebase/auth';
 
 import router from '@/router';
 import PasswordField from '@/components/PasswordField.vue';
-import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
+import { useAuthFlow } from '@/auth-hooks';
 
 export default defineComponent({
   name: 'RegisterForm',
@@ -70,10 +66,9 @@ export default defineComponent({
     const password2 = ref("");
     const errors = ref<string[]>([]);
 
-    const showPasswords = ref(false);
+    const hidePasswords = ref(true);
 
-    const { signIn: googleSignIn } = useThirdPartyAuth();
-    const { authExecutor, handleRedirection } = useAuthFlow({ errors });
+    const authExecutor = useAuthFlow({ errors });
 
     const validate = () => {
       errors.value = [];
@@ -108,19 +103,7 @@ export default defineComponent({
       }
     }
 
-    const googleSubmit = async () => {
-      const success = await authExecutor(googleSignIn());
-      if (success) await router.push({ name: 'Home' });
-    }
-
-    handleRedirection().then(success => {
-      if (success === true) router.replace({ name: 'Home' });
-    });
-
-    return {
-      email, password1, password2, errors,
-      showPasswords, submit, googleSubmit
-    };
+    return { email, password1, password2, errors, hidePasswords, submit };
   }
 });
 </script>

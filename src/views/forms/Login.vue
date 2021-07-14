@@ -33,10 +33,6 @@
   <div class="separator"><span>or</span></div>
 
   <div class="bottom-buttons">
-    <button type="button" class="icon-button" @click="googleSubmit">
-      <fa-icon :icon="[ 'fab', 'google' ]" />
-      <span>Sign in with Google</span>
-    </button>
     <router-link to="/register">Create a new account</router-link>
     <router-link to="/reset-password">Reset your password</router-link>
   </div>
@@ -50,7 +46,7 @@ import 'firebase/auth';
 
 import router from '@/router';
 import PasswordField from '@/components/PasswordField.vue';
-import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
+import { useAuthFlow } from '@/auth-hooks';
 
 export default defineComponent({
   name: 'LoginForm',
@@ -60,8 +56,7 @@ export default defineComponent({
     const password = ref("");
     const errors = ref<string[]>([]);
 
-    const { signIn: googleSignIn } = useThirdPartyAuth();
-    const { authExecutor, handleRedirection } = useAuthFlow({ errors });
+    const authExecutor = useAuthFlow({ errors });
 
     const validate = () => {
       errors.value = [];
@@ -84,16 +79,7 @@ export default defineComponent({
       if (success) await router.push({ name: 'Home' });
     }
 
-    const googleSubmit = async () => {
-      const success = await authExecutor(googleSignIn());
-      if (success) await router.push({ name: 'Home' });
-    }
-
-    handleRedirection().then(success => {
-      if (success === true) router.replace({ name: 'Home' });
-    });
-
-    return { email, password, errors, submit, googleSubmit };
+    return { email, password, errors, submit };
   }
 });
 </script>
