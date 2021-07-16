@@ -16,20 +16,20 @@
 
     <div class="row">
       <PasswordField
-        id="new-password"
-        name="new-password"
+        id="password-1"
+        name="password-1"
         placeholder="Password"
         autocomplete="new-password"
         v-model:value="password1"
-        v-model:hidden="hidePasswords"
+        v-model:hidden="showPasswords"
       />
       <PasswordField
-        id="verify-password"
-        name="verify-password"
+        id="password-2"
+        name="password-2"
         placeholder="Re-type password"
         autocomplete="new-password"
         v-model:value="password2"
-        v-model:hidden="hidePasswords"
+        v-model:hidden="showPasswords"
       />
     </div>
 
@@ -44,6 +44,10 @@
   <div class="separator"><span>or</span></div>
 
   <div class="bottom-buttons">
+    <button type="button" class="icon-button" @click="googleSubmit">
+      <fa-icon :icon="[ 'fab', 'google' ]" />
+      <span>Sign in with Google</span>
+    </button>
     <router-link to="/login">Log into an existing account</router-link>
   </div>
 </template>
@@ -55,7 +59,7 @@ import 'firebase/auth';
 
 import router from '@/router';
 import PasswordField from '@/components/PasswordField.vue';
-import { useAuthFlow } from '@/auth-hooks';
+import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 
 export default defineComponent({
   name: 'RegisterForm',
@@ -66,9 +70,10 @@ export default defineComponent({
     const password2 = ref("");
     const errors = ref<string[]>([]);
 
-    const hidePasswords = ref(true);
+    const showPasswords = ref(false);
 
-    const authExecutor = useAuthFlow({ errors });
+    const { signIn: googleSignIn } = useThirdPartyAuth();
+    const { authExecutor, handleRedirection } = useAuthFlow({ errors });
 
     const validate = () => {
       errors.value = [];
@@ -103,7 +108,19 @@ export default defineComponent({
       }
     }
 
-    return { email, password1, password2, errors, hidePasswords, submit };
+    const googleSubmit = async () => {
+      const success = await authExecutor(googleSignIn());
+      if (success) await router.push({ name: 'Home' });
+    }
+
+    handleRedirection().then(success => {
+      if (success === true) router.replace({ name: 'Home' });
+    });
+
+    return {
+      email, password1, password2, errors,
+      showPasswords, submit, googleSubmit
+    };
   }
 });
 </script>

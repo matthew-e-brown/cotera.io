@@ -27,7 +27,7 @@ import '@/assets/styles/global.scss';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
-  faGithub, faCanadianMapleLeaf
+  faGoogle, faGithub, faCanadianMapleLeaf
 } from '@fortawesome/free-brands-svg-icons';
 import {
   faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
@@ -36,7 +36,8 @@ import {
 
 library.add(
   faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
-  faSortAlt, faChevronCircleDown, faCode, faHeart, faGithub, faCanadianMapleLeaf
+  faSortAlt, faChevronCircleDown, faCode, faHeart, faGoogle, faGithub,
+  faCanadianMapleLeaf
 );
 
 /** cspell: disable */

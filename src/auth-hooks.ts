@@ -3,6 +3,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 type User = firebase.User;
+type AuthProvider = firebase.auth.AuthProvider;
 type UserCredential = firebase.auth.UserCredential;
 
 interface AuthOptions {
@@ -104,5 +105,93 @@ export function useAuthFlow(options?: AuthOptions) {
     }
   }
 
-  return authExecutor;
+  const handleRedirection = async () => {
+    try {
+      const userCred = await firebase.auth().getRedirectResult();
+
+      // If a redirect actually happened, and no error got thrown
+      if (userCred.user !== null) return true;
+      else return undefined as void;
+    } catch (error) {
+      catcher(error);
+      return false;
+    }
+  }
+
+  return { authExecutor, handleRedirection };
+}
+
+
+/**
+ * Hook for generating Firebase Auth Google functions. These simply wrap the
+ * popup-or-redirect-if-failed flow.
+ * @param provider The AuthProvider to use for the third party functions. If
+ * nothing is passed, Google will be used.
+ * @returns The new functions to use.
+ */
+export function useThirdPartyAuth(provider?: AuthProvider) {
+
+  const prov = provider ?? new firebase.auth.GoogleAuthProvider();
+
+  /**
+   * Helper function for creating the wrapped redirect-if-popup-failed flow.
+   * @param popupAction A getter function which will return a Firebase Auth
+   * action to use for the popup flow.
+   * @param redirectAction A getter function which will return the Firebase Auth
+   * action to use for the redirect flow, should the popup flow fail (like on
+   * mobile/PWA).
+   * @returns The new function.
+   * @note Getters are used for popupAction and redirectAction because we want
+   * to make sure we have an up to date instance of firebase.auth() when we run
+   * them.
+   */
+  const authFactory = (
+    popupAction: () => ((p: AuthProvider) => Promise<UserCredential | void>),
+    redirectAction: () => ((p: AuthProvider) => Promise<void>)
+  ): (() => Promise<UserCredential | void>) => {
+    return async () => {
+      try {
+        return await popupAction().call(firebase.auth(), prov);
+      } catch (error) {
+        if (error.code == 'auth/popup-blocked')
+          return await redirectAction().call(firebase.auth(), prov);
+        else if (error.code != 'auth/popup-closed-by-user')
+          throw error;
+      }
+    }
+  }
+
+  /**
+   * @note
+   *
+   * auth().currentUser is asserted non-null in the applicable instances below
+   * because the functions are expected to be used in a route which is guarded
+   * by route.meta.requiredAuthState.
+   */
+
+  /**
+   * Signs the user into a Google account.
+   */
+  const signIn = authFactory(
+    () => firebase.auth().signInWithPopup,
+    () => firebase.auth().signInWithRedirect
+  );
+
+  /**
+   * Signs the user into a Google account for the purpose of re-authenticating.
+   */
+  const reauthenticate = authFactory(
+    () => firebase.auth().currentUser!.reauthenticateWithPopup,
+    () => firebase.auth().currentUser!.reauthenticateWithRedirect
+  );
+
+  /**
+   * Links the user's email-and-password account with their Google account.
+   */
+  const link = authFactory(
+    () => firebase.auth().currentUser!.linkWithPopup,
+    () => firebase.auth().currentUser!.linkWithRedirect
+  );
+
+  return { signIn, reauthenticate, link };
 }
