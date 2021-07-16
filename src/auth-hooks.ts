@@ -2,6 +2,7 @@ import { Ref } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+type User = firebase.User;
 type AuthProvider = firebase.auth.AuthProvider;
 type UserCredential = firebase.auth.UserCredential;
 
@@ -16,9 +17,9 @@ interface AuthOptions {
  * by *user* error. Anything else should be handled as an error normally instead
  * of simply presented to the user.
  */
-export const errorMessages = new Map<string, string>([
+const errorMessages = new Map<string, string>([
   [ 'auth/email-already-in-use',
-    "An account with that email address already exists." ],
+    "Sorry, an account with that email address already exists." ],
   [ 'auth/invalid-email',
     "Please use a valid email address." ],
   [ 'auth/weak-password',
@@ -47,8 +48,8 @@ export const fallbackHandler = (error: any): void => {
   console.error(error);
   alert(
     `Something went wrong. Please notify the developer that ` +
-    `"${error.code || error.message || error}" occurred. Check the developer ` +
-    `console for details, if you know how to.`
+    `"${error.code || error.message || error}" occurred. Please check the ` +
+    `developer console for details, if you know how to.`
   );
 }
 
@@ -63,35 +64,38 @@ export const fallbackHandler = (error: any): void => {
  * @param options.errors A reference to an array of strings to insert the errors
  * into.
  * @param options.errorHandler The function to pass errors to.
- * @param options.redirectName The name of the NamedRoute to redirect to upon
- * completion. Should it be absent, no redirect will happen.
- * @returns A set of functions which return 'true' on success, 'false' on error,
- * 'NavigationFailure' when the error occurs specifically when trying to
- * redirect.
+ * @returns A set of functions which return 'true' on success and 'false' on
+ * error.
  */
 export function useAuthFlow(options?: AuthOptions) {
 
   const catcher = (error: any): void => {
     const message = errorMessages.get(error.code) ?? false;
-    if (message && options?.errors) options.errors.value.push(message);
-    else (options?.errorHandler ?? fallbackHandler)(error);
+
+    if (message && options?.errors) {
+      options.errors.value.push(message);
+    } else {
+      (options?.errorHandler ?? fallbackHandler)(error);
+    }
   }
 
   /**
    * Executes a Firebase Auth Action with error handling.
    * @param call The promise to wait for.
-   * @param retVal Optionally, a reference to be filled with the return value of
-   * the above call.
+   * @param retValRef Optionally, a reference to be filled with the return value
+   * of the above call.
    * @returns A promise of either true or false, depending on success.
    */
   const authExecutor = async (
-    call: Promise<UserCredential | void>,
-    retVal?: Ref<UserCredential | undefined>
+    call: Promise<UserCredential | void> | Promise<User>,
+    retValRef?: Ref<UserCredential | undefined> | Ref<User>
   ) => {
     try {
       const result = await call;
 
-      if (retVal !== undefined && result !== undefined) retVal.value = result;
+      if (retValRef !== undefined && result !== undefined) {
+        retValRef.value = result;
+      }
 
       // If call went through without throwing
       return true;
@@ -107,7 +111,7 @@ export function useAuthFlow(options?: AuthOptions) {
 
       // If a redirect actually happened, and no error got thrown
       if (userCred.user !== null) return true;
-      return undefined as void;
+      else return undefined as void;
     } catch (error) {
       catcher(error);
       return false;
@@ -151,7 +155,8 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
       } catch (error) {
         if (error.code == 'auth/popup-blocked')
           return await redirectAction().call(firebase.auth(), prov);
-        else throw error;
+        else if (error.code != 'auth/popup-closed-by-user')
+          throw error;
       }
     }
   }

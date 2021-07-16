@@ -23,7 +23,8 @@ export default defineComponent({
   props: {
     // v-model value
     value: { type: String as PropType<string> },
-    // Optional v-model hidden -- if passed, will model this variable
+    // Optional v-model hidden -- if passed, will model this variable for
+    // whether or not to be hidden; otherwise, will just use its own state
     hidden: {
       type: Boolean as PropType<boolean> | undefined as PropType<undefined>,
       default: undefined
@@ -31,10 +32,10 @@ export default defineComponent({
   },
   emits: [ 'toggle', 'update:value', 'update:hidden' ],
   setup(props, { emit }) {
+    const propPassed = props.hidden !== undefined;
+
     // Internal state, used only when prop is not passed: undefined otherwise
-    const _hidden = ref<boolean | undefined>(
-      props.hidden === undefined ? true : undefined
-    );
+    const _hidden = ref<boolean | undefined>(!propPassed ? true : undefined);
 
     /**
      * Wrapper for alternative 'hidden' behaviour: if props.hidden is passed,
@@ -43,19 +44,21 @@ export default defineComponent({
      */
     const hidden = computed({
       get: () => {
-        if (props.hidden === undefined) return _hidden.value;
+        if (!propPassed) return _hidden.value;
         else return props.hidden;
       },
-      set: (value) => {
-        if (props.hidden === undefined) _hidden.value = value;
+      set: value => {
+        if (!propPassed) _hidden.value = value;
         else emit('update:hidden', value);
       }
     });
 
     const icon = computed(() => hidden.value ? EyeClosed : EyeOpen);
 
-    const onInput = (event: any) => emit('update:value', event.target.value);
     const onClick = () => hidden.value = !hidden.value;
+    const onInput = (event: InputEvent) => {
+      emit('update:value', (event.target as HTMLInputElement).value);
+    }
 
     return { icon, hidden, onInput, onClick };
   }
@@ -66,32 +69,38 @@ export default defineComponent({
 div {
   box-sizing: content-box;
   position: relative;
+
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+input {
+  border-radius: 0.5em 0 0 0.5em;
 }
 
 button {
-  position: absolute;
-  top: 0; right: 0;
-
   color: $fg-color-dim;
-  background: none;
+  background-color: opaque-mix($bg-color-accent, $bg-color);
   cursor: pointer;
 
   padding: 0.4em;
   width: 2.77em;
   height: 2.77em;
-  border-radius: 0.5em;
+  border-radius: 0 0.5em 0.5em 0;
 
   transition: background-color 75ms linear;
 
   &:active, &:focus {
     color: $fg-color;
-    background-color: $bg-color-accent;
+    background-color:
+      opaque-mix($bg-color-accent, opaque-mix($bg-color-accent, $bg-color));
   }
 
   @media (hover: hover) {
     &:hover {
       color: $fg-color;
-      background-color: $bg-color-accent;
+      background-color:
+        opaque-mix($bg-color-accent, opaque-mix($bg-color-accent, $bg-color));
     }
   }
 }

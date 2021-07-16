@@ -113,7 +113,7 @@ const sortList = (armor: Armor[], sets: ArmorSet[], method: SortChoice) => {
   });
 }
 
-// Resort lists on preference change
+// Re-sort lists on preference change
 watch(toRef(store.state.prefs, 'sortOrder'), newVal => {
   sortList(armorList, armorSets as ArmorSet[], newVal);
   sortList(amiiboList, amiiboSets as ArmorSet[], newVal);

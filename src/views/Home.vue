@@ -49,7 +49,7 @@
           <ArmorItem v-for="piece in amiibo" :key="piece.tag" :armor="piece" />
         </ul>
       </section>
-      
+
     </div>
   </main>
 </template>

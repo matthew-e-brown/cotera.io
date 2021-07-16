@@ -39,7 +39,9 @@ import { defineComponent, ref } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { fallbackHandler } from '@/hooks/auth-flow';
+// Don't need the whole AuthExecutor flow, just need the fallback error handler,
+// since all we're doing is sending a single email
+import { fallbackHandler } from '@/auth-hooks';
 
 export default defineComponent({
   name: 'ResetPasswordForm',
