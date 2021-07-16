@@ -20,15 +20,19 @@
 
     <section id="sign-in-methods">
       <h3 class="line">Sign-in Methods</h3>
-      <TheSignInMethodsSection />
+      <TheSignInMethodsSection @open-modal="modalPayload = $event" />
     </section>
 
     <section id="danger-zone">
       <h3 class="line">Danger Zone</h3>
-      <TheDangerZoneSection />
+      <TheDangerZoneSection @open-modal="modalPayload = $event" />
     </section>
 
-    <TheAccountModal v-if="modalPayload !== null" :view="modalPayload" />
+    <TheAccountModal
+      v-if="modalPayload !== null"
+      :view="modalPayload"
+      @close-modal="modalPayload = null"
+    />
 
   </main>
 </template>
@@ -45,10 +49,10 @@ import user, { hasEmail, refreshUser } from './user';
 
 // These components are more for separating concerns and shrinking file
 // line-counts than they are for actually encapsulating data
-// import TheEmailAndPasswordSection from './TheEmailAndPasswordSection.vue';
-// import TheSignInMethodsSection from './TheSignInMethodsSection.vue';
-// import TheDangerZoneSection from './TheDangerZoneSection.vue';
-// import TheAccountModal from './TheAccountModal/index.vue';
+import TheEmailAndPasswordSection from './TheEmailAndPasswordSection.vue';
+import TheSignInMethodsSection from './TheSignInMethodsSection.vue';
+import TheDangerZoneSection from './TheDangerZoneSection.vue';
+import TheAccountModal from './TheAccountModal/index.vue';
 
 import '@/assets/styles/forms.scss';
 
@@ -63,10 +67,10 @@ const getCookie = (name: string): string | undefined => {
 
 export default defineComponent({
   name: 'Account',
-  // components: {
-  //   TheEmailAndPasswordSection, TheSignInMethodsSection, TheDangerZoneSection,
-  //   TheAccountModal
-  // },
+  components: {
+    TheEmailAndPasswordSection, TheSignInMethodsSection, TheDangerZoneSection,
+    TheAccountModal
+  },
   setup() {
     const errors = ref<string[]>([]);
     const modalPayload = ref<ModalPayload | null>(null);

@@ -20,6 +20,7 @@
         name="password-1"
         placeholder="Password"
         autocomplete="new-password"
+        passwordrules="minlength: 12; required: lower; required: upper; required: digit;"
         v-model:value="password1"
         v-model:hidden="showPasswords"
       />
@@ -28,6 +29,7 @@
         name="password-2"
         placeholder="Re-type password"
         autocomplete="new-password"
+        passwordrules="minlength: 12; required: lower; required: upper; required: digit;"
         v-model:value="password2"
         v-model:hidden="showPasswords"
       />
