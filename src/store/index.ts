@@ -2,8 +2,8 @@ import { reactive } from 'vue';
 
 import { counts } from '@/types/armor';
 
-import LocalStorage from './local';
-import CloudStorage from './cloud';
+import * as LocalStorage from './local';
+import * as CloudStorage from './cloud';
 import { AppState, Progress, Settings, SortChoice } from './types';
 
 

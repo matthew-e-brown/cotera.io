@@ -2,6 +2,9 @@ import { Armor } from '@/armor';
 import { ArmorType, ArmorLevel } from '@/types/armor';
 
 
+/**
+ * The options which may be selected for the sort-order of the main list
+ */
 export enum SortChoice { Type = 'type', Sets = 'sets' };
 export const toggleSort = (e: SortChoice): SortChoice => {
   switch (e) {
@@ -11,12 +14,18 @@ export const toggleSort = (e: SortChoice): SortChoice => {
 }
 
 
+/**
+ * The identifiers used to index each list
+ */
 export type ListID = `list-${number}`;
 export const isListID = (str: any): str is ListID => {
   return typeof str == 'string' && /^list-\d+$/.test(str);
 }
 
 
+/**
+ * Mapping between ListIDs and list names
+ */
 export interface ListInfo {
   id: ListID;
   name: string;
@@ -33,6 +42,9 @@ export const isListInfo = (obj: any): obj is ListInfo[] => {
 }
 
 
+/**
+ * A set of arrays which hold the levels for the user's armor items
+ */
 export type Progress = { [ key in ArmorType ]: ArmorLevel[]; };
 
 export const isProgress = (obj: any): obj is Progress => {
@@ -46,6 +58,9 @@ export const isProgress = (obj: any): obj is Progress => {
 }
 
 
+/**
+ * All of the options which are synced across clients
+ */
 export interface Settings {
   sortOrder: SortChoice;
   selectedList: ListID;
@@ -85,6 +100,9 @@ export const isStorageItem = <T extends StorageKey>(
 }
 
 
+/**
+ * The shape of the app's local state
+ */
 export interface AppState {
   userID: string | null;
   selected: Armor | null;
