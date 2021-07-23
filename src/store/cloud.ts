@@ -9,7 +9,7 @@ import { StorageKey, StorageItem, isStorageItem, isListID } from './types'
  * The functions returned from Firestore subscriptions to stop listening for
  * updates.
  */
-export type Subscription = (() => void) | undefined;
+export type FirestoreSubscription = (() => void) | undefined;
 
 
 /**
@@ -45,7 +45,7 @@ export function subscribe<T extends StorageKey>(
   key: T,
   onValue: (item: StorageItem<T>) => void,
   onEmpty: () => void,
-): Subscription {
+): FirestoreSubscription {
 
   const path = getPath(userID, key);
 
