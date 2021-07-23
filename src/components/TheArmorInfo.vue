@@ -164,16 +164,16 @@ export default defineComponent({
  * item-list, levels up and down the armor, et cetera.
  */
 function useArmor() {
-  const setLevel = (i: ArmorLevel): void => store.setArmorLevel(i);
+  const setLevel = (i: ArmorLevel): void => store.setSelectedLevel(i);
 
   const increase = (): void => {
     if ((store.state.selected?.level ?? NaN) < 4)
-      store.setArmorLevel(store.state.selected!.level + 1 as ArmorLevel);
+      store.setSelectedLevel(store.state.selected!.level + 1 as ArmorLevel);
   }
 
   const decrease = (): void => {
     if ((store.state.selected?.level ?? NaN) > 0)
-      store.setArmorLevel(store.state.selected!.level - 1 as ArmorLevel);
+      store.setSelectedLevel(store.state.selected!.level - 1 as ArmorLevel);
   }
 
   const isCompleted = computed(() => (store.state.selected?.level ?? NaN) == 4);

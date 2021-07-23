@@ -11,13 +11,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef } from 'vue';
+import { defineComponent, computed } from 'vue';
 import store from '@/store';
 
 export default defineComponent({
   name: 'Cotera.io',
   setup() {
-    return { isSignedIn: toRef(store.state, 'isSignedIn') };
+    const isSignedIn = computed(() => store.state.userID !== null);
+    return { isSignedIn };
   }
 });
 </script>

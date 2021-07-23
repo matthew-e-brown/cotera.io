@@ -5,16 +5,12 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
-    match /user-progress/{userId} {
-      allow read, write: if
-        request.auth != null &&
-        request.auth.uid == userId;
+    match /user-progress/{userId}/{_=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-    match /user-preferences/{userId} {
-      allow read, write: if
-        request.auth != null &&
-        request.auth.uid == userId;
+    match /user-settings/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
   }
 }

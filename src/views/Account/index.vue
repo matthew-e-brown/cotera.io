@@ -28,11 +28,11 @@
       <TheDangerZoneSection @open-modal="modalPayload = $event" />
     </section>
 
-    <TheAccountModal
+    <!-- <TheAccountModal
       v-if="modalPayload !== null"
       :view="modalPayload"
       @close-modal="modalPayload = null"
-    />
+    /> -->
 
   </main>
 </template>
@@ -52,7 +52,7 @@ import user, { hasEmail, refreshUser } from './user';
 import TheEmailAndPasswordSection from './TheEmailAndPasswordSection.vue';
 import TheSignInMethodsSection from './TheSignInMethodsSection.vue';
 import TheDangerZoneSection from './TheDangerZoneSection.vue';
-import TheAccountModal from './TheAccountModal/index.vue';
+// import TheAccountModal from './TheAccountModal/index.vue';
 
 import '@/assets/styles/forms.scss';
 
@@ -69,7 +69,7 @@ export default defineComponent({
   name: 'Account',
   components: {
     TheEmailAndPasswordSection, TheSignInMethodsSection, TheDangerZoneSection,
-    TheAccountModal
+    // TheAccountModal
   },
   setup() {
     const errors = ref<string[]>([]);
