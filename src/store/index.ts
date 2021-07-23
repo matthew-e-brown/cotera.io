@@ -6,7 +6,7 @@ import { ArmorLevel } from '@/types/armor';
 
 import * as LocalStorage from './local';
 import * as CloudStorage from './cloud';
-import { AppState, ListID, Settings} from './types';
+import { AppState, ListID, Settings, SortChoice, toggleSort } from './types';
 import {
   defaults, importers, onLoad, subscribers, unsubscribe
 } from './helpers';
@@ -119,7 +119,9 @@ export const onAuthStateChanged = (user: firebase.User | null): void => {
     importers.listInfo(defaults.listInfo());
     importers.progress(defaults.progress());
   }
+
 };
 
 
 export default store;
+export { SortChoice, toggleSort };

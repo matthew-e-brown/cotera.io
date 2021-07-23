@@ -9,7 +9,7 @@
         <button
           type="button"
           class="option-button"
-          @click="toggleSort"
+          @click="toggleSortState"
           :aria-label="`Switch to sorting by ${ariaSortLabel}`"
         >
           <fa-icon icon="sort-alt" />
@@ -19,13 +19,13 @@
           type="button"
           class="option-button"
           @click="toggleAmiibo"
-          :aria-label="`Switch to ${ showAmiibo ? 'hiding' : 'showing' } Amiibo armor`"
+          :aria-label="`Switch to ${ amiiboShown ? 'hiding' : 'showing' } Amiibo armor`"
         >
           <AmiiboIcon class="amiibo" aria-label="amiibo" />
           <fa-icon
             class="fa-fw"
-            :icon="showAmiibo ? 'eye' : 'eye-slash'"
-            :key="showAmiibo ? 'eye' : 'eye-slash'"
+            :icon="amiiboShown ? 'eye' : 'eye-slash'"
+            :key="amiiboShown ? 'eye' : 'eye-slash'"
           />
         </button>
       </div>
@@ -40,7 +40,7 @@
         </ul>
       </section>
 
-      <section v-if="showAmiibo">
+      <section v-if="amiiboShown">
         <h3 class="line">
           <AmiiboIcon />
           <span>Armor</span>
@@ -64,7 +64,7 @@ import ShirtIcon from '@/assets/icons/shirt.svg';
 import AmiiboIcon from '@/assets/icons/amiibo.svg';
 
 import armor, { amiiboList as amiibo } from '@/armor';
-import store, { iterChoice } from '@/store';
+import store, { toggleSort } from '@/store';
 
 /**
  * @note
@@ -85,23 +85,22 @@ export default defineComponent({
       return `${str[0].toUpperCase()}${str.slice(1)}`;
     }
 
-    const toggleSort = () => {
-      store.setSortOrder(iterChoice(store.state.prefs.sortOrder));
+    const toggleSortState = () => {
+      store.setSetting('sortOrder', toggleSort(store.state.settings.sortOrder));
     }
 
     const toggleAmiibo = () => {
-      store.setShowAmiibo(!store.state.prefs.showAmiibo);
+      store.setSetting('showAmiibo', !store.state.settings.showAmiibo);
     }
 
-    const sortLabel = toRef(store.state.prefs, 'sortOrder');
-    const ariaSortLabel = computed(() => iterChoice(sortLabel.value));
-    const showAmiibo = computed(() => store.state.prefs.showAmiibo);
-    const sortOrder = computed(() => store.state.prefs.sortOrder);
+    const sortLabel = toRef(store.state.settings, 'sortOrder');
+    const amiiboShown = toRef(store.state.settings, 'showAmiibo');
+    const ariaSortLabel = computed(() => toggleSort(sortLabel.value));
 
     return {
       armor, amiibo,
-      showAmiibo, sortOrder, sortLabel,
-      capitalize, toggleSort, ariaSortLabel, toggleAmiibo
+      toggleSortState, toggleAmiibo, sortLabel, ariaSortLabel, amiiboShown,
+      capitalize
     };
   }
 });

@@ -43,9 +43,10 @@ export default defineComponent({
     });
 
     const select = (): void => {
-      if (!selected.value) store.setSelected(props.armor);  // select
-      else {
-        store.setSelected(null);                       // deselect
+      if (!selected.value) {
+        store.setSelected(props.armor);    // select
+      } else {
+        store.setSelected(null);           // deselect
         button.value?.blur();
       }
     }

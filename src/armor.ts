@@ -114,7 +114,7 @@ const sortList = (armor: Armor[], sets: ArmorSet[], method: SortChoice) => {
 }
 
 // Re-sort lists on preference change
-watch(toRef(store.state.prefs, 'sortOrder'), newVal => {
+watch(toRef(store.state.settings, 'sortOrder'), newVal => {
   sortList(armorList, armorSets as ArmorSet[], newVal);
   sortList(amiiboList, amiiboSets as ArmorSet[], newVal);
 }, { immediate: true });

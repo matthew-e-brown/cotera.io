@@ -22,7 +22,7 @@ function getPath<T extends StorageKey>(userID: string, key: T) {
   let path: string;
 
   if (isListID(key)) path = `/user-progress/${userID}/progress/${key}`;
-  else if (key == 'list-info') path = `/user-progress/${userID}/lists`;
+  else if (key == 'list-info') path = `/user-progress/${userID}`;
   else if (key == 'user-settings') path = `/user-settings/${userID}`;
   else { throw new Error("Invalid StorageKey"); }
 
@@ -74,7 +74,10 @@ export function subscribe<T extends StorageKey>(
       if (snapshot.exists && !snapshot.metadata.hasPendingWrites) {
         const data = snapshot.data();
 
-        if (isStorageItem(key, data)) return onValue(data);
+        // unwrap the list-info from the user-progress object (see @note below)
+        const item = key == 'list-info' ? data?.lists : data;
+
+        if (isStorageItem(key, item)) return onValue(item);
         else {
           throw new Error("Invalid data in Firestore.");
         }
@@ -83,7 +86,7 @@ export function subscribe<T extends StorageKey>(
       // If the document doesn't exist, that means that it's their first time
       // signing in: we need to make a document for them. We pass this off to
       // the calling function.
-      else onEmpty();
+      else if (!snapshot.exists) onEmpty();
 
     });
 
@@ -97,7 +100,14 @@ function __setItem__<T extends StorageKey>(
 ): Promise<void> {
 
   const path = getPath(userID, key);
-  return firebase.firestore().doc(path).set(item);
+  const doc = firebase.firestore().doc(path);
+
+  /**
+   * @note
+   * list-info is exposed directly on the user's user-progress object, so we
+   * need to give it a key by wrapping it.
+   */
+  return doc.set(key == 'list-info' ? { lists: item } : item);
 
 }
 
