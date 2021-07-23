@@ -106,6 +106,7 @@ export const isStorageItem = <T extends StorageKey>(
 export interface AppState {
   userID: string | null;
   selected: Armor | null;
+  listInfo: ListInfo[];
   progress: Progress;
   settings: Settings;
 }

@@ -44,7 +44,7 @@ export function subscribe<T extends StorageKey>(
   userID: string,
   key: T,
   onValue: (item: StorageItem<T>) => void,
-  onError: (code: 'invalid-data' | 'no-data') => void,
+  onEmpty: () => void,
 ): Subscription {
 
   const path = getPath(userID, key);
@@ -75,13 +75,15 @@ export function subscribe<T extends StorageKey>(
         const data = snapshot.data();
 
         if (isStorageItem(key, data)) return onValue(data);
-        else return onError?.('invalid-data');
+        else {
+          throw new Error("Invalid data in Firestore.");
+        }
       }
 
       // If the document doesn't exist, that means that it's their first time
       // signing in: we need to make a document for them. We pass this off to
       // the calling function.
-      else return onError?.('no-data');
+      else onEmpty();
 
     });
 
