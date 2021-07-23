@@ -2,7 +2,9 @@ import { debounce } from 'lodash';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
-import { StorageKey, StorageItem, isStorageItem, isListID } from './types'
+import {
+  StorageKey, StorageItem, isStorageItem, ListID, isListID
+} from './types'
 
 
 /**
@@ -13,20 +15,67 @@ export type FirestoreSubscription = (() => void) | undefined;
 
 
 /**
+ * Since some of the keys are exposed directly on the user object (all except
+ * progress), we need to wrap them with a key first to make sure we don't
+ * overwrite the *entire* document.
+ */
+type WrappedItem<K extends StorageKey> =
+  K extends ListID          ? StorageItem<K> :
+  K extends 'list-info'     ? { lists: StorageItem<K> } :
+  K extends 'user-settings' ? { settings: StorageItem<K> } : never;
+
+/**
+ * Wraps an item.
+ * @param key The type of item being wrapped
+ * @param item The item to wrap
+ * @returns The item exposed as a field on an object with a key, should it
+ * require one
+ */
+function wrapItem<K extends StorageKey>(
+  key: K,
+  item: StorageItem<K>
+): WrappedItem<K> {
+  if (isListID(key)) return item as WrappedItem<K>;
+  else if (key == 'list-info') return { lists: item } as WrappedItem<K>;
+  else return { settings: item } as WrappedItem<K>;
+}
+
+
+/**
+ * Unwraps an item.
+ * @param key The type of item being unwrapped
+ * @param item The item to unwrap
+ * @returns The StorageItem pulled out from inside the wrapper object
+ */
+function unWrapItem<K extends StorageKey>(
+  key: K,
+  item: WrappedItem<K>
+): StorageItem<K> | undefined {
+  if (isListID(key)) {
+    return item as StorageItem<K>;
+  } else if (key == 'list-info') {
+    const cast = item as WrappedItem<'list-info'>;
+    if (cast.hasOwnProperty('lists')) return cast.lists as StorageItem<K>;
+    else return undefined;
+  } else {
+    const cast = item as WrappedItem<'user-settings'>;
+    if (cast.hasOwnProperty('settings')) return cast.settings as StorageItem<K>;
+    else return undefined;
+  }
+}
+
+
+/**
  * Generates a path for accessing documents in Firestore.
  * @param userID The userID to generate a path with
  * @param key The document to generate a path with
  * @returns A path pointing to a document in Firestore
  */
-function getPath<T extends StorageKey>(userID: string, key: T) {
-  let path: string;
+function getPath(userID: string, key: StorageKey) {
 
-  if (isListID(key)) path = `/user-progress/${userID}/progress/${key}`;
-  else if (key == 'list-info') path = `/user-progress/${userID}`;
-  else if (key == 'user-settings') path = `/user-settings/${userID}`;
-  else { throw new Error("Invalid StorageKey"); }
+  if (isListID(key)) return `/user-data/${userID}/progress/${key}`;
+  else return `/user-data/${userID}`;
 
-  return path;
 }
 
 
@@ -40,10 +89,10 @@ function getPath<T extends StorageKey>(userID: string, key: T) {
  * have 'invalid-data' or 'no-data' passed to the handler respectively.
  * @returns A function which can be called to unsubscribe from the listener.
  */
-export function subscribe<T extends StorageKey>(
+export function subscribe<K extends StorageKey>(
   userID: string,
-  key: T,
-  onValue: (item: StorageItem<T>) => void,
+  key: K,
+  onValue: (item: StorageItem<K>) => void,
   onEmpty: () => void,
 ): FirestoreSubscription {
 
@@ -75,7 +124,8 @@ export function subscribe<T extends StorageKey>(
         const data = snapshot.data();
 
         // unwrap the list-info from the user-progress object (see @note below)
-        const item = key == 'list-info' ? data?.lists : data;
+        const item = unWrapItem(key, data as WrappedItem<K>);
+        if (item === undefined) return onEmpty();
 
         if (isStorageItem(key, item)) return onValue(item);
         else {
@@ -86,28 +136,23 @@ export function subscribe<T extends StorageKey>(
       // If the document doesn't exist, that means that it's their first time
       // signing in: we need to make a document for them. We pass this off to
       // the calling function.
-      else if (!snapshot.exists) onEmpty();
+      else if (!snapshot.exists) return onEmpty();
 
     });
 
 }
 
 
-function __setItem__<T extends StorageKey>(
+function __setItem__<K extends StorageKey>(
   userID: string,
-  key: T,
-  item: StorageItem<T>
+  key: K,
+  item: StorageItem<K>
 ): Promise<void> {
 
-  const path = getPath(userID, key);
-  const doc = firebase.firestore().doc(path);
+  const doc = firebase.firestore().doc(getPath(userID, key));
+  const data = wrapItem(key, item);
 
-  /**
-   * @note
-   * list-info is exposed directly on the user's user-progress object, so we
-   * need to give it a key by wrapping it.
-   */
-  return doc.set(key == 'list-info' ? { lists: item } : item);
+  return doc.update(data).catch(() => doc.set(data));
 
 }
 

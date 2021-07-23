@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { toRef, Ref } from 'vue';
 
 import { counts } from '@/types/armor';
 import { ListInfo, Progress, Settings, SortChoice } from './types';
@@ -65,9 +65,23 @@ const onLoad: Helper<'get'> = {
 
 
 const importers: Helper<'set'> = {
-  progress(value) { store.state.progress = cloneDeep(value); },
-  settings(value) { store.state.settings = cloneDeep(value); },
-  listInfo(value) { store.state.listInfo = cloneDeep(value); },
+  progress(value) {
+    const keys = Object.keys(store.state.progress) as (keyof Progress)[];
+    keys.forEach(key => {
+      (store.state.progress[key] as Progress[keyof Progress]) = [...value[key]];
+    });
+  },
+
+  settings(value: Settings): void {
+    const keys = Object.keys(store.state.settings) as (keyof Settings)[];
+    keys.forEach(key => {
+      (store.state.settings[key] as Settings[keyof Settings]) = value[key];
+    });
+  },
+
+  listInfo(value) {
+    store.state.listInfo = value.map(info => ({ ...info }));
+  },
 }
 
 

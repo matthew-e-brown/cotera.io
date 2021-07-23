@@ -49,6 +49,7 @@ export type Progress = { [ key in ArmorType ]: ArmorLevel[]; };
 
 export const isProgress = (obj: any): obj is Progress => {
   return (
+    obj !== undefined &&
     [ 'head', 'body', 'legs' ].every(k => k in obj) &&
     [ obj.head, obj.body, obj.legs ].every(Array.isArray) &&
     [ obj.head, obj.body, obj.legs ].every(arr =>
@@ -69,6 +70,7 @@ export interface Settings {
 
 export const isSettings = (obj: any): obj is Settings => {
   return (
+    obj !== undefined &&
     [ 'sortOrder', 'selectedList', 'showAmiibo' ].every(k => k in obj) &&
     [ 'type', 'sets' ].some(k => obj.sortOrder == k) &&
     typeof obj.showAmiibo == 'boolean'
@@ -91,6 +93,7 @@ export const isStorageItem = <T extends StorageKey>(
   value: any
 ): value is StorageItem<T> => {
 
+  if (value === undefined) return false;
   const validProgress = isListID(key) && isProgress(value);
   const validListInfo = (key === 'list-info') && isListInfo(value);
   const validSettings = (key === 'user-settings') && isSettings(value);

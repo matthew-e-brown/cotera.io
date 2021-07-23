@@ -13,19 +13,19 @@
           :aria-label="`Switch to sorting by ${ariaSortLabel}`"
         >
           <fa-icon icon="sort-alt" />
-          <span>{{ capitalize(sortLabel) }}</span>
+          <span>{{ sortLabel }}</span>
         </button>
         <button
           type="button"
           class="option-button"
           @click="toggleAmiibo"
-          :aria-label="`Switch to ${ amiiboShown ? 'hiding' : 'showing' } Amiibo armor`"
+          :aria-label="`Switch to ${ showAmiibo ? 'hiding' : 'showing' } Amiibo armor`"
         >
           <AmiiboIcon class="amiibo" aria-label="amiibo" />
           <fa-icon
             class="fa-fw"
-            :icon="amiiboShown ? 'eye' : 'eye-slash'"
-            :key="amiiboShown ? 'eye' : 'eye-slash'"
+            :icon="showAmiibo ? 'eye' : 'eye-slash'"
+            :key="showAmiibo ? 'eye' : 'eye-slash'"
           />
         </button>
       </div>
@@ -40,7 +40,7 @@
         </ul>
       </section>
 
-      <section v-if="amiiboShown">
+      <section v-show="showAmiibo">
         <h3 class="line">
           <AmiiboIcon />
           <span>Armor</span>
@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRef } from 'vue';
+import { defineComponent, computed, toRef, toRefs } from 'vue';
 
 import TheArmorInfo from '@/components/TheArmorInfo.vue';
 import ArmorItem from '@/components/ArmorItem.vue';
@@ -63,8 +63,8 @@ import ArmorItem from '@/components/ArmorItem.vue';
 import ShirtIcon from '@/assets/icons/shirt.svg';
 import AmiiboIcon from '@/assets/icons/amiibo.svg';
 
-import armor, { amiiboList as amiibo } from '@/armor';
 import store, { toggleSort } from '@/store';
+import armor, { amiiboList as amiibo } from '@/armor';
 
 /**
  * @note
@@ -81,26 +81,26 @@ export default defineComponent({
   name: 'Home',
   components: { TheArmorInfo, ArmorItem, ShirtIcon, AmiiboIcon },
   setup() {
+    const { sortOrder, showAmiibo } = toRefs(store.state.settings);
+
     const capitalize = (str: string): string => {
       return `${str[0].toUpperCase()}${str.slice(1)}`;
     }
 
     const toggleSortState = () => {
-      store.setSetting('sortOrder', toggleSort(store.state.settings.sortOrder));
+      store.setSetting('sortOrder', toggleSort(sortOrder.value));
     }
 
     const toggleAmiibo = () => {
-      store.setSetting('showAmiibo', !store.state.settings.showAmiibo);
+      store.setSetting('showAmiibo', !showAmiibo.value);
     }
 
-    const sortLabel = toRef(store.state.settings, 'sortOrder');
-    const amiiboShown = toRef(store.state.settings, 'showAmiibo');
-    const ariaSortLabel = computed(() => toggleSort(sortLabel.value));
+    const sortLabel = computed(() => capitalize(sortOrder.value));
+    const ariaSortLabel = computed(() => toggleSort(sortOrder.value));
 
     return {
       armor, amiibo,
-      toggleSortState, toggleAmiibo, sortLabel, ariaSortLabel, amiiboShown,
-      capitalize
+      toggleSortState, toggleAmiibo, sortLabel, ariaSortLabel, showAmiibo
     };
   }
 });

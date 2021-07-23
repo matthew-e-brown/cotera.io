@@ -1,4 +1,4 @@
-import { watch, toRef } from 'vue';
+import { watch, toRef, ref, Ref } from 'vue';
 
 import { ItemTag } from '@/items';
 import {
@@ -10,6 +10,7 @@ import rawArmorList from '@/assets/data/armor.json';
 import rawAmiiboList from '@/assets/data/amiibo.json';
 import armorSets from '@/assets/data/armor-sets.json';
 import amiiboSets from '@/assets/data/amiibo-sets.json';
+
 
 export class Armor {
   public readonly name: string;
@@ -67,10 +68,14 @@ export class Armor {
 
 }
 
-const armorList = rawArmorList.map(armor => new Armor(armor));
-const amiiboList = rawAmiiboList.map(armor => new Armor(armor));
+const armorList = ref(rawArmorList.map(armor => new Armor(armor)));
+const amiiboList = ref(rawAmiiboList.map(armor => new Armor(armor)));
 
-const sortList = (armor: Armor[], sets: ArmorSet[], method: SortChoice) => {
+export const sortList = (
+  armor: Ref<Armor[]>,
+  sets: ArmorSet[],
+  method: SortChoice
+) => {
   // Sort the array based on this secondary array, made up of just
   // `head_0`, `body_0`, `legs_0`, `head_1`, `body_1`, `legs_1` ...
   const order = sets.reduce(
@@ -95,7 +100,7 @@ const sortList = (armor: Armor[], sets: ArmorSet[], method: SortChoice) => {
   }
 
   const lastHeadgear = /head_(?:1[345678]|2[56789])/;
-  armor.sort((a, b): number => {
+  armor.value.sort((a, b): number => {
     // Special exceptions:
 
     // Champion's tunic go first
@@ -115,8 +120,8 @@ const sortList = (armor: Armor[], sets: ArmorSet[], method: SortChoice) => {
 
 // Re-sort lists on preference change
 watch(toRef(store.state.settings, 'sortOrder'), newVal => {
-  sortList(armorList, armorSets as ArmorSet[], newVal);
-  sortList(amiiboList, amiiboSets as ArmorSet[], newVal);
+  sortList(armorList as Ref<Armor[]>, armorSets as ArmorSet[], newVal);
+  sortList(amiiboList as Ref<Armor[]>, amiiboSets as ArmorSet[], newVal);
 }, { immediate: true });
 
 export default armorList;
