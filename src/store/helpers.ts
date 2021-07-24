@@ -1,7 +1,5 @@
-import { toRef, Ref } from 'vue';
-
 import { counts } from '@/types/armor';
-import { ListInfo, Progress, Settings, SortChoice } from './types';
+import { ListInfo, Progress, Settings, SortChoice, StorageKey } from './types';
 
 import store from './index';
 import { getItem } from './local';
@@ -66,16 +64,14 @@ const onLoad: Helper<'get'> = {
 
 const importers: Helper<'set'> = {
   progress(value) {
-    const keys = Object.keys(store.state.progress) as (keyof Progress)[];
-    keys.forEach(key => {
-      (store.state.progress[key] as Progress[keyof Progress]) = [...value[key]];
+    (Object.keys(store.state.progress) as (keyof Progress)[]).forEach(key => {
+      (store.state.progress[key] as unknown) = [ ...value[key] ];
     });
   },
 
-  settings(value: Settings): void {
-    const keys = Object.keys(store.state.settings) as (keyof Settings)[];
-    keys.forEach(key => {
-      (store.state.settings[key] as Settings[keyof Settings]) = value[key];
+  settings(value) {
+    (Object.keys(store.state.settings) as (keyof Settings)[]).forEach(key => {
+      (store.state.settings[key] as unknown) = value[key];
     });
   },
 
@@ -92,40 +88,51 @@ const subscriptions: Helper<'unsub'> = {
 }
 
 
+/**
+ * A factory function which returns a function to run when a Firestore query
+ * returns empty data. It will get the default data for the given 'getter' and then add it to the 
+ * @param uid The userID (Firestore doc) to set when uploading the new data
+ * @param key Which data in Firestore we're settings
+ * @param getter The key into the Helper object we're using
+ * @returns The onEmpty function
+ */
+const onEmpty = (
+  uid: string,
+  key: StorageKey,
+  getter: keyof Helper<'get'>
+) => () => {
+  const value = defaults[getter]();  // get the default value for this key
+  // @ts-ignore to avoid *crazy* casting; Helper<'get'> === Helper<'set'>
+  importers[getter](value);          // import it to app's local store
+  setItem(uid, key, value);          // add it to Firestore
+}
+
+
 const subscribers: Helper<'sub'> = {
   progress(uid: string) {
     const list = store.state.settings.selectedList;
 
     subscriptions.progress?.();
     subscriptions.progress = subscribe(
-      uid, list, importers.progress, () => {
-        const value = defaults.progress();
-        setItem(uid, list, value);
-        importers.progress(value);
-      }
+      uid, list,
+      importers.progress, onEmpty(uid, list, 'progress')
     );
   },
 
   settings(uid: string) {
     subscriptions.settings?.();
     subscriptions.settings = subscribe(
-      uid, 'user-settings', importers.settings, () => {
-        const value = defaults.settings();
-        setItem(uid, 'user-settings', value);
-        importers.settings(value);
-      }
-    )
+      uid, 'user-settings',
+      importers.settings, onEmpty(uid, 'user-settings', 'settings')
+    );
   },
 
   listInfo(uid: string) {
     subscriptions.listInfo?.();
     subscriptions.listInfo = subscribe(
-      uid, 'list-info', importers.listInfo, () => {
-        const value = defaults.listInfo();
-        setItem(uid, 'list-info', value);
-        importers.listInfo(value);
-      }
-    )
+      uid, 'list-info',
+      importers.listInfo, onEmpty(uid, 'list-info', 'listInfo')
+    );
   }
 }
 

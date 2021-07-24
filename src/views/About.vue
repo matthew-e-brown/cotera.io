@@ -27,7 +27,7 @@
           <span>Donations</span>
         </a>
 
-        <a class="icon-button" href="https://github.com/matthew-e-brown/Cotera.io" target="_blank">
+        <a class="icon-button" href="https://github.com/matthew-e-brown/cotera.io" target="_blank">
           <fa-icon :icon="[ 'fab', 'github' ]" class="fa-fw"></fa-icon>
           <span>Source code</span>
         </a>

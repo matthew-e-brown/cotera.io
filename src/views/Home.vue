@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRef, toRefs } from 'vue';
+import { defineComponent, computed, toRefs } from 'vue';
 
 import TheArmorInfo from '@/components/TheArmorInfo.vue';
 import ArmorItem from '@/components/ArmorItem.vue';

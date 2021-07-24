@@ -102,9 +102,12 @@ export const onAuthStateChanged = (user: firebase.User | null): void => {
     const { uid } = user;
 
     store.setUserID(uid);
+
+    // Subscribe to Firebase and remove local copy
     subscribers.settings(uid);
     subscribers.listInfo(uid);
     subscribers.progress(uid);
+    LocalStorage.clear();
   }
 
   // They are signed out; but check that this isn't during start-up: no need to

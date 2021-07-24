@@ -1,7 +1,6 @@
 import { StorageKey, StorageItem, isStorageItem } from './types';
 
 
-
 /**
  * Grabs an item from localStorage, verifying that it's the right type and
  * shape.
