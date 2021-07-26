@@ -6,6 +6,8 @@
     <div id="list-container">
 
       <div id="list-settings">
+        <ListPicker />
+
         <button
           type="button"
           class="option-button"
@@ -15,6 +17,7 @@
           <fa-icon icon="sort-alt" />
           <span>{{ sortLabel }}</span>
         </button>
+
         <button
           type="button"
           class="option-button"
@@ -28,6 +31,7 @@
             :key="showAmiibo ? 'eye' : 'eye-slash'"
           />
         </button>
+
       </div>
 
       <section>
@@ -58,6 +62,7 @@
 import { defineComponent, computed, toRefs } from 'vue';
 
 import TheArmorInfo from '@/components/TheArmorInfo.vue';
+import ListPicker from '@/components/ListPicker.vue';
 import ArmorItem from '@/components/ArmorItem.vue';
 
 import ShirtIcon from '@/assets/icons/shirt.svg';
@@ -79,7 +84,7 @@ import armor, { amiiboList as amiibo } from '@/armor';
 
 export default defineComponent({
   name: 'Home',
-  components: { TheArmorInfo, ArmorItem, ShirtIcon, AmiiboIcon },
+  components: { TheArmorInfo, ListPicker, ArmorItem, ShirtIcon, AmiiboIcon },
   setup() {
     const { sortOrder, showAmiibo } = toRefs(store.state.settings);
 

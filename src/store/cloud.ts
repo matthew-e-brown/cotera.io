@@ -47,7 +47,7 @@ function wrapItem<K extends StorageKey>(
  * @param item The item to unwrap
  * @returns The StorageItem pulled out from inside the wrapper object
  */
-function unWrapItem<K extends StorageKey>(
+function unwrapItem<K extends StorageKey>(
   key: K,
   item: WrappedItem<K>
 ): StorageItem<K> | undefined {
@@ -124,7 +124,7 @@ export function subscribe<K extends StorageKey>(
         const data = snapshot.data();
 
         // unwrap the list-info from the user-progress object (see @note below)
-        const item = unWrapItem(key, data as WrappedItem<K>);
+        const item = unwrapItem(key, data as WrappedItem<K>);
         if (item === undefined) return onEmpty();
 
         if (isStorageItem(key, item)) return onValue(item);
@@ -157,6 +157,15 @@ function __setItem__<K extends StorageKey>(
 }
 
 
+// Each debounce has separate queues: to avoid overwriting a write to one
+// document with a write to another, we use a different function for each key.
+const debounced = {
+  progress: debounce(__setItem__, 1000),
+  settings: debounce(__setItem__, 1000),
+  listInfo: debounce(__setItem__, 1000),
+}
+
+
 /**
  * Updates a document in Firestore.
  * @param userID The ID of the user whose data is to be updated
@@ -164,4 +173,34 @@ function __setItem__<K extends StorageKey>(
  * @param item The new data
  * @returns A promise which resolves when the set is complete
  */
-export const setItem = debounce(__setItem__, 900);
+export const setItem = <K extends StorageKey>(
+  userID: string,
+  key: K,
+  item: StorageItem<K>
+) => {
+  let func: typeof debounced.progress;
+
+  if (isListID(key)) func = debounced.progress;
+  else if (key == 'list-info') func = debounced.listInfo;
+  else func = debounced.settings;
+
+  return func(userID, key, item);
+}
+
+
+export async function removeUserData(userID: string) {
+
+  const path = `/user-data/${userID}`;
+  return await firebase.firestore().doc(path).delete();
+
+}
+
+
+export async function removeLists(userID: string, lists: ListID[]) {
+
+  return await Promise.all(lists.map(async id => {
+    const path = `/user-data/${userID}/progress/${id}`;
+    return await firebase.firestore().doc(path).delete();
+  }));
+
+}

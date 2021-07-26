@@ -6,7 +6,9 @@ import { ArmorLevel } from '@/types/armor';
 
 import * as LocalStorage from './local';
 import * as CloudStorage from './cloud';
-import { AppState, ListID, Settings, SortChoice, toggleSort } from './types';
+import {
+  AppState, ListID, Settings, SortChoice, toggleSort, StorageItem, StorageKey
+} from './types';
 import {
   defaults, importers, onLoad, subscribers, unsubscribe
 } from './helpers';
@@ -55,13 +57,8 @@ const store = {
 
     this.state.progress[type][indx] = value;
 
-    const userID = this.state.userID;
     const listID = this.state.settings.selectedList;
-    if (userID !== null) {
-      CloudStorage.setItem(userID, listID, this.state.progress);
-    } else {
-      LocalStorage.setItem(listID, this.state.progress);
-    }
+    saveToStorage(listID, this.state.progress);
   },
 
 
@@ -70,19 +67,15 @@ const store = {
       console.log(`setSettings triggered with '${key}: ${value}' k:v pair.`);
 
     this.state.settings[key] = value;
-
-    const userID = this.state.userID;
-    if (userID !== null) {
-      CloudStorage.setItem(userID, 'user-settings', this.state.settings);
-    } else {
-      LocalStorage.setItem('user-settings', this.state.settings);
-    }
+    saveToStorage('user-settings', this.state.settings);
 
     // If they changed the selected list...
     if (key === 'selectedList') {
-      if (userID !== null) {
+      this.state.selected = null; // de-select to prevent confusion
+
+      if (this.state.userID !== null) {
         // re-subscribe using the new value in the state
-        subscribers.progress(userID);
+        subscribers.progress(this.state.userID);
       } else {
         // grab the other list from localStorage
         importers.progress(
@@ -92,10 +85,114 @@ const store = {
     }
   },
 
+
+  renameList(id: ListID, name: string): void {
+    if (this.debug)
+      console.log(`renameList triggered on ${id} with value ${name}`);
+
+    const index = this.state.listInfo.findIndex(({ id: i }) => i == id);
+    if (index == -1)
+      throw new Error("Trying to rename invalid ID from listInfo");
+
+    this.state.listInfo[index].name = name;
+    saveToStorage('list-info', this.state.listInfo);
+  },
+
+
+  addNewList(name: string): void {
+    if (this.debug)
+      console.log(`addNewList triggered with value: ${name}`);
+
+    // Loop up to find the first available. As long as 'some' (any one) item in
+    // the array has an ID that matches our newID, it's in use, and we need a
+    // new one.
+
+    let i = 1;
+    let newID: ListID = `list-0`;
+
+    while (this.state.listInfo.some(({ id }) => newID == id)) {
+      newID = `list-${i++}`;
+    }
+
+    this.state.listInfo.push({ id: newID, name });
+    saveToStorage('list-info', this.state.listInfo);
+  },
+
+
+  removeList(id: ListID): void {
+    if (this.debug)
+      console.log(`removeListInfo triggered for ID '${id}'`);
+
+    if (id == this.state.settings.selectedList)
+      throw new Error("Cannot remove the currently selected list.");
+
+    const index = this.state.listInfo.findIndex(({ id: i }) => i == id);
+
+    if (index == -1)
+      throw new Error("Trying to remove invalid ID from listInfo.");
+
+    this.state.listInfo.splice(index, 1);
+
+    // Save the newly updated list-info
+    saveToStorage('list-info', this.state.listInfo);
+    // Delete the data from storage
+    if (this.state.userID !== null) {
+      CloudStorage.removeLists(this.state.userID, [ id ]);
+    } else {
+      LocalStorage.removeItem(id);
+    }
+  },
+
+
+  reorderListInfo(targetIndx: number, placeAt: number): void {
+    if (this.debug)
+      console.log(`reorderListInfo triggered with ${targetIndx}→${placeAt}`);
+
+    // Remove from the array and re-add at the right place
+    const item = this.state.listInfo.splice(targetIndx, 1)[0];
+    this.state.listInfo.splice(placeAt, 0, item);
+
+    saveToStorage('list-info', this.state.listInfo);
+  }
+
 };
 
 
-export const onAuthStateChanged = (user: firebase.User | null): void => {
+
+/**
+ * Wraps the 'if signed in, cloud; otherwise, local' saving step.
+ * @param key The item to save
+ * @param item The item
+ */
+function saveToStorage<K extends StorageKey>(key: K, item: StorageItem<K>) {
+  const userID = store.state.userID;
+  if (userID !== null) {
+    return CloudStorage.setItem(userID, key, item);
+  } else {
+    return LocalStorage.setItem(key, item);
+  }
+}
+
+
+// /**
+//  * Gives each element in the ListInfo array a new ID according to it's
+//  * **current** index. Saves the results.
+//  */
+// function tidyListIDs(): void {
+//   const selected: ListID = store.state.settings.selectedList;
+
+//   // Take the current order of the lists and re-ID them with the new numbers
+//   store.state.listInfo.forEach(({ id: oldID }, i, arr) => {
+//     const newID: ListID = `list-${i}`;
+//     if (oldID == selected) store.setSetting('selectedList', newID);
+//     arr[i].id = newID;
+//   });
+
+//   saveToStorage('list-info', store.state.listInfo);
+// }
+
+
+export function onAuthStateChanged(user: firebase.User | null): void {
 
   // They are signed in
   if (user !== null) {

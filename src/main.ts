@@ -30,14 +30,15 @@ import {
   faGoogle, faGithub, faCanadianMapleLeaf
 } from '@fortawesome/free-brands-svg-icons';
 import {
-  faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
-  faSortAlt, faChevronCircleDown, faCode, faHeart
+  faCaretRight, faCaretDown, faCaretUp, faMinus, faPlus, faPlusCircle, faCheck,
+  faTimes, faTrashAlt, faPen, faStar, faEnvelope, faEye, faEyeSlash, faSortAlt,
+  faChevronCircleDown, faCode, faHeart
 } from '@fortawesome/pro-solid-svg-icons';
 
 library.add(
-  faCaretRight, faMinus, faPlus, faStar, faEnvelope, faEye, faEyeSlash,
-  faSortAlt, faChevronCircleDown, faCode, faHeart, faGoogle, faGithub,
-  faCanadianMapleLeaf
+  faCaretRight, faCaretDown, faCaretUp, faMinus, faPlus, faPlusCircle, faCheck,
+  faTimes, faTrashAlt, faPen, faStar, faEnvelope, faEye, faEyeSlash, faSortAlt,
+  faChevronCircleDown, faCode, faHeart, faGoogle, faGithub, faCanadianMapleLeaf
 );
 
 /** cspell: disable */
