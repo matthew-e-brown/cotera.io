@@ -14,7 +14,7 @@
           @click="toggleSortState"
           :aria-label="`Switch to sorting by ${ariaSortLabel}`"
         >
-          <fa-icon icon="sort-alt" />
+          <fa-icon icon="sort-alt" class="fa-fw" />
           <span>{{ sortLabel }}</span>
         </button>
 
@@ -126,6 +126,11 @@ main {
   }
 }
 
+h3 {
+  margin-top: 1.85em;
+  margin-bottom: 1em;
+}
+
 section {
   margin-bottom: 2rem;
   &:last-child { margin-bottom: 0; }
@@ -144,12 +149,28 @@ section {
 }
 
 #list-settings {
-  display: flex;
-  justify-content: flex-end;
+  display: grid;
+  place-items: flex-end;
+
+  // default layout
+  grid-template-columns: min-content 1fr min-content min-content;
+  grid-template-areas: 'a . b c';
+  gap: 0.85rem;
+
+  >:nth-child(1) { grid-area: a; }
+  >:nth-child(2) { grid-area: b; }
+  >:nth-child(3) { grid-area: c; }
+
   margin-bottom: 0;
 
   @media (max-width: $break-small) {
     font-size: 1.1em;
+  }
+
+  @media (max-width: $break-large + 100px) {
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr min-content min-content;
+    grid-template-areas: '. a a' '. b c';
   }
 }
 
@@ -161,29 +182,13 @@ section {
   padding: 0;
 }
 
-.option-button {
-  color: $fg-color;
-  background-color: $bg-color;
+.option-button span {
+  width: 4.25ch;
+}
 
-  padding: 0.60em 1em;
-  margin-left: 1em;
-  min-width: 06.25rem;
-  height: 2.80em;
-
-  border-radius: 0.4em;
-  border: 0.15em solid $border-color;
-
-  display: flex;
-  place-items: center;
-
-  svg:first-child { margin-right: 0.80rem; }
-  svg:last-child { font-size: 1.25em; }
-
-  span {
-    margin-bottom: -0.15em;
-    text-align: center;
-    width: 4.25ch;
-  }
+.option-button:last-of-type svg:last-child {
+  margin-left: 0.25em;
+  margin-right: 0.15em;
 }
 
 h3 {

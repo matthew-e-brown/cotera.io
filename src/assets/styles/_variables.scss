@@ -43,6 +43,16 @@ $nav-height: 5.3rem;
 }
 
 /**
+ * Sets text-overflow and word-wrap properties to make text in a span not wrap,
+ * and get an ellipsis instead.
+ */
+@mixin dot-dot-dot {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/**
  * Mixes two colors. Calculates a fully opaque colour that emulates a
  * transparent one being overtop of another opaque one.
  * @see {@link https://stackoverflow.com/a/8743658/10549827}

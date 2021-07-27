@@ -215,6 +215,25 @@ span.num {
   }
 }
 
+input {
+  box-sizing: border-box;
+  display: block;
+
+  width: 100%;
+  height: 2.77em;
+  padding: 1em 1.5em 0.8em;
+
+  background-color: opaque-mix($bg-color-accent, $bg-color);
+  color: $fg-color;
+
+  border: 0;
+  border-radius: 0.5em;
+
+  &::placeholder {
+    color: $fg-color-dim;
+  }
+}
+
 .button {
   font-family: $body-font;
   font-weight: 700;
@@ -290,5 +309,29 @@ span.num {
     padding-bottom: 0.05em;
     margin-left: 1.50em;
     @media (max-width: $break-small) { margin-left: 0.75em; }
+  }
+}
+
+.option-button {
+  color: $fg-color;
+  background-color: $bg-color;
+
+  padding: 0.60em;
+  min-width: 6.25rem;
+  max-width: 12.00rem;
+  height: 2.80rem;
+
+  border-radius: 0.4em;
+  border: 0.15em solid $border-color;
+
+  display: flex;
+  place-items: center;
+
+  svg:first-child { margin-right: 0.60em; }
+  svg:last-child { font-size: 1.25em; }
+
+  span {
+    margin-bottom: -0.20em;
+    text-align: center;
   }
 }
