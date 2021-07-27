@@ -3,10 +3,10 @@
 
     <TheArmorInfo />
 
-    <div id="list-container">
+    <div id="list-container" ref="popperBounds">
 
       <div id="list-settings">
-        <ListPicker />
+        <ListPicker :overflow-bounds="popperBounds" />
 
         <button
           type="button"
@@ -24,7 +24,7 @@
           @click="toggleAmiibo"
           :aria-label="`Switch to ${ showAmiibo ? 'hiding' : 'showing' } Amiibo armor`"
         >
-          <AmiiboIcon class="amiibo" aria-label="amiibo" />
+          <span><AmiiboIcon class="amiibo" aria-label="amiibo" /></span>
           <fa-icon
             class="fa-fw"
             :icon="showAmiibo ? 'eye' : 'eye-slash'"
@@ -46,7 +46,7 @@
 
       <section v-show="showAmiibo">
         <h3 class="line">
-          <AmiiboIcon />
+          <AmiiboIcon class="amiibo" aria-label="amiibo" />
           <span>Armor</span>
         </h3>
         <ul class="armor-list">
@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRefs } from 'vue';
+import { defineComponent, computed, toRefs, ref } from 'vue';
 
 import TheArmorInfo from '@/components/TheArmorInfo.vue';
 import ListPicker from '@/components/ListPicker.vue';
@@ -87,6 +87,7 @@ export default defineComponent({
   components: { TheArmorInfo, ListPicker, ArmorItem, ShirtIcon, AmiiboIcon },
   setup() {
     const { sortOrder, showAmiibo } = toRefs(store.state.settings);
+    const popperBounds = ref<HTMLDivElement>();
 
     const capitalize = (str: string): string => {
       return `${str[0].toUpperCase()}${str.slice(1)}`;
@@ -105,7 +106,8 @@ export default defineComponent({
 
     return {
       armor, amiibo,
-      toggleSortState, toggleAmiibo, sortLabel, ariaSortLabel, showAmiibo
+      toggleSortState, toggleAmiibo, sortLabel, ariaSortLabel, showAmiibo,
+      popperBounds
     };
   }
 });
@@ -163,14 +165,20 @@ section {
 
   margin-bottom: 0;
 
+  // Explicitly set the width on the 'Sets' / 'Type' span so it doesn't shift
+  // around when toggling
+  >:nth-child(2) span { width: 4.25ch; }
+  
+  >:nth-child(3) span svg { margin-top: -0.25em; }
+
   @media (max-width: $break-small) {
     font-size: 1.1em;
   }
 
-  @media (max-width: $break-large + 100px) {
+  @media (max-width: $break-large + 200) {
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr min-content min-content;
-    grid-template-areas: '. a a' '. b c';
+    grid-template-areas: 'a a a' '. b c';
   }
 }
 
@@ -182,31 +190,16 @@ section {
   padding: 0;
 }
 
-.option-button span {
-  width: 4.25ch;
-}
-
-.option-button:last-of-type svg:last-child {
-  margin-left: 0.25em;
-  margin-right: 0.15em;
-}
-
-h3 {
-  svg {
-    height: 1em;
-    margin-right: 0.5em;
-    align-self: center;
-  }
-
-  svg.amiibo {
-    height: 1.275em;
-    align-self: flex-end;
-  }
+h3 svg {
+  height: 1em;
+  margin-right: 0.5em;
+  align-self: center;
+  &.amiibo { align-self: flex-end; }
 }
 
 svg.amiibo {
   height: 1.275em;
-  align-self: flex-end;
+  margin-bottom: -0.15em;
 
   // Less margin in the header
   @at-root h3 & { margin-right: 0.30em; }

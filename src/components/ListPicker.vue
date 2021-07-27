@@ -1,13 +1,21 @@
 <template>
   <div class="list-picker">
 
-    <button type="button" class="option-button">
+    <button
+      type="button"
+      class="option-button"
+      ref="popperReference"
+      @click="opened = !opened"
+    >
       <fa-icon icon="ellipsis-v" class="fa-fw" />
       <span>{{ selected.name }}</span>
     </button>
 
-    <ul>
-      <li v-for="(info, i) in listInfo" :key="info.id">
+    <ul ref="popperElement" :style="`display: ${opened ? 'block' : 'none'}`">
+      <li
+        v-for="(info, i) in listInfo" :key="info.id"
+        :class="{ 'selected-list': selected.id == info.id }"
+      >
 
         <div v-if="info.id !== beingEdited" class="picker-box">
 
@@ -68,7 +76,7 @@
 
       <li v-if="beingAdded === null">
 
-        <button type="button" @click="add">
+        <button type="button" class="create-new" @click="add">
           <fa-icon icon="plus-circle" class="fa-fw" />
           <span>Create a new list</span>
         </button>
@@ -82,7 +90,7 @@
             ref="addInput"
             v-model="beingAdded"
             placeholder="New list name"
-            @keydown.esc="stopAdd"
+            @keydown.esc.capture="stopAdd"
           />
           <button
             type="submit"
@@ -107,14 +115,125 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, toRef, ref, nextTick, computed } from 'vue';
+import {
+  defineComponent, Ref, toRef, ref, computed, watch, nextTick, onMounted,
+  onUnmounted, PropType
+} from 'vue';
+
+import { createPopper, Instance } from '@popperjs/core/lib/popper-lite';
+import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
+import eventListeners from '@popperjs/core/lib/modifiers/eventListeners';
+import offset from '@popperjs/core/lib/modifiers/offset';
 
 import store from '@/store';
 import { ListID, ListInfo } from '@/store/types';
 
 
+function usePopper(opened: Ref<boolean>, bounds: Ref<HTMLElement | undefined>) {
+
+  let instance: Instance | null = null;
+  const reference = ref<HTMLButtonElement>();
+  const element = ref<HTMLUListElement>();
+
+
+  /**
+   * Gets the padding from the computed styles of an element
+   * @param el The element of which the styles should be parsed from
+   * @returns An object with a property for each side, in pixels
+   */
+  const getPadding = (el?: HTMLElement) => {
+    if (!el) return { top: 0, right: 0, bottom: 0, left: 0 };
+
+    type SidesUpper = 'Top' | 'Right' | 'Bottom' | 'Left';
+    type SidesLower = 'top' | 'right' | 'bottom' | 'left';
+
+    const styles = getComputedStyle(el);
+
+    // For each side...
+    return [ 'Top', 'Right', 'Bottom', 'Left' ].reduce((acc, cur) => {
+      const key = `padding${cur}` as `padding${SidesUpper}`;
+      const val = parseFloat(styles[key]);
+
+      // ... set 'side' = styles['paddingSide']
+      acc[cur.toLowerCase() as SidesLower] = val;
+
+      return acc;
+    }, { } as { [ k in SidesLower ]: number });
+  }
+
+  const getEm = (el?: HTMLElement) => {
+    const styles = getComputedStyle(el ?? document.documentElement);
+    return parseFloat(styles.fontSize);
+  }
+
+
+  /**
+   * Generates the configuration for the Popper Instance
+   */
+  const generateModifiers = (open: boolean) => {
+    return [
+      // preventOverflow
+      { ...preventOverflow, enabled: true, options: {
+        boundary: bounds.value, padding: getPadding(bounds.value)
+      }},
+      // offset
+      { ...offset, enabled: true, options: {
+        offset: [ 0, getEm(element.value) * 0.5 ]
+      }},
+      // eventListeners
+      { ...eventListeners, enabled: open }
+    ];
+  }
+
+
+  // nextTick is (for some reason?) needed to prevent DOM ref object from
+  // parent from being undefined. My best guess is because the ref that is
+  // being pointed to is a *parent* of where this component is: so, when Vue
+  // is rendering this component, it has not completed rendering its parent
+  // yet, and the ref is undefined.
+  onMounted(() => nextTick(() => {
+    if (!reference.value || !element.value || !bounds.value)
+      throw new Error("DOM refs not established during onMounted hook");
+
+    // just in case
+    if (instance !== null) {
+      instance.destroy();
+      instance = null;
+    }
+
+    instance = createPopper(reference.value, element.value, {
+      placement: 'bottom',
+      modifiers: generateModifiers(false)
+    });
+  }));
+
+  watch(opened, async isOpen => {
+    // toggle the modifiers depending on current state
+    await instance?.setOptions({ modifiers: generateModifiers(isOpen) });
+    if (isOpen) await instance?.update();
+  });
+
+  onUnmounted(() => {
+    if (instance !== null) {
+      instance.destroy();
+      instance = null;
+    }
+  });
+
+  return { popperReference: reference, popperElement: element };
+}
+
+
 export default defineComponent({
-  setup() {
+  props: {
+    overflowBounds: {
+      type: Object as PropType<HTMLElement>,
+      required: false
+    }
+  },
+  setup(props) {
+    const opened = ref(false);
+
     const listInfo: Ref<ListInfo[]> = toRef(store.state, 'listInfo');
 
     const beingEdited: Ref<ListID | null> = ref(null);
@@ -202,35 +321,50 @@ export default defineComponent({
     });
 
     return {
-      listInfo, selected,
+      listInfo, selected, opened,
       edit, beingEdited, editingTemp, stopEdit, submitEdit, editInput,
       add, beingAdded, stopAdd, submitAdd, addInput,
-      moveDown, moveUp, select, remove
+      moveDown, moveUp, select, remove,
+      ...usePopper(opened, toRef(props, 'overflowBounds')),
     };
   }
 });
 </script>
 
 <style scoped lang="scss">
-.list-picker {
-  color: $fg-color;
-  position: relative;
-
-  ul { display: none }
-  &:focus-within ul { display: block; }
-}
-
 .option-button {
-  width: 14rem;
+  // '...' when the list name gets too long
   span { @include dot-dot-dot; }
 }
 
 button { color: inherit; }
 button:disabled { opacity: 0.25; }
 
+.list-picker {
+  color: $fg-color;
+}
+
+.name {
+  height: 1em;
+  font-weight: 400;
+}
+
+.name, .picker-box input, .create-new {
+  box-sizing: content-box;
+  padding: 0.45em 0.55em;
+}
+
+.picker-box input, .create-new {
+  height: 1em;
+}
+
+.selected-list {
+  .name { font-weight: 700; }
+}
+
+// The pop-out itself
 ul {
   list-style-type: none;
-  position: absolute;
   z-index: 3;
 
   margin: 0;
@@ -250,9 +384,10 @@ ul {
   li+li { margin-top: 0.75em; }
 }
 
+// Each element in the list; the box that holds the options for each list
 .picker-box {
   box-sizing: border-box;
-  width: 20.00rem;
+  width: 18rem;
 
   padding-right: 0.25em;
 
@@ -265,17 +400,12 @@ ul {
   @at-root div#{&} { grid-template-columns: 1fr repeat(4, 1.5em); }
   @at-root form#{&} { grid-template-columns: 1fr repeat(2, 1.5em); }
 
-  // all buttons: name, and the little ones
-  button { padding: 0.25em; }
-
   // .name and input
   >:first-child {
     margin-left: 0;
     text-align: left;
     padding-left: 0.55em + 0.25em;
   }
-
-  .name { @include dot-dot-dot; }
 
   input {
     width: unset;
@@ -286,15 +416,19 @@ ul {
   >:last-child { margin-right: 0; }
 }
 
+// The little buttons inside each .picker-box
 .picker-button {
   color: $fg-color;
   background-color: transparent;
+
+  padding: 0.25em;
 
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+// The 'Create new list' button
 li:last-child {
   color: $fg-color-dimmer;
   display: flex;
@@ -304,12 +438,5 @@ li:last-child {
     flex-grow: 1;
     svg { margin-right: 0.50em; }
   }
-}
-
-// Set the heights of the inputs
-.picker-box>:first-child, li:last-child>button {
-  box-sizing: content-box;
-  padding: 0.45em 0.55em;
-  height: 1em;
 }
 </style>

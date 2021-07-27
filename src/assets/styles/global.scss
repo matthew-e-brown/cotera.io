@@ -316,22 +316,26 @@ input {
   color: $fg-color;
   background-color: $bg-color;
 
-  padding: 0.60em;
-  min-width: 6.25rem;
-  max-width: 12.00rem;
-  height: 2.80rem;
+  box-sizing: content-box;
+  height: 1em;
+  max-width: 12.00em;
+  padding: 0.75em 1em;
 
   border-radius: 0.4em;
   border: 0.15em solid $border-color;
 
   display: flex;
-  place-items: center;
+  align-items: center;
+  justify-content: center;
 
-  svg:first-child { margin-right: 0.60em; }
-  svg:last-child { font-size: 1.25em; }
+  $spacing: 0.30em;
+  >* { margin-left: $spacing; margin-right: $spacing; }
 
-  span {
-    margin-bottom: -0.20em;
-    text-align: center;
-  }
+  >:first-child { margin-left: 0; }
+  >:last-child { margin-right: 0; }
+
+  // fiddle with vertical alignment ever so slightly
+  $offset: 0.15em;
+  >span { margin-top: $offset; }
+  >span svg { margin-top: -$offset; }
 }
