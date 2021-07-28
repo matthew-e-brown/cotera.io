@@ -1,221 +1,207 @@
 <template>
   <main id="home">
-    <ArmorInfo class="sticky-box" :armor="state.selected" />
-    <div id="list-container">
+
+    <TheArmorInfo />
+
+    <div id="list-container" ref="popperBounds">
+
       <div id="list-settings">
+        <ListPicker :overflow-bounds="popperBounds" />
+
         <button
-          @click="toggleSort"
-          :aria-label="`Order by ${state.sortOrder == 'set' ? 'type' : 'sets'}`"
+          type="button"
+          class="option-button"
+          @click="toggleSortState"
+          :aria-label="`Switch to sorting by ${ariaSortLabel}`"
         >
-          <fa-icon icon="sort-alt" />
-          <span>{{ state.sortOrder == 'set' ? 'Sets' : 'Type' }}</span>
+          <fa-icon icon="sort-alt" class="fa-fw" />
+          <span>{{ sortLabel }}</span>
         </button>
+
         <button
+          type="button"
+          class="option-button"
           @click="toggleAmiibo"
-          :aria-label="`${state.showAmiibo ? 'Hide' : 'Show'} Amiibo armor`"
+          :aria-label="`Switch to ${ showAmiibo ? 'hiding' : 'showing' } Amiibo armor`"
         >
-          <Amiibo class="amiibo" aria-hidden="true" />
+          <span><AmiiboIcon class="amiibo" aria-label="amiibo" /></span>
           <fa-icon
             class="fa-fw"
-            :icon="state.showAmiibo ? 'eye' : 'eye-slash'"
+            :icon="showAmiibo ? 'eye' : 'eye-slash'"
+            :key="showAmiibo ? 'eye' : 'eye-slash'"
           />
         </button>
+
       </div>
+
       <section>
         <h3 class="line">
-          <Shirt />
+          <ShirtIcon />
           <span>Armor</span>
         </h3>
         <ul class="armor-list">
           <ArmorItem v-for="piece in armor" :key="piece.tag" :armor="piece" />
         </ul>
       </section>
-      <section v-if="state.showAmiibo">
+
+      <section v-show="showAmiibo">
         <h3 class="line">
-          <Amiibo class="amiibo" aria-label="amiibo" />
+          <AmiiboIcon class="amiibo" aria-label="amiibo" />
           <span>Armor</span>
         </h3>
         <ul class="armor-list">
           <ArmorItem v-for="piece in amiibo" :key="piece.tag" :armor="piece" />
         </ul>
       </section>
+
     </div>
   </main>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, computed, toRefs, ref } from 'vue';
+
+import TheArmorInfo from '@/components/TheArmorInfo.vue';
+import ListPicker from '@/components/ListPicker.vue';
 import ArmorItem from '@/components/ArmorItem.vue';
-import ArmorInfo from '@/components/ArmorInfo.vue';
-import Amiibo from '@/assets/icons/amiibo.svg';
-import Shirt from '@/assets/icons/shirt.svg';
 
-import state from '@/store';
-import armor, { amiibo } from '@/armor';
-import sets from '@/assets/data/sets.json';
-import amiiboSets from '@/assets/data/amiibo-sets.json';
+import ShirtIcon from '@/assets/icons/shirt.svg';
+import AmiiboIcon from '@/assets/icons/amiibo.svg';
 
-export default {
+import store, { toggleSort } from '@/store';
+import armor, { amiiboList as amiibo } from '@/armor';
+
+/**
+ * @note
+ *
+ * Currently (2021-05-03), in Vue 3, using reactive :icon on FontAwesome icons
+ * requires a :key. There is a PR to fix it, but it doesn't look like it'll be
+ * merged anytime soon; it's been sitting there since September.
+ *
+ * @see {@link https://github.com/FortAwesome/vue-fontawesome/issues/250}
+ * @see {@link https://github.com/FortAwesome/vue-fontawesome/pull/297}
+ */
+
+export default defineComponent({
   name: 'Home',
-  components: { ArmorItem, ArmorInfo, Shirt, Amiibo },
-  data: function() {
-    return { state, armor, amiibo }
-  },
-  methods: {
-    toggleSort: function() {
-      this.$set(
-        this.state,
-        'sortOrder',
-        this.state.sortOrder == 'set' ? 'type' : 'set'
-      );
-    },
-    toggleAmiibo: function() {
-      this.$set(this.state, 'showAmiibo', !this.state.showAmiibo);
-    },
-    sortArmor: function(list, set, value) {
-      const order = set.reduce((acc, cur) => [...acc, ...cur.pieces], []);
+  components: { TheArmorInfo, ListPicker, ArmorItem, ShirtIcon, AmiiboIcon },
+  setup() {
+    const { sortOrder, showAmiibo } = toRefs(store.state.settings);
+    const popperBounds = ref<HTMLDivElement>();
 
-      if (value == 'type') {
-        // Sort the sort-order, to make it head-head-body-body-legs-legs instead
-        // of head-body-leg-head-body-leg
-        order.sort((...args) => {
-          const [ a, b ] = args.map(x => x.substr(0, x.lastIndexOf('_')));
-          if (a == b) return 0; // items of same time stay next to one another
-          else {
-            const o = [ 'head', 'body', 'legs' ];
-            return o.indexOf(a) - o.indexOf(b);
-          }
-        });
-      }
+    const capitalize = (str: string): string => {
+      return `${str[0].toUpperCase()}${str.slice(1)}`;
+    }
 
-      list.sort((a, b) => {
-        // Put Champion's Tunic first and jewelry/divine headgear last
-        if (a.tag == 'body_13') return -1;
-        else if (b.tag == 'body_13') return 1;
-        else if (/head_(?:1[345678]|2[56789])/.test(a.tag)) {
-          // Don't sort jewelry/divine headgear relative to one another
-          if (/head_(?:1[345678]|2[56789])/.test(b.tag)) return 0;
-          return 1;
-        } else return order.indexOf(a.tag) - order.indexOf(b.tag);
-      });
+    const toggleSortState = () => {
+      store.setSetting('sortOrder', toggleSort(sortOrder.value));
     }
-  },
-  watch: {
-    'state.sortOrder': function(value) {
-      this.sortArmor(this.armor, sets, value);
-      // Can re-use same sorter for the amiibo armor since the extra "override"
-      // checks are specific to certain IDs
-      this.sortArmor(this.amiibo, amiiboSets, value);
+
+    const toggleAmiibo = () => {
+      store.setSetting('showAmiibo', !showAmiibo.value);
     }
-  },
-  mounted: function() {
-    this.sortArmor(this.armor, sets, this.state.sortOrder);
-    this.sortArmor(this.amiibo, amiiboSets, this.state.sortOrder);
+
+    const sortLabel = computed(() => capitalize(sortOrder.value));
+    const ariaSortLabel = computed(() => toggleSort(sortOrder.value));
+
+    return {
+      armor, amiibo,
+      toggleSortState, toggleAmiibo, sortLabel, ariaSortLabel, showAmiibo,
+      popperBounds
+    };
   }
-}
+});
 </script>
 
-<style scoped>
-#home {
+<style scoped lang="scss">
+main {
   display: flex;
   flex-flow: row-reverse nowrap;
   align-items: flex-start;
+
+  >* {
+    flex: 1 1 auto;
+  }
+
+  @media (max-width: $break-mobile) {
+    flex-flow: row wrap;
+  }
 }
 
-#home>* {
-  flex: 1 1 auto;
+h3 {
+  margin-top: 1.85em;
+  margin-bottom: 1em;
 }
 
 section {
   margin-bottom: 2rem;
-}
-
-section:last-child {
-  margin-bottom: 0;
+  &:last-child { margin-bottom: 0; }
 }
 
 #list-container {
   padding: 3rem 2rem 0;
-}
 
-#list-container>:first-child {
-  margin-top: 0;
+  >:first-child {
+    margin-top: 0;
+  }
+
+  @media (max-width: $break-mobile) {
+    padding-top: 1.5rem;
+  }
 }
 
 #list-settings {
-  display: flex;
-  justify-content: flex-end;
+  display: grid;
+  place-items: flex-end;
+
+  // default layout
+  grid-template-columns: min-content 1fr min-content min-content;
+  grid-template-areas: 'a . b c';
+  gap: 0.85rem;
+
+  >:nth-child(1) { grid-area: a; }
+  >:nth-child(2) { grid-area: b; }
+  >:nth-child(3) { grid-area: c; }
+
   margin-bottom: 0;
+
+  // Explicitly set the width on the 'Sets' / 'Type' span so it doesn't shift
+  // around when toggling
+  >:nth-child(2) span { width: 4.25ch; }
+  
+  >:nth-child(3) span svg { margin-top: -0.25em; }
+
+  @media (max-width: $break-small) {
+    font-size: 1.1em;
+  }
+
+  @media (max-width: $break-large + 200) {
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr min-content min-content;
+    grid-template-areas: 'a a a' '. b c';
+  }
 }
 
 .armor-list {
-  list-style: none;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+  list-style: none;
   padding: 0;
-}
-
-/* Only <buttons> directly in this component are the #list-setting ones */
-button {
-  color: var(--text-color);
-  background-color: var(--block-color);
-  padding: 0.60em 1em;
-  border-radius: 0.4em;
-  margin-left: 1em;
-  border: 0.15em solid var(--block-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 6.25rem;
-  height: 2.80em;
-}
-
-/* Spacing */
-button svg:first-child {
-  margin-right: 0.80rem;
-}
-
-/* The eye */
-button svg:last-child {
-  font-size: 1.25em;
-}
-
-/* The text in the left button */
-button span {
-  margin-bottom: -0.15em;
-  text-align: center;
-  width: 4.25ch;
 }
 
 h3 svg {
   height: 1em;
   margin-right: 0.5em;
   align-self: center;
+  &.amiibo { align-self: flex-end; }
 }
 
 svg.amiibo {
   height: 1.275em;
-  align-self: flex-end;
-}
+  margin-bottom: -0.15em;
 
-h3 svg.amiibo {
-  margin-right: 0.30em;
-}
-
-@media (max-width: 770px) {
-  #home {
-    flex-flow: row wrap;
-  }
-
-  #list-container {
-    padding-top: 1.5rem;
-  }
-}
-
-@media (max-width: 430px) {
-  /* Offset the shrinking on really small screens */
-  #list-settings {
-    font-size: 1.1em;
-  }
+  // Less margin in the header
+  @at-root h3 & { margin-right: 0.30em; }
 }
 </style>

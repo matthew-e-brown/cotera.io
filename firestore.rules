@@ -1,14 +1,19 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Disable reads over entire DB
     match /{document=**} {
       allow read, write: if false;
     }
 
-    match /user-progress/{userId} {
-      allow read, write: if
-        request.auth != null &&
-        request.auth.uid == userId;
+    // Allow reads for user data
+    match /user-data/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Also allow reads for the progress subcollectoin
+    match /user-data/{userId}/progress/{list} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
   }
 }

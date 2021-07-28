@@ -1,92 +1,111 @@
 <template>
   <div class="hide-input">
     <input
-      :type="type"
-      :id="id"
-      :name="name"
-      :placeholder="placeholder"
-      :autocomplete="autocomplete"
+      :type="hidden ? 'password' : 'text'"
       :value="value"
-      @input="$emit('input', $event.target.value)"
-    >
-    <button type="button" @click="toggle">
-      <EyeClosed v-if="type == 'password'" />
-      <EyeOpen v-else />
+      @input="onInput"
+      v-bind="$attrs"
+    />
+    <button type="button" @click="onClick">
+      <component :is="icon" />
     </button>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { computed, defineComponent, PropType, ref } from 'vue';
+
 import EyeOpen from '@/assets/icons/eye-open.svg';
 import EyeClosed from '@/assets/icons/eye-closed.svg';
 
-export default {
+export default defineComponent({
   name: 'PasswordField',
-  components: { EyeOpen, EyeClosed },
-  props: [
-    'id',
-    'name',
-    'placeholder',
-    'autocomplete',
-    'value' // for v-model
-  ],
-  data: function() {
-    return {
-      type: 'password'
+  props: {
+    // v-model value
+    value: { type: String as PropType<string> },
+    // Optional v-model hidden -- if passed, will model this variable for
+    // whether or not to be hidden; otherwise, will just use its own state
+    hidden: {
+      type: Boolean as PropType<boolean> | undefined as PropType<undefined>,
+      default: undefined
     }
   },
-  methods: {
-    toggle: function() {
-      this.type = this.type == 'password' ? 'text' : 'password';
-      this.$emit('change', this.type);
-    },
-    set: function(value) {
-      this.type = value;
+  emits: [ 'toggle', 'update:value', 'update:hidden' ],
+  setup(props, { emit }) {
+    const propPassed = props.hidden !== undefined;
+
+    // Internal state, used only when prop is not passed: undefined otherwise
+    const _hidden = ref<boolean | undefined>(!propPassed ? true : undefined);
+
+    /**
+     * Wrapper for alternative 'hidden' behaviour: if props.hidden is passed,
+     * then this will return its value on get and emit 'update:hidden' on set.
+     * Otherwise, it will proxy to the internal _hidden state.
+     */
+    const hidden = computed({
+      get: () => {
+        if (!propPassed) return _hidden.value;
+        else return props.hidden;
+      },
+      set: value => {
+        if (!propPassed) _hidden.value = value;
+        else emit('update:hidden', value);
+      }
+    });
+
+    const icon = computed(() => hidden.value ? EyeClosed : EyeOpen);
+
+    const onClick = () => hidden.value = !hidden.value;
+    const onInput = (event: InputEvent) => {
+      emit('update:value', (event.target as HTMLInputElement).value);
     }
+
+    return { icon, hidden, onInput, onClick };
   }
-}
+});
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 div {
-  display: flex;
-  position: relative;
   box-sizing: content-box;
+  position: relative;
+
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+input {
+  border-radius: 0.5em 0 0 0.5em;
 }
 
 button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: none;
+  color: $fg-color-dim;
+  background-color: opaque-mix($bg-color-accent, $bg-color);
   cursor: pointer;
-  padding: 0.40em;
+
+  padding: 0.4em;
   width: 2.77em;
   height: 2.77em;
-  border-radius: 0.5em;
-  position: absolute;
-  right: 0;
-}
+  border-radius: 0 0.5em 0.5em 0;
 
-button:active {
-  color: var(--body-text);
-  background-color: var(--block-color-a);
+  transition: background-color 75ms linear;
+
+  &:active, &:focus {
+    color: $fg-color;
+    background-color:
+      opaque-mix($bg-color-accent, opaque-mix($bg-color-accent, $bg-color));
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      color: $fg-color;
+      background-color:
+        opaque-mix($bg-color-accent, opaque-mix($bg-color-accent, $bg-color));
+    }
+  }
 }
 
 svg {
-  display: block;
   height: 100%;
-  fill: var(--body-text-1);
-}
-
-@media (hover: hover) {
-  button {
-    transition: background-color 75ms linear;
-  }
-
-  button:hover, button:focus {
-    color: var(--body-text);
-    background-color: var(--block-color-a);
-  }
 }
 </style>

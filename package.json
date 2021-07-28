@@ -1,6 +1,6 @@
 {
   "name": "cotera-io",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "license": "GPL-3.0-or-later",
   "author": {
     "name": "Matthew Brown",
@@ -22,21 +22,29 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.30",
-    "@fortawesome/free-brands-svg-icons": "^5.14.0",
-    "@fortawesome/pro-solid-svg-icons": "^5.14.0",
-    "@fortawesome/vue-fontawesome": "^2.0.0",
-    "firebase": "^8.0.0",
-    "lodash.debounce": "^4.0.8",
-    "lodash.throttle": "^4.1.1",
-    "prerender-spa-plugin": "^3.4.0",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "@fontsource/epilogue": "^4.5.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/pro-solid-svg-icons": "^5.15.3",
+    "@fortawesome/vue-fontawesome": "^3.0.0-3",
+    "@popperjs/core": "^2.9.2",
+    "firebase": "^8.8.0",
+    "lodash": "^4.17.21",
+    "register-service-worker": "^1.7.2",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.6"
   },
   "devDependencies": {
-    "@vue/cli-plugin-router": "^4.5.8",
-    "@vue/cli-service": "^4.5.8",
-    "vue-svg-loader": "^0.16.0",
-    "vue-template-compiler": "^2.6.11"
+    "@types/lodash": "^4.14.171",
+    "@vue/cli-plugin-pwa": "~4.5.13",
+    "@vue/cli-plugin-router": "~4.5.13",
+    "@vue/cli-plugin-typescript": "~4.5.13",
+    "@vue/cli-service": "~4.5.13",
+    "@vue/compiler-sfc": "^3.1.5",
+    "normalize.css": "^8.0.1",
+    "sass": "^1.35.2",
+    "sass-loader": "^8.0.2",
+    "typescript": "~4.3.5",
+    "vue-svg-loader": "^0.17.0-beta.2"
   }
 }

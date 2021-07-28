@@ -1,111 +1,135 @@
 <template>
-  <main id="about" class="sticky-box">
+  <main id="about-and-faq" class="sticky-box">
     <h2>About &amp; FAQ</h2>
+
     <section id="about">
       <h3>About</h3>
+
       <p>
-        <strong>Cotera.io</strong>, named after the Great Fairy in Kakariko
-        Village, is a web-app for tracking armor upgrades in
-        <em>The Legend of Zelda: Breath of the Wild</em>. It has two main goals:
-        to help you recall which items you need to find to upgrade each piece of
-        armor to the next level, and, simply to help you keep track of your
-        progress!
+        <strong class="cotera">Cotera.io</strong>, named after the Great Fairy
+        in Kakariko Village, is a website and web-app made to help you track
+        your armor upgrades in <em>The Legend of Zelda: Breath of the Wild</em>.
+        It has two main goals. First, to help you recall the items you need in
+        order to upgrade your armor to its next level. Second, simply to let you
+        keep track of your progress.
       </p>
       <p>
         If you would like to support this project, you can show your
-        appreciation financially with my Buy Me a Coffee link; or you can
-        contribute to the project by opening an issue on its GitHub page. If you
-        have a more general question, you can send me an email. You can find all
-        three of these here:
+        appreciation financially with my Buy Me a Coffee link. You can also
+        contribute to the project more directly by opening an issue on its
+        GitHub page. If you have a more general question, you can send me an
+        email. You can find all three of these here:
       </p>
+
       <div id="links">
-        <a
-          href="https://buymeacoffee.com/matthewbrown"
-          target="_blank"
-          class="button icon-button"
-        >
-          <CoffeeIcon
-            class="svg-inline--fa fa-w-16"
-            aria-hidden="true"
-            focusable="false"
-            role="img"
-          />
-          <span>Support</span>
+        <a class="icon-button" href="https://buymeacoffee.com/matthewbrown" target="_blank">
+          <CoffeeIcon class="fa-fw svg-inline--fa" aria-hidden="true" focusable="false" role="img" />
+          <span>Donations</span>
         </a>
-        <a
-          href="https://github.com/matthew-e-brown/Cotera.io"
-          target="_blank"
-          class="button icon-button"
-        >
-          <fa-icon :icon="[ 'fab', 'github' ]" />
+
+        <a class="icon-button" href="https://github.com/matthew-e-brown/cotera.io" target="_blank">
+          <fa-icon :icon="[ 'fab', 'github' ]" class="fa-fw"></fa-icon>
           <span>Source code</span>
         </a>
-        <a
-          href="mailto:matthew.e.brown.17@gmail.com?subject=Question/Concern about Cotera.io"
-          target="_blank"
-          class="button icon-button"
-        >
-          <fa-icon icon="envelope" />
+
+        <a class="icon-button" href="mailto:matthew.e.brown.17@gmail.com?subject=Question/Concern about Cotera.io" target="_blank">
+          <fa-icon icon="envelope" class="fa-fw"></fa-icon>
           <span>Contact</span>
         </a>
       </div>
+
+      <p>
+        Most importantly, if you like <strong class="cotera">Cotera.io</strong>,
+        tell your friends about it! Nothing would make me happier than to see
+        this project become helpful to as many people as possible.
+      </p>
     </section>
+
     <section id="faq">
       <h3>FAQ</h3>
+
       <dl>
+        <dt>
+          Is there an app for <strong>Cotera.io</strong>?
+        </dt>
+        <dd>
+          <p>
+            Yes, you're using it right now!
+            <strong class="cotera">Cotera.io</strong> is what's known as a
+            <em>Progressive Web App</em>. That means that when you
+            <em>Add to Home Screen</em>, it will be more than your typical
+            bookmark or shortcut: it will actually install like an app,
+            including support for working offline.
+          </p>
+          <p>
+            It's possible your browser has already prompted you to "install"
+            this site: if you ignored or missed that prompt, you can simply
+            <em>Add to Home Screen</em> like it was a bookmark.
+          </p>
+        </dd>
+
         <dt>
           This site seems to work just fine without an account. Why should I
           make one?
         </dt>
         <dd>
           <p>
-            By default, this site will store your current progress inside your
-            web browser's local storage. It is saved between browsing sessions,
-            but will not survive if ever you decide to <em>clear browsing
-            data</em> for this site.
+            By default, your progress is stored inside your browser's local
+            storage. It's saved between browsing sessions, but it will not
+            survive if you decide to <em>clear your browsing data</em> for this
+            site.
           </p>
           <p>
             Using an account will store your progress in the cloud, allowing you
-            to keep it saved indefinitely, no matter how often you clear your
-            browsing data, as well as allow it to be accessed from another
-            device. If you use multiple devices at the same time, they will all
-            update in real-time as you make changes!
+            to keep it saved indefinitely. More importantly, however; it'll also
+            let you access your progress from more than one device! You'll even
+            be able to see updates happen in real-time if you open it on more
+            than one at once.
           </p>
         </dd>
 
         <dt>
           Is this site secure? Are you being smart about what happens to my
-          password and to my data?
+          data?
         </dt>
         <dd>
           <p>
-            This site uses Google's Firebase service behind the scenes: they
-            handle the authentication and storage. As long as you trust Google,
-            you have nothing to fear here. The only information this app
-            collects from you is your email address and password, and none of it
-            is sent or sold anywhere.
+            This site uses Google's <em>Firebase</em> service behind the scenes:
+            they handle authentication and data storage. The only information
+            <strong class="cotera">Cotera.io</strong> collects from you is your
+            email address, if you choose to sign in using an email &amp;
+            password. No analytics are enabled for this site either.
+          </p>
+          <p>
+            Additionally, as mentioned above, <strong>all</strong> of the
+            source-code for <strong class="cotera">Cotera.io</strong> is
+            available on GitHub: if I was doing anything fishy, it would be
+            pretty easy for me to get caught.
           </p>
         </dd>
 
-        <dt>I found a problem/bug/error. What should I do?</dt>
+        <dt>
+          I found a problem/bug/error. What should I do?
+        </dt>
         <dd>
           <p>
-            I'm glad you asked! This web-app is open-source: as much as I am the
-            primary developer, anybody is free to contribute ideas to the
-            project. If you need to submit a bug-report, you can do so
+            I'm glad you ask! If you need to submit a bug report, or even if you
+            just have an idea you want to share, please do so by
             <a
               href="https://github.com/matthew-e-brown/Cotera.io/issues"
               target="_blank"
-            >here</a>.
-            If you don't have a GitHub account, you can feel free to send me an
+            >opening an issue on GitHub</a>.
+
+            If you don't have a GitHub account, you can feel free to
             <a
               href="mailto:matthew.e.brown.17@gmail.com?subject=Cotera.io Bug Report&body=Hi, I've found an issue with Cotera.io."
               target="_blank"
-            >email instead</a>.
+            >send me an email directly</a>. I'll be glad to hear from you!
           </p>
         </dd>
       </dl>
     </section>
+
     <span id="last">
       <fa-icon title="Made" icon="code" /> with
       <fa-icon icon="heart" title="love" /> in
@@ -116,54 +140,47 @@
   </main>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import CoffeeIcon from '@/assets/icons/bmc-black.svg';
 
-export default {
+export default defineComponent({
   name: 'About',
   components: { CoffeeIcon }
-}
+});
 </script>
 
-<style scoped src="@/assets/styles/forms.css"></style>
-<style scoped>
-/* lighter weight */
-@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;1,300&display=swap');
-
-@media (min-width: 770px) {
-  main {
-    min-width: initial;
-    max-width: 95%;
-    width: calc(50rem + 5vw);
-    padding-left: 4.5rem;
-    padding-right: 4.5rem;
-  }
-}
+<style scoped lang="scss">
+@include standalone-sticky(calc(50rem + 5vw), 4.5rem);
 
 h3 {
-  margin: 1.5em 0 1em;
   text-align: center;
+  margin: 1.5em 0 1em;
 }
 
 main, main p {
-  /* Lots of reading, we need to give the text some breathing room */
   line-height: 1.55;
 }
 
 p {
   font-weight: 300;
   max-width: 80ch;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 1em auto;
+
 }
 
-a {
-  color: var(--body-text-1);
+a:not(.icon-button) {
+  color: $fg-color-dim;
 }
 
-dt, strong {
-  font-family: 'Calamity', 'Avenir', Arial, Helvetica, sans-serif;
+strong {
   font-weight: 700;
+}
+
+dt, strong.cotera {
+  @extend strong;
+  font-family: $head-font;
 }
 
 dd {
@@ -175,34 +192,30 @@ dd+dt {
 }
 
 #links {
-  font-size: 92.5%;
+  font-size: 93%;
+
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-}
 
-#links a {
-  box-sizing: border-box;
-  width: max-content;
-  margin: 1em;
-  padding: 0.75em 2.25em 0.8em 1.55em;
-}
-
-#links svg {
-  font-size: 175%;
+  a {
+    width: max-content;
+    margin: 1em;
+  }
 }
 
 #last {
   display: block;
+
   font-size: 80%;
   font-weight: 300;
+
   margin-top: 2.5rem;
   padding-top: 1.5rem;
   text-align: center;
-  border-top: 0.05em solid var(--body-text-2);
-}
 
-#last svg {
-  margin: 0 0.25em;
+  border-top: 0.05em solid $fg-color-dimmer;
+
+  svg { margin: 0 0.25em; }
 }
 </style>

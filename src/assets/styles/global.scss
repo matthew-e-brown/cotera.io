@@ -1,0 +1,341 @@
+// -- Small CSS "Reset"
+body, button {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  appearance: none;
+  touch-action: manipulation;
+}
+
+label, input, button {
+  font: inherit;
+}
+// -- End "Reset"
+
+:root {
+  font-family: $body-font;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.065ch;
+
+  color: $fg-color;
+  background-color: #312626;
+
+  @media (max-width: $break-small) {
+    font-size: 12px;
+  }
+}
+
+#app {
+  position: relative;
+}
+
+main {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(1440px + 3vw);
+  margin-top: 0;
+}
+
+main, main.sticky-box {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+}
+
+.sticky-box {
+  position: sticky;
+  top: 8rem;
+  z-index: 1;
+
+  margin: 2rem 2rem 0;
+  padding: 1rem;
+  min-width: calc(18rem + 12vw);
+
+  border-radius: 0.3em;
+  border: 0.25rem double $border-color;
+  background-color: $bg-color;
+
+  @supports (backdrop-filter: blur(10px)) {
+    background-color: $bg-color-transparent;
+    backdrop-filter: blur(10px);
+  }
+
+  // top of the screen, full-width version
+  @media (max-width: $break-mobile) {
+    box-sizing: border-box;
+    width: 100%;
+
+    margin: 0;
+    top: calc(#{$nav-height} - 1px);
+
+    border-top: unset;
+    border-left: unset;
+    border-right: unset;
+    border-radius: 0;
+  }
+}
+
+// for standalone-stickies -- when the whole page is the sticky-box
+main.sticky-box {
+  padding: 2rem;
+
+  h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0.65em;
+    font-size: 1.8rem;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $head-font;
+  letter-spacing: initial;
+}
+
+p {
+  line-height: 1.55;
+}
+
+a, a:visited {
+  font: inherit;
+  color: inherit;
+}
+
+svg {
+  display: block;
+  fill: currentColor;
+}
+
+h3.line {
+  display: flex;
+  flex-flow: row nowrap;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 0.1em;
+
+    margin-left: 1em;
+    margin-bottom: 0.1em;
+    border-radius: 100px;
+
+    flex: 1 1 0;
+    align-self: flex-end;
+
+    background-color: $bg-color-accent;
+  }
+}
+
+span.num {
+  color: $fg-color;
+  background-color: $bg-color;
+  font-weight: bold;
+
+  width: 1.25em;
+  padding: 0.25em 0.75em 0.075em 0.75em;
+  border: 0.1rem solid $border-color;
+  border-radius: 0.2em;
+  text-align: center;
+}
+
+.separator {
+  font-family: $body-font;
+  font-style: italic;
+  font-size: 0.85rem;
+
+  box-sizing: border-box;
+  margin: 1.5rem auto;
+  width: 80%;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+
+  // Add space around the text in the separator and the strike-through
+  >* {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+
+  // The line itself
+  &::before, &::after {
+    content: "";
+    flex: 1 1 0;
+    height: 0.1em;
+
+    background-color: $fg-color;
+    border-radius: 9999px;
+  }
+
+  // If this is a div, use default cursor (so the span inside doesn't trigger
+  // the text cursor)
+  @at-root div#{&} {
+    cursor: default;
+  }
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+
+  svg {
+    height: 1.2em;
+  }
+
+  // (.star is used for buttons)
+  span, .star {
+    margin: 0.1em;
+    color: $fg-color-dimmer;
+
+    &.filled {
+      color: $fg-color;
+      filter: drop-shadow(0 0.025em 0.15em rgba(255, 255, 255, 0.5));
+    }
+  }
+
+  // +/- on L/R of the stars in horizontal mode
+  button.plus-minus {
+    color: $fg-color;
+
+    &:disabled {
+      color: $fg-color-dimmer;
+      cursor: default;
+    }
+  }
+}
+
+input {
+  box-sizing: border-box;
+  display: block;
+
+  width: 100%;
+  height: 2.77em;
+  padding: 1em 1.5em 0.8em;
+
+  background-color: opaque-mix($bg-color-accent, $bg-color);
+  color: $fg-color;
+
+  border: 0;
+  border-radius: 0.5em;
+
+  &::placeholder {
+    color: $fg-color-dim;
+  }
+}
+
+.button {
+  font-family: $body-font;
+  font-weight: 700;
+  font-size: 0.9em;
+
+  text-align: center;
+  text-decoration: none;
+
+  display: block;
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: 10em;
+
+  margin: 0.5em;
+  padding: 0.80em 2.5em 0.70em;
+
+  color: $fg-color;
+  background-color: transparent;
+  border: 0.15em solid currentColor;
+  border-radius: 0.5em;
+
+  &:active, &:focus {
+    color: $bg-color;
+    border-color: $fg-color;
+    background-color: $fg-color;
+  }
+
+  @media (hover: hover) {
+    transition-property: color, border-color, background-color;
+    transition-duration: 125ms;
+    transition-timing-function: linear;
+
+    &:hover {
+      color: $bg-color;
+      border-color: $fg-color;
+      background-color: $fg-color;
+    }
+  }
+}
+
+.danger-button {
+  @extend .button;
+  color: $fg-color-red;
+
+  &:active, &:focus {
+    border-color: $fg-color-red;
+    background-color: $fg-color-red;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: $fg-color-red;
+      background-color: $fg-color-red;
+    }
+  }
+}
+
+.icon-button {
+  @extend .button;
+
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  padding: 0.75em 2.25em 0.80em 1.55em;
+
+  svg {
+    font-size: 1.75em;
+  }
+
+  span {
+    font-size: 1.1em;
+    padding-top: 0.25em;
+    padding-bottom: 0.05em;
+    margin-left: 1.50em;
+    @media (max-width: $break-small) { margin-left: 0.75em; }
+  }
+}
+
+.option-button {
+  color: $fg-color;
+  background-color: $bg-color;
+
+  box-sizing: content-box;
+  height: 1em;
+  max-width: 12.00em;
+  padding: 0.75em 1em;
+
+  border-radius: 0.4em;
+  border: 0.15em solid $border-color;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  $spacing: 0.30em;
+  >* { margin-left: $spacing; margin-right: $spacing; }
+
+  >:first-child { margin-left: 0; }
+  >:last-child { margin-right: 0; }
+
+  // fiddle with vertical alignment ever so slightly
+  $offset: 0.15em;
+  >span { margin-top: $offset; }
+  >span svg { margin-top: -$offset; }
+
+  // stop the icon from shrinking when the list gets long
+  >svg { flex-shrink: 0; }
+}
