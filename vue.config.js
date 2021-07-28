@@ -22,6 +22,7 @@ module.exports = {
     loaderOptions: {
       sass: {
         prependData: `
+        @use 'sass:math';
         @import "@/assets/styles/_variables.scss";
         `
       }

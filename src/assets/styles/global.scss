@@ -1,6 +1,3 @@
-@import 'normalize-scss';
-@include normalize();
-
 // -- Small CSS "Reset"
 body, button {
   margin: 0;
@@ -338,4 +335,7 @@ input {
   $offset: 0.15em;
   >span { margin-top: $offset; }
   >span svg { margin-top: -$offset; }
+
+  // stop the icon from shrinking when the list gets long
+  >svg { flex-shrink: 0; }
 }

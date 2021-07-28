@@ -1,17 +1,21 @@
 <template>
-  <div class="list-picker">
+  <div class="list-picker" ref="wrapper" @focusout="wrapperFocusout">
 
     <button
       type="button"
       class="option-button"
       ref="popperReference"
-      @click="opened = !opened"
+      @click.stop="opened = !opened"
     >
       <fa-icon icon="ellipsis-v" class="fa-fw" />
       <span>{{ selected.name }}</span>
     </button>
 
-    <ul ref="popperElement" :style="`display: ${opened ? 'block' : 'none'}`">
+    <ul
+      ref="popperElement"
+      :style="`display: ${opened ? 'block' : 'none'}`"
+      @click.stop="void 0 /* do nothing except stopPropagation */"
+    >
       <li
         v-for="(info, i) in listInfo" :key="info.id"
         :class="{ 'selected-list': selected.id == info.id }"
@@ -19,9 +23,12 @@
 
         <div v-if="info.id !== beingEdited" class="picker-box">
 
-          <button type="button" class="name" @click="select(info.id)">
-            {{ info.name }}
-          </button>
+          <button
+            type="button"
+            class="name"
+            :title="info.name"
+            @click="select(info.id)"
+          >{{ info.name }}</button>
 
           <button
             type="button"
@@ -127,6 +134,7 @@ import offset from '@popperjs/core/lib/modifiers/offset';
 
 import store from '@/store';
 import { ListID, ListInfo } from '@/store/types';
+import { defaults } from '@/store/helpers';
 
 
 function usePopper(opened: Ref<boolean>, bounds: Ref<HTMLElement | undefined>) {
@@ -134,10 +142,13 @@ function usePopper(opened: Ref<boolean>, bounds: Ref<HTMLElement | undefined>) {
   let instance: Instance | null = null;
   const reference = ref<HTMLButtonElement>();
   const element = ref<HTMLUListElement>();
+  const wrapper = ref<HTMLDivElement>();
 
 
   /**
-   * Gets the padding from the computed styles of an element
+   * Gets the padding from the computed styles of an element (in the most
+   * convoluted way possible, instead of just grabbing the four properties; for
+   * fun LOL)
    * @param el The element of which the styles should be parsed from
    * @returns An object with a property for each side, in pixels
    */
@@ -186,11 +197,36 @@ function usePopper(opened: Ref<boolean>, bounds: Ref<HTMLElement | undefined>) {
   }
 
 
-  // nextTick is (for some reason?) needed to prevent DOM ref object from
-  // parent from being undefined. My best guess is because the ref that is
-  // being pointed to is a *parent* of where this component is: so, when Vue
-  // is rendering this component, it has not completed rendering its parent
-  // yet, and the ref is undefined.
+  /**
+   * Closes the popper menu.
+   * @note This works by adding `.stop` modifiers to the event listeners of the
+   * `button` and `ul`: since they are bubbling (as opposed to capturing)
+   * events, they will stop the event from bubbling *back up* to the window, but
+   * while also letting it capture down to the buttons inside the `ul`.
+   */
+  const closeOnClickOff = () => opened.value = false;
+
+
+  /**
+   * Checks if the new focus target is within the wrapper
+   */
+  const wrapperFocusout = (event: FocusEvent) => {
+     // let the 'click' handler handle things if we don't know what the new
+     // target is:
+    if (event.relatedTarget == null) return;
+
+    // check if they transferred focus to something inside the wrapper
+    else if (!wrapper.value?.contains(event.relatedTarget as Element)) {
+      opened.value = false;
+    }
+  }
+
+
+  // nextTick is, for some reason, needed to prevent DOM ref object from parent
+  // from being undefined. My best guess is because the ref that is being
+  // pointed to is a *parent* of where this component is: so, when Vue is
+  // rendering this component, it has not completed rendering its parent yet,
+  // and the ref is undefined.
   onMounted(() => nextTick(() => {
     if (!reference.value || !element.value || !bounds.value)
       throw new Error("DOM refs not established during onMounted hook");
@@ -202,25 +238,42 @@ function usePopper(opened: Ref<boolean>, bounds: Ref<HTMLElement | undefined>) {
     }
 
     instance = createPopper(reference.value, element.value, {
-      placement: 'bottom',
+      placement: 'bottom-start',
       modifiers: generateModifiers(false)
     });
+
+    window.addEventListener('click', closeOnClickOff, { capture: false });
   }));
 
+  // tell popper to update when opened
   watch(opened, async isOpen => {
     // toggle the modifiers depending on current state
     await instance?.setOptions({ modifiers: generateModifiers(isOpen) });
     if (isOpen) await instance?.update();
   });
 
+  // update popper's position if TheArmorInfo changes size (and popper is open).
+  // This will happen when they have something selected and change list: when
+  // the deselect happens, the dom is shunted upwards
+  watch(toRef(store.state, 'selected'), () => {
+    if (opened.value) instance?.update();
+  });
+
+  // clean up event listeners and popper instance
   onUnmounted(() => {
     if (instance !== null) {
       instance.destroy();
       instance = null;
     }
+
+    window.removeEventListener('click', closeOnClickOff);
   });
 
-  return { popperReference: reference, popperElement: element };
+  return {
+    popperReference: reference,
+    popperElement: element,
+    wrapper, wrapperFocusout
+  };
 }
 
 
@@ -317,7 +370,12 @@ export default defineComponent({
 
     const selected = computed(() => {
       const sel = toRef(store.state.settings, 'selectedList');
-      return store.state.listInfo.find(({ id }) => sel.value == id)!;
+
+      // Use ?? because there's a chance that 'settings.selectedList' updates
+      // from Firestore before the 'state.listInfo' array is downloaded --
+      // meaning we won't have the list names.
+      return store.state.listInfo.find(({ id }) => sel.value == id)
+        ?? defaults.settings().selectedList;
     });
 
     return {
@@ -347,6 +405,7 @@ button:disabled { opacity: 0.25; }
 .name {
   height: 1em;
   font-weight: 400;
+  @include dot-dot-dot;
 }
 
 .name, .picker-box input, .create-new {
@@ -359,7 +418,7 @@ button:disabled { opacity: 0.25; }
 }
 
 .selected-list {
-  .name { font-weight: 700; }
+  .picker-box { border: 0.15em solid $border-color; }
 }
 
 // The pop-out itself
@@ -387,7 +446,14 @@ ul {
 // Each element in the list; the box that holds the options for each list
 .picker-box {
   box-sizing: border-box;
+
   width: 18rem;
+  @media (max-width: math.div($break-small + $break-tiny, 2)) {
+    width: 16rem;
+  }
+
+  border-radius: 0.25em;
+  border: 0.15em solid transparent;
 
   padding-right: 0.25em;
 
@@ -409,7 +475,7 @@ ul {
 
   input {
     width: unset;
-    border-radius: 0;
+    border-radius: 0.35em;
     background-color: $bg-color-accent;
   }
 
@@ -432,6 +498,9 @@ ul {
 li:last-child {
   color: $fg-color-dimmer;
   display: flex;
+
+  // the 'form.picker-box' when they're entering a new name
+  .picker-box { border: none; }
 
   // direct-child button, so only when it's not the input field
   >button {

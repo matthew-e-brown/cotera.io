@@ -20,6 +20,7 @@ import '@fontsource/epilogue/300-italic.css';
 import '@fontsource/epilogue/500-italic.css';
 
 // Styles
+import 'normalize.css';
 import '@/assets/fonts/calamity-sans.css';
 import '@/assets/styles/global.scss';
 
