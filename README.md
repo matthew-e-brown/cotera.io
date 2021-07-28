@@ -1,5 +1,5 @@
-This project is currently being re-worked on the `next` branch. I'm re-writing
-it with TypeScript and Sass, plus some code-quality improvements.
+This project is currently being re-worked on the ~~`next`~~ `master` branch. I'm
+re-writing it with TypeScript and Sass, plus some code-quality improvements.
 
 The coming update will also make the site into an *actual* PWA, as well as
 hopefully come with the ability to add multiple lists (so you could have one for
