@@ -74,7 +74,13 @@
 
       <template v-if="!isCompleted">
         <div class="upgrade-item">
-          <img :src="selected.sprite" alt="" aria-hidden="true">
+          <img
+            :src="selected.sprite"
+            alt=""
+            aria-hidden="true"
+            width="144"
+            height="144"
+          >
           <span>{{ selected.name }}</span>
           <span>1</span>
         </div>
