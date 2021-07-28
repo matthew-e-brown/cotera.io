@@ -122,9 +122,7 @@
 
 <script lang="ts">
 import {
-  defineComponent, Ref, ref, toRef,
-  computed, watch,
-  onUnmounted
+  defineComponent, Ref, ref, toRef, computed, watch, onUnmounted
 } from 'vue';
 import throttle from 'lodash/throttle';
 

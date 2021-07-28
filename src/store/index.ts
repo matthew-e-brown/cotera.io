@@ -174,24 +174,6 @@ function saveToStorage<K extends StorageKey>(key: K, item: StorageItem<K>) {
 }
 
 
-// /**
-//  * Gives each element in the ListInfo array a new ID according to it's
-//  * **current** index. Saves the results.
-//  */
-// function tidyListIDs(): void {
-//   const selected: ListID = store.state.settings.selectedList;
-
-//   // Take the current order of the lists and re-ID them with the new numbers
-//   store.state.listInfo.forEach(({ id: oldID }, i, arr) => {
-//     const newID: ListID = `list-${i}`;
-//     if (oldID == selected) store.setSetting('selectedList', newID);
-//     arr[i].id = newID;
-//   });
-
-//   saveToStorage('list-info', store.state.listInfo);
-// }
-
-
 export function onAuthStateChanged(user: firebase.User | null): void {
 
   // They are signed in
@@ -201,8 +183,8 @@ export function onAuthStateChanged(user: firebase.User | null): void {
     store.setUserID(uid);
 
     // Subscribe to Firebase and remove local copy
-    subscribers.settings(uid);
     subscribers.listInfo(uid);
+    subscribers.settings(uid);
     subscribers.progress(uid);
     LocalStorage.clear();
   }

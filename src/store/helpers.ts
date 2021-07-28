@@ -90,7 +90,8 @@ const subscriptions: Helper<'unsub'> = {
 
 /**
  * A factory function which returns a function to run when a Firestore query
- * returns empty data. It will get the default data for the given 'getter' and then add it to the 
+ * returns empty data. It will get the default data for the given 'getter' and
+ * then add it to the database and app state.
  * @param uid The userID (Firestore doc) to set when uploading the new data
  * @param key Which data in Firestore we're settings
  * @param getter The key into the Helper object we're using
