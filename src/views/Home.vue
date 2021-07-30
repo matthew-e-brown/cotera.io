@@ -27,11 +27,7 @@
           :aria-label="`Switch to ${ showAmiibo ? 'hiding' : 'showing' } Amiibo armor`"
         >
           <span><AmiiboIcon class="amiibo" aria-label="amiibo" /></span>
-          <fa-icon
-            class="fa-fw"
-            :icon="showAmiibo ? 'eye' : 'eye-slash'"
-            :key="showAmiibo ? 'eye' : 'eye-slash'"
-          />
+          <fa-icon class="fa-fw" :icon="showAmiibo ? 'eye' : 'eye-slash'" />
         </button>
 
       </div>
@@ -73,16 +69,6 @@ import AmiiboIcon from '@/assets/icons/amiibo.svg';
 import store, { toggleSort } from '@/store';
 import armor, { amiiboList as amiibo } from '@/armor';
 
-/**
- * @note
- *
- * Currently (2021-05-03), in Vue 3, using reactive :icon on FontAwesome icons
- * requires a :key. There is a PR to fix it, but it doesn't look like it'll be
- * merged anytime soon; it's been sitting there since September.
- *
- * @see {@link https://github.com/FortAwesome/vue-fontawesome/issues/250}
- * @see {@link https://github.com/FortAwesome/vue-fontawesome/pull/297}
- */
 
 export default defineComponent({
   name: 'Home',
