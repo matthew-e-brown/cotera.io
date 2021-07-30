@@ -325,9 +325,8 @@ input {
   align-items: center;
   justify-content: center;
 
-  $spacing: 0.30em;
+  $spacing: 0.45em;
   >* { margin-left: $spacing; margin-right: $spacing; }
-
   >:first-child { margin-left: 0; }
   >:last-child { margin-right: 0; }
 
@@ -336,6 +335,6 @@ input {
   >span { margin-top: $offset; }
   >span svg { margin-top: -$offset; }
 
-  // stop the icon from shrinking when the list gets long
+  // stop the icon from shrinking when the button gets wider
   >svg { flex-shrink: 0; }
 }

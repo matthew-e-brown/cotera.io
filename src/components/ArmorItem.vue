@@ -47,7 +47,7 @@ export default defineComponent({
         store.setSelected(props.armor);    // select
       } else {
         store.setSelected(null);           // deselect
-        button.value?.blur();
+        // button.value?.blur();
       }
     }
 

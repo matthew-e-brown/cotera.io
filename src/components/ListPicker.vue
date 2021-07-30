@@ -1,5 +1,9 @@
 <template>
-  <div class="list-picker" ref="wrapper" @focusout="wrapperFocusout">
+  <div class="list-picker"
+    ref="wrapper"
+    @focusout="wrapperFocusout"
+    @keydown.esc="opened = false"
+  >
 
     <button
       type="button"
@@ -7,13 +11,13 @@
       ref="popperReference"
       @click.stop="opened = !opened"
     >
-      <fa-icon icon="ellipsis-v" class="fa-fw" />
+      <fa-icon icon="ellipsis-v" />
       <span>{{ selected.name }}</span>
     </button>
 
     <ul
       ref="popperElement"
-      :style="`display: ${opened ? 'block' : 'none'}`"
+      :style="{ display: opened ? 'block' : 'none' }"
       @click.stop="void 0 /* do nothing except stopPropagation */"
     >
       <li
@@ -64,7 +68,7 @@
             type="text"
             ref="editInput"
             v-model="editingTemp"
-            @keydown.esc="stopEdit"
+            @keydown.esc.stop="stopEdit"
           />
           <button
             type="submit"
@@ -97,7 +101,7 @@
             ref="addInput"
             v-model="beingAdded"
             placeholder="New list name"
-            @keydown.esc.capture="stopAdd"
+            @keydown.esc.stop="stopAdd"
           />
           <button
             type="submit"
@@ -130,11 +134,52 @@ import {
 import { createPopper, Instance } from '@popperjs/core/lib/popper-lite';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import eventListeners from '@popperjs/core/lib/modifiers/eventListeners';
+import computeStyles from '@popperjs/core/lib/modifiers/computeStyles';
 import offset from '@popperjs/core/lib/modifiers/offset';
 
 import store from '@/store';
 import { ListID, ListInfo } from '@/store/types';
 import { defaults } from '@/store/helpers';
+
+
+/**
+ * Gets the padding from the computed styles of an element (in the most
+ * convoluted way possible, instead of just grabbing the four properties; for
+ * fun LOL)
+ * @param el The element of which the styles should be parsed from
+ * @returns An object with a property for each side, in pixels
+ */
+const getPadding = (el?: HTMLElement) => {
+  if (!el) return { top: 0, right: 0, bottom: 0, left: 0 };
+
+  type SidesUpper = 'Top' | 'Right' | 'Bottom' | 'Left';
+  type SidesLower = 'top' | 'right' | 'bottom' | 'left';
+
+  const styles = getComputedStyle(el);
+
+  // For each 'Side'...
+  return [ 'Top', 'Right', 'Bottom', 'Left' ].reduce((acc, cur) => {
+    const key = `padding${cur}` as `padding${SidesUpper}`;
+    const val = parseFloat(styles[key]);
+
+    // ... set 'side' = styles['paddingSide']
+    acc[cur.toLowerCase() as SidesLower] = val;
+
+    return acc;
+  }, { } as { [ k in SidesLower ]: number });
+}
+
+
+/**
+ * Gets the current font-size of an element in pixels, to be used as a
+ * multiplier for 'ems'
+ * @param el The element to get the font size of
+ * @return The element's font size in pixels.
+ */
+const getFontSize = (el?: HTMLElement) => {
+  const styles = getComputedStyle(el ?? document.documentElement);
+  return parseFloat(styles.fontSize);
+}
 
 
 function usePopper(opened: Ref<boolean>, bounds: Ref<HTMLElement | undefined>) {
@@ -144,75 +189,21 @@ function usePopper(opened: Ref<boolean>, bounds: Ref<HTMLElement | undefined>) {
   const element = ref<HTMLUListElement>();
   const wrapper = ref<HTMLDivElement>();
 
-
   /**
-   * Gets the padding from the computed styles of an element (in the most
-   * convoluted way possible, instead of just grabbing the four properties; for
-   * fun LOL)
-   * @param el The element of which the styles should be parsed from
-   * @returns An object with a property for each side, in pixels
+   * Closes the Popper. This event goes on the window itself.
+   * @note We rely on the stopping of event propagation to stop this from firing
+   * when we don't want it to.
    */
-  const getPadding = (el?: HTMLElement) => {
-    if (!el) return { top: 0, right: 0, bottom: 0, left: 0 };
-
-    type SidesUpper = 'Top' | 'Right' | 'Bottom' | 'Left';
-    type SidesLower = 'top' | 'right' | 'bottom' | 'left';
-
-    const styles = getComputedStyle(el);
-
-    // For each side...
-    return [ 'Top', 'Right', 'Bottom', 'Left' ].reduce((acc, cur) => {
-      const key = `padding${cur}` as `padding${SidesUpper}`;
-      const val = parseFloat(styles[key]);
-
-      // ... set 'side' = styles['paddingSide']
-      acc[cur.toLowerCase() as SidesLower] = val;
-
-      return acc;
-    }, { } as { [ k in SidesLower ]: number });
-  }
-
-  const getEm = (el?: HTMLElement) => {
-    const styles = getComputedStyle(el ?? document.documentElement);
-    return parseFloat(styles.fontSize);
-  }
+  const clickClose = () => void (opened.value = false);
 
 
   /**
-   * Generates the configuration for the Popper Instance
-   */
-  const generateModifiers = (open: boolean) => {
-    return [
-      // preventOverflow
-      { ...preventOverflow, enabled: true, options: {
-        boundary: bounds.value, padding: getPadding(bounds.value)
-      }},
-      // offset
-      { ...offset, enabled: true, options: {
-        offset: [ 0, getEm(element.value) * 0.5 ]
-      }},
-      // eventListeners
-      { ...eventListeners, enabled: open }
-    ];
-  }
-
-
-  /**
-   * Closes the popper menu.
-   * @note This works by adding `.stop` modifiers to the event listeners of the
-   * `button` and `ul`: since they are bubbling (as opposed to capturing)
-   * events, they will stop the event from bubbling *back up* to the window, but
-   * while also letting it capture down to the buttons inside the `ul`.
-   */
-  const closeOnClickOff = () => opened.value = false;
-
-
-  /**
-   * Checks if the new focus target is within the wrapper
+   * Checks if the new focus target is within the wrapper, and closes the Popper
+   * if it is not.
    */
   const wrapperFocusout = (event: FocusEvent) => {
-     // let the 'click' handler handle things if we don't know what the new
-     // target is:
+    // let the 'click' handler handle things if we don't know what the new
+    // target is:
     if (event.relatedTarget == null) return;
 
     // check if they transferred focus to something inside the wrapper
@@ -222,52 +213,102 @@ function usePopper(opened: Ref<boolean>, bounds: Ref<HTMLElement | undefined>) {
   }
 
 
-  // nextTick is, for some reason, needed to prevent DOM ref object from parent
-  // from being undefined. My best guess is because the ref that is being
-  // pointed to is a *parent* of where this component is: so, when Vue is
-  // rendering this component, it has not completed rendering its parent yet,
-  // and the ref is undefined.
-  onMounted(() => nextTick(() => {
-    if (!reference.value || !element.value || !bounds.value)
-      throw new Error("DOM refs not established during onMounted hook");
+  /**
+   * Generates the configuration for the Popper Instance. 
+   * @note Needs to be generated every time because just "setting" the
+   * 'eventListeners' to false option will make it the *only* "set" modifier,
+   * causing popper to break upon re-opening.
+   */
+  const generateModifiers = (open: boolean) => {
+    return [
+      // We disable gpuAcceleration to force Popper to use 'inset' instead of
+      // 'transform3d' to avoid the non-transformed "ghost" of the element from
+      // expanding the viewport
+      { ...computeStyles, options: { gpuAcceleration: false }},
+      // preventOverflow
+      { ...preventOverflow, enabled: true, options: {
+        boundary: bounds.value ?? document.querySelector('#app'),
+        padding: getPadding(bounds.value),
+        rootBoundary: 'document'
+      }},
+      // offset
+      { ...offset, enabled: true, options: {
+        offset: [ 0, getFontSize(element.value) * 0.5 ]
+      }},
+      // eventListeners
+      { ...eventListeners, enabled: open }
+    ];
+  }
 
-    // just in case
+
+  /**
+   * Creates the Popper instance and adds the window event listener.
+   */
+  const mount = () => {
+    if (!reference.value || !element.value)
+      throw new Error("DOM refs to self somehow not established?");
+
     if (instance !== null) {
       instance.destroy();
       instance = null;
     }
 
     instance = createPopper(reference.value, element.value, {
-      placement: 'bottom-start',
-      modifiers: generateModifiers(false)
+      modifiers: generateModifiers(false),
+      placement: 'bottom',
     });
 
-    window.addEventListener('click', closeOnClickOff, { capture: false });
-  }));
+    window.addEventListener('click', clickClose, { capture: false });
+  }
 
-  // tell popper to update when opened
+  /**
+   * Cleans up the popper instance and removes the window's close event
+   * listener.
+   */
+  const unmount = () => {
+    if (instance !== null) {
+      instance.destroy();
+      instance = null;
+    }
+
+    window.removeEventListener('click', close);
+  }
+
+
+  // Use watch instead of onMounted because the 'overflow-bounds' ref could
+  // technically be reactive and change.
+  watch(bounds, value => {
+    if (value === undefined) {
+      unmount();
+    } else {
+      // re-mount
+      unmount();
+      mount();
+    }
+  });
+
+
+  // Update Popper position when opened
   watch(opened, async isOpen => {
     // toggle the modifiers depending on current state
     await instance?.setOptions({ modifiers: generateModifiers(isOpen) });
     if (isOpen) await instance?.update();
   });
 
-  // update popper's position if TheArmorInfo changes size (and popper is open).
+
+  // Update popper's position if TheArmorInfo changes size (and popper is open).
   // This will happen when they have something selected and change list: when
   // the deselect happens, the dom is shunted upwards
   watch(toRef(store.state, 'selected'), () => {
     if (opened.value) instance?.update();
   });
 
-  // clean up event listeners and popper instance
-  onUnmounted(() => {
-    if (instance !== null) {
-      instance.destroy();
-      instance = null;
-    }
+  watch(toRef(store.state.settings, 'selectedList'), () => {
+    if (opened.value) instance?.update();
+  })
 
-    window.removeEventListener('click', closeOnClickOff);
-  });
+  onMounted(mount);
+  onUnmounted(unmount);
 
   return {
     popperReference: reference,
@@ -400,6 +441,7 @@ button:disabled { opacity: 0.25; }
 
 .list-picker {
   color: $fg-color;
+  position: relative;
 }
 
 .name {

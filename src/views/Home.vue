@@ -9,16 +9,18 @@
         <ListPicker :overflow-bounds="popperBounds" />
 
         <button
+          id="sort-button"
           type="button"
           class="option-button"
           @click="toggleSortState"
           :aria-label="`Switch to sorting by ${ariaSortLabel}`"
         >
-          <fa-icon icon="sort-alt" class="fa-fw" />
+          <fa-icon icon="sort-alt" />
           <span>{{ sortLabel }}</span>
         </button>
 
         <button
+          id="amiibo-button"
           type="button"
           class="option-button"
           @click="toggleAmiibo"
@@ -165,11 +167,9 @@ section {
 
   margin-bottom: 0;
 
-  // Explicitly set the width on the 'Sets' / 'Type' span so it doesn't shift
-  // around when toggling
-  >:nth-child(2) span { width: 4.25ch; }
-  
-  >:nth-child(3) span svg { margin-top: -0.25em; }
+  // Explicitly set the width so it doesn't shift around when toggling
+  #sort-button span { width: 4.25ch; }
+  #amiibo-button span svg { margin-top: -0.25em; }
 
   @media (max-width: $break-small) {
     font-size: 1.1em;
