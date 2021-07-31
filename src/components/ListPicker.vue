@@ -431,6 +431,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@use 'sass:math';
+
 .option-button {
   // '...' when the list name gets too long
   span { @include dot-dot-dot; }
