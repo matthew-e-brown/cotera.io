@@ -9,30 +9,46 @@
       <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
     </ul>
 
-    <section id="email-and-password">
-      <h3 class="line">Email &amp; Password</h3>
-      <TheEmailAndPasswordSection v-if="hasEmail" />
-      <p v-else>
-        You don't have an email and password linked to this account yet; take a
-        look below to add one for sign-in.
-      </p>
-    </section>
+    <div id="unlocked" v-if="sessionOpen">
 
-    <section id="sign-in-methods">
-      <h3 class="line">Sign-in Methods</h3>
-      <TheSignInMethodsSection @open-modal="modalPayload = $event" />
-    </section>
+      <button @click="lock">
+        <fa-icon icon="lock-open" title="Lock account" fixed-width />
+      </button>
 
-    <section id="danger-zone">
-      <h3 class="line">Danger Zone</h3>
-      <TheDangerZoneSection @open-modal="modalPayload = $event" />
-    </section>
+      <span>Click the lock to prevent any further changes.</span>
 
-    <!-- <TheAccountModal
-      v-if="modalPayload !== null"
-      :view="modalPayload"
-      @close-modal="modalPayload = null"
-    /> -->
+    </div>
+
+    <div id="locked-wrapper">
+
+      <div id="locked" v-if="!sessionOpen">
+        <p>
+          To prevent unauthorized changes, we ask that you sign in again before
+          making any changes to your account.
+        </p>
+
+        <button class="icon-button" @click="openSignIn">
+          <fa-icon icon="lock" fixed-width />
+          <span>Sign in again</span>
+        </button>
+      </div>
+
+      <section id="email-and-password" v-if="hasEmail">
+        <h3 class="line">Email &amp; Password</h3>
+        <TheEmailPassword />
+      </section>
+
+      <section id="sign-in-methods">
+        <h3 class="line">Sign-in Methods</h3>
+        <TheSignInMethods />
+      </section>
+
+      <section id="danger-zone">
+        <h3 class="line">The Danger Zone</h3>
+        <TheDangerZone />
+      </section>
+
+    </div>
 
   </main>
 </template>
@@ -44,96 +60,47 @@ import 'firebase/auth';
 
 import router from '@/router';
 import { useAuthFlow } from '@/auth-hooks';
-import { ModalReasons, ModalPayload } from './types';
-import user, { hasEmail, refreshUser } from './user';
-
-// These components are more for separating concerns and shrinking file
-// line-counts than they are for actually encapsulating data
-import TheEmailAndPasswordSection from './TheEmailAndPasswordSection.vue';
-import TheSignInMethodsSection from './TheSignInMethodsSection.vue';
-import TheDangerZoneSection from './TheDangerZoneSection.vue';
-// import TheAccountModal from './TheAccountModal/index.vue';
+import { ModalPayload, ModalReasons } from './types';
+import user, { hasEmail } from './user';
 
 import '@/assets/styles/forms.scss';
 
+import TheEmailPassword from './sections/TheEmailPassword.vue';
+import TheSignInMethods from './sections/TheSignInMethods.vue';
+import TheDangerZone from './sections/TheDangerZone.vue';
 
-// https://stackoverflow.com/a/15724300/10549827
-const getCookie = (name: string): string | undefined => {
-  const s = `; ${document.cookie}`;
-  const p = s.split(`; ${name}=`);
-  if (p.length == 2) return p.pop()?.split(';').shift();
-}
-
+import { sessionOpen, lock } from './session';
 
 export default defineComponent({
   name: 'Account',
-  components: {
-    TheEmailAndPasswordSection, TheSignInMethodsSection, TheDangerZoneSection,
-    // TheAccountModal
-  },
+  components: { TheEmailPassword, TheSignInMethods, TheDangerZone },
   setup() {
     const errors = ref<string[]>([]);
     const modalPayload = ref<ModalPayload | null>(null);
     const { authExecutor, handleRedirection } = useAuthFlow({ errors });
 
+    const openSignIn = () => {
+      modalPayload.value = { reason: ModalReasons.Authorize };
+    }
 
     const signOut = async () => {
       const success = await authExecutor(firebase.auth().signOut());
-      if (success) await router.push({ name: 'Home' });
+      if (success) {
+        lock(); // clear timed session data and set ref
+        await router.push({ name: 'Home' });
+      }
     }
 
-
-    handleRedirection().then(async success => {
-      if (success === true) {
-        const reason = getCookie('redirect-reason');
-        if (reason === undefined) return;
-
-        // Check all of the things that could have caused a redirection
-        switch (reason as ModalReasons) {
-          case ModalReasons.LinkEmail:
-
-            const email = getCookie('email') ?? '';
-            const password = getCookie('password') ?? '';
-
-            const cred = firebase.auth
-              .EmailAuthProvider.credential(email, password);
-
-            success = await authExecutor(user.value.linkWithCredential(cred));
-            break;
-
-          case ModalReasons.UnlinkEmail:
-            success = await authExecutor(user.value.unlink('password'));
-            break;
-
-          case ModalReasons.UnlinkGoogle:
-            success = await authExecutor(user.value.unlink('google.com'));
-            break;
-
-          case ModalReasons.DeleteFinalWarning:
-            // delete database progress
-            success = await authExecutor(user.value.delete());
-
-            if (success) {
-              await router.push({ name: 'Home' });
-              return;
-            }
-
-            break;
-        }
-
-        if (success) refreshUser();
-
-      }
-    });
-
-
-    return { user, hasEmail, signOut, errors, modalPayload };
+    return {
+      user, hasEmail, signOut, errors, modalPayload,
+      sessionOpen, lock, openSignIn,
+    };
   }
 });
 </script>
 
 <style scoped lang="scss">
-@include standalone-sticky(calc(45rem + 5vw), 5rem, 2rem);
+@include standalone-sticky(calc(45rem + 5vw), 4.5rem, 2rem);
 
 h2 {
   margin-bottom: 1.5rem;
@@ -164,12 +131,10 @@ section :deep(h3) {
 
 section {
   margin-top: 2.25rem;
-  font-size: 0.9em;
 }
 
-#email-and-password p {
-  color: $fg-color-dim;
-  padding-left: 1.5em;
+section, #locked, #unlocked {
+  font-size: 95%;
 }
 
 :deep(.split-buttons) {
@@ -186,5 +151,70 @@ section {
   }
 
   .icon-button span { font-size: unset; }
+}
+
+#locked-wrapper {
+  position: relative;
+}
+
+#locked {
+  position: absolute;
+  inset: -1em;
+  z-index: 4;
+
+  background-color: $bg-color;
+
+  @supports (backdrop-filter: blur(10px)) {
+    background-color: $bg-color-transparent;
+    backdrop-filter: blur(10px);
+  }
+
+  padding: 1em 2em;
+  border-radius: 0.35em;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    text-align: center;
+    font-style: italic;
+    color: $fg-color-dim;
+  }
+
+  button {
+    font-size: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+#unlocked {
+
+  span, button {
+    vertical-align: baseline;
+  }
+
+  span {
+    font-style: italic;
+    color: $fg-color-dim;
+  }
+
+  button {
+    width: 2.25em;
+    height: 2.25em;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.5em;
+    margin: 0 1em;
+
+    color: $fg-color;
+    background-color: $bg-color-accent;
+  }
+
 }
 </style>
