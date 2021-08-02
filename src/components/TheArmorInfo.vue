@@ -28,7 +28,7 @@
       >
         <span>{{ selected.name }}</span>
         <span class="fold-button">
-          <fa-icon icon="chevron-circle-down" class="fa-fw" />
+          <fa-icon icon="chevron-circle-down" fixed-width />
         </span>
       </h2>
 
@@ -119,7 +119,7 @@
     >
       <span>No armor selected.</span>
       <span class="fold-button">
-        <fa-icon icon="chevron-circle-down" class="fa-fw" />
+        <fa-icon icon="chevron-circle-down" fixed-width />
       </span>
     </h2>
 
@@ -388,8 +388,6 @@ function useFolding() {
 $fold-transition: 500ms ease;
 
 #armor-info {
-  --fold-nav-offset: #{$nav-height + 0.05rem};
-
   z-index: 4;
   >img, >div { margin-bottom: 0; }
 }

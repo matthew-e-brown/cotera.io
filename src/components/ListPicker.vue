@@ -40,7 +40,7 @@
             @click="moveUp(i)"
             :disabled="i <= 0"
           >
-            <fa-icon icon="caret-up" class="fa-fw" />
+            <fa-icon icon="caret-up" fixed-width />
           </button>
           <button
             type="button"
@@ -48,10 +48,10 @@
             @click="moveDown(i)"
             :disabled="i >= listInfo.length - 1"
           >
-            <fa-icon icon="caret-down" class="fa-fw" />
+            <fa-icon icon="caret-down" fixed-width />
           </button>
           <button type="button" class="picker-button" @click="edit(info)">
-            <fa-icon icon="pen" class="fa-fw" />
+            <fa-icon icon="pen" fixed-width />
           </button>
           <button
             type="button"
@@ -59,7 +59,7 @@
             @click="remove(info.id)"
             :disabled="info.id == selected.id"
           >
-            <fa-icon icon="trash-alt" class="fa-fw" />
+            <fa-icon icon="trash-alt" fixed-width />
           </button>
         </div>
 
@@ -75,10 +75,10 @@
             class="picker-button"
             :disabled="editingTemp.length <= 0"
           >
-            <fa-icon icon="check" class="fa-fw" />
+            <fa-icon icon="check" fixed-width />
           </button>
           <button type="button" class="picker-button" @click="stopEdit">
-            <fa-icon icon="times" class="fa-fw" />
+            <fa-icon icon="times" fixed-width />
           </button>
         </form>
 
@@ -88,7 +88,7 @@
       <li v-if="beingAdded === null">
 
         <button type="button" class="create-new" @click="add">
-          <fa-icon icon="plus-circle" class="fa-fw" />
+          <fa-icon icon="plus-circle" fixed-width />
           <span>Create a new list</span>
         </button>
 
@@ -108,14 +108,14 @@
             class="picker-button"
             :disabled="beingAdded.length <= 0"
           >
-            <fa-icon icon="check" class="fa-fw" />
+            <fa-icon icon="check" fixed-width />
           </button>
           <button
             type="button"
             class="picker-button"
             @click="beingAdded = null"
           >
-            <fa-icon icon="times" class="fa-fw" />
+            <fa-icon icon="times" fixed-width />
           </button>
         </form>
 

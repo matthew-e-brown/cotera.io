@@ -47,7 +47,7 @@
 
   <div class="bottom-buttons">
     <button type="button" class="icon-button" @click="googleSubmit">
-      <fa-icon :icon="[ 'fab', 'google' ]" />
+      <fa-icon :icon="[ 'fab', 'google' ]" fixed-width />
       <span>Sign in with Google</span>
     </button>
     <router-link to="/login">Log into an existing account</router-link>
