@@ -222,8 +222,10 @@ export default defineComponent({
 .account-row {
   display: grid;
   align-items: flex-start;
-  grid-template-columns: 7em 2fr 1fr;
+  grid-template-columns: 7rem 2fr 1fr;
   column-gap: 1em;
+
+  font-size: 95%;
 
   margin: 0.85rem 0;
 
@@ -241,6 +243,7 @@ export default defineComponent({
 
   >:nth-child(2) {
     color: $fg-color-dim;
+    @include dot-dot-dot;
   }
 
   >button { justify-self: flex-end; }

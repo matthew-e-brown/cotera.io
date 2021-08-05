@@ -19,7 +19,7 @@
 
     </div>
 
-    <div id="locked-wrapper">
+    <div id="lock-wrapper" :class="{ open: sessionOpen }">
 
       <div id="locked" v-if="!sessionOpen">
         <p>
@@ -56,12 +56,17 @@
         @confirm="modalPayload.callback"
         @cancel="modalPayload = null"
       >
+        <div
+          class="modal-container"
+          :class="modalPayload.reason"
+        >
 
-        <TheReauthForm
-          v-if="modalPayload.reason == ModalReasons.Authorize"
-          @close="modalPayload = null"
-        />
+          <TheReauthForm
+            v-if="modalPayload.reason == ModalReasons.Authorize"
+            @close="modalPayload = null"
+          />
 
+        </div>
       </ConfirmModal>
     </template>
 
@@ -155,12 +160,9 @@ h2~.button {
   font-size: 75%;
 }
 
-section :deep(h3) {
-  margin: 1.25em 0;
-}
-
 section {
   margin-top: 2.25rem;
+  h3 { margin: 1.25em 0; }
 }
 
 section, #locked, #unlocked {
@@ -183,8 +185,10 @@ section, #locked, #unlocked {
   .icon-button span { font-size: unset; }
 }
 
-#locked-wrapper {
+#lock-wrapper {
   position: relative;
+  // while unlocked, remove margin on first section
+  &.open section:first-of-type { margin-top: 0; }
 }
 
 #locked {
@@ -221,7 +225,7 @@ section, #locked, #unlocked {
 }
 
 #unlocked {
-  margin: 2em 0;
+  margin: 2rem 0;
 
   span, button {
     vertical-align: baseline;
@@ -243,7 +247,8 @@ section, #locked, #unlocked {
     align-items: center;
 
     border-radius: 0.5em;
-    margin: 0 1em;
+    margin-right: 1.00em;
+    margin-bottom: 0.80em;
 
     color: $fg-color;
     background-color: $bg;
@@ -257,6 +262,16 @@ section, #locked, #unlocked {
       }
     }
   }
+}
 
+.modal-container {
+  margin-left: auto;
+  margin-right: auto;
+
+  &.authorize {
+    width: 65%;
+    max-width: 20.0rem;
+    min-width: 13.5rem;
+  }
 }
 </style>

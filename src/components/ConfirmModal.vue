@@ -1,28 +1,26 @@
 <template>
   <div class="modal-wrapper">
-    <div class="modal">
 
-      <slot />
+    <slot />
 
-      <div class="modal-buttons" v-if="!noButtons">
+    <div class="modal-buttons" v-if="!noButtons">
 
-        <button
-          type="button"
-          class="button"
-          :class="classL"
-          @click="clickL"
-        ><slot :name="slotL" /></button>
+      <button
+        type="button"
+        class="button"
+        :class="classL"
+        @click="clickL"
+      ><slot :name="slotL" /></button>
 
-        <button
-          type="button"
-          class="button"
-          :class="classR"
-          @click="clickR"
-        ><slot :name="slotR" /></button>
-
-      </div>
+      <button
+        type="button"
+        class="button"
+        :class="classR"
+        @click="clickR"
+      ><slot :name="slotR" /></button>
 
     </div>
+
   </div>
 </template>
 
@@ -76,13 +74,5 @@ export default defineComponent({
     background-color: $bg-color-transparent;
     backdrop-filter: blur(10px);
   }
-}
-
-.modal {
-  width: 65%;
-  max-width: 40rem;
-  min-width: 25rem;
-  margin-left: auto;
-  margin-right: auto;
 }
 </style>
