@@ -1,5 +1,5 @@
 <template>
-  <h3>Sign-in Again</h3>
+  <h3>Log In Again</h3>
 
   <form @submit.prevent="submit" v-if="hasEmail">
 
@@ -21,6 +21,10 @@
         v-model:value="password"
       />
     </div>
+
+    <ul class="errors" v-if="errors.length > 0">
+      <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
+    </ul>
 
     <button type="submit" class="button">Log in</button>
 
@@ -71,8 +75,8 @@ export default defineComponent({
     const errors = ref<string[]>([]);
 
     const { authExecutor } = useAuthFlow({ errors });
-    const { reauthenticate } = useThirdPartyAuth();
-
+    // 'reauthenticate' simply hangs for some reason?? but this works fine
+    const { signIn: signInWithGoogle } = useThirdPartyAuth();
 
     const validate = () => {
       errors.value = [];
@@ -102,14 +106,17 @@ export default defineComponent({
     }
 
     const googleSubmit = async () => {
-      const success = await authExecutor(reauthenticate());
+      const success = await authExecutor(signInWithGoogle());
+
       if (success) {
         unlock();
         emit('close');
       }
     }
 
-    return { hasEmail, hasGoogle, email, password, submit, googleSubmit };
+    return {
+      hasEmail, hasGoogle, email, password, submit, googleSubmit, errors
+    };
   }
 });
 </script>
@@ -118,5 +125,9 @@ export default defineComponent({
 h3 {
   margin-top: 0;
   text-align: center;
+}
+
+.bottom-buttons button:last-child {
+  border: none;
 }
 </style>

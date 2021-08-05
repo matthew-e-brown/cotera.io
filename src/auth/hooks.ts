@@ -8,7 +8,7 @@ type UserCredential = firebase.auth.UserCredential;
 
 interface AuthOptions {
   errors: Ref<string[]>;
-  errorHandler?: ((error: any) => void);
+  errorHandler?: ((error: any, errors?: Ref<string[]>) => void);
 }
 
 
@@ -47,9 +47,7 @@ export const fallbackHandler = (error: any): void => {
   console.log("An unexpected error occurred. See it logged below:");
   console.error(error);
   alert(
-    `Something went wrong. Please notify the developer that ` +
-    `"${error.code || error.message || error}" occurred. Please check the ` +
-    `developer console for details, if you know how to.`
+    "Something unexpected went wrong. Please check the console for details."
   );
 }
 
@@ -74,8 +72,10 @@ export function useAuthFlow(options?: AuthOptions) {
 
     if (message && options?.errors) {
       options.errors.value.push(message);
+    } else if (options?.errorHandler && options?.errors) {
+      options.errorHandler(error, options.errors);
     } else {
-      (options?.errorHandler ?? fallbackHandler)(error);
+      fallbackHandler(error);
     }
   }
 

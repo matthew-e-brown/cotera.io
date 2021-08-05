@@ -6,9 +6,14 @@
 import { defineComponent } from 'vue';
 
 import { ModalPayload } from '../types';
+import { sessionOpen } from '@/auth/session';
 
 export default defineComponent({
-  emits: { 'open-modal': (payload: ModalPayload) => !!payload.reason },
+  emits: {
+    openModal: (payload: ModalPayload) => {
+      return (payload as any).hasOwnProperty('reason');
+    }
+  },
   setup(_, { emit }) {
 
   }

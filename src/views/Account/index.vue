@@ -23,13 +23,13 @@
 
       <div id="locked" v-if="!sessionOpen">
         <p>
-          To prevent unauthorized changes, we ask that you sign in again before
+          To prevent unauthorized changes, we ask that you log in again before
           making any changes to your account.
         </p>
 
         <button class="icon-button" @click="openSignIn">
           <fa-icon icon="lock" fixed-width />
-          <span>Sign in again</span>
+          <span>Log in again</span>
         </button>
       </div>
 
@@ -40,12 +40,12 @@
 
       <section id="sign-in-methods">
         <h3 class="line">Sign-in Methods</h3>
-        <TheSignInMethods />
+        <TheSignInMethods @open-modal="modalPayload = $event" />
       </section>
 
       <section id="danger-zone">
         <h3 class="line">The Danger Zone</h3>
-        <TheDangerZone />
+        <TheDangerZone @open-modal="modalPayload = $event" />
       </section>
 
     </div>
@@ -75,7 +75,7 @@ import 'firebase/auth';
 
 import router from '@/router';
 import { useAuthFlow } from '@/auth/hooks';
-import { sessionOpen, lock } from '@/auth/session';
+import { sessionOpen, lock, unlock } from '@/auth/session';
 
 import user, { hasEmail } from './user';
 import { ModalPayload, ModalReasons } from './types';
@@ -113,6 +113,12 @@ export default defineComponent({
       }
     }
 
+    handleRedirection().then(success => {
+      // The only time the user would be redirected on this page would be for
+      // the re-auth
+      if (success) unlock();
+    });
+
     return {
       user, hasEmail, signOut, errors,
       modalPayload, ModalReasons,
@@ -123,6 +129,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@use 'sass:color';
 @include standalone-sticky(calc(45rem + 5vw), 4.5rem, 2rem);
 
 h2 {
@@ -214,6 +221,7 @@ section, #locked, #unlocked {
 }
 
 #unlocked {
+  margin: 2em 0;
 
   span, button {
     vertical-align: baseline;
@@ -225,8 +233,10 @@ section, #locked, #unlocked {
   }
 
   button {
-    width: 2.25em;
-    height: 2.25em;
+    $bg: opaque-mix($bg-color-accent, $bg-color);
+
+    width: 3em;
+    height: 2.15em;
 
     display: inline-flex;
     justify-content: center;
@@ -236,7 +246,16 @@ section, #locked, #unlocked {
     margin: 0 1em;
 
     color: $fg-color;
-    background-color: $bg-color-accent;
+    background-color: $bg;
+
+    @media (hover: hover) {
+      transition: 125ms linear;
+      transition-property: background-color;
+
+      &:hover {
+        background-color: color.scale($bg, $lightness: 10%);
+      }
+    }
   }
 
 }
