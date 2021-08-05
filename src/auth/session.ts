@@ -1,17 +1,18 @@
 import { ref } from 'vue';
 
-const TIMEOUT_TIME = 8 * 60 * 1000; // 8m00s before timeout
+const TIMEOUT_TIME = 15 * 60 * 1000; // 15m00s before timeout
 const STORAGE_KEY = 'authed-time';
 let timeout: number | undefined;
 
 
 /**
  * @note
- * The session control stuff in this file is not very secure, however; it
- * doesn't have to be. This is all just a wrapper around Firebase's built in
- * `auth/requires-recent-login` error. Using my own thing let's me ask *before*
- * the user attempts to do things, as opposed to Firebase's approach of letting
- * the first attempt fail.
+ * The session control stuff in this file is not very secure, but it doesn't
+ * have to be. This is all just a wrapper around Firebase's built in
+ * `auth/requires-recent-login` error. All it does is make sure they've signed
+ * in *recently*. Using my own thing let's me ask *before* the user attempts to
+ * do things, as opposed to Firebase's approach of letting the first attempt
+ * fail.
  */
 
 

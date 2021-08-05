@@ -2,7 +2,7 @@ import { ref, computed } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { fallbackHandler } from '@/auth-hooks';
+import { fallbackHandler } from '@/auth/hooks';
 
 // assert non-null (!) because this route is guarded by a navigation guard
 const user = ref(firebase.auth().currentUser!);

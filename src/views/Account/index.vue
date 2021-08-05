@@ -50,6 +50,21 @@
 
     </div>
 
+    <template v-if="modalPayload != null">
+      <ConfirmModal
+        :no-buttons="modalPayload.reason == ModalReasons.Authorize"
+        @confirm="modalPayload.callback"
+        @cancel="modalPayload = null"
+      >
+
+        <TheReauthForm
+          v-if="modalPayload.reason == ModalReasons.Authorize"
+          @close="modalPayload = null"
+        />
+
+      </ConfirmModal>
+    </template>
+
   </main>
 </template>
 
@@ -59,21 +74,28 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import router from '@/router';
-import { useAuthFlow } from '@/auth-hooks';
-import { ModalPayload, ModalReasons } from './types';
+import { useAuthFlow } from '@/auth/hooks';
+import { sessionOpen, lock } from '@/auth/session';
+
 import user, { hasEmail } from './user';
+import { ModalPayload, ModalReasons } from './types';
+
+import ConfirmModal from '@/components/ConfirmModal.vue';
+
+import TheReauthForm from './components/TheReauthForm.vue';
+import TheEmailPassword from './components/TheEmailPassword.vue';
+import TheSignInMethods from './components/TheSignInMethods.vue';
+import TheDangerZone from './components/TheDangerZone.vue';
 
 import '@/assets/styles/forms.scss';
 
-import TheEmailPassword from './sections/TheEmailPassword.vue';
-import TheSignInMethods from './sections/TheSignInMethods.vue';
-import TheDangerZone from './sections/TheDangerZone.vue';
-
-import { sessionOpen, lock } from './session';
 
 export default defineComponent({
   name: 'Account',
-  components: { TheEmailPassword, TheSignInMethods, TheDangerZone },
+  components: {
+    ConfirmModal, TheReauthForm,
+    TheEmailPassword, TheSignInMethods, TheDangerZone
+  },
   setup() {
     const errors = ref<string[]>([]);
     const modalPayload = ref<ModalPayload | null>(null);
@@ -92,7 +114,8 @@ export default defineComponent({
     }
 
     return {
-      user, hasEmail, signOut, errors, modalPayload,
+      user, hasEmail, signOut, errors,
+      modalPayload, ModalReasons,
       sessionOpen, lock, openSignIn,
     };
   }
@@ -164,9 +187,9 @@ section, #locked, #unlocked {
 
   background-color: $bg-color;
 
-  @supports (backdrop-filter: blur(10px)) {
-    background-color: $bg-color-transparent;
-    backdrop-filter: blur(10px);
+  @supports (backdrop-filter: blur(15px)) {
+    background-color: opacify($bg-color-transparent, 0.075);
+    backdrop-filter: blur(15px);
   }
 
   padding: 1em 2em;

@@ -1,7 +1,7 @@
 <template>
-  <h2>Log In</h2>
+  <h3>Sign-in Again</h3>
 
-  <form @submit.prevent="submit">
+  <form @submit.prevent="submit" v-if="hasEmail">
 
     <div class="row">
       <input
@@ -22,25 +22,30 @@
       />
     </div>
 
-    <ul class="errors" v-if="errors.length > 0">
-      <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
-    </ul>
-
     <button type="submit" class="button">Log in</button>
 
   </form>
 
-  <div class="separator"><span>or</span></div>
+  <div v-if="hasEmail && hasGoogle" class="separator"><span>or</span></div>
 
-  <div class="bottom-buttons">
-    <button type="button" class="icon-button" @click="googleSubmit">
+  <div v-if="hasGoogle" class="bottom-buttons">
+
+    <button
+      type="button"
+      class="icon-button"
+      @click="googleSubmit"
+    >
       <fa-icon :icon="[ 'fab', 'google' ]" fixed-width />
       <span>Sign in with Google</span>
     </button>
-    <router-link to="/register">Create a new account</router-link>
-    <router-link to="/reset-password">Reset your password</router-link>
-  </div>
 
+    <button
+      type="button"
+      class="button"
+      @click="$emit('close')"
+    >Cancel</button>
+
+  </div>
 </template>
 
 <script lang="ts">
@@ -48,27 +53,32 @@ import { defineComponent, ref } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import router from '@/router';
-import PasswordField from '@/components/PasswordField.vue';
 import { useAuthFlow, useThirdPartyAuth } from '@/auth/hooks';
 import { unlock } from '@/auth/session';
 
+import user, { hasEmail, hasGoogle } from '../user';
+import PasswordField from '@/components/PasswordField.vue';
+
+import '@/assets/styles/forms.scss';
+
 export default defineComponent({
-  name: 'LoginForm',
   components: { PasswordField },
-  setup() {
+  emits: [ 'close' ],
+  setup(_, { emit }) {
     const email = ref("");
     const password = ref("");
+
     const errors = ref<string[]>([]);
 
-    const { signIn: googleSignIn } = useThirdPartyAuth();
-    const { authExecutor, handleRedirection } = useAuthFlow({ errors });
+    const { authExecutor } = useAuthFlow({ errors });
+    const { reauthenticate } = useThirdPartyAuth();
+
 
     const validate = () => {
       errors.value = [];
 
       if (email.value.length == 0)
-        errors.value.push("Please enter an email address.");
+        errors.value.push("Please enter an email address");
 
       if (password.value.length == 0)
         errors.value.push("Please enter a password.");
@@ -79,25 +89,34 @@ export default defineComponent({
     const submit = async () => {
       if (!validate()) return;
 
-      const success = await authExecutor(firebase.auth()
-        .signInWithEmailAndPassword(email.value, password.value));
+      const cred = firebase.auth.EmailAuthProvider
+        .credential(email.value, password.value);
+
+      const success = await authExecutor(user.value
+        .reauthenticateWithCredential(cred));
 
       if (success) {
         unlock();
-        await router.push({ name: 'Home' });
+        emit('close');
       }
     }
 
     const googleSubmit = async () => {
-      const success = await authExecutor(googleSignIn());
-      if (success) await router.push({ name: 'Home' });
+      const success = await authExecutor(reauthenticate());
+      if (success) {
+        unlock();
+        emit('close');
+      }
     }
 
-    handleRedirection().then(success => {
-      if (success === true) router.replace({ name: 'Home' });
-    });
-
-    return { email, password, errors, submit, googleSubmit };
+    return { hasEmail, hasGoogle, email, password, submit, googleSubmit };
   }
 });
 </script>
+
+<style scoped lang="scss">
+h3 {
+  margin-top: 0;
+  text-align: center;
+}
+</style>

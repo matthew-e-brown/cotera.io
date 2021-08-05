@@ -8,5 +8,6 @@ export enum ModalReasons {
 
 export interface ModalPayload {
   reason: ModalReasons;
-  extraData?: any;
+  callback?: (() => (void | Promise<void>));
+  data?: any;
 }
