@@ -5,13 +5,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { ModalPayload } from '../types';
 import { sessionOpen } from '@/auth/session';
+
+import { ModalPayload } from '../types';
 
 export default defineComponent({
   emits: {
     openModal: (payload: ModalPayload) => {
-      return (payload as any).hasOwnProperty('reason');
+      return (payload as object).hasOwnProperty('reason');
     }
   },
   setup(_, { emit }) {

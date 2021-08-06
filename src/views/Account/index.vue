@@ -52,8 +52,9 @@
 
     <template v-if="modalPayload != null">
       <ConfirmModal
-        :no-buttons="modalPayload.reason == ModalReasons.Authorize"
-        @confirm="modalPayload.callback"
+        :no-buttons="noButtonModal"
+        :swap-buttons="modalPayload.reason == ModalReasons.WarningDeleteFinal"
+        @confirm="modalConfirm"
         @cancel="modalPayload = null"
       >
         <div
@@ -61,10 +62,31 @@
           :class="modalPayload.reason"
         >
 
+          <h3 v-if="!noButtonModal">Are you sure?</h3>
+
           <TheReauthForm
             v-if="modalPayload.reason == ModalReasons.Authorize"
             @close="modalPayload = null"
           />
+
+          <p v-else-if="modalPayload.reason == ModalReasons.UnlinkProvider">
+            You will no longer be able to log in using your
+            {{ modalPayload.data }}.
+          </p>
+
+          <p v-else-if="modalPayload.reason == ModalReasons.WarningReset">
+            This will reset all the levels on your armor to zero, as well as
+            delete any extra custom lists you may have made.
+          </p>
+
+          <p v-else-if="modalPayload.reason == ModalReasons.WarningDelete">
+            This will remove all progress-related data from the database and
+            delete your account.
+          </p>
+
+          <p v-else-if="modalPayload.reason == ModalReasons.WarningDeleteFinal">
+            Are you <strong>really</strong> sure? This is your last chance.
+          </p>
 
         </div>
       </ConfirmModal>
@@ -74,7 +96,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -118,6 +140,19 @@ export default defineComponent({
       }
     }
 
+    const noButtonModal = computed(() => {
+      const reason = modalPayload.value?.reason;
+      return (
+        reason == ModalReasons.Authorize ||
+        reason == ModalReasons.LinkEmailPassword
+      );
+    });
+
+    const modalConfirm = async () => {
+      await modalPayload.value?.callback?.();  // run callback
+      modalPayload.value = null;               // close modal
+    }
+
     handleRedirection().then(success => {
       // The only time the user would be redirected on this page would be for
       // the re-auth
@@ -126,7 +161,7 @@ export default defineComponent({
 
     return {
       user, hasEmail, signOut, errors,
-      modalPayload, ModalReasons,
+      modalPayload, modalConfirm, noButtonModal, ModalReasons,
       sessionOpen, lock, openSignIn,
     };
   }
@@ -160,6 +195,11 @@ h2~.button {
   font-size: 75%;
 }
 
+:deep(h3) {
+  margin-top: 0;
+  text-align: center;
+}
+
 section {
   margin-top: 2.25rem;
   h3 { margin: 1.25em 0; }
@@ -171,17 +211,14 @@ section, #locked, #unlocked {
 
 :deep(.split-buttons) {
   display: flex;
-  column-gap: 1.7rem;
   justify-content: flex-start;
   align-items: stretch;
 
-  button {
-    flex: 1 1 50%;
+  >* { margin-left: 0.85rem; margin-right: 0.85rem; }
+  >:first-child { margin-left: 0; }
+  >:last-child { margin-right: 0; }
 
-    margin-left: 0;
-    margin-right: 0;
-  }
-
+  button { flex: 1 1 50%; }
   .icon-button span { font-size: unset; }
 }
 
@@ -268,6 +305,16 @@ section, #locked, #unlocked {
   margin-left: auto;
   margin-right: auto;
 
+  p {
+    margin: 2rem 0;
+  }
+
+  // non-overridden modal-content width
+  width: 75%;
+  max-width: 35rem;
+  min-width: 15rem;
+
+  // overridden widths with class-names from ../types.ts
   &.authorize {
     width: 65%;
     max-width: 20.0rem;

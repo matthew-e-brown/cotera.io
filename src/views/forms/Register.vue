@@ -22,7 +22,7 @@
         autocomplete="new-password"
         passwordrules="minlength: 12; required: lower; required: upper; required: digit;"
         v-model:value="password1"
-        v-model:hidden="showPasswords"
+        v-model:hidden="hidden"
       />
       <PasswordField
         id="password-2"
@@ -31,7 +31,7 @@
         autocomplete="new-password"
         passwordrules="minlength: 12; required: lower; required: upper; required: digit;"
         v-model:value="password2"
-        v-model:hidden="showPasswords"
+        v-model:hidden="hidden"
       />
     </div>
 
@@ -73,7 +73,7 @@ export default defineComponent({
     const password2 = ref("");
     const errors = ref<string[]>([]);
 
-    const showPasswords = ref(false);
+    const hidden = ref(true);
 
     const { signIn: googleSignIn } = useThirdPartyAuth();
     const { authExecutor, handleRedirection } = useAuthFlow({ errors });
@@ -123,7 +123,7 @@ export default defineComponent({
 
     return {
       email, password1, password2, errors,
-      showPasswords, submit, googleSubmit
+      hidden, submit, googleSubmit
     };
   }
 });

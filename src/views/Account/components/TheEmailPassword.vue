@@ -5,7 +5,8 @@
     <button
       type="button"
       class="button"
-      @click="emailForm.visible = true"
+      @click="emailForm.open"
+      :tabindex="sessionOpen ? 0 : -1"
     >Change</button>
   </div>
 
@@ -30,7 +31,6 @@
         <button
           type="submit"
           class="button"
-          :disabled="!sessionOpen"
         >Save</button>
         <button
           type="button"
@@ -48,7 +48,8 @@
     <button
       type="button"
       class="button"
-      @click="passwordForm.visible = true"
+      @click="passwordForm.open"
+      :tabindex="sessionOpen ? 0 : -1"
     >Change</button>
   </div>
 
@@ -113,6 +114,10 @@ function useChangeEmailForm() {
 
   const { authExecutor } = useAuthFlow({ errors, errorHandler });
 
+  const open = () => {
+    if (sessionOpen.value) visible.value = true;
+  }
+
   const validate = () => {
     errors.value = [];
 
@@ -143,7 +148,7 @@ function useChangeEmailForm() {
   }
 
   return {
-    emailForm: reactive({ visible, newEmail, errors, submit, close })
+    emailForm: reactive({ open, visible, newEmail, errors, submit, close })
   };
 }
 
@@ -158,6 +163,10 @@ function useChangePasswordForm() {
   const errors = ref<string[]>([]);
 
   const { authExecutor } = useAuthFlow({ errors, errorHandler });
+
+  const open = () => {
+    if (sessionOpen.value) visible.value = true;
+  }
 
   const validate = () => {
     errors.value = [];
@@ -192,7 +201,7 @@ function useChangePasswordForm() {
 
   return {
     passwordForm: reactive({
-      visible, password1, password2, hiddenFields, errors, submit, close
+      open, visible, password1, password2, hiddenFields, errors, submit, close
     })
   };
 }

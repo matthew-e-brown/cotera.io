@@ -3,21 +3,19 @@
 
     <slot />
 
-    <div class="modal-buttons" v-if="!noButtons">
+    <div class="split-buttons" v-if="!noButtons">
 
       <button
         type="button"
-        class="button"
         :class="classL"
         @click="clickL"
-      ><slot :name="slotL" /></button>
+      ><slot :name="slotL">{{ nameL }}</slot></button>
 
       <button
         type="button"
-        class="button"
         :class="classR"
         @click="clickR"
-      ><slot :name="slotR" /></button>
+      ><slot :name="slotR">{{ nameR }}</slot></button>
 
     </div>
 
@@ -38,22 +36,27 @@ export default defineComponent({
   },
   emits: [ 'confirm', 'cancel' ],
   setup(props, { emit }) {
-    const { noButtons, swapButtons } = toRefs(props);
+    const { noButtons, swapButtons: swap } = toRefs(props);
 
-    const classL = computed(() => !swapButtons.value ? 'submit' : '');
-    const classR = computed(() => !swapButtons.value ? '' : 'submit');
+    const classL = computed(() => !swap.value ? 'danger-button' : 'button');
+    const classR = computed(() => !swap.value ? 'button' : 'danger-button');
 
-    const slotL = computed(() => !swapButtons.value ? 'submit' : 'cancel');
-    const slotR = computed(() => !swapButtons.value ? 'cancel' : 'submit');
+    const slotL = computed(() => !swap.value ? 'submit' : 'cancel');
+    const slotR = computed(() => !swap.value ? 'cancel' : 'submit');
+
+    const nameL = computed(() => !swap.value ? 'Yes' : 'No');
+    const nameR = computed(() => !swap.value ? 'No' : 'Yes');
 
     const clickL = computed(() => {
-      return () => emit(!swapButtons.value ? 'confirm' : 'cancel');
+      return () => emit(!swap.value ? 'confirm' : 'cancel');
     });
     const clickR = computed(() => {
-      return () => emit(!swapButtons.value ? 'cancel' : 'confirm');
+      return () => emit(!swap.value ? 'cancel' : 'confirm');
     });
 
-    return { noButtons, classL, classR, slotL, slotR, clickL, clickR };
+    return {
+      noButtons, classL, classR, slotL, slotR, clickL, clickR, nameL, nameR
+    };
   }
 });
 </script>
@@ -67,6 +70,7 @@ export default defineComponent({
   background-color: $bg-color;
 
   display: flex;
+  flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
 

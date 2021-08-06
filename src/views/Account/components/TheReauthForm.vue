@@ -1,5 +1,5 @@
 <template>
-  <h3>Log In Again</h3>
+  <h3>Log in again</h3>
 
   <form @submit.prevent="submit" v-if="hasEmail">
 
@@ -61,6 +61,7 @@ import { useAuthFlow, useThirdPartyAuth } from '@/auth/hooks';
 import { unlock } from '@/auth/session';
 
 import user, { hasEmail, hasGoogle } from '../user';
+
 import PasswordField from '@/components/PasswordField.vue';
 
 import '@/assets/styles/forms.scss';
@@ -122,11 +123,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-h3 {
-  margin-top: 0;
-  text-align: center;
-}
-
 .bottom-buttons button:last-child {
   border: none;
 }

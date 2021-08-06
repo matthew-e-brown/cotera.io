@@ -2,6 +2,7 @@
 // CSS
 export enum ModalReasons {
   Authorize           =  'authorize',
+  LinkEmailPassword   =  'link-email-password',
   UnlinkProvider      =  'unlink-provider',
   WarningReset        =  'warning-reset',
   WarningDelete       =  'warning-delete',
