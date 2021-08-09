@@ -50,8 +50,7 @@ import 'firebase/auth';
 
 import router from '@/router';
 import PasswordField from '@/components/PasswordField.vue';
-import { useAuthFlow, useThirdPartyAuth } from '@/auth/hooks';
-import { unlock } from '@/auth/session';
+import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 
 export default defineComponent({
   name: 'LoginForm',
@@ -82,10 +81,7 @@ export default defineComponent({
       const success = await authExecutor(firebase.auth()
         .signInWithEmailAndPassword(email.value, password.value));
 
-      if (success) {
-        unlock();
-        await router.push({ name: 'Home' });
-      }
+      if (success) await router.push({ name: 'Home' });
     }
 
     const googleSubmit = async () => {

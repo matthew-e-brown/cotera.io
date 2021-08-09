@@ -61,8 +61,7 @@ import 'firebase/auth';
 
 import router from '@/router';
 import PasswordField from '@/components/PasswordField.vue';
-import { useAuthFlow, useThirdPartyAuth } from '@/auth/hooks';
-import { unlock } from '@/auth/session';
+import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 
 export default defineComponent({
   name: 'RegisterForm',
@@ -106,7 +105,6 @@ export default defineComponent({
       );
 
       if (success) {
-        unlock();
         await newUserCred.value?.user?.sendEmailVerification();
         await router.push({ name: 'Home' });
       }

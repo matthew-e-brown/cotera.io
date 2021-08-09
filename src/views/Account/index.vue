@@ -9,51 +9,25 @@
       <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
     </ul>
 
-    <div id="unlocked" v-if="sessionOpen">
+    <section id="email-and-password" v-if="hasEmail">
+      <h3 class="line">Email &amp; Password</h3>
+      <TheEmailPassword />
+    </section>
 
-      <button @click="lock">
-        <fa-icon icon="lock-open" title="Lock account" fixed-width />
-      </button>
+    <section id="sign-in-methods">
+      <h3 class="line">Sign-in Methods</h3>
+      <TheSignInMethods />
+    </section>
 
-      <span>Click the lock to prevent any further changes.</span>
-
-    </div>
-
-    <div id="lock-wrapper" :class="{ open: sessionOpen }">
-
-      <div id="locked" v-if="!sessionOpen">
-        <p>
-          To prevent unauthorized changes, we ask that you log in again before
-          making any changes to your account.
-        </p>
-
-        <button class="icon-button" @click="openSignIn">
-          <fa-icon icon="lock" fixed-width />
-          <span>Log in again</span>
-        </button>
-      </div>
-
-      <section id="email-and-password" v-if="hasEmail">
-        <h3 class="line">Email &amp; Password</h3>
-        <TheEmailPassword />
-      </section>
-
-      <section id="sign-in-methods">
-        <h3 class="line">Sign-in Methods</h3>
-        <TheSignInMethods @open-modal="modalPayload = $event" />
-      </section>
-
-      <section id="danger-zone">
-        <h3 class="line">The Danger Zone</h3>
-        <TheDangerZone @open-modal="modalPayload = $event" />
-      </section>
-
-    </div>
+    <section id="danger-zone">
+      <h3 class="line">The Danger Zone</h3>
+      <TheDangerZone />
+    </section>
 
     <template v-if="modalPayload != null">
       <ConfirmModal
         :no-buttons="noButtonModal"
-        :swap-buttons="modalPayload.reason == ModalReasons.WarningDeleteFinal"
+        :swap-buttons="modalPayload.reason == ModalReason.WarningDeleteFinal"
         @confirm="modalConfirm"
         @cancel="modalPayload = null"
       >
@@ -65,26 +39,26 @@
           <h3 v-if="!noButtonModal">Are you sure?</h3>
 
           <TheReauthForm
-            v-if="modalPayload.reason == ModalReasons.Authorize"
+            v-if="modalPayload.reason == ModalReason.Reauthorize"
             @close="modalPayload = null"
           />
 
-          <p v-else-if="modalPayload.reason == ModalReasons.UnlinkProvider">
+          <p v-else-if="modalPayload.reason == ModalReason.UnlinkProvider">
             You will no longer be able to log in using your
             {{ modalPayload.data }}.
           </p>
 
-          <p v-else-if="modalPayload.reason == ModalReasons.WarningReset">
+          <p v-else-if="modalPayload.reason == ModalReason.WarningReset">
             This will reset all the levels on your armor to zero, as well as
             delete any extra custom lists you may have made.
           </p>
 
-          <p v-else-if="modalPayload.reason == ModalReasons.WarningDelete">
+          <p v-else-if="modalPayload.reason == ModalReason.WarningDelete">
             This will remove all progress-related data from the database and
             delete your account.
           </p>
 
-          <p v-else-if="modalPayload.reason == ModalReasons.WarningDeleteFinal">
+          <p v-else-if="modalPayload.reason == ModalReason.WarningDeleteFinal">
             Are you <strong>really</strong> sure? This is your last chance.
           </p>
 
@@ -96,16 +70,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, provide } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import router from '@/router';
-import { useAuthFlow } from '@/auth/hooks';
-import { sessionOpen, lock, unlock } from '@/auth/session';
+import { useAuthFlow } from '@/auth-hooks';
 
 import user, { hasEmail } from './user';
-import { ModalPayload, ModalReasons } from './types';
+import { ModalPayload, ModalReason, ModalPayloadKey } from './types';
 
 import ConfirmModal from '@/components/ConfirmModal.vue';
 
@@ -125,26 +98,22 @@ export default defineComponent({
   },
   setup() {
     const errors = ref<string[]>([]);
-    const modalPayload = ref<ModalPayload | null>(null);
-    const { authExecutor, handleRedirection } = useAuthFlow({ errors });
+    const { authExecutor } = useAuthFlow({ errors });
 
-    const openSignIn = () => {
-      modalPayload.value = { reason: ModalReasons.Authorize };
-    }
+    const modalPayload = ref<ModalPayload | null>(null);
+
+    provide(ModalPayloadKey, modalPayload);
 
     const signOut = async () => {
       const success = await authExecutor(firebase.auth().signOut());
-      if (success) {
-        lock(); // clear timed session data and set ref
-        await router.push({ name: 'Home' });
-      }
+      if (success) await router.push({ name: 'Home' });
     }
 
     const noButtonModal = computed(() => {
       const reason = modalPayload.value?.reason;
       return (
-        reason == ModalReasons.Authorize ||
-        reason == ModalReasons.LinkEmailPassword
+        reason == ModalReason.Reauthorize ||
+        reason == ModalReason.LinkEmailPassword
       );
     });
 
@@ -153,16 +122,9 @@ export default defineComponent({
       modalPayload.value = null;               // close modal
     }
 
-    handleRedirection().then(success => {
-      // The only time the user would be redirected on this page would be for
-      // the re-auth
-      if (success) unlock();
-    });
-
     return {
       user, hasEmail, signOut, errors,
-      modalPayload, modalConfirm, noButtonModal, ModalReasons,
-      sessionOpen, lock, openSignIn,
+      modalPayload, modalConfirm, noButtonModal, ModalReason
     };
   }
 });
@@ -315,7 +277,7 @@ section, #locked, #unlocked {
   min-width: 15rem;
 
   // overridden widths with class-names from ../types.ts
-  &.authorize {
+  &.reauthorize {
     width: 65%;
     max-width: 20.0rem;
     min-width: 13.5rem;

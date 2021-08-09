@@ -46,30 +46,30 @@
     <button
       type="button"
       class="button"
-      @click="$emit('close')"
+      @click="modalPayload = null"
     >Cancel</button>
 
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, inject, ref } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { useAuthFlow, useThirdPartyAuth } from '@/auth/hooks';
-import { unlock } from '@/auth/session';
+import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 
 import user, { hasEmail, hasGoogle } from '../user';
+import { ModalPayloadKey } from '../types';
 
 import PasswordField from '@/components/PasswordField.vue';
 
-import '@/assets/styles/forms.scss';
 
 export default defineComponent({
   components: { PasswordField },
-  emits: [ 'close' ],
-  setup(_, { emit }) {
+  setup() {
+    const modalPayload = inject(ModalPayloadKey, ref(null));
+
     const email = ref("");
     const password = ref("");
 
@@ -101,22 +101,22 @@ export default defineComponent({
         .reauthenticateWithCredential(cred));
 
       if (success) {
-        unlock();
-        emit('close');
+        if (modalPayload.value?.callback) modalPayload.value.callback();
+        else modalPayload.value = null;
       }
     }
 
     const googleSubmit = async () => {
       const success = await authExecutor(signInWithGoogle());
-
       if (success) {
-        unlock();
-        emit('close');
+        if (modalPayload.value?.callback) modalPayload.value.callback();
+        else modalPayload.value = null;
       }
     }
 
     return {
-      hasEmail, hasGoogle, email, password, submit, googleSubmit, errors
+      hasEmail, hasGoogle, email, password, submit, googleSubmit, errors,
+      modalPayload
     };
   }
 });

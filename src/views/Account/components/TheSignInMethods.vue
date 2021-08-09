@@ -1,23 +1,13 @@
 <template>
   <div class="split-buttons">
 
-    <button
-      class="icon-button"
-      @click="googleClick"
-      :tabindex="sessionOpen ? 0 : -1"
-      :disabled="!sessionOpen"
-    >
+    <button class="icon-button" @click="googleClick">
       <fa-icon :icon="[ 'fab', 'google' ]" fixed-width />
       <span v-if="hasGoogle">Unlink Google account</span>
       <span v-else>Link Google account</span>
     </button>
 
-    <button
-      class="icon-button"
-      @click="emailClick"
-      :tabindex="sessionOpen ? 0 : -1"
-      :disabled="!sessionOpen"
-    >
+    <button class="icon-button" @click="emailClick">
       <fa-icon icon="envelope" fixed-width />
       <span v-if="hasEmail">Unlink email &amp; password</span>
       <span v-else>Link email &amp; password</span>
@@ -27,25 +17,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, inject } from 'vue';
 
-import { useAuthFlow, useThirdPartyAuth } from '@/auth/hooks';
-import { sessionOpen } from '@/auth/session';
+import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 
-import user, { hasEmail, hasGoogle, refreshUser } from '../user';
-import { ModalPayload, ModalReasons } from '../types';
+import user, { hasEmail, hasGoogle, refreshUser, errorHandler } from '../user';
+import { ModalReason, ModalPayloadKey } from '../types';
 
 export default defineComponent({
-  emits: {
-    'open-modal': (payload: ModalPayload) => {
-      return (payload as object).hasOwnProperty('reason');
-    }
-  },
-  setup(_, { emit }) {
+  setup() {
+    const modalPayload = inject(ModalPayloadKey, ref(null));
+
     const errors = ref<string[]>([]);
 
     const { link } = useThirdPartyAuth();
-    const { authExecutor } = useAuthFlow({ errors });
+    const { authExecutor } = useAuthFlow({ errors, errorHandler });
 
     const googleClick = async () => {
       errors.value = [];
@@ -60,20 +46,44 @@ export default defineComponent({
           return;
         }
 
-        emit('open-modal', {
-          reason: ModalReasons.UnlinkProvider,
-          data: "Google account",
-          callback: async () => {
-            const success = await authExecutor(user.value.unlink('google.com'));
-            if (success) refreshUser();
-          },
-        });
+        const execute = async () => {
+          const success = await authExecutor(user.value.unlink('google.com'));
+          if (success) refreshUser();
+        }
+
+        modalPayload.value = {
+          reason: ModalReason.UnlinkProvider,
+          extraData: "Google account",
+          callback: () => {
+            execute().catch(() => {
+              modalPayload.value = {
+                reason: ModalReason.Reauthorize,
+                callback: async () => {
+                  await execute();
+                  modalPayload.value = null;
+                }
+              }
+            });
+          }
+        }
       }
 
       // !hasGoogle; linking
       else {
-        const success = await authExecutor(link());
-        if (success) refreshUser();
+        const execute = async () => {
+          const success = await authExecutor(link());
+          if (success) refreshUser();
+        }
+
+        execute().catch(() => {
+          modalPayload.value = {
+            reason: ModalReason.Reauthorize,
+            callback: async () => {
+              await execute();
+              modalPayload.value = null;
+            }
+          }
+        });
       }
     }
 
@@ -90,23 +100,38 @@ export default defineComponent({
           return;
         }
 
-        emit('open-modal', {
-          reason: ModalReasons.UnlinkProvider,
-          data: "email & password",
-          callback: async () => {
-            const success = await authExecutor(user.value.unlink('password'));
-            if (success) refreshUser();
+        const execute = async () => {
+          const success = await authExecutor(user.value.unlink('password'));
+          if (success) refreshUser();
+        }
+
+        modalPayload.value = {
+          reason: ModalReason.UnlinkProvider,
+          extraData: {
+            unlinking: "email & password",
+            others: "Google account"
           },
-        })
+          callback: () => {
+            execute().catch(() => {
+              modalPayload.value = {
+                reason: ModalReason.Reauthorize,
+                callback: async () => {
+                  await execute();
+                  modalPayload.value = null;
+                }
+              }
+            });
+          }
+        }
       }
 
       // linking email
       else {
-        emit('open-modal', { reason: ModalReasons.LinkEmailPassword });
+        modalPayload.value = { reason: ModalReason.LinkEmailPassword };
       }
     }
 
-    return { hasEmail, hasGoogle, sessionOpen, googleClick, emailClick };
+    return { hasEmail, hasGoogle, googleClick, emailClick };
   }
 });
 </script>

@@ -5,8 +5,7 @@
     <button
       type="button"
       class="button"
-      @click="emailForm.open"
-      :tabindex="sessionOpen ? 0 : -1"
+      @click="emailForm.visible = true"
     >Change</button>
   </div>
 
@@ -48,8 +47,7 @@
     <button
       type="button"
       class="button"
-      @click="passwordForm.open"
-      :tabindex="sessionOpen ? 0 : -1"
+      @click="passwordForm.visible = true"
     >Change</button>
   </div>
 
@@ -83,7 +81,6 @@
         <button
           type="submit"
           class="button"
-          :disabled="!sessionOpen"
         >Save</button>
         <button
           type="button"
@@ -96,17 +93,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, reactive } from 'vue';
+import { defineComponent, ref, Ref, computed, reactive, inject } from 'vue';
 
-import { useAuthFlow } from '@/auth/hooks';
-import { sessionOpen } from '@/auth/session';
-
+import { useAuthFlow } from '@/auth-hooks';
 import user, { refreshUser, errorHandler } from '../user';
 
 import PasswordField from '@/components/PasswordField.vue';
+import { ModalPayload, ModalPayloadKey, ModalReason } from '../types';
 
 
-function useChangeEmailForm() {
+function useChangeEmailForm(modalPayload: Ref<ModalPayload | null>) {
   const visible = ref(false);
   const newEmail = ref("");
 
@@ -114,21 +110,11 @@ function useChangeEmailForm() {
 
   const { authExecutor } = useAuthFlow({ errors, errorHandler });
 
-  const open = () => {
-    if (sessionOpen.value) visible.value = true;
-  }
-
   const validate = () => {
     errors.value = [];
 
     if (newEmail.value.length == 0)
       errors.value.push("Please enter a new email address.");
-
-    if (!sessionOpen.value) {
-      errors.value = [
-        "Sorry, your session has expired. Please sign in again."
-      ];
-    }
 
     return errors.value.length == 0;
   }
@@ -138,13 +124,28 @@ function useChangeEmailForm() {
     visible.value = false;
   }
 
-  const submit = async () => {
+  const submit = () => {
     if (!validate()) return;
-    const success = await authExecutor(user.value.updateEmail(newEmail.value));
-    if (success) {
-      refreshUser();
-      close();
+
+    const execute = async () => {
+      const success = await authExecutor(user.value
+        .updateEmail(newEmail.value));
+
+      if (success) {
+        refreshUser();
+        close();
+      }
     }
+
+    execute().catch(() => {
+      modalPayload.value = {
+        reason: ModalReason.Reauthorize,
+        callback: async () => {
+          await execute();
+          modalPayload.value = null;
+        }
+      }
+    });
   }
 
   return {
@@ -153,7 +154,7 @@ function useChangeEmailForm() {
 }
 
 
-function useChangePasswordForm() {
+function useChangePasswordForm(modalPayload: Ref<ModalPayload | null>) {
   const visible = ref(false);
 
   const password1 = ref("");
@@ -163,10 +164,6 @@ function useChangePasswordForm() {
   const errors = ref<string[]>([]);
 
   const { authExecutor } = useAuthFlow({ errors, errorHandler });
-
-  const open = () => {
-    if (sessionOpen.value) visible.value = true;
-  }
 
   const validate = () => {
     errors.value = [];
@@ -187,16 +184,28 @@ function useChangePasswordForm() {
     visible.value = false;
   }
 
-  const submit = async () => {
+  const submit = () => {
     if (!validate()) return;
 
-    const success = await authExecutor(user.value
-      .updatePassword(password1.value));
+    const execute = async () => {
+      const success = await authExecutor(user.value
+        .updatePassword(password1.value));
 
-    if (success) {
-      refreshUser();
-      close();
+      if (success) {
+        refreshUser();
+        close();
+      }
     }
+
+    execute().catch(() => {
+      modalPayload.value = {
+        reason: ModalReason.Reauthorize,
+        callback: async () => {
+          await execute();
+          modalPayload.value = null;
+        }
+      }
+    });
   }
 
   return {
@@ -210,6 +219,8 @@ function useChangePasswordForm() {
 export default defineComponent({
   components: { PasswordField },
   setup() {
+    const modalPayload = inject(ModalPayloadKey, ref(null));
+
     const providerEmail = computed(() => {
       // '!' because this component is only shown when 'hasEmail' is true, and
       // because the 'password' provider always has an email attached to it (the
@@ -220,8 +231,9 @@ export default defineComponent({
     });
 
     return {
-      providerEmail, sessionOpen,
-      ...useChangeEmailForm(), ...useChangePasswordForm()
+      providerEmail,
+      ...useChangeEmailForm(modalPayload),
+      ...useChangePasswordForm(modalPayload)
     };
   }
 });

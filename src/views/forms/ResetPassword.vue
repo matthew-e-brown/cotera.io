@@ -41,7 +41,7 @@ import 'firebase/auth';
 
 // Don't need the whole AuthExecutor flow, just need the fallback error handler,
 // since all we're doing is sending a single email
-import { fallbackHandler } from '@/auth/hooks';
+import { fallbackHandler } from '@/auth-hooks';
 
 export default defineComponent({
   name: 'ResetPasswordForm',

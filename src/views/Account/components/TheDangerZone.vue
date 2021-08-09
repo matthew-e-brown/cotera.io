@@ -3,20 +3,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-
-import { sessionOpen } from '@/auth/session';
-
-import { ModalPayload } from '../types';
+import { defineComponent, ref, inject } from 'vue';
+import { ModalPayloadKey } from '../types';
 
 export default defineComponent({
-  emits: {
-    openModal: (payload: ModalPayload) => {
-      return (payload as object).hasOwnProperty('reason');
-    }
-  },
-  setup(_, { emit }) {
-
+  setup() {
+    const modalPayload = inject(ModalPayloadKey, ref(null));
   }
 });
 </script>
