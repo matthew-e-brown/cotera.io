@@ -40,12 +40,16 @@
 
           <TheReauthForm
             v-if="modalPayload.reason == ModalReason.Reauthorize"
-            @close="modalPayload = null"
+          />
+
+          <TheLinkForm
+            v-else-if="modalPayload.reason == ModalReason.LinkEmailPassword"
           />
 
           <p v-else-if="modalPayload.reason == ModalReason.UnlinkProvider">
             You will no longer be able to log in using your
-            {{ modalPayload.data }}.
+            {{ modalPayload.extraData.unlinking }}, and will instead need to use
+            your {{ modalPayload.extraData.others }}.
           </p>
 
           <p v-else-if="modalPayload.reason == ModalReason.WarningReset">
@@ -86,6 +90,7 @@ import TheReauthForm from './components/TheReauthForm.vue';
 import TheEmailPassword from './components/TheEmailPassword.vue';
 import TheSignInMethods from './components/TheSignInMethods.vue';
 import TheDangerZone from './components/TheDangerZone.vue';
+import TheLinkForm from './components/TheLinkForm.vue';
 
 import '@/assets/styles/forms.scss';
 
@@ -93,7 +98,7 @@ import '@/assets/styles/forms.scss';
 export default defineComponent({
   name: 'Account',
   components: {
-    ConfirmModal, TheReauthForm,
+    ConfirmModal, TheReauthForm, TheLinkForm,
     TheEmailPassword, TheSignInMethods, TheDangerZone
   },
   setup() {
@@ -278,9 +283,7 @@ section, #locked, #unlocked {
 
   // overridden widths with class-names from ../types.ts
   &.reauthorize {
-    width: 65%;
-    max-width: 20.0rem;
-    min-width: 13.5rem;
+    width: clamp(13.5rem, 75%, 25rem);
   }
 }
 </style>

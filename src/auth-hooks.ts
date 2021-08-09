@@ -147,14 +147,15 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
    */
   const authFactory = (
     popupAction: () => ((p: AuthProvider) => Promise<UserCredential | void>),
-    redirectAction: () => ((p: AuthProvider) => Promise<void>)
+    redirectAction: () => ((p: AuthProvider) => Promise<void>),
+    thisArg: () => any
   ): (() => Promise<UserCredential | void>) => {
     return async () => {
       try {
-        return await popupAction().call(firebase.auth(), prov);
+        return await popupAction().call(thisArg(), prov);
       } catch (error) {
         if (error.code == 'auth/popup-blocked')
-          return await redirectAction().call(firebase.auth(), prov);
+          return await redirectAction().call(thisArg(), prov);
         else if (error.code != 'auth/popup-closed-by-user')
           throw error;
       }
@@ -174,7 +175,8 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
    */
   const signIn = authFactory(
     () => firebase.auth().signInWithPopup,
-    () => firebase.auth().signInWithRedirect
+    () => firebase.auth().signInWithRedirect,
+    () => firebase.auth()
   );
 
   /**
@@ -182,7 +184,8 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
    */
   const reauthenticate = authFactory(
     () => firebase.auth().currentUser!.reauthenticateWithPopup,
-    () => firebase.auth().currentUser!.reauthenticateWithRedirect
+    () => firebase.auth().currentUser!.reauthenticateWithRedirect,
+    () => firebase.auth().currentUser!
   );
 
   /**
@@ -190,7 +193,8 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
    */
   const link = authFactory(
     () => firebase.auth().currentUser!.linkWithPopup,
-    () => firebase.auth().currentUser!.linkWithRedirect
+    () => firebase.auth().currentUser!.linkWithRedirect,
+    () => firebase.auth().currentUser!
   );
 
   return { signIn, reauthenticate, link };

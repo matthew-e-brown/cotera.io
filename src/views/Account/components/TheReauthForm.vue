@@ -1,6 +1,11 @@
 <template>
   <h3>Log in again</h3>
 
+  <p>
+    Sorry, it's been a while since you signed in. Please do so again so we know
+    that it's actually you doing this.
+  </p>
+
   <form @submit.prevent="submit" v-if="hasEmail">
 
     <div class="row">
@@ -58,7 +63,6 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
-
 import user, { hasEmail, hasGoogle } from '../user';
 import { ModalPayloadKey } from '../types';
 
@@ -76,8 +80,7 @@ export default defineComponent({
     const errors = ref<string[]>([]);
 
     const { authExecutor } = useAuthFlow({ errors });
-    // 'reauthenticate' simply hangs for some reason?? but this works fine
-    const { signIn: signInWithGoogle } = useThirdPartyAuth();
+    const { reauthenticate } = useThirdPartyAuth();
 
     const validate = () => {
       errors.value = [];
@@ -107,7 +110,7 @@ export default defineComponent({
     }
 
     const googleSubmit = async () => {
-      const success = await authExecutor(signInWithGoogle());
+      const success = await authExecutor(reauthenticate());
       if (success) {
         if (modalPayload.value?.callback) modalPayload.value.callback();
         else modalPayload.value = null;

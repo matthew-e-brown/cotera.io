@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, inject } from 'vue';
+
 import { ModalPayloadKey } from '../types';
 
 export default defineComponent({

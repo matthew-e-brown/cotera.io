@@ -14,13 +14,16 @@
     </button>
 
   </div>
+
+  <ul class="errors" v-if="errors.length > 0">
+    <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
+  </ul>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, inject } from 'vue';
 
 import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
-
 import user, { hasEmail, hasGoogle, refreshUser, errorHandler } from '../user';
 import { ModalReason, ModalPayloadKey } from '../types';
 
@@ -53,7 +56,10 @@ export default defineComponent({
 
         modalPayload.value = {
           reason: ModalReason.UnlinkProvider,
-          extraData: "Google account",
+          extraData: {
+            unlinking: "Google account",
+            others: "email & password"
+          },
           callback: () => {
             execute().catch(() => {
               modalPayload.value = {
@@ -131,7 +137,7 @@ export default defineComponent({
       }
     }
 
-    return { hasEmail, hasGoogle, googleClick, emailClick };
+    return { hasEmail, hasGoogle, googleClick, emailClick, errors };
   }
 });
 </script>

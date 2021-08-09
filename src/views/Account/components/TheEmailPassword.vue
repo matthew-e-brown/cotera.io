@@ -97,9 +97,9 @@ import { defineComponent, ref, Ref, computed, reactive, inject } from 'vue';
 
 import { useAuthFlow } from '@/auth-hooks';
 import user, { refreshUser, errorHandler } from '../user';
+import { ModalPayload, ModalPayloadKey, ModalReason } from '../types';
 
 import PasswordField from '@/components/PasswordField.vue';
-import { ModalPayload, ModalPayloadKey, ModalReason } from '../types';
 
 
 function useChangeEmailForm(modalPayload: Ref<ModalPayload | null>) {

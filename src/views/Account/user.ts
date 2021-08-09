@@ -3,6 +3,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { fallbackHandler } from '@/auth-hooks';
+import router from '@/router';
 
 // assert non-null (!) because this route is guarded by a navigation guard
 const user = ref(firebase.auth().currentUser!);
@@ -12,7 +13,15 @@ const user = ref(firebase.auth().currentUser!);
  * after anything that alters the user (like a change to email address)
  * occurs.
  */
-export const refreshUser = () => user.value = firebase.auth().currentUser!;
+export const refreshUser = () => {
+  console.log(user.value);
+
+  const current = firebase.auth().currentUser;
+  if (current === null) router.push({ name: 'Home' });
+  else user.value = current;
+
+  console.log(user.value);
+}
 
 export const hasGoogle = computed(() => {
   return user.value.providerData.some(p => p?.providerId == 'google.com')
