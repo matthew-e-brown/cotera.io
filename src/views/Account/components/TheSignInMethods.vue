@@ -52,7 +52,10 @@ export default defineComponent({
 
         const execute = async () => {
           const success = await authExecutor(user.value.unlink('google.com'));
-          if (success) refreshUser();
+          if (success) {
+            refreshUser();
+            modalPayload.value = null;
+          }
         }
 
         modalPayload.value = {
@@ -65,10 +68,7 @@ export default defineComponent({
             execute().catch(() => {
               modalPayload.value = {
                 reason: ModalReason.Reauthorize,
-                callback: async () => {
-                  await execute();
-                  modalPayload.value = null;
-                }
+                callback: execute
               }
             });
           }
@@ -109,7 +109,10 @@ export default defineComponent({
 
         const execute = async () => {
           const success = await authExecutor(user.value.unlink('password'));
-          if (success) refreshUser();
+          if (success) {
+            refreshUser();
+            modalPayload.value = null;
+          }
         }
 
         modalPayload.value = {
@@ -122,10 +125,7 @@ export default defineComponent({
             execute().catch(() => {
               modalPayload.value = {
                 reason: ModalReason.Reauthorize,
-                callback: async () => {
-                  await execute();
-                  modalPayload.value = null;
-                }
+                callback: execute
               }
             });
           }
