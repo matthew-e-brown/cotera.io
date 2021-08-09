@@ -19,18 +19,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject } from 'vue';
+import { defineComponent, inject } from 'vue';
+
+import router from '@/router';
 
 import store from '@/store';
 import { removeLists, removeUserData } from '@/store/cloud';
 import { useAuthFlow } from '@/auth-hooks';
-import user, { errorHandler } from '../user';
-import { ModalPayloadKey, ModalReason } from '../types';
-import router from '@/router';
+import { errorHandler } from '../requires-recent';
+import { ModalPayloadKey, ModalReason, UserDataKey } from '../types';
 
 export default defineComponent({
   setup() {
-    const modalPayload = inject(ModalPayloadKey, ref(null));
+    const { user } = inject(UserDataKey)!;
+    const modalPayload = inject(ModalPayloadKey)!;
 
     const { authExecutor } = useAuthFlow({ errorHandler });
 

@@ -24,12 +24,13 @@
 import { defineComponent, ref, inject } from 'vue';
 
 import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
-import user, { hasEmail, hasGoogle, refreshUser, errorHandler } from '../user';
-import { ModalReason, ModalPayloadKey } from '../types';
+import { ModalReason, ModalPayloadKey, UserDataKey } from '../types';
+import { errorHandler } from '../requires-recent';
 
 export default defineComponent({
   setup() {
-    const modalPayload = inject(ModalPayloadKey, ref(null));
+    const { user, refreshUser, hasGoogle, hasEmail } = inject(UserDataKey)!;
+    const modalPayload = inject(ModalPayloadKey)!;
 
     const errors = ref<string[]>([]);
 

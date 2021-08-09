@@ -82,15 +82,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, provide } from 'vue';
+import { defineComponent, ref, Ref, computed, provide } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import router from '@/router';
 import { useAuthFlow } from '@/auth-hooks';
 
-import user, { hasEmail } from './user';
-import { ModalPayload, ModalReason, ModalPayloadKey } from './types';
+import {
+  ModalPayload, ModalReason, ModalPayloadKey, UserDataKey
+} from './types';
 
 import ConfirmModal from '@/components/ConfirmModal.vue';
 
@@ -101,6 +102,47 @@ import TheDangerZone from './components/TheDangerZone.vue';
 import TheLinkForm from './components/TheLinkForm.vue';
 
 import '@/assets/styles/forms.scss';
+
+
+function useUserData() {
+
+  const user: Ref<firebase.User> = ref(firebase.auth().currentUser!);
+
+  const refreshUser = () => {
+
+    /**
+     * @note
+     * In Vue 2 (with options API, of course), we used
+     * ```
+     * this.$set(this.user, firebase.auth().currentUser)
+     * ```
+     * to do this. The $set is supposedly no longer necessary now that we have
+     * Proxies, but there's something broken. "Refreshing" the ref's properties
+     * by re-assigning it doesn't seem to work as expected. Perhaps this is
+     * intended, and is documented somewhere? I would like to see where. To get
+     * around it, we set it to 'null' for a brief second so we can re-assign all
+     * the properties and trigger our computed and template refreshes.
+     *
+     * This is probably a bug, if I had to guess.
+     */
+
+    // @ts-ignore to unset the value temporarily and trigger a real re-render
+    user.value = null;
+    user.value = firebase.auth().currentUser!;
+  }
+
+  const hasEmail = computed(() => {
+    return user.value.providerData.some(p => p?.providerId == 'password');
+  });
+
+  const hasGoogle = computed(() => {
+    return user.value.providerData.some(p => p?.providerId == 'google.com');
+  });
+
+  provide(UserDataKey, { user, hasEmail, hasGoogle, refreshUser });
+
+  return { user, hasEmail, hasGoogle };
+}
 
 
 export default defineComponent({
@@ -130,12 +172,11 @@ export default defineComponent({
       );
     });
 
-    const modalConfirm = async () => {
-      await modalPayload.value?.callback?.();  // run callback
-    }
+    const modalConfirm = () => modalPayload.value?.callback?.();
 
     return {
-      user, hasEmail, signOut, errors,
+      ...useUserData(),
+      signOut, errors,
       modalPayload, modalConfirm, noButtonModal, ModalReason
     };
   }

@@ -59,15 +59,16 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { useAuthFlow } from '@/auth-hooks';
-import user, { refreshUser, errorHandler } from '../user';
-import { ModalPayloadKey, ModalReason } from '../types';
+import { errorHandler } from '../requires-recent';
+import { ModalPayloadKey, ModalReason, UserDataKey } from '../types';
 
 import PasswordField from '@/components/PasswordField.vue';
 
 export default defineComponent({
   components: { PasswordField },
   setup() {
-    const modalPayload = inject(ModalPayloadKey, ref(null));
+    const { user, refreshUser } = inject(UserDataKey)!;
+    const modalPayload = inject(ModalPayloadKey)!;
 
     const email = ref("");
     const password1 = ref("");

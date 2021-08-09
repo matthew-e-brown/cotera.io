@@ -96,13 +96,17 @@
 import { defineComponent, ref, Ref, computed, reactive, inject } from 'vue';
 
 import { useAuthFlow } from '@/auth-hooks';
-import user, { refreshUser, errorHandler } from '../user';
-import { ModalPayload, ModalPayloadKey, ModalReason } from '../types';
+import { errorHandler } from '../requires-recent';
+import {
+  ModalPayload, ModalPayloadKey, ModalReason, UserDataKey
+} from '../types';
 
 import PasswordField from '@/components/PasswordField.vue';
 
 
 function useChangeEmailForm(modalPayload: Ref<ModalPayload | null>) {
+  const { user, refreshUser } = inject(UserDataKey)!;
+
   const visible = ref(false);
   const newEmail = ref("");
 
@@ -155,6 +159,8 @@ function useChangeEmailForm(modalPayload: Ref<ModalPayload | null>) {
 
 
 function useChangePasswordForm(modalPayload: Ref<ModalPayload | null>) {
+  const { user, refreshUser } = inject(UserDataKey)!;
+
   const visible = ref(false);
 
   const password1 = ref("");
@@ -219,7 +225,8 @@ function useChangePasswordForm(modalPayload: Ref<ModalPayload | null>) {
 export default defineComponent({
   components: { PasswordField },
   setup() {
-    const modalPayload = inject(ModalPayloadKey, ref(null));
+    const { user } = inject(UserDataKey)!;
+    const modalPayload = inject(ModalPayloadKey)!;
 
     const providerEmail = computed(() => {
       // '!' because this component is only shown when 'hasEmail' is true, and
