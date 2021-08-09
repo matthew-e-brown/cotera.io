@@ -28,45 +28,53 @@
       <ConfirmModal
         :no-buttons="noButtonModal"
         :swap-buttons="modalPayload.reason == ModalReason.WarningDeleteFinal"
+        :container-class="modalPayload.reason"
         @confirm="modalConfirm"
         @cancel="modalPayload = null"
       >
-        <div
-          class="modal-container"
-          :class="modalPayload.reason"
-        >
 
-          <h3 v-if="!noButtonModal">Are you sure?</h3>
+        <h3 v-if="!noButtonModal">Are you sure?</h3>
 
-          <TheReauthForm
-            v-if="modalPayload.reason == ModalReason.Reauthorize"
-          />
+        <TheReauthForm
+          v-if="modalPayload.reason == ModalReason.Reauthorize"
+        />
 
-          <TheLinkForm
-            v-else-if="modalPayload.reason == ModalReason.LinkEmailPassword"
-          />
+        <TheLinkForm
+          v-else-if="modalPayload.reason == ModalReason.LinkEmailPassword"
+        />
 
-          <p v-else-if="modalPayload.reason == ModalReason.UnlinkProvider">
-            You will no longer be able to log in using your
-            {{ modalPayload.extraData.unlinking }}, and will instead need to use
-            your {{ modalPayload.extraData.others }}.
-          </p>
+        <p v-else-if="modalPayload.reason == ModalReason.UnlinkProvider">
+          You will no longer be able to log in using your
+          {{ modalPayload.extraData.unlinking }}, and will instead need to use
+          your {{ modalPayload.extraData.others }}.
+        </p>
 
-          <p v-else-if="modalPayload.reason == ModalReason.WarningReset">
-            This will reset all the levels on your armor to zero, as well as
-            delete any extra custom lists you may have made.
-          </p>
+        <p v-else-if="modalPayload.reason == ModalReason.WarningReset">
+          This will delete all armor's levels in all the custom lists you've
+          created, as well as clear your settings. You cannot undo this
+          action.
+        </p>
 
-          <p v-else-if="modalPayload.reason == ModalReason.WarningDelete">
-            This will remove all progress-related data from the database and
-            delete your account.
-          </p>
+        <p v-else-if="modalPayload.reason == ModalReason.WarningDelete">
+          This will delete all progress- and settings-related data from the
+          database then delete your account. You cannot undo this action; you
+          will be able to remake your account.
+        </p>
 
-          <p v-else-if="modalPayload.reason == ModalReason.WarningDeleteFinal">
-            Are you <strong>really</strong> sure? This is your last chance.
-          </p>
+        <p v-else-if="modalPayload.reason == ModalReason.WarningDeleteFinal">
+          Are you really, <strong>really</strong> sure? This is your last
+          chance.
+        </p>
 
-        </div>
+        <template
+          v-if="modalPayload.reason == ModalReason.WarningDeleteFinal"
+          #cancel
+        >On second thought&hellip;</template>
+        <template
+          v-if="modalPayload.reason == ModalReason.WarningDeleteFinal"
+          #submit
+        >Yes, I'm sure</template>
+
       </ConfirmModal>
     </template>
 
@@ -124,7 +132,6 @@ export default defineComponent({
 
     const modalConfirm = async () => {
       await modalPayload.value?.callback?.();  // run callback
-      modalPayload.value = null;               // close modal
     }
 
     return {
@@ -268,22 +275,8 @@ section, #locked, #unlocked {
   }
 }
 
-.modal-container {
-  margin-left: auto;
-  margin-right: auto;
-
-  p {
-    margin: 2rem 0;
-  }
-
-  // non-overridden modal-content width
-  width: 75%;
-  max-width: 35rem;
-  min-width: 15rem;
-
-  // overridden widths with class-names from ../types.ts
-  &.reauthorize {
-    width: clamp(13.5rem, 75%, 25rem);
-  }
+// overridden widths with class-names from ../types.ts
+:deep(.modal-container).reauthorize {
+  width: clamp(13.5rem, 75%, 25rem);
 }
 </style>

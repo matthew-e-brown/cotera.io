@@ -2,8 +2,8 @@
   <h3>Log in again</h3>
 
   <p>
-    Sorry, it's been a while since you signed in. Please do so again so we know
-    that it's actually you doing this.
+    Because this is a sensitive operation, we'd like to ask that you please log
+    in again, so we know that it's actually you trying to do this.
   </p>
 
   <form @submit.prevent="submit" v-if="hasEmail">

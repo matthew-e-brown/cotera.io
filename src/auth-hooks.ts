@@ -7,8 +7,8 @@ type AuthProvider = firebase.auth.AuthProvider;
 type UserCredential = firebase.auth.UserCredential;
 
 interface AuthOptions {
-  errors: Ref<string[]>;
-  errorHandler?: ((error: any, errors?: Ref<string[]>) => void);
+  errors?: Ref<string[]>;
+  errorHandler?: (error: any) => void;
 }
 
 
@@ -18,22 +18,30 @@ interface AuthOptions {
  * of simply presented to the user.
  */
 const errorMessages = new Map<string, string>([
+
   [ 'auth/email-already-in-use',
     "Sorry, an account with that email address already exists." ],
+
   [ 'auth/invalid-email',
     "Please use a valid email address." ],
+
   [ 'auth/weak-password',
     "Please use a stronger password (of at least six characters)." ],
+
   [ 'auth/user-not-found',
     "No account with that email address could be found." ],
+
   [ 'auth/wrong-password',
     "Sorry, that password is incorrect." ],
+
   [ 'auth/cancelled-popup-request',
     "Only one popup window can be use at a time: please use the most " +
     "recently opened one." ],
+
   [ 'auth/timeout',
     "Sorry, your request timed out before the action was completed. " +
     "Please try again." ]
+
 ]);
 
 
@@ -70,13 +78,12 @@ export function useAuthFlow(options?: AuthOptions) {
   const catcher = (error: any): void => {
     const message = errorMessages.get(error.code) ?? false;
 
-    if (message && options?.errors) {
-      options.errors.value.push(message);
-    } else if (options?.errorHandler && options?.errors) {
-      options.errorHandler(error, options.errors);
-    } else {
-      fallbackHandler(error);
-    }
+    // if there's a 'polite' error message
+    if (message && options?.errors) options.errors.value.push(message);
+    // if there was a secondary error handler provided
+    else if (options?.errorHandler) options.errorHandler(error);
+    // otherwise...
+    else fallbackHandler(error);
   }
 
   /**
