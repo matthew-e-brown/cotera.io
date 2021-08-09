@@ -32,15 +32,15 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import {
   faCaretRight, faCaretDown, faCaretUp, faMinus, faPlus, faPlusCircle, faCheck,
-  faTimes, faTrashAlt, faPen, faStar, faEllipsisV, faEnvelope, faEye,
-  faEyeSlash, faSortAlt, faChevronCircleDown, faCode, faHeart
+  faTimes, faTrashAlt, faPen, faStar, faEllipsisV, faEnvelope, faEye, faLock,
+  faLockOpen, faEyeSlash, faSortAlt, faChevronCircleDown, faCode, faHeart
 } from '@fortawesome/pro-solid-svg-icons';
 
 library.add(
   faCaretRight, faCaretDown, faCaretUp, faMinus, faPlus, faPlusCircle, faCheck,
-  faTimes, faTrashAlt, faPen, faStar, faEllipsisV, faEnvelope, faEye,
-  faEyeSlash, faSortAlt, faChevronCircleDown, faCode, faHeart, faGoogle,
-  faGithub, faCanadianMapleLeaf
+  faTimes, faTrashAlt, faPen, faStar, faEllipsisV, faEnvelope, faEye, faLock,
+  faLockOpen, faEyeSlash, faSortAlt, faChevronCircleDown, faCode, faHeart,
+  faGoogle, faGithub, faCanadianMapleLeaf
 );
 
 /** cspell: disable */

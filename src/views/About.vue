@@ -28,12 +28,12 @@
         </a>
 
         <a class="icon-button" href="https://github.com/matthew-e-brown/cotera.io" target="_blank">
-          <fa-icon :icon="[ 'fab', 'github' ]" class="fa-fw"></fa-icon>
+          <fa-icon :icon="[ 'fab', 'github' ]" fixed-width />
           <span>Source code</span>
         </a>
 
         <a class="icon-button" href="mailto:matthew.e.brown.17@gmail.com?subject=Question/Concern about Cotera.io" target="_blank">
-          <fa-icon icon="envelope" class="fa-fw"></fa-icon>
+          <fa-icon icon="envelope" fixed-width />
           <span>Contact</span>
         </a>
       </div>
@@ -132,8 +132,8 @@
 
     <span id="last">
       <fa-icon title="Made" icon="code" /> with
-      <fa-icon icon="heart" title="love" /> in
-      <fa-icon :icon="[ 'fab', 'canadian-maple-leaf' ]" title="Canada" /> by
+      <fa-icon title="love" icon="heart" /> in
+      <fa-icon title="Canada" :icon="[ 'fab', 'canadian-maple-leaf' ]" /> by
       <a href="https://matthew-brown.net/" target="_blank">Matt</a>, with help
       from <a href="https://theo.works/" target="_blank">Theo</a>.
     </span>
@@ -172,6 +172,7 @@ p {
 
 a:not(.icon-button) {
   color: $fg-color-dim;
+  font-weight: 500;
 }
 
 strong {

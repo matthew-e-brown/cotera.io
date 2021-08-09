@@ -191,16 +191,16 @@ export const setItem = <K extends StorageKey>(
 export async function removeUserData(userID: string) {
 
   const path = `/user-data/${userID}`;
-  return await firebase.firestore().doc(path).delete();
+  await firebase.firestore().doc(path).delete();
 
 }
 
 
 export async function removeLists(userID: string, lists: ListID[]) {
 
-  return await Promise.all(lists.map(async id => {
+  await Promise.all(lists.map(async id => {
     const path = `/user-data/${userID}/progress/${id}`;
-    return await firebase.firestore().doc(path).delete();
+    await firebase.firestore().doc(path).delete();
   }));
 
 }

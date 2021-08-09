@@ -9,131 +9,183 @@
       <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
     </ul>
 
-    <section id="email-and-password">
+    <section id="email-and-password" v-if="hasEmail">
       <h3 class="line">Email &amp; Password</h3>
-      <TheEmailAndPasswordSection v-if="hasEmail" />
-      <p v-else>
-        You don't have an email and password linked to this account yet; take a
-        look below to add one for sign-in.
-      </p>
+      <TheEmailPassword />
     </section>
 
     <section id="sign-in-methods">
       <h3 class="line">Sign-in Methods</h3>
-      <TheSignInMethodsSection @open-modal="modalPayload = $event" />
+      <TheSignInMethods />
     </section>
 
     <section id="danger-zone">
-      <h3 class="line">Danger Zone</h3>
-      <TheDangerZoneSection @open-modal="modalPayload = $event" />
+      <h3 class="line">The Danger Zone</h3>
+      <TheDangerZone />
     </section>
 
-    <!-- <TheAccountModal
-      v-if="modalPayload !== null"
-      :view="modalPayload"
-      @close-modal="modalPayload = null"
-    /> -->
+    <template v-if="modalPayload != null">
+      <ConfirmModal
+        :no-buttons="noButtonModal"
+        :swap-buttons="modalPayload.reason == ModalReason.WarningDeleteFinal"
+        :container-class="modalPayload.reason"
+        @confirm="modalConfirm"
+        @cancel="modalPayload = null"
+      >
+
+        <h3 v-if="!noButtonModal">Are you sure?</h3>
+
+        <TheReauthForm
+          v-if="modalPayload.reason == ModalReason.Reauthorize"
+        />
+
+        <TheLinkForm
+          v-else-if="modalPayload.reason == ModalReason.LinkEmailPassword"
+        />
+
+        <p v-else-if="modalPayload.reason == ModalReason.UnlinkProvider">
+          You will no longer be able to log in using your
+          {{ modalPayload.extraData.unlinking }}, and will instead need to use
+          your {{ modalPayload.extraData.others }}.
+        </p>
+
+        <p v-else-if="modalPayload.reason == ModalReason.WarningReset">
+          This will delete all armor's levels in all the custom lists you've
+          created, as well as clear your settings. You cannot undo this
+          action.
+        </p>
+
+        <p v-else-if="modalPayload.reason == ModalReason.WarningDelete">
+          This will delete all progress- and settings-related data from the
+          database then delete your account. You cannot undo this action; you
+          will be able to remake your account.
+        </p>
+
+        <p v-else-if="modalPayload.reason == ModalReason.WarningDeleteFinal">
+          Are you really, <strong>really</strong> sure? This is your last
+          chance.
+        </p>
+
+        <template
+          v-if="modalPayload.reason == ModalReason.WarningDeleteFinal"
+          #cancel
+        >On second thought&hellip;</template>
+        <template
+          v-if="modalPayload.reason == ModalReason.WarningDeleteFinal"
+          #submit
+        >Yes, I'm sure</template>
+
+      </ConfirmModal>
+    </template>
 
   </main>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, Ref, computed, provide } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import router from '@/router';
 import { useAuthFlow } from '@/auth-hooks';
-import { ModalReasons, ModalPayload } from './types';
-import user, { hasEmail, refreshUser } from './user';
 
-// These components are more for separating concerns and shrinking file
-// line-counts than they are for actually encapsulating data
-import TheEmailAndPasswordSection from './TheEmailAndPasswordSection.vue';
-import TheSignInMethodsSection from './TheSignInMethodsSection.vue';
-import TheDangerZoneSection from './TheDangerZoneSection.vue';
-// import TheAccountModal from './TheAccountModal/index.vue';
+import {
+  ModalPayload, ModalReason, ModalPayloadKey, UserDataKey
+} from './types';
+
+import ConfirmModal from '@/components/ConfirmModal.vue';
+
+import TheReauthForm from './components/TheReauthForm.vue';
+import TheEmailPassword from './components/TheEmailPassword.vue';
+import TheSignInMethods from './components/TheSignInMethods.vue';
+import TheDangerZone from './components/TheDangerZone.vue';
+import TheLinkForm from './components/TheLinkForm.vue';
 
 import '@/assets/styles/forms.scss';
 
 
-// https://stackoverflow.com/a/15724300/10549827
-const getCookie = (name: string): string | undefined => {
-  const s = `; ${document.cookie}`;
-  const p = s.split(`; ${name}=`);
-  if (p.length == 2) return p.pop()?.split(';').shift();
+function useUserData() {
+
+  const user: Ref<firebase.User> = ref(firebase.auth().currentUser!);
+
+  const refreshUser = () => {
+
+    /**
+     * @note
+     * In Vue 2 (with options API, of course), we used
+     * ```
+     * this.$set(this.user, firebase.auth().currentUser)
+     * ```
+     * to do this. The $set is supposedly no longer necessary now that we have
+     * Proxies, but there's something broken. "Refreshing" the ref's properties
+     * by re-assigning it doesn't seem to work as expected. Perhaps this is
+     * intended, and is documented somewhere? I would like to see where. To get
+     * around it, we set it to 'null' for a brief second so we can re-assign all
+     * the properties and trigger our computed and template refreshes.
+     *
+     * This is probably a bug, if I had to guess.
+     */
+
+    // @ts-ignore to unset the value temporarily and trigger a real re-render
+    user.value = null;
+    user.value = firebase.auth().currentUser!;
+  }
+
+  const hasEmail = computed(() => {
+    return user.value.providerData.some(p => p?.providerId == 'password');
+  });
+
+  const hasGoogle = computed(() => {
+    return user.value.providerData.some(p => p?.providerId == 'google.com');
+  });
+
+  provide(UserDataKey, { user, hasEmail, hasGoogle, refreshUser });
+
+  return { user, hasEmail, hasGoogle };
 }
 
 
 export default defineComponent({
   name: 'Account',
   components: {
-    TheEmailAndPasswordSection, TheSignInMethodsSection, TheDangerZoneSection,
-    // TheAccountModal
+    ConfirmModal, TheReauthForm, TheLinkForm,
+    TheEmailPassword, TheSignInMethods, TheDangerZone
   },
   setup() {
     const errors = ref<string[]>([]);
-    const modalPayload = ref<ModalPayload | null>(null);
-    const { authExecutor, handleRedirection } = useAuthFlow({ errors });
+    const { authExecutor } = useAuthFlow({ errors });
 
+    const modalPayload = ref<ModalPayload | null>(null);
+
+    provide(ModalPayloadKey, modalPayload);
 
     const signOut = async () => {
       const success = await authExecutor(firebase.auth().signOut());
       if (success) await router.push({ name: 'Home' });
     }
 
-
-    handleRedirection().then(async success => {
-      if (success === true) {
-        const reason = getCookie('redirect-reason');
-        if (reason === undefined) return;
-
-        // Check all of the things that could have caused a redirection
-        switch (reason as ModalReasons) {
-          case ModalReasons.LinkEmail:
-
-            const email = getCookie('email') ?? '';
-            const password = getCookie('password') ?? '';
-
-            const cred = firebase.auth
-              .EmailAuthProvider.credential(email, password);
-
-            success = await authExecutor(user.value.linkWithCredential(cred));
-            break;
-
-          case ModalReasons.UnlinkEmail:
-            success = await authExecutor(user.value.unlink('password'));
-            break;
-
-          case ModalReasons.UnlinkGoogle:
-            success = await authExecutor(user.value.unlink('google.com'));
-            break;
-
-          case ModalReasons.DeleteFinalWarning:
-            // delete database progress
-            success = await authExecutor(user.value.delete());
-
-            if (success) {
-              await router.push({ name: 'Home' });
-              return;
-            }
-
-            break;
-        }
-
-        if (success) refreshUser();
-
-      }
+    const noButtonModal = computed(() => {
+      const reason = modalPayload.value?.reason;
+      return (
+        reason == ModalReason.Reauthorize ||
+        reason == ModalReason.LinkEmailPassword
+      );
     });
 
+    const modalConfirm = () => modalPayload.value?.callback?.();
 
-    return { user, hasEmail, signOut, errors, modalPayload };
+    return {
+      ...useUserData(),
+      signOut, errors,
+      modalPayload, modalConfirm, noButtonModal, ModalReason
+    };
   }
 });
 </script>
 
 <style scoped lang="scss">
-@include standalone-sticky(calc(45rem + 5vw), 5rem, 2rem);
+@use 'sass:color';
+@include standalone-sticky(calc(45rem + 5vw), 4.5rem, 2rem);
 
 h2 {
   margin-bottom: 1.5rem;
@@ -158,33 +210,114 @@ h2~.button {
   font-size: 75%;
 }
 
-section :deep(h3) {
-  margin: 1.25em 0;
+:deep(h3) {
+  margin-top: 0;
+  text-align: center;
 }
 
 section {
   margin-top: 2.25rem;
-  font-size: 0.9em;
+  h3 { margin: 1.25em 0; }
 }
 
-#email-and-password p {
-  color: $fg-color-dim;
-  padding-left: 1.5em;
+section, #locked, #unlocked {
+  font-size: 95%;
 }
 
 :deep(.split-buttons) {
   display: flex;
-  column-gap: 1.7rem;
   justify-content: flex-start;
   align-items: stretch;
 
-  button {
-    flex: 1 1 50%;
+  >* { margin-left: 0.85rem; margin-right: 0.85rem; }
+  >:first-child { margin-left: 0; }
+  >:last-child { margin-right: 0; }
 
-    margin-left: 0;
-    margin-right: 0;
+  button { flex: 1 1 50%; }
+  .icon-button span { font-size: unset; }
+}
+
+#lock-wrapper {
+  position: relative;
+  // while unlocked, remove margin on first section
+  &.open section:first-of-type { margin-top: 0; }
+}
+
+#locked {
+  position: absolute;
+  inset: -1em;
+  z-index: 4;
+
+  background-color: $bg-color;
+
+  @supports (backdrop-filter: blur(15px)) {
+    background-color: opacify($bg-color-transparent, 0.075);
+    backdrop-filter: blur(15px);
   }
 
-  .icon-button span { font-size: unset; }
+  padding: 1em 2em;
+  border-radius: 0.35em;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    text-align: center;
+    font-style: italic;
+    color: $fg-color-dim;
+  }
+
+  button {
+    font-size: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+#unlocked {
+  margin: 2rem 0;
+
+  span, button {
+    vertical-align: baseline;
+  }
+
+  span {
+    font-style: italic;
+    color: $fg-color-dim;
+  }
+
+  button {
+    $bg: opaque-mix($bg-color-accent, $bg-color);
+
+    width: 3em;
+    height: 2.15em;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.5em;
+    margin-right: 1.00em;
+    margin-bottom: 0.80em;
+
+    color: $fg-color;
+    background-color: $bg;
+
+    @media (hover: hover) {
+      transition: 125ms linear;
+      transition-property: background-color;
+
+      &:hover {
+        background-color: color.scale($bg, $lightness: 10%);
+      }
+    }
+  }
+}
+
+// overridden widths with class-names from ../types.ts
+:deep(.modal-container).reauthorize {
+  width: clamp(13.5rem, 75%, 25rem);
 }
 </style>

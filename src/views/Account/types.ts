@@ -1,19 +1,31 @@
+import { ComputedRef, InjectionKey, Ref } from 'vue';
 import firebase from 'firebase/app';
 
-export enum ModalReasons {
-  Reauthorize          = 're-auth',
-
-  LinkEmail            = 'link-email',
-  LinkGoogle           = 'link-google',
-  UnlinkEmail          = 'unlink-email',
-  UnlinkGoogle         = 'unlink-google',
-
-  ResetWarning         = 'reset-warning',
-  DeleteWarning        = 'deletion-warning',
-  DeleteFinalWarning   = 'delete-final-warning'
+// use strings so that we can insert values into the DOM and toggle things with
+// CSS
+export enum ModalReason {
+  Reauthorize         =  'reauthorize',
+  LinkEmailPassword   =  'link-email-password',
+  UnlinkProvider      =  'unlink-provider',
+  WarningReset        =  'warning-reset',
+  WarningDelete       =  'warning-delete',
+  WarningDeleteFinal  =  'warning-delete-final',
 }
 
+type ModalCallback = () => (void | Promise<void>);
 export interface ModalPayload {
-  reason: ModalReasons;
-  callback: () => Promise<firebase.auth.UserCredential | void>;
+  reason: ModalReason;
+  callback?: ModalCallback;
+  extraData?: any;
 }
+
+export const ModalPayloadKey: InjectionKey<
+  Ref<ModalPayload | null>
+> = Symbol('modalPayload');
+
+export const UserDataKey: InjectionKey<{
+  user: Ref<firebase.User>,
+  hasEmail: ComputedRef<boolean>,
+  hasGoogle: ComputedRef<boolean>,
+  refreshUser: () => void
+}> = Symbol('UserData');

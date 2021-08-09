@@ -27,7 +27,7 @@
           :aria-label="`Switch to ${ showAmiibo ? 'hiding' : 'showing' } Amiibo armor`"
         >
           <span><AmiiboIcon class="amiibo" aria-label="amiibo" /></span>
-          <fa-icon class="fa-fw" :icon="showAmiibo ? 'eye' : 'eye-slash'" />
+          <fa-icon :icon="showAmiibo ? 'eye' : 'eye-slash'" fixed-width />
         </button>
 
       </div>

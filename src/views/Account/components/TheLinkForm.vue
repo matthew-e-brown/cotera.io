@@ -1,5 +1,5 @@
 <template>
-  <h2>Register</h2>
+  <h3>Link email &amp; password</h3>
 
   <form @submit.prevent="submit">
 
@@ -7,7 +7,6 @@
       <input
         id="email"
         type="text"
-        name="email"
         placeholder="Email address"
         autocomplete="email"
         v-model="email"
@@ -39,34 +38,38 @@
       <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
     </ul>
 
-    <button type="submit" class="button">Create Account</button>
+    <button type="submit" class="button">Link</button>
 
   </form>
 
-  <div class="separator"><span>or</span></div>
-
   <div class="bottom-buttons">
-    <button type="button" class="icon-button" @click="googleSubmit">
-      <fa-icon :icon="[ 'fab', 'google' ]" fixed-width />
-      <span>Sign in with Google</span>
-    </button>
-    <router-link to="/login">Log into an existing account</router-link>
+
+    <button
+      type="button"
+      class="button"
+      @click="modalPayload = null"
+    >Cancel</button>
+
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, inject } from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import router from '@/router';
+import { useAuthFlow } from '@/auth-hooks';
+import { errorHandler } from '../requires-recent';
+import { ModalPayloadKey, ModalReason, UserDataKey } from '../types';
+
 import PasswordField from '@/components/PasswordField.vue';
-import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 
 export default defineComponent({
-  name: 'RegisterForm',
   components: { PasswordField },
   setup() {
+    const { user, refreshUser } = inject(UserDataKey)!;
+    const modalPayload = inject(ModalPayloadKey)!;
+
     const email = ref("");
     const password1 = ref("");
     const password2 = ref("");
@@ -74,8 +77,7 @@ export default defineComponent({
 
     const hidden = ref(true);
 
-    const { signIn: googleSignIn } = useThirdPartyAuth();
-    const { authExecutor, handleRedirection } = useAuthFlow({ errors });
+    const { authExecutor } = useAuthFlow({ errors, errorHandler });
 
     const validate = () => {
       errors.value = [];
@@ -93,36 +95,38 @@ export default defineComponent({
       return errors.value.length == 0;
     }
 
-    const submit = async () => {
+    const submit = () => {
       if (!validate()) return;
 
-      const newUserCred = ref<firebase.auth.UserCredential>();
+      const execute = async () => {
+        const cred = firebase.auth.EmailAuthProvider
+          .credential(email.value, password1.value);
 
-      const success = await authExecutor(
-        firebase.auth()
-          .createUserWithEmailAndPassword(email.value, password1.value),
-        newUserCred
-      );
+        const success = await authExecutor(user.value.linkWithCredential(cred));
 
-      if (success) {
-        await newUserCred.value?.user?.sendEmailVerification();
-        await router.push({ name: 'Home' });
+        if (success) {
+          refreshUser();
+          modalPayload.value = null;
+        }
       }
-    }
 
-    const googleSubmit = async () => {
-      const success = await authExecutor(googleSignIn());
-      if (success) await router.push({ name: 'Home' });
+      execute().catch(() => {
+        modalPayload.value = {
+          reason: ModalReason.Reauthorize,
+          callback: execute
+        }
+      });
     }
-
-    handleRedirection().then(success => {
-      if (success === true) router.replace({ name: 'Home' });
-    });
 
     return {
-      email, password1, password2, errors,
-      hidden, submit, googleSubmit
+      email, password1, password2, errors, hidden, submit, modalPayload
     };
   }
 });
 </script>
+
+<style scoped lang="scss">
+.bottom-buttons button:last-child {
+  border: none;
+}
+</style>

@@ -7,8 +7,8 @@ type AuthProvider = firebase.auth.AuthProvider;
 type UserCredential = firebase.auth.UserCredential;
 
 interface AuthOptions {
-  errors: Ref<string[]>;
-  errorHandler?: ((error: any) => void);
+  errors?: Ref<string[]>;
+  errorHandler?: (error: any) => void;
 }
 
 
@@ -18,22 +18,30 @@ interface AuthOptions {
  * of simply presented to the user.
  */
 const errorMessages = new Map<string, string>([
+
   [ 'auth/email-already-in-use',
     "Sorry, an account with that email address already exists." ],
+
   [ 'auth/invalid-email',
     "Please use a valid email address." ],
+
   [ 'auth/weak-password',
     "Please use a stronger password (of at least six characters)." ],
+
   [ 'auth/user-not-found',
     "No account with that email address could be found." ],
+
   [ 'auth/wrong-password',
     "Sorry, that password is incorrect." ],
+
   [ 'auth/cancelled-popup-request',
     "Only one popup window can be use at a time: please use the most " +
     "recently opened one." ],
+
   [ 'auth/timeout',
     "Sorry, your request timed out before the action was completed. " +
     "Please try again." ]
+
 ]);
 
 
@@ -47,9 +55,7 @@ export const fallbackHandler = (error: any): void => {
   console.log("An unexpected error occurred. See it logged below:");
   console.error(error);
   alert(
-    `Something went wrong. Please notify the developer that ` +
-    `"${error.code || error.message || error}" occurred. Please check the ` +
-    `developer console for details, if you know how to.`
+    "Something unexpected went wrong. Please check the console for details."
   );
 }
 
@@ -72,11 +78,12 @@ export function useAuthFlow(options?: AuthOptions) {
   const catcher = (error: any): void => {
     const message = errorMessages.get(error.code) ?? false;
 
-    if (message && options?.errors) {
-      options.errors.value.push(message);
-    } else {
-      (options?.errorHandler ?? fallbackHandler)(error);
-    }
+    // if there's a 'polite' error message
+    if (message && options?.errors) options.errors.value.push(message);
+    // if there was a secondary error handler provided
+    else if (options?.errorHandler) options.errorHandler(error);
+    // otherwise...
+    else fallbackHandler(error);
   }
 
   /**
@@ -147,14 +154,15 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
    */
   const authFactory = (
     popupAction: () => ((p: AuthProvider) => Promise<UserCredential | void>),
-    redirectAction: () => ((p: AuthProvider) => Promise<void>)
+    redirectAction: () => ((p: AuthProvider) => Promise<void>),
+    thisArg: () => any
   ): (() => Promise<UserCredential | void>) => {
     return async () => {
       try {
-        return await popupAction().call(firebase.auth(), prov);
+        return await popupAction().call(thisArg(), prov);
       } catch (error) {
         if (error.code == 'auth/popup-blocked')
-          return await redirectAction().call(firebase.auth(), prov);
+          return await redirectAction().call(thisArg(), prov);
         else if (error.code != 'auth/popup-closed-by-user')
           throw error;
       }
@@ -174,7 +182,8 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
    */
   const signIn = authFactory(
     () => firebase.auth().signInWithPopup,
-    () => firebase.auth().signInWithRedirect
+    () => firebase.auth().signInWithRedirect,
+    () => firebase.auth()
   );
 
   /**
@@ -182,7 +191,8 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
    */
   const reauthenticate = authFactory(
     () => firebase.auth().currentUser!.reauthenticateWithPopup,
-    () => firebase.auth().currentUser!.reauthenticateWithRedirect
+    () => firebase.auth().currentUser!.reauthenticateWithRedirect,
+    () => firebase.auth().currentUser!
   );
 
   /**
@@ -190,7 +200,8 @@ export function useThirdPartyAuth(provider?: AuthProvider) {
    */
   const link = authFactory(
     () => firebase.auth().currentUser!.linkWithPopup,
-    () => firebase.auth().currentUser!.linkWithRedirect
+    () => firebase.auth().currentUser!.linkWithRedirect,
+    () => firebase.auth().currentUser!
   );
 
   return { signIn, reauthenticate, link };
