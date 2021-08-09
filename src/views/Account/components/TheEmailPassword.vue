@@ -21,6 +21,13 @@
         autocomplete="off"
         v-model="emailForm.newEmail"
       />
+      <PasswordField
+        id="email-password"
+        name="email-password"
+        placeholder="Current password"
+        autocomplete="current-password"
+        v-model="emailForm.password"
+      />
 
       <ul v-if="emailForm.errors.length > 0" class="errors">
         <li v-for="(error, i) in emailForm.errors" :key="i">{{ error }}</li>
@@ -56,6 +63,14 @@
 
     <form @submit.prevent="passwordForm.submit">
 
+      <PasswordField
+        id="old-password"
+        name="old-password"
+        placeholder="Old password"
+        autocomplete="current-password"
+        v-model:value="passwordForm.oldPassword"
+        v-model:hidden="passwordForm.hiddenFields"
+      />
       <PasswordField
         id="password-1"
         name="new-password-1"
@@ -93,22 +108,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, computed, reactive, inject } from 'vue';
+import {
+  defineComponent, ref, reactive, computed, ComputedRef, inject
+} from 'vue';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import { useAuthFlow } from '@/auth-hooks';
-import { errorHandler } from '../requires-recent';
-import {
-  ModalPayload, ModalPayloadKey, ModalReason, UserDataKey
-} from '../types';
+import { errorHandler } from '../recent-handler';
+import { UserDataKey } from '../types';
 
 import PasswordField from '@/components/PasswordField.vue';
 
 
-function useChangeEmailForm(modalPayload: Ref<ModalPayload | null>) {
+function useChangeEmailForm(providerEmail: ComputedRef<string>) {
   const { user, refreshUser } = inject(UserDataKey)!;
 
   const visible = ref(false);
   const newEmail = ref("");
+  const password = ref("");
 
   const errors = ref<string[]>([]);
 
@@ -119,6 +137,8 @@ function useChangeEmailForm(modalPayload: Ref<ModalPayload | null>) {
 
     if (newEmail.value.length == 0)
       errors.value.push("Please enter a new email address.");
+    else if (password.value.length == 0)
+      errors.value.push("Please enter your password.");
 
     return errors.value.length == 0;
   }
@@ -136,33 +156,37 @@ function useChangeEmailForm(modalPayload: Ref<ModalPayload | null>) {
         .updateEmail(newEmail.value));
 
       if (success) {
+        await user.value.sendEmailVerification();
         refreshUser();
         close();
       }
     }
 
-    execute().catch(() => {
-      modalPayload.value = {
-        reason: ModalReason.Reauthorize,
-        callback: async () => {
-          await execute();
-          modalPayload.value = null;
-        }
-      }
+    execute().catch(async () => {
+      const cred = firebase.auth.EmailAuthProvider
+        .credential(providerEmail.value, password.value);
+
+      const success = await authExecutor(user.value
+        .reauthenticateWithCredential(cred));
+
+      if (success) await execute();
     });
   }
 
   return {
-    emailForm: reactive({ open, visible, newEmail, errors, submit, close })
+    emailForm: reactive({
+      open, visible, newEmail, password, errors, submit, close
+    })
   };
 }
 
 
-function useChangePasswordForm(modalPayload: Ref<ModalPayload | null>) {
+function useChangePasswordForm(providerEmail: ComputedRef<string>) {
   const { user, refreshUser } = inject(UserDataKey)!;
 
   const visible = ref(false);
 
+  const oldPassword = ref("");
   const password1 = ref("");
   const password2 = ref("");
   const hiddenFields = ref(true);
@@ -174,7 +198,9 @@ function useChangePasswordForm(modalPayload: Ref<ModalPayload | null>) {
   const validate = () => {
     errors.value = [];
 
-    if (password1.value.length == 0)
+    if (oldPassword.value.length == 0)
+      errors.value.push("Please enter your current password.");
+    else if (password1.value.length == 0)
       errors.value.push("Please enter a password.");
     else if (password2.value.length == 0)
       errors.value.push("Please verify your password.");
@@ -203,20 +229,21 @@ function useChangePasswordForm(modalPayload: Ref<ModalPayload | null>) {
       }
     }
 
-    execute().catch(() => {
-      modalPayload.value = {
-        reason: ModalReason.Reauthorize,
-        callback: async () => {
-          await execute();
-          modalPayload.value = null;
-        }
-      }
+    execute().catch(async () => {
+      const cred = firebase.auth.EmailAuthProvider
+        .credential(providerEmail.value, oldPassword.value);
+
+      const success = await authExecutor(user.value
+        .reauthenticateWithCredential(cred));
+
+      if (success) await execute();
     });
   }
 
   return {
     passwordForm: reactive({
-      open, visible, password1, password2, hiddenFields, errors, submit, close
+      open, visible, oldPassword, password1, password2, hiddenFields, errors,
+      submit, close
     })
   };
 }
@@ -226,7 +253,6 @@ export default defineComponent({
   components: { PasswordField },
   setup() {
     const { user } = inject(UserDataKey)!;
-    const modalPayload = inject(ModalPayloadKey)!;
 
     const providerEmail = computed(() => {
       // '!' because this component is only shown when 'hasEmail' is true, and
@@ -239,8 +265,8 @@ export default defineComponent({
 
     return {
       providerEmail,
-      ...useChangeEmailForm(modalPayload),
-      ...useChangePasswordForm(modalPayload)
+      ...useChangeEmailForm(providerEmail),
+      ...useChangePasswordForm(providerEmail)
     };
   }
 });

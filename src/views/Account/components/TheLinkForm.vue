@@ -59,7 +59,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { useAuthFlow } from '@/auth-hooks';
-import { errorHandler } from '../requires-recent';
+import { errorHandler } from '../recent-handler';
 import { ModalPayloadKey, ModalReason, UserDataKey } from '../types';
 
 import PasswordField from '@/components/PasswordField.vue';
@@ -105,6 +105,7 @@ export default defineComponent({
         const success = await authExecutor(user.value.linkWithCredential(cred));
 
         if (success) {
+          await user.value.sendEmailVerification();
           refreshUser();
           modalPayload.value = null;
         }

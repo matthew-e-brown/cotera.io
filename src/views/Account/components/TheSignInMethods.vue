@@ -25,7 +25,7 @@ import { defineComponent, ref, inject } from 'vue';
 
 import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 import { ModalReason, ModalPayloadKey, UserDataKey } from '../types';
-import { errorHandler } from '../requires-recent';
+import { errorHandler } from '../recent-handler';
 
 export default defineComponent({
   setup() {

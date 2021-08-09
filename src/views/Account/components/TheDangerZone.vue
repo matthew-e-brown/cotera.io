@@ -26,7 +26,7 @@ import router from '@/router';
 import store from '@/store';
 import { removeLists, removeUserData } from '@/store/cloud';
 import { useAuthFlow } from '@/auth-hooks';
-import { errorHandler } from '../requires-recent';
+import { errorHandler } from '../recent-handler';
 import { ModalPayloadKey, ModalReason, UserDataKey } from '../types';
 
 export default defineComponent({
