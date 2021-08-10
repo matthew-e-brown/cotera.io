@@ -1,4 +1,4 @@
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
