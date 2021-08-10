@@ -152,7 +152,10 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+// We're stealing the sticky-box's styles but aren't actually using its
+// stickiness
 @include standalone-sticky(calc(50rem + 5vw), 4.5rem);
+main.sticky-box { position: static; }
 
 h3 {
   text-align: center;

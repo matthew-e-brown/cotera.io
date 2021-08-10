@@ -1,4 +1,5 @@
 <template>
+
   <nav>
     <router-link to="/">
       <h1>Cotera<span>.io</span></h1>
@@ -7,18 +8,53 @@
     <router-link to="/login" v-if="!isSignedIn">log in</router-link>
     <router-link to="/account" v-else>account</router-link>
   </nav>
+
   <router-view />
+
+  <footer v-if="showFooter">
+
+    <div class="footer-links">
+      <router-link to="/about">about &amp; faq</router-link>
+      <router-link to="/login" v-if="!isSignedIn">log in</router-link>
+      <router-link to="/account" v-else>account</router-link>
+    </div>
+
+    <div class="footer-links">
+      <a href="https://buymeacoffee.com/matthewbrown" target="_blank">donate</a>
+      <a href="https://github.com/matthew-e-brown/cotera.io/issues" target="_blank">report a bug</a>
+      <a href="https://github.com/matthew-e-brown/cotera.io" target="_blank">view source code</a>
+      <a href="mailto:matthew.e.brown.17@gmail.com?subject=Question/Concern about Cotera.io" target="_blank">contact</a>
+    </div>
+
+    <div class="copyright">
+      <em>The Legend of Zelda</em> and <em>amiibo</em> are trademarks of
+      Nintendo.
+    </div>
+    <div class="copyright">&copy; 2020-2021 Matthew Brown.</div>
+
+  </footer>
+
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import store from '@/store';
 
+import router from '@/router';
+
 export default defineComponent({
   name: 'Cotera.io',
   setup() {
     const isSignedIn = computed(() => store.state.userID !== null);
-    return { isSignedIn };
+
+    const showFooter = computed(() => {
+      return (
+        router.currentRoute.value.name == 'Home' ||
+        router.currentRoute.value.name == 'About'
+      );
+    });
+
+    return { isSignedIn, showFooter };
   }
 });
 </script>
@@ -85,17 +121,48 @@ nav {
 
     align-items: flex-end;
   }
+
+  @media (max-width: $break-tiny + 10px) {
+    h1 {
+      font-size: 1.6rem;
+    }
+
+    a:not(:first-child) {
+      margin-left: 1.25em;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }
 
-@media (max-width: $break-tiny + 10px) {
-  h1 {
-    font-size: 1.6rem;
+footer {
+  text-align: center;
+
+  color: $fg-color-dim;
+  background-color: $bg-color;
+
+  font-size: 85%;
+  padding: 3.25em 3.5em;
+  margin-top: 5.65rem;
+
+  >*+* { margin-top: 1.25rem; }
+
+  .footer-links {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      margin: 0.30rem 0.60rem;
+    }
   }
 
-  a:not(:first-child) {
-    margin-left: 1.25em;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
+  .copyright {
+    color: $fg-color-dimmer;
+    margin-top: 1.75rem;
   }
+
+  .copyright+.copyright { margin-top: 0.25rem; }
 }
 </style>
