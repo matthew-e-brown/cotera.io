@@ -162,9 +162,11 @@ section {
   }
 
   @media (max-width: $break-large + 200) {
+    width: max-content;
+    margin-left: auto;
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr min-content min-content;
-    grid-template-areas: 'a a a' '. b c';
+    grid-template-columns: min-content min-content;
+    grid-template-areas: 'a a' 'b c';
   }
 }
 

@@ -15,113 +15,124 @@
       <span>{{ selected.name }}</span>
     </button>
 
-    <ul
+    <div
+      class="popper"
       ref="popperElement"
       :style="{ display: opened ? 'block' : 'none' }"
       @click.stop="void 0 /* do nothing except stopPropagation */"
     >
-      <li
-        v-for="(info, i) in listInfo" :key="info.id"
-        :class="{ 'selected-list': selected.id == info.id }"
+      <ul>
+        <li
+          v-for="(info, i) in listInfo" :key="info.id"
+          :class="{ 'selected-list': selected.id == info.id }"
+        >
+
+          <div v-if="info.id !== beingEdited" class="picker-box">
+
+            <button
+              type="button"
+              class="name"
+              :title="info.name"
+              @click="select(info.id)"
+            >{{ info.name }}</button>
+
+            <button
+              type="button"
+              class="picker-button"
+              @click="moveUp(i)"
+              :disabled="i <= 0"
+            >
+              <fa-icon icon="caret-up" fixed-width />
+            </button>
+            <button
+              type="button"
+              class="picker-button"
+              @click="moveDown(i)"
+              :disabled="i >= listInfo.length - 1"
+            >
+              <fa-icon icon="caret-down" fixed-width />
+            </button>
+            <button type="button" class="picker-button" @click="edit(info)">
+              <fa-icon icon="pen" fixed-width />
+            </button>
+            <button
+              type="button"
+              class="picker-button"
+              @click="toRemove = info"
+              :disabled="info.id == selected.id"
+            >
+              <fa-icon icon="trash-alt" fixed-width />
+            </button>
+          </div>
+
+          <form v-else class="picker-box" @submit.prevent="submitEdit(info.id)">
+            <input
+              type="text"
+              ref="editInput"
+              v-model="editingTemp"
+              @keydown.esc.stop="stopEdit"
+            />
+            <button
+              type="submit"
+              class="picker-button"
+              :disabled="!isValid(editingTemp)"
+            >
+              <fa-icon icon="check" fixed-width />
+            </button>
+            <button type="button" class="picker-button" @click="stopEdit">
+              <fa-icon icon="times" fixed-width />
+            </button>
+          </form>
+
+        </li>
+
+
+        <li v-if="beingAdded === null">
+
+          <button type="button" class="create-new" @click="add">
+            <fa-icon icon="plus-circle" fixed-width />
+            <span>Create a new list</span>
+          </button>
+
+        </li>
+        <li v-else>
+
+          <form class="picker-box" @submit.prevent="submitAdd">
+            <input
+              type="text"
+              ref="addInput"
+              v-model="beingAdded"
+              placeholder="New list name"
+              @keydown.esc.stop="stopAdd"
+            />
+            <button
+              type="submit"
+              class="picker-button"
+              :disabled="!isValid(beingAdded)"
+            >
+              <fa-icon icon="check" fixed-width />
+            </button>
+            <button
+              type="button"
+              class="picker-button"
+              @click="beingAdded = null"
+            >
+              <fa-icon icon="times" fixed-width />
+            </button>
+          </form>
+
+        </li>
+
+      </ul>
+
+      <ConfirmModal
+        v-if="toRemove != null"
+        @confirm="remove(toRemove.id)"
+        @cancel="toRemove = null"
       >
-
-        <div v-if="info.id !== beingEdited" class="picker-box">
-
-          <button
-            type="button"
-            class="name"
-            :title="info.name"
-            @click="select(info.id)"
-          >{{ info.name }}</button>
-
-          <button
-            type="button"
-            class="picker-button"
-            @click="moveUp(i)"
-            :disabled="i <= 0"
-          >
-            <fa-icon icon="caret-up" fixed-width />
-          </button>
-          <button
-            type="button"
-            class="picker-button"
-            @click="moveDown(i)"
-            :disabled="i >= listInfo.length - 1"
-          >
-            <fa-icon icon="caret-down" fixed-width />
-          </button>
-          <button type="button" class="picker-button" @click="edit(info)">
-            <fa-icon icon="pen" fixed-width />
-          </button>
-          <button
-            type="button"
-            class="picker-button"
-            @click="remove(info.id)"
-            :disabled="info.id == selected.id"
-          >
-            <fa-icon icon="trash-alt" fixed-width />
-          </button>
-        </div>
-
-        <form v-else class="picker-box" @submit.prevent="submitEdit(info.id)">
-          <input
-            type="text"
-            ref="editInput"
-            v-model="editingTemp"
-            @keydown.esc.stop="stopEdit"
-          />
-          <button
-            type="submit"
-            class="picker-button"
-            :disabled="editingTemp.length <= 0"
-          >
-            <fa-icon icon="check" fixed-width />
-          </button>
-          <button type="button" class="picker-button" @click="stopEdit">
-            <fa-icon icon="times" fixed-width />
-          </button>
-        </form>
-
-      </li>
-
-
-      <li v-if="beingAdded === null">
-
-        <button type="button" class="create-new" @click="add">
-          <fa-icon icon="plus-circle" fixed-width />
-          <span>Create a new list</span>
-        </button>
-
-      </li>
-      <li v-else>
-
-        <form class="picker-box" @submit.prevent="submitAdd">
-          <input
-            type="text"
-            ref="addInput"
-            v-model="beingAdded"
-            placeholder="New list name"
-            @keydown.esc.stop="stopAdd"
-          />
-          <button
-            type="submit"
-            class="picker-button"
-            :disabled="beingAdded.length <= 0"
-          >
-            <fa-icon icon="check" fixed-width />
-          </button>
-          <button
-            type="button"
-            class="picker-button"
-            @click="beingAdded = null"
-          >
-            <fa-icon icon="times" fixed-width />
-          </button>
-        </form>
-
-      </li>
-
-    </ul>
+        <p>Are you sure you want to delete "{{ toRemove.name }}"?</p>
+      </ConfirmModal>
+    </div>
   </div>
 </template>
 
@@ -141,45 +152,7 @@ import store from '@/store';
 import { ListID, ListInfo } from '@/store/types';
 import { defaults } from '@/store/helpers';
 
-
-/**
- * Gets the padding from the computed styles of an element (in the most
- * convoluted way possible, instead of just grabbing the four properties; for
- * fun LOL)
- * @param el The element of which the styles should be parsed from
- * @returns An object with a property for each side, in pixels
- */
-const getPadding = (el?: HTMLElement) => {
-  if (!el) return { top: 0, right: 0, bottom: 0, left: 0 };
-
-  type SidesUpper = 'Top' | 'Right' | 'Bottom' | 'Left';
-  type SidesLower = 'top' | 'right' | 'bottom' | 'left';
-
-  const styles = getComputedStyle(el);
-
-  // For each 'Side'...
-  return [ 'Top', 'Right', 'Bottom', 'Left' ].reduce((acc, cur) => {
-    const key = `padding${cur}` as `padding${SidesUpper}`;
-    const val = parseFloat(styles[key]);
-
-    // ... set 'side' = styles['paddingSide']
-    acc[cur.toLowerCase() as SidesLower] = val;
-
-    return acc;
-  }, { } as { [ k in SidesLower ]: number });
-}
-
-
-/**
- * Gets the current font-size of an element in pixels, to be used as a
- * multiplier for 'ems'
- * @param el The element to get the font size of
- * @return The element's font size in pixels.
- */
-const getFontSize = (el?: HTMLElement) => {
-  const styles = getComputedStyle(el ?? document.documentElement);
-  return parseFloat(styles.fontSize);
-}
+import ConfirmModal from '@/components/ConfirmModal.vue';
 
 
 function usePopper(opened: Ref<boolean>, bounds: Ref<HTMLElement | undefined>) {
@@ -188,6 +161,47 @@ function usePopper(opened: Ref<boolean>, bounds: Ref<HTMLElement | undefined>) {
   const reference = ref<HTMLButtonElement>();
   const element = ref<HTMLUListElement>();
   const wrapper = ref<HTMLDivElement>();
+
+
+  /**
+   * Gets the padding from the computed styles of an element (in the most
+   * convoluted way possible, instead of just grabbing the four properties; for
+   * fun LOL)
+   * @param el The element of which the styles should be parsed from
+   * @returns An object with a property for each side, in pixels
+   */
+  const getPadding = (el?: HTMLElement) => {
+    if (!el) return { top: 0, right: 0, bottom: 0, left: 0 };
+
+    type SidesUpper = 'Top' | 'Right' | 'Bottom' | 'Left';
+    type SidesLower = 'top' | 'right' | 'bottom' | 'left';
+
+    const styles = getComputedStyle(el);
+
+    // For each 'Side'...
+    return [ 'Top', 'Right', 'Bottom', 'Left' ].reduce((acc, cur) => {
+      const key = `padding${cur}` as `padding${SidesUpper}`;
+      const val = parseFloat(styles[key]);
+
+      // ... set 'side' = styles['paddingSide']
+      acc[cur.toLowerCase() as SidesLower] = val;
+
+      return acc;
+    }, { } as { [ k in SidesLower ]: number });
+  }
+
+
+  /**
+   * Gets the current font-size of an element in pixels, to be used as a
+   * multiplier for 'ems'
+   * @param el The element to get the font size of
+   * @return The element's font size in pixels.
+   */
+  const getFontSize = (el?: HTMLElement) => {
+    const styles = getComputedStyle(el ?? document.documentElement);
+    return parseFloat(styles.fontSize);
+  }
+
 
   /**
    * Closes the Popper. This event goes on the window itself.
@@ -325,10 +339,13 @@ export default defineComponent({
       required: false
     }
   },
+  components: { ConfirmModal },
   setup(props) {
     const opened = ref(false);
 
     const listInfo: Ref<ListInfo[]> = toRef(store.state, 'listInfo');
+
+    const toRemove: Ref<ListInfo | null> = ref(null);
 
     const beingEdited: Ref<ListID | null> = ref(null);
     const editingTemp = ref("");
@@ -372,8 +389,11 @@ export default defineComponent({
       beingAdded.value = null;
     }
 
+    // Make it so they can't have an empty name and limit the length to 40 chars
+    const isValid = (name: string) => name.length > 0 && name.length <= 40;
+
     const submitEdit = (id: ListID) => {
-      if (beingEdited.value !== null && beingEdited.value.length > 0) {
+      if (beingEdited.value !== null && isValid(editingTemp.value)) {
         store.renameList(id, editingTemp.value);
         beingEdited.value = null;
         editingTemp.value = "";
@@ -381,7 +401,7 @@ export default defineComponent({
     }
 
     const submitAdd = () => {
-      if (beingAdded.value !== null && beingAdded.value.length > 0) {
+      if (beingAdded.value !== null && isValid(beingAdded.value)) {
         store.addNewList(beingAdded.value);
         beingAdded.value = null;
       }
@@ -405,8 +425,10 @@ export default defineComponent({
     }
 
     const remove = (id: ListID) => {
-      if (id != store.state.settings.selectedList)
+      if (id != store.state.settings.selectedList) {
         store.removeList(id);
+        toRemove.value = null;
+      }
     }
 
     const selected = computed(() => {
@@ -420,10 +442,10 @@ export default defineComponent({
     });
 
     return {
-      listInfo, selected, opened,
+      listInfo, selected, opened, isValid,
       edit, beingEdited, editingTemp, stopEdit, submitEdit, editInput,
       add, beingAdded, stopAdd, submitAdd, addInput,
-      moveDown, moveUp, select, remove,
+      moveDown, moveUp, select, toRemove, remove,
       ...usePopper(opened, toRef(props, 'overflowBounds')),
     };
   }
@@ -432,6 +454,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 @use 'sass:math';
+// @use 'sass:map';
 
 .option-button {
   // '...' when the list name gets too long
@@ -454,24 +477,41 @@ button:disabled { opacity: 0.25; }
 
 .name, .picker-box input, .create-new {
   box-sizing: content-box;
-  padding: 0.45em 0.55em;
-}
-
-.picker-box input, .create-new {
+  padding: 0.50em 0.55em 0.40em 0.55em;
   height: 1em;
 }
 
-.selected-list {
-  .picker-box { border: 0.15em solid $border-color; }
+.picker-box input {
+  // Fix for the input's baseline being at a slightly different height
+  padding-top: 0.55em;
+  padding-bottom: 0.35em;
+}
+
+.create-new {
+  padding-top: 0.60em;
+  padding-bottom: 0.60em;
 }
 
 // The pop-out itself
-ul {
+.popper {
   list-style-type: none;
   z-index: 3;
 
-  margin: 0;
-  padding: 1em 0.85em;
+  box-sizing: border-box;
+
+  width: 45.00ch;
+
+  $breakpoints: (
+    ('size': 38.50ch, 'break': $break-large + 100px)
+    ('size': 33.75ch, 'break': $break-large)
+    ('size': 31.15ch, 'break': math.div($break-medium + $break-mobile, 2))
+  );
+
+  @each $bp in $breakpoints {
+    @media (max-width: map-get($bp, 'break')) {
+      width: map-get($bp, 'size');
+    }
+  }
 
   background-color: $bg-color;
 
@@ -483,21 +523,22 @@ ul {
   border-radius: 0.4em;
   border: 0.25em double $border-color;
 
-  li { display: block; }
-  li+li { margin-top: 0.75em; }
+  ul {
+    margin: 0;
+    padding: 1em 0.85em;
+  }
+
+  li {
+    display: block;
+    +li { margin-top: 0.75em; }
+  }
 }
 
 // Each element in the list; the box that holds the options for each list
 .picker-box {
-  box-sizing: border-box;
-
-  width: 18rem;
-  @media (max-width: math.div($break-small + $break-tiny, 2)) {
-    width: 16rem;
-  }
-
   border-radius: 0.25em;
   border: 0.15em solid transparent;
+  @at-root .selected-list & { border: 0.15em solid $border-color; }
 
   padding-right: 0.25em;
 
@@ -512,14 +553,17 @@ ul {
 
   // .name and input
   >:first-child {
-    margin-left: 0;
     text-align: left;
+
+    width: auto;
+    min-width: 0;
+
+    margin-left: 0;
     padding-left: 0.55em + 0.25em;
   }
 
   input {
-    width: unset;
-    border-radius: 0.35em;
+    border-radius: 0.25em;
     background-color: $bg-color-accent;
   }
 
@@ -541,15 +585,36 @@ ul {
 // The 'Create new list' button
 li:last-child {
   color: $fg-color-dimmer;
-  display: flex;
+  text-align: center;
 
   // the 'form.picker-box' when they're entering a new name
-  .picker-box { border: none; }
+  .picker-box { border-color: transparent; }
 
   // direct-child button, so only when it's not the input field
   >button {
     flex-grow: 1;
     svg { margin-right: 0.50em; }
   }
+}
+
+:deep(.modal-container) {
+  font-size: 90%;
+
+  min-width: initial;
+  max-width: 100%;
+
+  p {
+    margin-top: 0;
+    text-align: center;
+    font-style: italic;
+  }
+
+  button {
+    min-width: initial;
+    margin: 0 0.45em;
+  }
+
+  button:first-child { margin-left: 0; }
+  button:last-child { margin-right: 0; }
 }
 </style>

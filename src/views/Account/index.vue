@@ -224,19 +224,6 @@ section, #locked, #unlocked {
   font-size: 95%;
 }
 
-:deep(.split-buttons) {
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-
-  >* { margin-left: 0.85rem; margin-right: 0.85rem; }
-  >:first-child { margin-left: 0; }
-  >:last-child { margin-right: 0; }
-
-  button { flex: 1 1 50%; }
-  .icon-button span { font-size: unset; }
-}
-
 #lock-wrapper {
   position: relative;
   // while unlocked, remove margin on first section

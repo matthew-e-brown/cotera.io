@@ -385,6 +385,8 @@ function useFolding() {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:math';
+
 $fold-transition: 500ms ease;
 
 #armor-info {
@@ -532,8 +534,11 @@ p {
 }
 
 
-// *Between* medium and mobile
-@media (max-width: $break-medium) and (min-width: $break-mobile + 1) {
+// *Between* large/medium-ish and mobile
+@media
+  (max-width: math.div($break-medium + $break-large, 2))
+  and (min-width: $break-mobile + 1)
+{
   #armor-info {
     // Above $break-medium, uses global .sticky-box size of calc(18rem + 12vw).
     // Under $break-mobile, again uses global .sticky-box styles for being stuck
@@ -637,10 +642,22 @@ p {
   }
 }
 
-@media (max-width: $break-tiny) {
-  #defense {
-    font-size: 0.75em;
+// Make the defense and stars stack when smaller
+@media (max-width: $break-tiny + 15px) {
+  #stats {
+    flex-flow: column nowrap;
+    align-items: flex-end;
   }
+
+  #defense {
+    margin-top: 0;
+    margin-bottom: 0.90rem;
+  }
+}
+
+// Shrinking font-sizes at tiniest of sizes
+@media (max-width: $break-tiny) {
+  #stats { font-size: 1.10em; }
 
   .upgrade-item {
     span:first-of-type { font-size: 0.8em; }
@@ -649,18 +666,6 @@ p {
       margin-left: 0.65rem;
       margin-right: 0.65rem;
     }
-  }
-}
-
-@media (max-width: $break-tiny - 30px) {
-  #stats {
-    flex-flow: column nowrap;
-    align-items: flex-end;
-  }
-
-  #defense {
-    margin-top: 0;
-    margin-bottom: 1em;
   }
 }
 </style>

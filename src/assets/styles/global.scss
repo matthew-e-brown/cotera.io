@@ -315,7 +315,7 @@ input {
 
   box-sizing: content-box;
   height: 1em;
-  max-width: 12.00em;
+  max-width: 12.50em;
   padding: 0.75em 1em;
 
   border-radius: 0.4em;
@@ -337,4 +337,17 @@ input {
 
   // stop the icon from shrinking when the button gets wider
   >svg { flex-shrink: 0; }
+}
+
+.split-buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  >* { margin-left: 0.85rem; margin-right: 0.85rem; }
+  >:first-child { margin-left: 0; }
+  >:last-child { margin-right: 0; }
+
+  button { flex: 1 1 50%; }
+  .icon-button span { font-size: unset; }
 }

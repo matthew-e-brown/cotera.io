@@ -31,10 +31,6 @@ h1 {
   span {
     font-size: 40%;
   }
-
-  @media (max-width: $break-tiny - 30px) {
-    font-size: 1.6rem;
-  }
 }
 
 nav {
@@ -80,12 +76,6 @@ nav {
       @media (max-width: $break-small + 40px) {
         font-size: 90%;
       }
-
-      @media (max-width: $break-tiny - 30px) {
-        margin-left: 1.25em;
-        overflow-x: hidden;
-        text-overflow: ellipsis;
-      }
     }
   }
 
@@ -94,6 +84,18 @@ nav {
     padding: 1rem 2rem;
 
     align-items: flex-end;
+  }
+}
+
+@media (max-width: $break-tiny + 10px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  a:not(:first-child) {
+    margin-left: 1.25em;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
   }
 }
 </style>
