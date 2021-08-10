@@ -484,11 +484,11 @@ p {
 }
 
 .stars {
-  >:first-child { margin-right: 1em; }
-  >:last-child { margin-left: 1em; }
+  >:first-child { margin-right: 0.65em; }
+  >:last-child { margin-left: 0.65em; }
 
-  // If they have a touch screen, double the margin around the stars, but move
-  // the +/- a bit closer to compensate for the width
+  // If they have a touch screen, double the margin around the stars and give
+  // the '+/-' a bit more room
   @media (any-pointer: coarse) {
     .star { margin: 0.2em; }
     >:first-child { margin-right: 0.8em; }
