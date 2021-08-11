@@ -24,7 +24,7 @@
           type="button"
           class="option-button"
           @click="toggleAmiibo"
-          :aria-label="`Switch to ${ showAmiibo ? 'hiding' : 'showing' } Amiibo armor`"
+          :aria-label="`Switch to ${ showAmiibo ? 'hiding' : 'showing' } amiibo armor`"
         >
           <span><AmiiboIcon class="amiibo" aria-label="amiibo" /></span>
           <fa-icon :icon="showAmiibo ? 'eye' : 'eye-slash'" fixed-width />
@@ -33,20 +33,20 @@
       </div>
 
       <section>
-        <h3 class="line">
+        <h2 class="line">
           <ShirtIcon />
           <span>Armor</span>
-        </h3>
+        </h2>
         <ul class="armor-list">
           <ArmorItem v-for="piece in armor" :key="piece.tag" :armor="piece" />
         </ul>
       </section>
 
       <section v-show="showAmiibo">
-        <h3 class="line">
-          <AmiiboIcon class="amiibo" aria-label="amiibo" />
+        <h2 class="line">
+          <AmiiboIcon class="amiibo" aria-label="amiibo" role="img" />
           <span>Armor</span>
-        </h3>
+        </h2>
         <ul class="armor-list">
           <ArmorItem v-for="piece in amiibo" :key="piece.tag" :armor="piece" />
         </ul>
@@ -116,9 +116,26 @@ main {
   }
 }
 
-h3 {
+h2 {
+  font-size: 1.40em;
   margin-top: 1.85em;
   margin-bottom: 1em;
+
+  svg {
+    height: 0.90em;
+    margin-right: 0.45em;
+    align-self: center;
+    &.amiibo { align-self: flex-end; }
+  }
+}
+
+// Both inside the heading and in the .option-button
+svg.amiibo {
+  height: 1.275em;
+  margin-bottom: -0.10em;
+
+  // Less margin in the header
+  @at-root h3 & { margin-right: 0.30em; }
 }
 
 section {
@@ -176,20 +193,5 @@ section {
   justify-content: center;
   list-style: none;
   padding: 0;
-}
-
-h3 svg {
-  height: 1em;
-  margin-right: 0.5em;
-  align-self: center;
-  &.amiibo { align-self: flex-end; }
-}
-
-svg.amiibo {
-  height: 1.275em;
-  margin-bottom: -0.15em;
-
-  // Less margin in the header
-  @at-root h3 & { margin-right: 0.30em; }
 }
 </style>

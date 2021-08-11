@@ -153,13 +153,11 @@ footer {
     align-items: center;
     justify-content: center;
 
-    a {
-      margin: 0.30rem 0.60rem;
-    }
+    a { margin: 0.75rem 1rem; }
   }
 
   .copyright {
-    color: $fg-color-dimmer;
+    color: adjust-color($fg-color-dimmer, $lightness: 12%);
     margin-top: 1.75rem;
   }
 
