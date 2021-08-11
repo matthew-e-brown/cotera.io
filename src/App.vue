@@ -145,8 +145,6 @@ footer {
   padding: 3.25em 3.5em;
   margin-top: 5.65rem;
 
-  >*+* { margin-top: 1.25rem; }
-
   .footer-links {
     display: flex;
     flex-flow: row wrap;
@@ -154,13 +152,20 @@ footer {
     justify-content: center;
 
     a { margin: 0.75rem 1rem; }
+
+    margin-top: 1rem;
+
+    +.footer-links {
+      padding-top: 1rem;
+      border-top: 0.1rem solid $bg-color-accent;
+    }
   }
 
   .copyright {
     color: adjust-color($fg-color-dimmer, $lightness: 12%);
-    margin-top: 1.75rem;
-  }
 
-  .copyright+.copyright { margin-top: 0.25rem; }
+    margin-top: 2rem;
+    +.copyright { margin-top: 0.5rem; }
+  }
 }
 </style>
