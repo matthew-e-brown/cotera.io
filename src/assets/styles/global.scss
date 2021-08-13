@@ -27,7 +27,7 @@ label, input, button {
   background-color: #312626;
 
   @media (max-width: $break-small) {
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 
@@ -188,11 +188,9 @@ span.num {
   display: flex;
   align-items: center;
 
-  svg {
-    height: 1.2em;
-  }
+  svg { height: 1.2em; }
 
-  // (.star is used for buttons)
+  // (.star is what's used when they're buttons)
   span, .star {
     margin: 0.1em;
     color: $fg-color-dimmer;

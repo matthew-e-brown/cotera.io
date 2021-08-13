@@ -445,18 +445,19 @@ p {
   margin-bottom: 1.75em;
 }
 
-#stats, .upgrade-item {
-  margin-top: 0.85rem;
-}
-
 #stats {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
 
-  @media (max-width: $break-small) {
-    font-size: 1.20em;
+  margin-top: 1.00rem;
+
+  // Make the .stars and #defense go on top of one another when the screen is
+  // too small to support them otherwise
+  @media (max-width: $break-tiny + 15px) {
+    flex-flow: column nowrap;
+    align-items: flex-end;
   }
 }
 
@@ -468,18 +469,17 @@ p {
   font-size: 0.85em;
 
   // All flex-items
-  >* {
-    margin: 0 0.3rem;
-  }
+  >* { margin: 0 0.3rem; }
 
   // Just the numbers
-  span {
-    font-size: 1.45em;
-  }
+  span { font-size: 1.45em; }
 
-  // ShirtIcon and caret same size
-  svg {
-    height: 1.45rem;
+  // Make the ShirtIcon and the caret same size
+  svg { height: 1.45rem; }
+
+  @media (max-width: $break-tiny + 15px) {
+    margin-top: 0;
+    margin-bottom: 0.90rem;
   }
 }
 
@@ -490,46 +490,52 @@ p {
   // If they have a touch screen, double the margin around the stars and give
   // the '+/-' a bit more room
   @media (any-pointer: coarse) {
-    .star { margin: 0.2em; }
-    >:first-child { margin-right: 0.8em; }
-    >:last-child { margin-left: 0.8em; }
+    .star { margin: 0.20em; }
+    >:first-child { margin-right: 1.00em; }
+    >:last-child { margin-left: 1.00em; }
+  }
+
+  @media (max-width: $break-small) {
+    font-size: 1.10em;
   }
 }
 
 .upgrade-item {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
+  $height: 2.2rem;
 
   font-family: $head-font;
   font-size: 1.275em;
   font-weight: 700;
 
-  height: 2.2rem;
+  min-height: $height;
   padding: 0 1em 0.15em 0.5em;
+
+  // Second 'type' is the second 'div' is first 'div.upgrade-item'
+  &:nth-of-type(2) { margin-top: 1.50rem; }
+  margin-top: 1.15rem;
 
   background-color: $bg-color-accent;
 
-  >* {
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
-  // Second 'type' -> second 'div' -> first '.upgrade-item'
-  &:nth-of-type(2) { margin-top: 1.5rem; }
-
-  >:first-child { margin-left: 0; }
-  >:last-child {
-    margin-left: auto;
-    margin-right: 0;
-  }
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto 1fr auto;
+  column-gap: 2rem;
 
   img {
     display: inline-block;
-    align-self: flex-end;
-    height: 135%;
+    margin-top: -0.35 * $height;
+    height: $height * 1.35; // 135% height
     width: auto;
+  }
+
+  // The item name
+  >span:first-of-type { margin: 0.45ch 0; }
+  // The count
+  >:last-child { justify-self: flex-end; }
+
+  @media (max-width: $break-small) {
+    column-gap: 1.35rem;
+    span { font-size: 0.95em; }
   }
 }
 
@@ -634,16 +640,8 @@ p {
   }
 }
 
-
-// Smaller mobile sizes
-@media (max-width: $break-small) {
-  #stats {
-    font-size: 1.20em;
-  }
-}
-
 // Make the defense and stars stack when smaller
-@media (max-width: $break-tiny + 15px) {
+@media (max-width: $break-tiny + 30px) {
   #stats {
     flex-flow: column nowrap;
     align-items: flex-end;
@@ -658,14 +656,6 @@ p {
 // Shrinking font-sizes at tiniest of sizes
 @media (max-width: $break-tiny) {
   #stats { font-size: 1.10em; }
-
-  .upgrade-item {
-    span:first-of-type { font-size: 0.8em; }
-
-    >* {
-      margin-left: 0.65rem;
-      margin-right: 0.65rem;
-    }
-  }
+  // .upgrade-item span { font-size: 0.8em; }
 }
 </style>
