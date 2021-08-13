@@ -140,17 +140,6 @@ import store from '@/store';
 import sassVars from '@/assets/styles/_variables.scss';
 
 
-// Extract number and unit from nav_height, since we are going to do math with
-// it
-const navHeight = (() => {
-  const match = sassVars.nav_height.match(/(-?[\d.]+)([a-z%]*)/);
-  return {
-    value: match ? Number(match[1]) ?? NaN : NaN,
-    unit: match ? match[2] ?? "" : ""
-  };
-})();
-
-
 export default defineComponent({
   name: 'TheArmorInfo',
   components: { ShirtIcon },
@@ -357,22 +346,68 @@ function useFolding() {
     hitTop: unfold,
     up: unfold,
     down: () => {
-      // Height of root <div>
+      // Height of root <div#armor-info>
       const rHeight = (root.value?.getBoundingClientRect().height ?? 0);
+      // Height of the header <h2>
+      const hHeight = (header.value?.getBoundingClientRect().height ?? 0);
 
-      // Offset of header <h2> from top of root <div>
-      const hOffset =
-        (header.value?.offsetTop ?? 0) +
-        (header.value?.getBoundingClientRect().height ?? 0);
+      // Offset of header <h2> down to the bottom of root <div#armor-info>
+      // (the header's y position within the root, plus the header's own height)
+      const hOffset = (header.value?.offsetTop ?? 0) + hHeight;
 
       isFolded.value = true;
 
+      /**
+       * @note
+       *
+       * 1. move off the top by the height of the entire root div
+       * 2. move down by the height of the nav: the bottom edge is now even with
+       *    nav
+       * 3. move down by one more nav-height, now the exposed portion of the
+       *    root div is the same size as the nav
+       */
+
       foldedRootStyles.value = {
-        top: `calc(-${rHeight}px + ${navHeight.value * 2}${navHeight.unit})`
+        top: `calc(-${rHeight}px + var(--nav-height) * 2)`
       };
 
+      /**
+       * @note
+       *
+       * 1. move the header down by the full height of the root
+       *
+       *        + rHeight
+       *
+       * 2. move the header back up by the size equal to (header height +
+       *    distance from top of root). this puts the header sitting on the
+       *    bottom edge of the root.
+       *
+       *        - hOffset
+       *
+       * 3. move the header back up to center between the nav and the bottom of
+       *    the div:
+       *
+       *        - up by nav-height, now it's along the bottom edge of the nav
+       *        + down by the height of the header; now, between the bottom edge
+       *          of root and the bottom of header, there's what was previously
+       *          the distance between the top of header and the bottom edge of
+       *          nav
+       *        finally, divide that whole calculation by two, since we want to
+       *        *center* it.
+       *
+       * 4. final equation to move down by:
+       *
+       *        + (rHeight px - hOffset px)
+       *        - (var(--nav-height) - hHeight px) / 2
+       */
+
+      const one = `${rHeight - hOffset}px`;
+      const two = `(var(--nav-height) - ${hHeight}px)`;
+      const all = `${one} - ${two} / 2`;
+
       foldedHeaderStyles.value = {
-        transform: `translateY(calc(${rHeight - hOffset}px - 1rem))`
+        // One final 0.1rem to account for border + text funkiness
+        transform: `translateY(calc(${all} + 0.1rem))`
       };
     }
   });
@@ -487,10 +522,15 @@ p {
   >:first-child { margin-right: 0.65em; }
   >:last-child { margin-left: 0.65em; }
 
+  .star {
+    margin-top: 0.20em;
+    margin-bottom: 0.20em;
+  }
+
   // If they have a touch screen, double the margin around the stars and give
   // the '+/-' a bit more room
   @media (any-pointer: coarse) {
-    .star { margin: 0.20em; }
+    .star { margin: 0.20em; } // extend L/R margins as well
     >:first-child { margin-right: 1.00em; }
     >:last-child { margin-left: 1.00em; }
   }
@@ -589,6 +629,8 @@ p {
   }
 
   h2 {
+    box-sizing: content-box;
+
     transition:
       transform $fold-transition,
       padding-left $fold-transition,
@@ -606,6 +648,21 @@ p {
     @at-root [data-folded="true"] & {
       border-color: transparent;
       padding-left: 1em;
+    }
+  }
+
+  h2 span {
+    display: inline-block;
+    box-sizing: content-box;
+    transition: max-width $fold-transition;
+    @include dot-dot-dot;
+
+    // By default, it can use the full width
+    max-width: 100%;
+
+    // Shown properties
+    @at-root [data-folded="true"] & {
+      max-width: calc(100% - #{1.25em * 1.25} - 2ch);
     }
   }
 

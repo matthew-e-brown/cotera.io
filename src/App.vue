@@ -75,7 +75,7 @@ nav {
   flex-flow: row nowrap;
   align-items: center;
 
-  height: $nav-height;
+  height: var(--nav-height);
   padding: 1rem 4rem;
 
   position: sticky;
@@ -105,12 +105,8 @@ nav {
       padding-top: 0.225em;
       white-space: nowrap;
 
-      @media (max-width: $break-mobile) {
-        padding-bottom: 0.25em;
-      }
-
       @media (max-width: $break-small + 40px) {
-        font-size: 90%;
+        font-size: 85%;
       }
     }
   }
@@ -123,6 +119,8 @@ nav {
   }
 
   @media (max-width: $break-tiny + 10px) {
+    padding: 1rem 1.35rem;
+
     h1 {
       font-size: 1.6rem;
     }
@@ -143,7 +141,7 @@ footer {
 
   font-size: 85%;
   padding: 3.25em 3.5em;
-  margin-top: 5.65rem;
+  margin-top: 5.50rem;
 
   .footer-links {
     display: flex;
@@ -153,7 +151,9 @@ footer {
 
     a { margin: 0.75rem 1rem; }
 
-    margin-top: 1rem;
+    max-width: max-content;
+    margin: 1rem auto 0;
+    padding: 0 1rem;
 
     +.footer-links {
       padding-top: 1rem;

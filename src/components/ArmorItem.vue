@@ -43,12 +43,8 @@ export default defineComponent({
     });
 
     const select = (): void => {
-      if (!selected.value) {
-        store.setSelected(props.armor);    // select
-      } else {
-        store.setSelected(null);           // deselect
-        // button.value?.blur();
-      }
+      // If currently selected, deselect; otherwise select
+      store.setSelected(selected.value ? null : props.armor);
     }
 
     return { select, selected, button };
@@ -62,13 +58,9 @@ export default defineComponent({
   list-style: none;
   margin: 0.85rem;
 
-  @media (max-width: $break-large) {
-    margin: 0.55rem 0.30rem;
-  }
-
-  @media (max-width: $break-mobile) {
-    margin: 0.5rem;
-  }
+  // large and under, make them a little closer to fit more in the grid before
+  // wrapping
+  @media (max-width: $break-large) { margin: 0.55rem 0.35rem; }
 }
 
 .armor-button {
@@ -111,9 +103,7 @@ export default defineComponent({
   bottom: 0.2em; left: 0.2em;
   z-index: 2;
 
-  span {
-    font-size: 0.6em;
-  }
+  span { font-size: 0.63em; }
 }
 
 .num {
