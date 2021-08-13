@@ -17,6 +17,13 @@ label, input, button {
 }
 // -- End "Reset"
 
+
+:root {
+  --nav-height: 5.30rem;
+  @media (max-width: $break-small) { --nav-height: 4.80rem; }
+}
+
+
 :root {
   font-family: $body-font;
   font-weight: 500;
@@ -27,7 +34,7 @@ label, input, button {
   background-color: #312626;
 
   @media (max-width: $break-small) {
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 
@@ -70,9 +77,10 @@ main, main.sticky-box {
   @media (max-width: $break-mobile) {
     box-sizing: border-box;
     width: 100%;
+    min-width: unset;
 
     margin: 0;
-    top: calc(#{$nav-height} - 1px);
+    top: calc(var(--nav-height) - 1px);
 
     border-top: unset;
     border-left: unset;
@@ -188,11 +196,9 @@ span.num {
   display: flex;
   align-items: center;
 
-  svg {
-    height: 1.2em;
-  }
+  svg { height: 1.2em; }
 
-  // (.star is used for buttons)
+  // (.star is what's used when they're buttons)
   span, .star {
     margin: 0.1em;
     color: $fg-color-dimmer;

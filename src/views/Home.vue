@@ -159,9 +159,8 @@ section {
   display: grid;
   place-items: flex-end;
 
-  // default layout
-  grid-template-columns: min-content 1fr min-content min-content;
-  grid-template-areas: 'a . b c';
+  // default layout; one row, space in the middle
+  grid-template: 'a . b c' auto / min-content 1fr min-content min-content;
   gap: 0.85rem;
 
   >:nth-child(1) { grid-area: a; }
@@ -181,9 +180,16 @@ section {
   @media (max-width: $break-large + 200) {
     width: max-content;
     margin-left: auto;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: min-content min-content;
-    grid-template-areas: 'a a' 'b c';
+    grid-template:
+      'a a' 1fr // list first, then the buttons underneath
+      'b c' 1fr / min-content min-content;
+  }
+
+  @media (max-width: $break-tiny) {
+    grid-template:
+      'a' 1fr // stack all three
+      'c' 1fr // 'amiibo' before 'sets', since it's wider
+      'b' 1fr / min-content;
   }
 }
 

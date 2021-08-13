@@ -6,12 +6,14 @@
     <button
       type="button"
       class="danger-button"
+      ref="resetButton"
       @click="deleteData"
     >Delete data</button>
 
     <button
       type="button"
       class="danger-button"
+      ref="deleteButton"
       @click="deleteUser"
     >Delete account</button>
 
@@ -19,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from 'vue';
+import { defineComponent, inject, ref } from 'vue';
 
 import router from '@/router';
 
@@ -34,9 +36,14 @@ export default defineComponent({
     const { user } = inject(UserDataKey)!;
     const modalPayload = inject(ModalPayloadKey)!;
 
+    const deleteButton = ref<HTMLButtonElement>();
+    const resetButton = ref<HTMLButtonElement>();
+
     const { authExecutor } = useAuthFlow({ errorHandler });
 
     const deleteData = () => {
+      resetButton.value?.blur();
+
       modalPayload.value = {
         reason: ModalReason.WarningReset,
         callback: async () => {
@@ -57,6 +64,8 @@ export default defineComponent({
     }
 
     const deleteUser = () => {
+      deleteButton.value?.blur();
+
       modalPayload.value = {
         reason: ModalReason.WarningDelete,
         callback: () => {
@@ -90,7 +99,7 @@ export default defineComponent({
       }
     }
 
-    return { deleteData, deleteUser }
+    return { deleteData, deleteUser, resetButton, deleteButton }
   }
 });
 </script>

@@ -1,13 +1,13 @@
 <template>
   <div class="split-buttons">
 
-    <button class="icon-button" @click="googleClick">
+    <button class="icon-button" @click="googleClick" ref="googleButton">
       <fa-icon :icon="[ 'fab', 'google' ]" fixed-width />
       <span v-if="hasGoogle">Unlink Google account</span>
       <span v-else>Link Google account</span>
     </button>
 
-    <button class="icon-button" @click="emailClick">
+    <button class="icon-button" @click="emailClick" ref="emailButton">
       <fa-icon icon="envelope" fixed-width />
       <span v-if="hasEmail">Unlink email &amp; password</span>
       <span v-else>Link email &amp; password</span>
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject } from 'vue';
+import { defineComponent, ref, inject, nextTick } from 'vue';
 
 import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 import { ModalReason, ModalPayloadKey, UserDataKey } from '../types';
@@ -32,12 +32,17 @@ export default defineComponent({
     const { user, refreshUser, hasGoogle, hasEmail } = inject(UserDataKey)!;
     const modalPayload = inject(ModalPayloadKey)!;
 
+    const emailButton = ref<HTMLButtonElement>();
+    const googleButton = ref<HTMLButtonElement>();
+
     const errors = ref<string[]>([]);
 
     const { link } = useThirdPartyAuth();
     const { authExecutor } = useAuthFlow({ errors, errorHandler });
 
     const googleClick = async () => {
+      googleButton.value?.blur();
+
       errors.value = [];
 
       // hasGoogle; unlinking
@@ -95,6 +100,8 @@ export default defineComponent({
     }
 
     const emailClick = async () => {
+      emailButton.value?.blur();
+
       errors.value = [];
 
       // unlinking email
@@ -138,7 +145,12 @@ export default defineComponent({
       }
     }
 
-    return { hasEmail, hasGoogle, googleClick, emailClick, errors };
+    return {
+      hasEmail, hasGoogle,
+      googleClick, emailClick,
+      googleButton, emailButton,
+      errors
+    };
   }
 });
 </script>

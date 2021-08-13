@@ -218,7 +218,7 @@ dd+dt {
   padding-top: 1.5rem;
   text-align: center;
 
-  border-top: 0.05em solid $fg-color-dimmer;
+  border-top: 0.1rem solid $bg-color-accent;
 
   svg { margin: 0 0.25em; }
 }

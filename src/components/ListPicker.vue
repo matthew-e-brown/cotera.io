@@ -501,10 +501,13 @@ button:disabled { opacity: 0.25; }
 
   width: 45.00ch;
 
+  // These breakpoints aren't really tied to the rest of the interface, so they
+  // can just be hardcoded pixel values for when things stop fitting
   $breakpoints: (
-    ('size': 38.50ch, 'break': $break-large + 100px)
-    ('size': 33.75ch, 'break': $break-large)
-    ('size': 31.15ch, 'break': math.div($break-medium + $break-mobile, 2))
+    ('break': 1080px,  'size': 38ch)
+    ('break':  450px,  'size': 31ch)
+    ('break':  330px,  'size': 28ch)
+    ('break':  300px,  'size': 24ch)
   );
 
   @each $bp in $breakpoints {

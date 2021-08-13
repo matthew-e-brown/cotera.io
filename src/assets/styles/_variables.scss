@@ -21,9 +21,6 @@ $break-mobile:  770px;  // Mobile view
 $break-small:   430px;  // Really small screens
 $break-tiny:    330px;  // The smallest of screens
 
-// Fixed sizes
-$nav-height: 5.3rem;
-
 /**
  * Used for main.sticky-box to have a defined maximum width and customized
  * padding; for when they are the main item on the page.
@@ -78,5 +75,4 @@ $nav-height: 5.3rem;
 
 :export {
   break_mobile: $break-mobile;
-  nav_height: $nav-height;
 }

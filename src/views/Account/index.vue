@@ -184,7 +184,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@use 'sass:color';
+@use 'sass:math';
 @include standalone-sticky(calc(45rem + 5vw), 4.5rem, 2rem);
 
 h2 {
@@ -220,91 +220,29 @@ section {
   h3 { margin: 1.25em 0; }
 }
 
-section, #locked, #unlocked {
+section {
   font-size: 95%;
-}
-
-#lock-wrapper {
-  position: relative;
-  // while unlocked, remove margin on first section
-  &.open section:first-of-type { margin-top: 0; }
-}
-
-#locked {
-  position: absolute;
-  inset: -1em;
-  z-index: 4;
-
-  background-color: $bg-color;
-
-  @supports (backdrop-filter: blur(15px)) {
-    background-color: opacify($bg-color-transparent, 0.075);
-    backdrop-filter: blur(15px);
-  }
-
-  padding: 1em 2em;
-  border-radius: 0.35em;
-
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-
-  p {
-    text-align: center;
-    font-style: italic;
-    color: $fg-color-dim;
-  }
-
-  button {
-    font-size: 75%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-#unlocked {
-  margin: 2rem 0;
-
-  span, button {
-    vertical-align: baseline;
-  }
-
-  span {
-    font-style: italic;
-    color: $fg-color-dim;
-  }
-
-  button {
-    $bg: opaque-mix($bg-color-accent, $bg-color);
-
-    width: 3em;
-    height: 2.15em;
-
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 0.5em;
-    margin-right: 1.00em;
-    margin-bottom: 0.80em;
-
-    color: $fg-color;
-    background-color: $bg;
-
-    @media (hover: hover) {
-      transition: 125ms linear;
-      transition-property: background-color;
-
-      &:hover {
-        background-color: color.scale($bg, $lightness: 10%);
-      }
-    }
-  }
 }
 
 // overridden widths with class-names from ../types.ts
 :deep(.modal-container).reauthorize {
   width: clamp(13.5rem, 75%, 25rem);
+}
+
+// Make the split buttons stack when they run out of room
+section>:deep(.split-buttons) {
+  @media (max-width: math.div($break-mobile + $break-tiny, 2)) {
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: stretch;
+
+    >* {
+      margin-left: 0;
+      margin-right: 0;
+
+      flex: 1 1 auto;
+      width: 100%;
+    }
+  }
 }
 </style>
