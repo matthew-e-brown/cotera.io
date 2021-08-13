@@ -71,7 +71,7 @@ const importers: Helper<'set'> = {
 
   settings(value) {
     (Object.keys(store.state.settings) as (keyof Settings)[]).forEach(key => {
-      (store.state.settings[key] as unknown) = value[key];
+      store.setSetting(key, value[key]);
     });
   },
 
