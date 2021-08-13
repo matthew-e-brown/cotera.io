@@ -118,8 +118,14 @@ nav {
     align-items: flex-end;
   }
 
+  @media (max-width: $break-small) {
+    padding-top: 0.80rem;
+    padding-bottom: 0.80rem;
+  }
+
   @media (max-width: $break-tiny + 10px) {
-    padding: 1rem 1.35rem;
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
 
     h1 {
       font-size: 1.6rem;

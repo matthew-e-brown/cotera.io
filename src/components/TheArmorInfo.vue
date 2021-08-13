@@ -432,7 +432,7 @@ $fold-transition: 500ms ease;
 h2 {
   margin-top: 0;
   margin-bottom: 0;
-  padding: 0.45em 0 0.50em 0.35em;
+  padding: 0.45em 0 0.35em 0.35em;
   border-bottom: 0.1rem solid $border-color;
   position: relative;
 
@@ -452,6 +452,8 @@ h2 {
   }
 
   &[role="button"] { cursor: pointer; }
+
+  span:first-of-type { padding-bottom: 0.15em; }
 }
 
 .fold-button {
@@ -651,7 +653,7 @@ p {
     }
   }
 
-  h2 span {
+  h2 span:first-of-type {
     display: inline-block;
     box-sizing: content-box;
     transition: max-width $fold-transition;

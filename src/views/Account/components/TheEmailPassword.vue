@@ -9,7 +9,7 @@
     >Change</button>
   </div>
 
-  <div v-else class="account-row">
+  <div v-else class="account-row" :class="{ update: emailForm.visible }">
     <div>Email</div>
 
     <form @submit.prevent="emailForm.submit">
@@ -58,7 +58,7 @@
     >Change</button>
   </div>
 
-  <div v-else class="account-row">
+  <div v-else class="account-row" :class="{ update: passwordForm.visible }">
     <div>Password</div>
 
     <form @submit.prevent="passwordForm.submit">
@@ -276,10 +276,23 @@ export default defineComponent({
 .account-row {
   display: grid;
   align-items: flex-start;
-  grid-template-columns: 7rem 2fr 1fr;
-  column-gap: 1em;
+
+  grid-template: 'h v b' auto / 7rem 2fr 1fr;
+
+  @media (max-width: $break-mobile) {
+    grid-template:
+      'h h' auto
+      'v b' auto / 2fr 1fr;
+
+    &.update { grid-template-areas: 'h h' 'v v'; }
+  }
+
+  >:nth-child(1) { grid-area: h; }
+  >:nth-child(2) { grid-area: v; }
+  >:nth-child(3) { grid-area: b; }
 
   font-size: 95%;
+  gap: 1em;
 
   margin: 0.85rem 0;
 
