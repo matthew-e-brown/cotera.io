@@ -1,5 +1,5 @@
 import { ComputedRef, InjectionKey, Ref } from 'vue';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 
 // use strings so that we can insert values into the DOM and toggle things with
 // CSS

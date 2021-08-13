@@ -59,8 +59,8 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref } from 'vue';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 import { ModalPayloadKey, UserDataKey } from '../types';

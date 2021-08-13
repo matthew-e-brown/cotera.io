@@ -1,6 +1,6 @@
 import { Ref } from 'vue';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 type User = firebase.User;
 type AuthProvider = firebase.auth.AuthProvider;

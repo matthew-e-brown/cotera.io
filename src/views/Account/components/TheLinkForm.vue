@@ -55,8 +55,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, inject } from 'vue';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 import { useAuthFlow } from '@/auth-hooks';
 import { errorHandler } from '../recent-handler';

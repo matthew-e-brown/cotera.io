@@ -36,8 +36,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 // Don't need the whole AuthExecutor flow, just need the fallback error handler,
 // since all we're doing is sending a single email

@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 
 import { Armor } from '@/armor';
 import { ArmorLevel } from '@/types/armor';

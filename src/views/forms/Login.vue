@@ -45,8 +45,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 import router from '@/router';
 import PasswordField from '@/components/PasswordField.vue';
