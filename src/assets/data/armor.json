@@ -210,7 +210,7 @@
   },
   {
     "tag": "head_6",
-    "name": "Stealth Mash",
+    "name": "Stealth Mask",
     "defense": 2,
     "upgrades": [
       { "defense": 4, "items": { "item_80": 3 } },
