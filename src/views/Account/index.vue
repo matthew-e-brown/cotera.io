@@ -3,7 +3,7 @@
     <h2>Account Settings</h2>
     <p>Currently signed in as <span>{{ user.email }}</span></p>
 
-    <button type="button" class="button" @click="signOut">Sign out</button>
+    <button type="button" class="button" @click="onSignOut">Sign out</button>
 
     <ul v-if="errors.length > 0" class="errors">
       <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
@@ -83,8 +83,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref, computed, provide } from 'vue';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+
+import { auth } from '@/firebase';
+import { signOut, User } from 'firebase/auth';
 
 import router from '@/router';
 import { useAuthFlow } from '@/auth-hooks';
@@ -106,7 +107,7 @@ import '@/assets/styles/forms.scss';
 
 function useUserData() {
 
-  const user: Ref<firebase.User> = ref(firebase.auth().currentUser!);
+  const user: Ref<User> = ref(auth.currentUser!);
 
   const refreshUser = () => {
 
@@ -128,7 +129,7 @@ function useUserData() {
 
     // @ts-ignore to unset the value temporarily and trigger a real re-render
     user.value = null;
-    user.value = firebase.auth().currentUser!;
+    user.value = auth.currentUser!;
   }
 
   const hasEmail = computed(() => {
@@ -159,8 +160,8 @@ export default defineComponent({
 
     provide(ModalPayloadKey, modalPayload);
 
-    const signOut = async () => {
-      const success = await authExecutor(firebase.auth().signOut());
+    const onSignOut = async () => {
+      const success = await authExecutor(signOut(auth));
       if (success) await router.push({ name: 'Home' });
     }
 
@@ -176,7 +177,7 @@ export default defineComponent({
 
     return {
       ...useUserData(),
-      signOut, errors,
+      onSignOut, errors,
       modalPayload, modalConfirm, noButtonModal, ModalReason
     };
   }

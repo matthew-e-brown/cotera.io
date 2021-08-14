@@ -59,8 +59,8 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref } from 'vue';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+
+import { reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 
 import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 import { ModalPayloadKey, UserDataKey } from '../types';
@@ -97,11 +97,12 @@ export default defineComponent({
     const submit = async () => {
       if (!validate()) return;
 
-      const cred = firebase.auth.EmailAuthProvider
-        .credential(email.value, password.value);
+      const cred = EmailAuthProvider.credential(email.value, password.value);
 
-      const success = await authExecutor(user.value
-        .reauthenticateWithCredential(cred));
+      const success = await authExecutor(reauthenticateWithCredential(
+        user.value,
+        cred
+      ));
 
       if (success) {
         if (modalPayload.value?.callback) modalPayload.value.callback();

@@ -36,8 +36,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+
+import { auth } from '@/firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 // Don't need the whole AuthExecutor flow, just need the fallback error handler,
 // since all we're doing is sending a single email
@@ -64,7 +65,7 @@ export default defineComponent({
       }
 
       try {
-        await firebase.auth().sendPasswordResetEmail(email.value);
+        await sendPasswordResetEmail(auth, email.value);
         success.value = true;
       } catch (error) {
         fallbackHandler(error);

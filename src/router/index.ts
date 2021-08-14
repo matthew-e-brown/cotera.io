@@ -3,8 +3,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { auth } from '@/firebase';
+import { onAuthStateChanged, User } from 'firebase/auth';
 
 
 // Declare required meta information for each route
@@ -25,10 +25,10 @@ declare module 'vue-router' {
  * auth().currentUser won't be loaded in time when using on a navigation guard
  * if the user is navigating directly to that URL.
  */
-const getUser = (): Promise<firebase.User | null> => new Promise(
+const getUser = (): Promise<User | null> => new Promise(
   (resolve, reject) => {
     // Register callback and immediately un-register it once we get our value
-    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
       unsubscribe(); // clear listener
       resolve(user); // resolve promise with user
     }, reject);      // reject on error
@@ -133,12 +133,12 @@ router.beforeEach(async (to, _, next) => {
 
     const user = await getUser();
 
-    if (to.meta.requiredAuthState == 'in' && !user) {
+    if (to.meta.requiredAuthState == 'in' && user === null) {
       next({ name: 'Home' });
       return;
     }
 
-    else if (to.meta.requiredAuthState == 'out' && user) {
+    else if (to.meta.requiredAuthState == 'out' && user !== null) {
       next({ name: 'Home' });
       return;
     }
