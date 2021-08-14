@@ -130,7 +130,7 @@ export function subscribe<K extends StorageKey>(
     // If the document doesn't exist, that means that it's their first time
     // signing in: we need to make a document for them. We pass this off to
     // the calling function.
-    else if (!snapshot.exists) return onEmpty();
+    else if (!snapshot.exists()) return onEmpty();
 
   });
 
@@ -143,10 +143,10 @@ function __setItem__<K extends StorageKey>(
   item: StorageItem<K>
 ): Promise<void> {
 
-  const document = doc(firestore, getPath(userID, key));
-  const data = wrapItem(key, item);
+  const docRef = doc(firestore, getPath(userID, key));
+  const wrapped = wrapItem(key, item);
 
-  return updateDoc(document, data).catch(() => setDoc(document, data));
+  return updateDoc(docRef, wrapped).catch(() => setDoc(docRef, wrapped));
 
 }
 

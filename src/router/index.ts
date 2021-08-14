@@ -18,8 +18,8 @@ declare module 'vue-router' {
 
 /**
  * Gets the currently signed in Firebase user.
- * @returns {Promise<firebase.User | null>} The currently signed in Firebase
- * user, or null if they're not signed in
+ * @returns {Promise<User | null>} The currently signed in Firebase user, or
+ * null if they're not signed in
  *
  * @note Uses onAuthStateChanged() wrapped in a Promise, since
  * auth().currentUser won't be loaded in time when using on a navigation guard

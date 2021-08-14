@@ -105,6 +105,9 @@ const store = {
     if (this.debug)
       console.log(`addNewList triggered with value: ${name}`);
 
+    if (this.state.listInfo.length >= 16)
+      throw new Error("Cannot add more than 16 lists.");
+
     // Loop up to find the first available. As long as 'some' (any one) item in
     // the array has an ID that matches our newID, it's in use, and we need a
     // new one.

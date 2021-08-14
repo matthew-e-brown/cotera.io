@@ -87,7 +87,10 @@
         </li>
 
 
-        <li v-if="beingAdded === null">
+        <li
+          v-if="beingAdded === null && listInfo.length < 16"
+          class="create-new"
+        >
 
           <button type="button" class="create-new" @click="add">
             <fa-icon icon="plus-circle" fixed-width />
@@ -95,7 +98,10 @@
           </button>
 
         </li>
-        <li v-else>
+        <li
+          v-else-if="beingAdded !== null && listInfo.length < 16"
+          class="create-new"
+        >
 
           <form class="picker-box" @submit.prevent="submitAdd">
             <input
@@ -475,7 +481,7 @@ button:disabled { opacity: 0.25; }
   @include dot-dot-dot;
 }
 
-.name, .picker-box input, .create-new {
+.name, .picker-box input, button.create-new {
   box-sizing: content-box;
   padding: 0.50em 0.55em 0.40em 0.55em;
   height: 1em;
@@ -487,7 +493,7 @@ button:disabled { opacity: 0.25; }
   padding-bottom: 0.35em;
 }
 
-.create-new {
+button.create-new {
   padding-top: 0.60em;
   padding-bottom: 0.60em;
 }
@@ -504,10 +510,14 @@ button:disabled { opacity: 0.25; }
   // These breakpoints aren't really tied to the rest of the interface, so they
   // can just be hardcoded pixel values for when things stop fitting
   $breakpoints: (
-    ('break': 1080px,  'size': 38ch)
-    ('break':  450px,  'size': 31ch)
-    ('break':  330px,  'size': 28ch)
-    ('break':  300px,  'size': 24ch)
+    ('break':        1080px,  'size': 38.00ch)
+    ('break':         975px,  'size': 34.75ch)
+    ('break':         845px,  'size': 34.00ch)
+    ('break':         800px,  'size': 31.50ch)
+    ('break': $break-mobile,  'size': 36.00ch)  // page shifts, space gets wider
+    ('break':         450px,  'size': 29.75ch)
+    ('break':         330px,  'size': 28.00ch)
+    ('break':         300px,  'size': 24.00ch)
   );
 
   @each $bp in $breakpoints {
@@ -586,7 +596,7 @@ button:disabled { opacity: 0.25; }
 }
 
 // The 'Create new list' button
-li:last-child {
+li.create-new {
   color: $fg-color-dimmer;
   text-align: center;
 

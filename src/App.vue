@@ -106,7 +106,7 @@ nav {
       white-space: nowrap;
 
       @media (max-width: $break-small + 40px) {
-        font-size: 85%;
+        font-size: 86%;
       }
     }
   }
@@ -119,14 +119,10 @@ nav {
   }
 
   @media (max-width: $break-small) {
-    padding-top: 0.80rem;
-    padding-bottom: 0.80rem;
+    padding: 0.80rem 1.35rem;
   }
 
   @media (max-width: $break-tiny + 10px) {
-    padding-left: 1.35rem;
-    padding-right: 1.35rem;
-
     h1 {
       font-size: 1.6rem;
     }
@@ -145,7 +141,7 @@ footer {
   color: $fg-color-dim;
   background-color: $bg-color;
 
-  font-size: 85%;
+  font-size: 86%;
   padding: 3.25em 3.5em;
   margin-top: 5.50rem;
 
