@@ -1,5 +1,7 @@
 import { reactive } from 'vue';
-import firebase from 'firebase/compat/app';
+
+import { auth } from '@/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 import { Armor } from '@/armor';
 import { ArmorLevel } from '@/types/armor';
@@ -174,7 +176,7 @@ function saveToStorage<K extends StorageKey>(key: K, item: StorageItem<K>) {
 }
 
 
-export function onAuthStateChanged(user: firebase.User | null): void {
+onAuthStateChanged(auth, user => {
 
   // They are signed in
   if (user !== null) {
@@ -203,7 +205,7 @@ export function onAuthStateChanged(user: firebase.User | null): void {
     importers.progress(defaults.progress());
   }
 
-};
+});
 
 
 export default store;

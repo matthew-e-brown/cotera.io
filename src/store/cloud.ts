@@ -1,17 +1,13 @@
 import debounce from 'lodash/debounce';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
+
+import { firestore } from '@/firebase';
+import {
+  doc, onSnapshot, deleteDoc, updateDoc, setDoc, Unsubscribe
+} from 'firebase/firestore';
 
 import {
   StorageKey, StorageItem, isStorageItem, ListID, isListID
 } from './types'
-
-
-/**
- * The functions returned from Firestore subscriptions to stop listening for
- * updates.
- */
-export type FirestoreSubscription = (() => void) | undefined;
 
 
 /**
@@ -94,51 +90,49 @@ export function subscribe<K extends StorageKey>(
   key: K,
   onValue: (item: StorageItem<K>) => void,
   onEmpty: () => void,
-): FirestoreSubscription {
+): Unsubscribe {
 
   const path = getPath(userID, key);
 
-  return firebase.firestore()
-    .doc(path)
-    .onSnapshot(snapshot => {
+  return onSnapshot(doc(firestore, path), snapshot => {
 
-      /**
-       * @note
-       *
-       * This use of metadata.hasPendingWrites seems to go against the Firestore
-       * docs' words: it suggests that you should simply always listen to the
-       * snapshot, since it will be called immediately upon any local .set()
-       * calls. However: since I want to *debounce* the uploads to save on
-       * document writes, I am updating the local state and the Firestore copy
-       * separately (since, if I didn't, local changes would not appear until
-       * the debounce finished waiting). That means I have to ignore the updates
-       * caused by that debounced copy.
-       *
-       * Basically, this condition says, "only run this code when the update
-       * comes from the server, not locally."
-       */
+    /**
+     * @note
+     *
+     * This use of metadata.hasPendingWrites seems to go against the Firestore
+     * docs' words: it suggests that you should simply always listen to the
+     * snapshot, since it will be called immediately upon any local .set()
+     * calls. However: since I want to *debounce* the uploads to save on
+     * document writes, I am updating the local state and the Firestore copy
+     * separately (since, if I didn't, local changes would not appear until
+     * the debounce finished waiting). That means I have to ignore the updates
+     * caused by that debounced copy.
+     *
+     * Basically, this condition says, "only run this code when the update
+     * comes from the server, not locally."
+     */
 
-      // If the document exists and isn't the result of the debounced upload we
-      // just did, run the handler (for importing it into the local state)
-      if (snapshot.exists && !snapshot.metadata.hasPendingWrites) {
-        const data = snapshot.data();
+    // If the document exists and isn't the result of the debounced upload we
+    // just did, run the handler (for importing it into the local state)
+    if (snapshot.exists() && !snapshot.metadata.hasPendingWrites) {
+      const data = snapshot.data();
 
-        // unwrap the list-info from the user-progress object (see @note below)
-        const item = unwrapItem(key, data as WrappedItem<K>);
-        if (item === undefined) return onEmpty();
+      // unwrap the list-info from the user-progress object (see @note below)
+      const item = unwrapItem(key, data as WrappedItem<K>);
+      if (item === undefined) return onEmpty();
 
-        if (isStorageItem(key, item)) return onValue(item);
-        else {
-          throw new Error("Invalid data in Firestore.");
-        }
+      if (isStorageItem(key, item)) return onValue(item);
+      else {
+        throw new Error("Invalid data in Firestore.");
       }
+    }
 
-      // If the document doesn't exist, that means that it's their first time
-      // signing in: we need to make a document for them. We pass this off to
-      // the calling function.
-      else if (!snapshot.exists) return onEmpty();
+    // If the document doesn't exist, that means that it's their first time
+    // signing in: we need to make a document for them. We pass this off to
+    // the calling function.
+    else if (!snapshot.exists) return onEmpty();
 
-    });
+  });
 
 }
 
@@ -149,10 +143,10 @@ function __setItem__<K extends StorageKey>(
   item: StorageItem<K>
 ): Promise<void> {
 
-  const doc = firebase.firestore().doc(getPath(userID, key));
+  const document = doc(firestore, getPath(userID, key));
   const data = wrapItem(key, item);
 
-  return doc.update(data).catch(() => doc.set(data));
+  return updateDoc(document, data).catch(() => setDoc(document, data));
 
 }
 
@@ -191,7 +185,7 @@ export const setItem = <K extends StorageKey>(
 export async function removeUserData(userID: string) {
 
   const path = `/user-data/${userID}`;
-  await firebase.firestore().doc(path).delete();
+  await deleteDoc(doc(firestore, path));
 
 }
 
@@ -200,7 +194,7 @@ export async function removeLists(userID: string, lists: ListID[]) {
 
   await Promise.all(lists.map(async id => {
     const path = `/user-data/${userID}/progress/${id}`;
-    await firebase.firestore().doc(path).delete();
+    await deleteDoc(doc(firestore, path));
   }));
 
 }

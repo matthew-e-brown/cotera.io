@@ -56,8 +56,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+
+import { auth } from '@/firebase';
+import {
+  createUserWithEmailAndPassword, sendEmailVerification, UserCredential
+} from 'firebase/auth';
 
 import router from '@/router';
 import PasswordField from '@/components/PasswordField.vue';
@@ -96,16 +99,15 @@ export default defineComponent({
     const submit = async () => {
       if (!validate()) return;
 
-      const newUserCred = ref<firebase.auth.UserCredential>();
+      const newUserCred = ref<UserCredential>();
 
       const success = await authExecutor(
-        firebase.auth()
-          .createUserWithEmailAndPassword(email.value, password1.value),
+        createUserWithEmailAndPassword(auth, email.value, password1.value),
         newUserCred
       );
 
       if (success) {
-        await newUserCred.value?.user?.sendEmailVerification();
+        await sendEmailVerification(newUserCred.value!.user);
         await router.push({ name: 'Home' });
       }
     }

@@ -26,7 +26,7 @@
         name="email-password"
         placeholder="Current password"
         autocomplete="current-password"
-        v-model="emailForm.password"
+        v-model:value="emailForm.password"
       />
 
       <ul v-if="emailForm.errors.length > 0" class="errors">
@@ -111,8 +111,11 @@
 import {
   defineComponent, ref, reactive, computed, ComputedRef, inject
 } from 'vue';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+
+import {
+  updateEmail, updatePassword, reauthenticateWithCredential,
+  sendEmailVerification, EmailAuthProvider
+} from 'firebase/auth';
 
 import { useAuthFlow } from '@/auth-hooks';
 import { errorHandler } from '../recent-handler';
@@ -152,22 +155,28 @@ function useChangeEmailForm(providerEmail: ComputedRef<string>) {
     if (!validate()) return;
 
     const execute = async () => {
-      const success = await authExecutor(user.value
-        .updateEmail(newEmail.value));
+      const success = await authExecutor(updateEmail(
+        user.value,
+        newEmail.value
+      ));
 
       if (success) {
-        await user.value.sendEmailVerification();
+        await sendEmailVerification(user.value);
         refreshUser();
         close();
       }
     }
 
     execute().catch(async () => {
-      const cred = firebase.auth.EmailAuthProvider
-        .credential(providerEmail.value, password.value);
+      const cred = EmailAuthProvider.credential(
+        providerEmail.value,
+        password.value
+      );
 
-      const success = await authExecutor(user.value
-        .reauthenticateWithCredential(cred));
+      const success = await authExecutor(reauthenticateWithCredential(
+        user.value,
+        cred
+      ));
 
       if (success) await execute();
     });
@@ -220,8 +229,10 @@ function useChangePasswordForm(providerEmail: ComputedRef<string>) {
     if (!validate()) return;
 
     const execute = async () => {
-      const success = await authExecutor(user.value
-        .updatePassword(password1.value));
+      const success = await authExecutor(updatePassword(
+        user.value,
+        password1.value
+      ));
 
       if (success) {
         refreshUser();
@@ -230,11 +241,15 @@ function useChangePasswordForm(providerEmail: ComputedRef<string>) {
     }
 
     execute().catch(async () => {
-      const cred = firebase.auth.EmailAuthProvider
-        .credential(providerEmail.value, oldPassword.value);
+      const cred = EmailAuthProvider.credential(
+        providerEmail.value,
+        oldPassword.value
+      );
 
-      const success = await authExecutor(user.value
-        .reauthenticateWithCredential(cred));
+      const success = await authExecutor(reauthenticateWithCredential(
+        user.value,
+        cred
+      ));
 
       if (success) await execute();
     });

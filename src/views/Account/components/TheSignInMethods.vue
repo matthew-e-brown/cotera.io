@@ -21,7 +21,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, nextTick } from 'vue';
+import { defineComponent, ref, inject } from 'vue';
+
+import { unlink } from 'firebase/auth';
 
 import { useAuthFlow, useThirdPartyAuth } from '@/auth-hooks';
 import { ModalReason, ModalPayloadKey, UserDataKey } from '../types';
@@ -56,7 +58,7 @@ export default defineComponent({
         }
 
         const execute = async () => {
-          const success = await authExecutor(user.value.unlink('google.com'));
+          const success = await authExecutor(unlink(user.value, 'google.com'));
           if (success) {
             refreshUser();
             modalPayload.value = null;
@@ -115,7 +117,7 @@ export default defineComponent({
         }
 
         const execute = async () => {
-          const success = await authExecutor(user.value.unlink('password'));
+          const success = await authExecutor(unlink(user.value, 'password'));
           if (success) {
             refreshUser();
             modalPayload.value = null;

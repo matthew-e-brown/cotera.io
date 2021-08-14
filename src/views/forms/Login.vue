@@ -45,8 +45,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+
+import { auth } from '@/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import router from '@/router';
 import PasswordField from '@/components/PasswordField.vue';
@@ -78,8 +79,11 @@ export default defineComponent({
     const submit = async () => {
       if (!validate()) return;
 
-      const success = await authExecutor(firebase.auth()
-        .signInWithEmailAndPassword(email.value, password.value));
+      const success = await authExecutor(signInWithEmailAndPassword(
+        auth,
+        email.value,
+        password.value
+      ));
 
       if (success) await router.push({ name: 'Home' });
     }

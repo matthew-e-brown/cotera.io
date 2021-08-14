@@ -1,5 +1,5 @@
 import { ComputedRef, InjectionKey, Ref } from 'vue';
-import firebase from 'firebase/compat/app';
+import { User } from 'firebase/auth';
 
 // use strings so that we can insert values into the DOM and toggle things with
 // CSS
@@ -24,7 +24,7 @@ export const ModalPayloadKey: InjectionKey<
 > = Symbol('modalPayload');
 
 export const UserDataKey: InjectionKey<{
-  user: Ref<firebase.User>,
+  user: Ref<User>,
   hasEmail: ComputedRef<boolean>,
   hasGoogle: ComputedRef<boolean>,
   refreshUser: () => void

@@ -1,9 +1,11 @@
+import { Unsubscribe } from 'firebase/firestore';
+
 import { counts } from '@/types/armor';
 import { ListInfo, Progress, Settings, SortChoice, StorageKey } from './types';
 
 import store from './index';
 import { getItem } from './local';
-import { setItem, subscribe, FirestoreSubscription } from './cloud';
+import { setItem, subscribe } from './cloud';
 
 
 type HelperMode = 'get' | 'set' | 'sub' | 'unsub';
@@ -11,7 +13,7 @@ type GetterSetter<Type, Mode extends HelperMode> =
   Mode extends 'get' ? (           ) => Type :
   Mode extends 'set' ? (value: Type) => void :
   Mode extends 'sub' ? (uid: string) => void :
-  FirestoreSubscription;
+  Unsubscribe | null;
 
 
 interface Helper<Mode extends HelperMode> {
@@ -82,9 +84,9 @@ const importers: Helper<'set'> = {
 
 
 const subscriptions: Helper<'unsub'> = {
-  progress: undefined,
-  settings: undefined,
-  listInfo: undefined,
+  progress: null,
+  settings: null,
+  listInfo: null,
 }
 
 

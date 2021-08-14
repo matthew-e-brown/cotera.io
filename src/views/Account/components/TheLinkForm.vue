@@ -55,8 +55,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, inject } from 'vue';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+
+import {
+  linkWithCredential, sendEmailVerification, EmailAuthProvider
+} from 'firebase/auth';
 
 import { useAuthFlow } from '@/auth-hooks';
 import { errorHandler } from '../recent-handler';
@@ -99,13 +101,15 @@ export default defineComponent({
       if (!validate()) return;
 
       const execute = async () => {
-        const cred = firebase.auth.EmailAuthProvider
-          .credential(email.value, password1.value);
+        const cred = EmailAuthProvider.credential(email.value, password1.value);
 
-        const success = await authExecutor(user.value.linkWithCredential(cred));
+        const success = await authExecutor(linkWithCredential(
+          user.value,
+          cred
+        ));
 
         if (success) {
-          await user.value.sendEmailVerification();
+          await sendEmailVerification(user.value);
           refreshUser();
           modalPayload.value = null;
         }
