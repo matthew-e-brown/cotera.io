@@ -20,10 +20,10 @@
     </div>
 
     <div class="footer-links">
-      <a href="https://buymeacoffee.com/matthewbrown" target="_blank">donate</a>
-      <a href="https://github.com/matthew-e-brown/cotera.io/issues" target="_blank">report a bug</a>
-      <a href="https://github.com/matthew-e-brown/cotera.io" target="_blank">view source code</a>
-      <a href="mailto:matthew.e.brown.17@gmail.com?subject=Question/Concern about Cotera.io" target="_blank">contact</a>
+      <a href="https://buymeacoffee.com/matthewbrown" target="_blank" rel="noopener">donate</a>
+      <a href="https://github.com/matthew-e-brown/cotera.io/issues" target="_blank" rel="noopener">report a bug</a>
+      <a href="https://github.com/matthew-e-brown/cotera.io" target="_blank" rel="noopener">view source code</a>
+      <a href="mailto:matthew.e.brown.17@gmail.com?subject=Question/Concern about Cotera.io" target="_blank" rel="noopener">contact</a>
     </div>
 
     <div class="copyright">
@@ -33,7 +33,7 @@
     <div class="copyright">&copy; 2020-2021 Matthew Brown.</div>
 
     <div class="version">
-      v{{ semver }} &middot; <a :href="tree">{{ shortCommit }}</a>
+      v{{ semver }} &middot; <a :href="tree" target="_blank" rel="noopener">{{ shortCommit }}</a>
     </div>
 
   </footer>

@@ -22,17 +22,17 @@
       </p>
 
       <div id="links">
-        <a class="icon-button" href="https://buymeacoffee.com/matthewbrown" target="_blank">
+        <a class="icon-button" href="https://buymeacoffee.com/matthewbrown" target="_blank" rel="noopener">
           <CoffeeIcon class="fa-fw svg-inline--fa" aria-hidden="true" focusable="false" role="img" />
           <span>Donations</span>
         </a>
 
-        <a class="icon-button" href="https://github.com/matthew-e-brown/cotera.io" target="_blank">
+        <a class="icon-button" href="https://github.com/matthew-e-brown/cotera.io" target="_blank" rel="noopener">
           <fa-icon :icon="[ 'fab', 'github' ]" fixed-width />
           <span>Source code</span>
         </a>
 
-        <a class="icon-button" href="mailto:matthew.e.brown.17@gmail.com?subject=Question/Concern about Cotera.io" target="_blank">
+        <a class="icon-button" href="mailto:matthew.e.brown.17@gmail.com?subject=Question/Concern about Cotera.io" target="_blank" rel="noopener">
           <fa-icon icon="envelope" fixed-width />
           <span>Contact</span>
         </a>
@@ -118,12 +118,14 @@
             <a
               href="https://github.com/matthew-e-brown/Cotera.io/issues"
               target="_blank"
+              rel="noopener"
             >opening an issue on GitHub</a>.
 
             If you don't have a GitHub account, you can feel free to
             <a
               href="mailto:matthew.e.brown.17@gmail.com?subject=Cotera.io Bug Report&body=Hi, I've found an issue with Cotera.io."
               target="_blank"
+              rel="noopener"
             >send me an email directly</a>. I'll be glad to hear from you!
           </p>
         </dd>
@@ -134,8 +136,8 @@
       <fa-icon title="Made" icon="code" /> with
       <fa-icon title="love" icon="heart" /> in
       <fa-icon title="Canada" :icon="[ 'fab', 'canadian-maple-leaf' ]" /> by
-      <a href="https://matthew-brown.net/" target="_blank">Matt</a>, with help
-      from <a href="https://theo.works/" target="_blank">Theo</a>.
+      <a href="https://matthew-brown.net/" target="_blank" rel="noopener">Matt</a>,
+      with help from <a href="https://theo.works/" target="_blank" rel="noopener">Theo</a>.
     </span>
   </main>
 </template>
