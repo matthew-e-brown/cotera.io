@@ -32,6 +32,10 @@
     </div>
     <div class="copyright">&copy; 2020-2021 Matthew Brown.</div>
 
+    <div class="version">
+      v{{ semver }} &middot; <a :href="tree">{{ shortCommit }}</a>
+    </div>
+
   </footer>
 
 </template>
@@ -54,7 +58,13 @@ export default defineComponent({
       );
     });
 
-    return { isSignedIn, showFooter };
+    const commit: string = process.env.VUE_APP_COMMIT;
+    const semver: string = process.env.VUE_APP_SEMVER;
+
+    const shortCommit = commit.substring(0, 7);
+    const tree = `https://github.com/matthew-e-brown/cotera.io/tree/${commit}`;
+
+    return { isSignedIn, showFooter, semver, shortCommit, tree };
   }
 });
 </script>
@@ -142,7 +152,7 @@ footer {
   background-color: $bg-color;
 
   font-size: 86%;
-  padding: 3.25em 3.5em;
+  padding: 3.25em 3.5em 1em;
   margin-top: 5.50rem;
 
   .footer-links {
@@ -166,8 +176,8 @@ footer {
   .copyright {
     color: adjust-color($fg-color-dimmer, $lightness: 12%);
 
-    margin-top: 2rem;
-    +.copyright { margin-top: 0.5rem; }
+    margin: 2rem 0 0;
+    +.copyright { margin: 0.5rem 0 2.25rem; }
   }
 }
 </style>

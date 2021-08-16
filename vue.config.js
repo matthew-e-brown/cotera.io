@@ -3,6 +3,13 @@ const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const SPARenderer = PrerenderSPAPlugin.PuppeteerRenderer;
 const path = require('path');
 
+
+process.env.VUE_APP_SEMVER = require('./package.json').version;
+process.env.VUE_APP_COMMIT = require('child_process')
+  .execSync('git log -1 --pretty=oneline')
+  .toString().split(' ').shift();
+
+
 module.exports = {
   chainWebpack: config => {
     const svgRule = config.module.rule('svg');
