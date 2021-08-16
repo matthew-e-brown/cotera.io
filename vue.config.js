@@ -30,7 +30,10 @@ module.exports = {
         routes: [ '/', '/about', '/login', '/register' ],
 
         // Minify the CSS and JS that are inserted into the page after load
-        minify: { minifyCSS: true, minifyJS: true, removeComments: true },
+        minify: { minifyCSS: true, minifyJS: true, removeComments: false },
+        // I'm pretty sure Vue uses empty HTML comments to track   ^^^^^
+        // non-rendered v-if nodes. *Just in case*, I don't wanna  ^^^^^
+        // remove them.
 
         // Tell the renderer to wait for the 'main' element to appear; this is
         // needed because the router needs a second to check if the user is

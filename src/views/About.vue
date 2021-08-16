@@ -6,20 +6,34 @@
       <h3>About</h3>
 
       <p>
-        <strong class="cotera">Cotera.io</strong>, named after the Great Fairy
-        in Kakariko Village, is a website and web-app made to help you track
-        your armor upgrades in <em>The Legend of Zelda: Breath of the Wild</em>.
-        It has two main goals. First, to help you recall the items you need in
-        order to upgrade your armor to its next level. Second, simply to let you
-        keep track of your progress.
+        <span class="cotera">Cotera.io</span>, named after the Great Fairy in
+        Kakariko Village, is a website and web-app designed to help you track
+        your armor upgrades in <em>The Legend of Zelda: Breath of the Wild</em>
+        and make it easier to remember which items you need for that next
+        upgrade.
       </p>
       <p>
-        If you would like to support this project, you can show your
-        appreciation financially with my Buy Me a Coffee link. You can also
-        contribute to the project more directly by opening an issue on its
-        GitHub page. If you have a more general question, you can send me an
-        email. You can find all three of these here:
+        In <em>Breath of the Wild,</em> the only way to check which items your
+        armor needs for its next upgrade is to trek all the way back to the
+        closest Great Fairy: this is super annoying if you're all the way out in
+        the mountains already hunting for items.
+        <span class="cotera">Cotera.io</span> aims to solve this grievance!
       </p>
+    </section>
+
+    <section id="support">
+      <h3>Support</h3>
+
+      <p>
+        <span class="cotera">Cotera.io</span> doesn't have any ads and is 100%
+        free. So, if you would like to support this project, you can show your
+        appreciation financially with my <em>Buy Me a Coffee</em> link. You can
+        also contribute to the project more directly by opening an issue on its
+        GitHub page (Cotera is open-source!). If you have a more general
+        question, you can send me an email.
+      </p>
+
+      <p>Links to all three of these are here:</p>
 
       <div id="links">
         <a class="icon-button" href="https://buymeacoffee.com/matthewbrown" target="_blank" rel="noopener">
@@ -29,7 +43,7 @@
 
         <a class="icon-button" href="https://github.com/matthew-e-brown/cotera.io" target="_blank" rel="noopener">
           <fa-icon :icon="[ 'fab', 'github' ]" fixed-width />
-          <span>Source code</span>
+          <span>GitHub</span>
         </a>
 
         <a class="icon-button" href="mailto:matthew.e.brown.17@gmail.com?subject=Question/Concern about Cotera.io" target="_blank" rel="noopener">
@@ -39,7 +53,7 @@
       </div>
 
       <p>
-        Most importantly, if you like <strong class="cotera">Cotera.io</strong>,
+        Most importantly, if you like <span class="cotera">Cotera.io</span>,
         tell your friends about it! Nothing would make me happier than to see
         this project become helpful to as many people as possible.
       </p>
@@ -50,21 +64,28 @@
 
       <dl>
         <dt>
-          Is there an app for <strong>Cotera.io</strong>?
+          Does <span class="cotera">Cotera.io</span> have an app?
         </dt>
         <dd>
           <p>
             Yes, you're using it right now!
-            <strong class="cotera">Cotera.io</strong> is what's known as a
-            <em>Progressive Web App</em>. That means that when you
-            <em>Add to Home Screen</em>, it will be more than your typical
-            bookmark or shortcut: it will actually install like an app,
-            including support for working offline.
+            <span class="cotera">Cotera.io</span> is what's known as a
+            <em>Progressive Web App</em>, or <em>PWA</em> for short. That means
+            that when you <em>Add to Home Screen</em>, it will install as an
+            actual app and even work offline. You can even do this on a computer
+            and have it open as its own app there too!
           </p>
           <p>
-            It's possible your browser has already prompted you to "install"
-            this site: if you ignored or missed that prompt, you can simply
-            <em>Add to Home Screen</em> like it was a bookmark.
+            The exact method for adding to your home screen differs per device,
+            but you can find <a
+              href="https://www.macrumors.com/how-to/add-a-web-link-to-home-screen-iphone-ipad/"
+              target="_blank"
+              rel="noopener"
+            >instructions for iOS</a> and <a
+              href="https://www.wikihow.com/Set-a-Bookmark-Shortcut-in-Your-Home-Screen-on-Android"
+              target="_blank"
+              rel="noopener"
+            >instructions for Android</a> here.
           </p>
         </dd>
 
@@ -75,16 +96,18 @@
         <dd>
           <p>
             By default, your progress is stored inside your browser's local
-            storage. It's saved between browsing sessions, but it will not
-            survive if you decide to <em>clear your browsing data</em> for this
-            site.
+            memory. It's saved between browsing sessions, so if you only intend
+            to use <span class="cotera">Cotera.io</span> on one device, you
+            don't need an account. Just note that your data <strong>will not
+            survive</strong> if you decide to <em>clear your browsing data</em>
+            for this site.
           </p>
           <p>
             Using an account will store your progress in the cloud, allowing you
-            to keep it saved indefinitely. More importantly, however; it'll also
-            let you access your progress from more than one device! You'll even
-            be able to see updates happen in real-time if you open it on more
-            than one at once.
+            to keep it saved indefinitely. More importantly, however, it'll also
+            let you access your progress from more than one device. Updates made
+            on one device will sync across to other open devices in real-time,
+            too!
           </p>
         </dd>
 
@@ -94,27 +117,25 @@
         </dt>
         <dd>
           <p>
-            This site uses Google's <em>Firebase</em> service behind the scenes:
-            they handle authentication and data storage. The only information
-            <strong class="cotera">Cotera.io</strong> collects from you is your
-            email address, if you choose to sign in using an email &amp;
-            password. No analytics are enabled for this site either.
+            <span class="cotera">Cotera.io</span> does not collect any data from
+            you for any purposes other than logging you in: period. No analytics
+            are enabled for this site, either.
           </p>
           <p>
-            Additionally, as mentioned above, <strong>all</strong> of the
-            source-code for <strong class="cotera">Cotera.io</strong> is
-            available on GitHub: if I was doing anything fishy, it would be
-            pretty easy for me to get caught.
+            As for security/encryption, all your authorization is handled behind
+            the scenes by <em>Firebase</em> (which is made by Google), not by
+            Cotera itself. If you can trust Google's security, you have nothing
+            to worry about.
           </p>
         </dd>
 
         <dt>
-          I found a problem/bug/error. What should I do?
+          I found a bug&nbsp;/&nbsp;I have a feature request. What should I do?
         </dt>
         <dd>
           <p>
-            I'm glad you ask! If you need to submit a bug report, or even if you
-            just have an idea you want to share, please do so by
+            I'm glad you ask! If you need to submit a bug report or have an idea
+            you want to share, please do so by
             <a
               href="https://github.com/matthew-e-brown/Cotera.io/issues"
               target="_blank"
@@ -126,7 +147,9 @@
               href="mailto:matthew.e.brown.17@gmail.com?subject=Cotera.io Bug Report&body=Hi, I've found an issue with Cotera.io."
               target="_blank"
               rel="noopener"
-            >send me an email directly</a>. I'll be glad to hear from you!
+            >send me an email directly</a> (just make sure to keep
+            "<span class="cotera">Cotera.io</span>" in the subject line).
+            I'd be glad to hear from you!
           </p>
         </dd>
       </dl>
@@ -173,6 +196,8 @@ p {
   max-width: 80ch;
   margin: 1em auto;
 
+  // Stop Cotera and em from having extra spacing above them
+  span.cotera, em { line-height: 1em; }
 }
 
 a:not(.icon-button) {
@@ -184,7 +209,7 @@ strong {
   font-weight: 700;
 }
 
-dt, strong.cotera {
+dt, span.cotera {
   @extend strong;
   font-family: $head-font;
 }
