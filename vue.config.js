@@ -78,11 +78,11 @@ module.exports = {
     appleMobileWebAppStatusBarStyle: 'black',
     manifestPath: 'site.webmanifest',
     iconPaths: {
-      favicon16: "/favicon-16x16.png",
-      favicon32: "/favicon-32x32.png",
-      maskIcon: "/safari-pinned-tab.svg",
-      appleTouchIcon: "/apple-touch-icon.png",
-      msTileImage: "/android-chrome-192x192.png",
+      favicon16: "images/meta/favicon-16x16.png",
+      favicon32: "images/meta/favicon-32x32.png",
+      maskIcon: "images/meta/safari-pinned-tab.svg",
+      appleTouchIcon: "images/meta/apple-touch-icon.png",
+      msTileImage: "images/meta/android-chrome-192x192.png",
     },
     manifestOptions: {
       name: "Cotera.io",
@@ -93,15 +93,15 @@ module.exports = {
       orientation: "portrait",
       // Include icons in the manifest itself
       icons: [
-        { src: "/favicon.ico", sizes: "16x16 32x32 48x48" },
-        { src: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-        { src: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-        { src: "/favicon-128x128.png", sizes: "128x128", type: "image/png" },
-        { src: "/favicon-256x256.png", sizes: "256x256", type: "image/png" },
-        { src: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-        { src: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
-        { src: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
-        { src: "/maskable-icon.png", sizes: "640x640", type: "image/png", purpose: "maskable" }
+        { src: "/images/meta/favicon.ico", sizes: "16x16 32x32 48x48" },
+        { src: "/images/meta/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { src: "/images/meta/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+        { src: "/images/meta/favicon-128x128.png", sizes: "128x128", type: "image/png" },
+        { src: "/images/meta/favicon-256x256.png", sizes: "256x256", type: "image/png" },
+        { src: "/images/meta/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+        { src: "/images/meta/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+        { src: "/images/meta/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+        { src: "/images/meta/maskable-icon.png", sizes: "640x640", type: "image/png", purpose: "maskable" }
       ]
     }
   }
