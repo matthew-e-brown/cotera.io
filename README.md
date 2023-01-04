@@ -17,24 +17,3 @@ For any all ideas, bug reports, or contributions, please open an [issue][bugs].
 I'd be happy to discuss them with you! You can feel free to submit a Pull
 Request with some pre-made changes, as well, but please describe them well and
 your reasoning for said changes.
-
-
-### Project setup
-
-This project was scaffolded with the Vue CLI, and is built on Vue 3.2. So, you
-can run it for development with
-
-```console
-$ npm install
-$ npm run serve
-```
-
-And build a production-ready version (required to test PWA functionality) with
-
-```console
-$ npm run build
-```
-
-
-
-[bugs]: https://github.com/matthew-e-brown/Cotera.io/issues
